@@ -13,7 +13,6 @@ import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
 
 
-
 public abstract class Assembler {
 
 	public static int MY_PAIR = 1;

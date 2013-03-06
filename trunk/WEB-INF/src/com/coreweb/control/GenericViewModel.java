@@ -30,7 +30,6 @@ import org.zkoss.zul.Radiogroup;
 import com.coreweb.dto.Assembler;
 
 
-
 public abstract class GenericViewModel extends Control {
 
 	private static String DISABLED = "Disabled";
