@@ -1,0 +1,24 @@
+<window id="windowPopupAceptarCancelar" border="normal" hflex="min"
+	apply="org.zkoss.bind.BindComposer"
+	width="400px" sizable="true" 
+	viewModel="@id('crtAgenda') @init('com.coreweb.componente.BodyPopupAceptarCancelar')"
+	title="${arg.titulo}">
+
+	<vlayout>
+
+		<vlayout id="cuerpo">
+		</vlayout>
+
+		<toolbar align="center">
+			<hlayout>
+
+				<button id="btnAccept" label="Aceptar" tooltiptext="Aceptar"
+					image="/core/images/accept.png" width="100px" onClick="@command('aceptar')" />
+				<button id="btnCancel" label="Cancelar" tooltiptext="Cancelar"
+					image="/core/images/cancel.png" width="100px" onClick="@command('cancelar')" />
+			</hlayout>
+		</toolbar>
+
+	</vlayout>
+
+</window>

@@ -1,0 +1,37 @@
+<zk>
+	<window id="Footer" viewModel="@id('footer') @init('com.yhaguy.core.template.Footer')"
+		apply="org.zkoss.bind.BindComposer"
+		position="center,bottom">
+
+		<toolbar id="foo" sclass="vista" height="40px" align="center">
+			<button id="btnAccept" label="Grabar y Salir" 
+				tooltiptext="Aceptar" image="/images/accept.png" width="125px" 
+				onClick="@command('doTask')
+				@global-command(footer.yesClick?'deshabilitarComponentes':'')"
+				/>
+			<button id="btnGrabar"  label="Grabar"
+				tooltiptext="Grabar" image="/images/guardar.png" width="125px"
+				onClick="@command('save') 
+			    @global-command(footer.yesClick?'refreshComponentes':'')" 
+				/>
+			<button id="btnCancel"  label="Salir" 
+				tooltiptext="Cancelar" image="/images/cancel.png" width="125px"
+				onClick="@command('discard')
+				@global-command(footer.yesClick?'deshabilitarComponentes':'')"
+				/>
+			<!-- 
+			<toolbarbutton id="btnAccept2" image="/images/accept.png"
+				tooltiptext="Aceptar"
+				onClick="@command('doTask')
+				@global-command(footer.yesClick?'deshabilitarComponentes':'')"
+				/>
+			<toolbarbutton id="btnCance2l" image="/images/cancel.png"
+				tooltiptext="Cancelar"
+				onClick="@command('discard')
+				@global-command(footer.yesClick?'deshabilitarComponentes':'')"
+				/>
+			-->
+		</toolbar>
+
+	</window>
+</zk>
