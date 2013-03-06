@@ -1,0 +1,67 @@
+<zk>
+<style>
+	.hightlight { color: #1469AB; font-weight: bold; }
+	.error { color: red; }
+</style>
+<vlayout xmlns:c="client">
+
+    <window id="loginWin" mode="modal" title="Login Yhaguy" width="300px" 
+         visible="true" minimizable="false"   border='normal'
+         apply="org.zkoss.bind.BindComposer"
+		 viewModel="@id('crt') @init('com.coreweb.login.Login')"   
+          >
+      
+        <style>
+        div.minimize {
+            border: 1px solid #79858E;
+            background: #D3E1EC;
+            position: absolute;
+            opacity: 0.8;       
+        }
+        div.loginGrid { 
+            border: none;
+        }
+        td.loginCtl {
+            text-align: center;
+        }
+        td.loginCtl .z-label {
+            color: red;         
+            font-style: italic;
+        }
+        </style>
+        <grid sclass="loginGrid">
+            <columns>
+                <column width="100px" />
+            </columns>
+            <rows>
+                <row>Usuario : <textbox id="name" value="@bind(crt.user)" c:onFocus="this.select()" /></row>
+                <row>Clave : <textbox id="pwd" type="password" value="@bind(crt.pass)" c:onFocus="this.select()"/></row>
+                <row><cell sclass="loginCtl" colspan="2"><vlayout>
+                    <button label="Submit" onClick="@command('loginOk')" width="100px"/>
+                    <label id="mesg" value="@load(crt.msg)" />
+                </vlayout></cell></row>
+            </rows>
+        </grid>
+        <script><![CDATA[
+	
+function loginFaild() { //Shake the window
+    var l = jq("$loginWin").position().left;
+    jq("$loginWin").animate({
+        left : l - 25
+    }, 50).animate({
+        backgroundColor : "red"
+    }, 50).animate({
+        left : l
+    }, 50).animate({
+        left : l + 25
+    }, 50).animate({
+        left : l
+    }, 50).animate({
+        backgroundColor : "white"
+    }, 50);
+    jq("$loginWin").css('background-color','transparent');
+} 
+]]></script>
+    </window>
+</vlayout>
+</zk>

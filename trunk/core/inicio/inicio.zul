@@ -1,0 +1,87 @@
+<?page title="Yhaguy Repuestos S.A."?>
+<zk>
+	<style>
+		.hightlight { color: #1469AB; font-weight: bold; } .error {
+		color: red; }
+		.dm-menuitem
+		{width:
+		100%;
+		}
+		.dm-menuitem
+		.z-menu-item-cnt
+		{display:
+		none;}
+	</style>
+<style>
+	.z-tabpanel-hidden {
+		display: none !important;
+	}
+</style>
+<script><![CDATA[
+	zk.afterLoad("zul.tab", function () {
+		var _tpWgt = {};
+		zk.override(zul.tab.Tabpanel.prototype, _tpWgt, {
+			bind_: function (a, b, c) {
+				_tpWgt.bind_.apply(this, arguments);
+				if (!this._visible) jq(this.$n()).addClass('z-tabpanel-hidden');
+			},
+			setVisible: function (v) {
+				var n = this.$n();
+				_tpWgt.setVisible.apply(this, arguments);
+				if (n) {
+					if (v) jq(this.$n()).removeClass('z-tabpanel-hidden');
+					else jq(this.$n()).addClass('z-tabpanel-hidden');
+				}
+			}
+		});
+	});
+]]></script>	
+	
+	
+	
+
+	<window id="templateInicio" border="normal" width="100%" height="100%"
+		apply="org.zkoss.bind.BindComposer" viewModel="@id('vm')
+		@init('com.coreweb.login.ControlInicio')">
+		
+		<zscript>
+			import javax.servlet.http.HttpServletRequest;
+			import org.zkoss.zk.ui.Executions;
+
+			HttpServletRequest request = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
+			String menuApp = request.getParameter("menu");
+
+		</zscript>
+		
+		
+		<borderlayout>
+			<!-- =================== NORTE ===================================== -->
+
+			<north border="0" collapsible="false" vflex="min">
+				<vlayout style="background: #DAF3FF repeat-x 0 center; ">
+					
+						<include id="menu" src="${menuApp}" />
+					
+						<label id="nombreFormulario" value="--formulario--"
+							style="font-size:14pt;font-weight:bold" />
+						<!-- separator bar="true" / -->
+				
+				</vlayout>
+			</north>
+			<!-- =================== CENTER ===================================== -->
+
+			<center border="0" autoscroll="true">
+				<include id="principalBody" mode="instant" src="/core/inicio/login.zul" />
+			</center>
+
+
+			<!-- ==================== SUR ==================================== -->
+			<south border="0" style="background: #3FC6D2" vflex="10px">
+				<image id="carita" src="/core/images/face-angry.png" style="float: right;"
+					onClick="@command('mostrarCarita')" />
+			</south>
+
+		</borderlayout>
+	</window>
+	<!-- ============================================================= -->
+</zk>
