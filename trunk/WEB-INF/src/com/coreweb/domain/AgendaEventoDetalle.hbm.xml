@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//hibernate/hibernate Mapping DTD 3.0//EN"
+        "file:./hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.coreweb.domain.AgendaEventoDetalle"
+		table="AgendaEventoDetalle"> 
+		<id name="id" type="long" column="idAgendaEventoDetalle">
+			<generator class="increment" />
+		</id>
+		<property name="fecha" />
+		<property name="texto" />
+		<property name="tipo" />
+		<property name="link" />
+		<property name="usuario" />
+				
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//hibernate/hibernate Mapping DTD 3.0//EN"
+        "file:./hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+
+	<class name="com.coreweb.domain.Usuario" table="Usuario">
+		<id name="id" column="id" type="long">
+			<generator class="increment"/>
+		</id>
+		<property name="nombre"/>
+		<property name="login"/>
+		<property name="clave"/>
+
+		<set name="perfiles" table="Usuario_UsuarioPerfil"
+			inverse="false" 
+			lazy="false" fetch="join" 
+			>
+			<key>
+				<column name="idUser" not-null="false" />
+			</key>
+			<many-to-many column="idPerfil" class="com.coreweb.domain.Perfil" />
+		</set>
+
+
+	</class>
+
+</hibernate-mapping>
