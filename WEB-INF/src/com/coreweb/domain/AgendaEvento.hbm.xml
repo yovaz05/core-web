@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//hibernate/hibernate Mapping DTD 3.0//EN"
+        "file:./hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.coreweb.domain.AgendaEvento" table="AgendaEvento">
+		<id name="id" type="long" column="idAgendaEvento">
+			<generator class="increment" />
+		</id>
+		<property name="fecha" type="date" column="fecha" />
+		<property name="key" />
+		<property name="tipo" />
+
+		<set name="agendaEventoDetalles" table="AgendaEventoDetalle"
+			inverse="false"  lazy="false"  fetch="select"  cascade="all">
+			<key>
+				<column name="idAgendaEvento" not-null="false" />
+			</key>
+			<one-to-many class="com.coreweb.domain.AgendaEventoDetalle" />
+		</set>
+
+	</class>
+</hibernate-mapping>

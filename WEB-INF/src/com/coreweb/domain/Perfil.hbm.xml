@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//hibernate/hibernate Mapping DTD 3.0//EN"
+        "file:./hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.coreweb.domain.Perfil" table="UsuarioPerfil">
+		<id name="id" column="id" type="long">
+			<generator class="increment"/>
+		</id>
+		<property name="nombre"/>
+		<property name="descripcion"/>
+		<property name="grupo"/>
+		<set name="permisos" table="UsuarioPermiso"
+			inverse="true" lazy="false"
+			cascade="all"
+			>
+			<key>
+				<column name="idPerfil" not-null="false" />
+			</key>
+			<one-to-many class="com.coreweb.domain.Permiso" />
+		</set>
+
+	</class>
+
+</hibernate-mapping>

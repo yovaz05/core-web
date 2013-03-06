@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//hibernate/hibernate Mapping DTD 3.0//EN"
+        "file:./hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="com.coreweb.domain.Formulario" table="UsuarioFormulario">
+		<id name="id" column="id" type="long">
+			<generator class="increment"/>
+		</id>
+		<property name="habilitado"/>
+		<property name="alias"/>
+		<property name="label"/>
+		<property name="descripcion"/>
+		<property name="url"/>
+
+		<set name="operaciones" table="UsuarioOperacion"
+			inverse="true"  
+			lazy="false" 
+			cascade="all">
+			<key>
+				<column name="idFormulario" not-null="true" />
+			</key>
+			<one-to-many class="com.coreweb.domain.Operacion" />
+		</set>
+
+
+	</class>
+
+</hibernate-mapping>
