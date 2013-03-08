@@ -1,14 +1,15 @@
-<?page title="Session Timeout" contentType="text/html;charset=UTF-8"?>
+<?page title="Acceso incorrecto" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window width="500px" height="100px" title="Acceso incorrecto al sistema" border="normal"  position="center" mode="modal">
-<vbox>
-Está intentando acceder de forma incorrecta al sistema.
-</vbox>
+	<window width="500px" height="100px" title="Acceso incorrecto al sistema"
+		border="normal" position="center" mode="modal">
+		<vbox>
+			Está intentando acceder de forma incorrecta al sistema.
+		</vbox>
 
-<label pre="true" value="Click aquí >> "/><button label="Re-Login" 
-href="/"/> 
+		<label pre="true" value="Click aquí >> " />
+		<button label="Re-Login" href="/index.zul" />
 
 
-</window>
+	</window>
 </zk>
 
