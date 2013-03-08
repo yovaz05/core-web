@@ -1,4 +1,4 @@
-<?page title="Yhaguy Repuestos S.A."?>
+<?page title="${param.title}"?>
 <zk>
 	<style>
 		.hightlight { color: #1469AB; font-weight: bold; } .error {
@@ -45,6 +45,7 @@
 		@init('com.coreweb.login.ControlInicio')">
 		
 		<zscript>
+			// esto es para recibir como parametro el archivo del menu a utilizar
 			import javax.servlet.http.HttpServletRequest;
 			import org.zkoss.zk.ui.Executions;
 
@@ -55,6 +56,15 @@
 		
 		
 		<borderlayout>
+
+
+			<!-- ==================== SUR ==================================== -->
+			<south border="0" style="background: #3FC6D2" vflex="10px">
+				<image id="carita" src="/core/images/face-angry.png" style="float: right;"
+					onClick="@command('mostrarCarita')" />
+			</south>
+
+
 			<!-- =================== NORTE ===================================== -->
 
 			<north border="0" collapsible="false" vflex="min">
@@ -75,11 +85,6 @@
 			</center>
 
 
-			<!-- ==================== SUR ==================================== -->
-			<south border="0" style="background: #3FC6D2" vflex="10px">
-				<image id="carita" src="/core/images/face-angry.png" style="float: right;"
-					onClick="@command('mostrarCarita')" />
-			</south>
 
 		</borderlayout>
 	</window>

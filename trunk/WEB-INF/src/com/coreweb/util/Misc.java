@@ -517,6 +517,7 @@ public class Misc {
 
 	public boolean testIdInAlias(Hashtable<String, String> aliasTipo, Class aClass) {
 
+		System.out.println("-");
 		boolean out = false;
 		try {
 
@@ -528,6 +529,7 @@ public class Misc {
 				String nombreVarianble = field.getName();
 				String alias = (String) field.get(null);
 
+//				System.out.println("nombreVarianble:"+nombreVarianble + "  alias:" + alias);
 				String tipo = aliasTipo.get(alias);
 				if (tipo == null) {
 					System.err.println("[Fa] Error, la variable "
@@ -546,6 +548,7 @@ public class Misc {
 
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println("[Ex] Error " + e.getMessage());
 		}
 

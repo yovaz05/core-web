@@ -3,6 +3,7 @@ package com.coreweb.control;
 
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -25,6 +26,7 @@ import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Panel;
 
+import com.coreweb.Archivo;
 import com.coreweb.Config;
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.Register;
@@ -92,14 +94,14 @@ public class Control {
 			String aliasF = this.getAliasFormularioCorriente();
 			if ( this.getUs().formDeshabilitado(aliasF) == true){
 				System.out.println("=========== ["+this.us.getLogin()+"] No tiene permisos para acceder a esta pagina: ["+aliasF+"] " + this.getClass().getName());
-				this.saltoDePagina("/inicio/errorLogin.zul");
+				this.saltoDePagina(Archivo.errorLogin);
 			}
 	
 			
 			return;
 		}
 		System.out.println("****************** NO Logeado:"+this.us.getLogin());
-		this.saltoDePagina("/inicio/errorLogin.zul");
+		this.saltoDePagina(Archivo.errorLogin);
 	}
 	
 
@@ -167,14 +169,24 @@ public class Control {
 
 		try {
 			main = Path.getComponent("/templateInicio");
-			Image img = (Image) main.getFellow("carita");
+			System.out.println("========================================================");
+			System.out.println(main.getId() + "-"+  main.getClass().getName());
+			Collection<Component> c = main.getFellows();
+			for (Iterator iterator = c.iterator(); iterator.hasNext();) {
+				Component component = (Component) iterator.next();
+				System.out.println(component.getId() + " - " + component.getClass().getName());
+			}
+		
+			System.out.println("========================================================");
+			Image img = (Image) main.getFellow("carita", true);
 			if (b == true) {
-				img.setSrc("/images/face-smile-2.png");
+				img.setSrc(Archivo.caritaFeliz);
 			} else {
-				img.setSrc("/images/face-angry.png");
+				img.setSrc(Archivo.caritaEnojada);
 			}
 		} catch (Exception e) {
 			System.out.println("error poniendo carita");
+			e.printStackTrace();
 			this.noAutorizado();
 
 		}
@@ -187,7 +199,7 @@ public class Control {
 		try {
 			Session s = Sessions.getCurrent();
 			s.setAttribute(Config.LOGEADO, new Boolean(false));
-			Executions.sendRedirect("/inicio/noAutorizado.zul");
+			Executions.sendRedirect(Archivo.noAutorizado);
 		} catch (Exception e1) {
 			System.out.println("==================================== error no autorizado ============");
 
