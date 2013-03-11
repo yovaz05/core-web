@@ -346,6 +346,13 @@ public class Register {
 				new Vector(), new Vector());
 		return l;
 	}
+	
+	public List<Perfil> getAllPerfiles() throws Exception {
+		List l = getObjects(
+				com.coreweb.domain.Perfil.class.getName(),
+				new Vector(), new Vector());
+		return l;
+	}
 
 	public List<Modulo> getAllModulos() throws Exception {
 		List l = getObjects(
@@ -360,6 +367,14 @@ public class Register {
 				new Vector(), new Vector());
 		return l;
 	}
+	
+	public List<Operacion> getAllOperaciones() throws Exception {
+		List l = getObjects(
+				com.coreweb.domain.Operacion.class.getName(),
+				new Vector(), new Vector());
+		return l;
+	}
+
 
 	public void deleteAllObjects(String entityName) throws Exception {
 		List<Domain> l = getObjects(entityName, new Vector(), new Vector());
