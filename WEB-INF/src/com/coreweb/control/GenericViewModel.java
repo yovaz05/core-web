@@ -89,6 +89,7 @@ public abstract class GenericViewModel extends Control {
 	public void initGenericViewModel(
 			@ContextParam(ContextType.VIEW) Component view) {
 		this.mainComponent = view;
+		
 	}
 
 	public void readonlyAllComponents() {
@@ -244,6 +245,8 @@ public abstract class GenericViewModel extends Control {
 	public void refreshComponentes() {
 		
 	}
+	
+
 
 
 }

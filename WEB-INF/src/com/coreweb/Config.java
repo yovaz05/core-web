@@ -1,13 +1,15 @@
 package com.coreweb;
 
-import java.io.FileInputStream;
-import java.util.Properties;
+
 
 public class Config {
 
 	public static String LOGEADO = "logeado";
 	public static String USUARIO = "usuario";
 
+	public static String PREFIX = "prefix";
+	
+	
 /*
 	private static String iniFile = "./yhaguy.ini";
 
@@ -36,6 +38,8 @@ public class Config {
 	public static String GRUPO_VENTAS = "Ventas";
 	public static String GRUPO_AUDITORIA = "Auditoria";
 	public static String GRUPO_IMPORTACION = "Importacion";
+	
+	
 	
 	
 	
