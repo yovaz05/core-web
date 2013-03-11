@@ -12,7 +12,6 @@ import com.coreweb.domain.Register;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
 
-
 public abstract class Assembler {
 
 	public static int MY_PAIR = 1;
@@ -36,6 +35,25 @@ public abstract class Assembler {
 		}
 
 		return out;
+	}
+
+	// *************************************************************************************
+	// *************************************************************************************
+	
+	public List<MyPair> listaSiNo() {
+		List<MyPair> lImpo = new ArrayList<MyPair>();
+
+		MyPair si = new MyPair();
+		si.setId(1);
+		si.setText("SI");
+		MyPair no = new MyPair();
+		no.setId(2);
+		no.setText("NO");
+		lImpo.add(si);
+		lImpo.add(no);
+
+		return lImpo;
+
 	}
 
 	// *************************************************************************************
@@ -218,6 +236,17 @@ public abstract class Assembler {
 			setValue(mp, "pos" + (i + 1), valor);
 		}
 		setValue(dto, atributo, mp);
+	}
+
+	public MyArray createMyArray(Domain dom, String[] campos) throws Exception {
+		MyArray mp = new MyArray();
+		mp.setId(dom.getId());
+		for (int i = 0; i < campos.length; i++) {
+			String campo = campos[i];
+			Object valor = getValue(dom, campo);
+			setValue(mp, "pos" + (i + 1), valor);
+		}
+		return mp;
 	}
 
 	public void myArrayToDomain(DTO dto, Domain dom, String atributo)

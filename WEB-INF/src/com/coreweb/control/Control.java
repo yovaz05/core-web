@@ -38,7 +38,7 @@ import com.coreweb.login.LoginUsuarioDTO;
 
 
 //public class Control extends UnicastRemoteObject implements IControl{
-public class Control {
+public abstract class Control {
 
 	// No debería hacer esto, pero es lo más facil :(
 	private static UtilCoreDTO dtoUtil; // = new AssemblerUtil().getDTOUtil(); 
@@ -110,14 +110,14 @@ public class Control {
 
 
 
-	public UtilCoreDTO getDtoUtil() {
+	public  UtilCoreDTO getDtoUtil() {
 		return dtoUtil;
 	}
 
 
-	public void setDtoUtil(UtilCoreDTO dtoUtil) {
+	public abstract void setDtoUtil(UtilCoreDTO dtoUtil); /* {
 		Control.dtoUtil = dtoUtil;
-	}
+	}*/
 
 
 	// hacer un salto de pagina
