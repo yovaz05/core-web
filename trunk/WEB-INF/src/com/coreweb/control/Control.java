@@ -1,6 +1,6 @@
 package com.coreweb.control;
 
-
+import java.lang.reflect.Method;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,90 +35,95 @@ import com.coreweb.dto.DTO;
 import com.coreweb.dto.UtilCoreDTO;
 import com.coreweb.login.LoginUsuarioDTO;
 
-
-
 //public class Control extends UnicastRemoteObject implements IControl{
-public abstract class Control {
+public class Control {
 
-	// No debería hacer esto, pero es lo más facil :(
-	private static UtilCoreDTO dtoUtil; // = new AssemblerUtil().getDTOUtil(); 
-	
+	private static UtilCoreDTO dtoUtil = null; // = new AssemblerUtil().getDTOUtil();
+
 	private Component main;
 	private Hashtable<String, String> hashFilterValue = new Hashtable<String, String>();
-//	private ControlAgendaEvento ctrAgenda = new ControlAgendaEvento();
+	// private ControlAgendaEvento ctrAgenda = new ControlAgendaEvento();
 	private Assembler ass;
 
 	private LoginUsuarioDTO us = new LoginUsuarioDTO();
 
 	private static String aliasFormularioCorrienteTXT = "--AliasFormularioNoDefinido--";
 	private String aliasFormularioCorriente = aliasFormularioCorrienteTXT;
-	private String textoFormularioCorriente = "Falta setear el textoFormularioCorriente: " + System.currentTimeMillis();
+	private String textoFormularioCorriente = "Falta setear el textoFormularioCorriente: "
+			+ System.currentTimeMillis();
 
 	public Control(Assembler ass) {
 		this.setAss(ass);
 	}
 
-	
 	// seteo inicial
-	public void preInit(){
+	public void preInit() {
 		System.out.println("*******************************************");
-		System.out.println("** Falta implementar el preInit: "+ this.getClass().getName());
+		System.out.println("** Falta implementar el preInit: "
+				+ this.getClass().getName());
 		System.out.println("*******************************************");
 	}
-	
-	
+
 	@Init
 	public void initPrincipal() throws Exception {
 		System.out.println("[ToDo] control de session de usuario ==========");
+
+		String prefix = Executions.getCurrent().getParameter(Config.PREFIX);
+		this.inicializarDtoUtil(prefix);
 
 		Session s = Sessions.getCurrent();
 		this.us = (LoginUsuarioDTO) s.getAttribute(Config.USUARIO);
 		if (this.us == null) {
 			// primera vez
 			this.us = new LoginUsuarioDTO();
-			System.out.println("--- entra al initPrincipal por primera vez al sistema");
+			System.out
+					.println("--- entra al initPrincipal por primera vez al sistema");
 			return;
 		}
 		this.preInit();
 		this.poneCarita(this.us.isLogeado());
 	}
-	
-	
-	
+
 	@AfterCompose(superclass = true)
 	public void afterComposeBody() {
 		if (this.us.isLogeado() == true) {
 			// si esta logeado retorna, cualquier otro caso exepcion
 			System.out.println("usuario logeado: " + this.us.getLogin());
-			
+
 			String aliasF = this.getAliasFormularioCorriente();
-			if ( this.getUs().formDeshabilitado(aliasF) == true){
-				System.out.println("=========== ["+this.us.getLogin()+"] No tiene permisos para acceder a esta pagina: ["+aliasF+"] " + this.getClass().getName());
+			if (this.getUs().formDeshabilitado(aliasF) == true) {
+				System.out.println("=========== [" + this.us.getLogin()
+						+ "] No tiene permisos para acceder a esta pagina: ["
+						+ aliasF + "] " + this.getClass().getName());
 				this.saltoDePagina(Archivo.errorLogin);
 			}
-	
-			
+
 			return;
 		}
-		System.out.println("****************** NO Logeado:"+this.us.getLogin());
+		System.out.println("****************** NO Logeado:"
+				+ this.us.getLogin());
 		this.saltoDePagina(Archivo.errorLogin);
 	}
-	
 
-	
-	
-
-
-
-	public  UtilCoreDTO getDtoUtil() {
+	public UtilCoreDTO getDtoUtil() {
 		return dtoUtil;
 	}
 
-
-	public abstract void setDtoUtil(UtilCoreDTO dtoUtil); /* {
+	public void setDtoUtil(UtilCoreDTO dtoUtil) {
 		Control.dtoUtil = dtoUtil;
-	}*/
+	}
 
+	// ================================================
+	// necesario para hacer el Init Inicial
+	public static boolean existDtoUtil() {
+		return (Control.dtoUtil != null);
+	}
+
+	public static void setInicialDtoUtil(UtilCoreDTO dtoUtil) {
+		Control.dtoUtil = dtoUtil;
+	}
+
+	// ================================================
 
 	// hacer un salto de pagina
 	public void saltoDePagina(String url, String param, Object value) {
@@ -127,15 +132,14 @@ public abstract class Control {
 		saltoDePagina(url, h);
 	}
 
-	public void salirSistema(String url){
+	public void salirSistema(String url) {
 		try {
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	// hacer un salto de pagina
 	public void saltoDePagina(String url) {
 		saltoDePagina(url, new Hashtable<String, Object>());
@@ -143,7 +147,7 @@ public abstract class Control {
 
 	// hacer un salto de pagina
 	public void saltoDePagina(String url, Hashtable<String, Object> params) {
-		try {			
+		try {
 			main = Path.getComponent("/templateInicio");
 			Include inc = (Include) main.getFellow("principalBody", true);
 
@@ -157,7 +161,7 @@ public abstract class Control {
 			inc.setSrc(url);
 
 		} catch (Exception e) {
-			System.out.println("************** error salto de pagina: "+url);
+			System.out.println("************** error salto de pagina: " + url);
 			e.printStackTrace();
 			this.noAutorizado();
 
@@ -169,15 +173,18 @@ public abstract class Control {
 
 		try {
 			main = Path.getComponent("/templateInicio");
-			System.out.println("========================================================");
-			System.out.println(main.getId() + "-"+  main.getClass().getName());
+			System.out
+					.println("========================================================");
+			System.out.println(main.getId() + "-" + main.getClass().getName());
 			Collection<Component> c = main.getFellows();
 			for (Iterator iterator = c.iterator(); iterator.hasNext();) {
 				Component component = (Component) iterator.next();
-				System.out.println(component.getId() + " - " + component.getClass().getName());
+				System.out.println(component.getId() + " - "
+						+ component.getClass().getName());
 			}
-		
-			System.out.println("========================================================");
+
+			System.out
+					.println("========================================================");
 			Image img = (Image) main.getFellow("carita", true);
 			if (b == true) {
 				img.setSrc(Archivo.caritaFeliz);
@@ -194,19 +201,22 @@ public abstract class Control {
 	}
 
 	public void noAutorizado() {
-		System.out.println("==================================== no autorizado ============");
-		
+		System.out
+				.println("==================================== no autorizado ============");
+
 		try {
 			Session s = Sessions.getCurrent();
 			s.setAttribute(Config.LOGEADO, new Boolean(false));
 			Executions.sendRedirect(Archivo.noAutorizado);
 		} catch (Exception e1) {
-			System.out.println("==================================== error no autorizado ============");
+			System.out
+					.println("==================================== error no autorizado ============");
 
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println("==================================== Fin no autorizado ============");
+		System.out
+				.println("==================================== Fin no autorizado ============");
 	}
 
 	public Assembler getAss() {
@@ -217,64 +227,60 @@ public abstract class Control {
 		this.ass = ass;
 	}
 
-
 	/*************** Usados en el explorer generico que no funciona aun ********/
-	private  ListModel<DTO> getAllModelx() {
+	private ListModel<DTO> getAllModelx() {
 		System.out.println("** Control.getAllModel:  No implementado en "
 				+ this.getClass().getName());
 		return null;
 	}
-	
 
-	private  ListModel<DTO> getAllModelOriginalx() {
+	private ListModel<DTO> getAllModelOriginalx() {
 		System.out.println("** Control.getAllModel:  No implementado en "
 				+ this.getClass().getName());
 		return null;
 	}
+
 	/***********************************************************************/
 
 	protected DTO saveDTO(DTO dto, boolean refreshDTO) throws Exception {
 		Domain don = ass.dtoToDomain(dto);
 		Register register = Register.getInstance();
 		register.saveObject(don);
-		if (refreshDTO == true){
+		if (refreshDTO == true) {
 			dto = ass.domainToDto(don);
 		}
 		return dto;
 	}
-	
+
 	protected void deleteDTO(DTO dto) throws Exception {
 		Domain don = ass.dtoToDomain(dto);
 		Register register = Register.getInstance();
 		register.deleteObject(don);
 	}
 
-	public DTO getDTOById(String entityName, String idObjeto) throws Exception{
+	public DTO getDTOById(String entityName, String idObjeto) throws Exception {
 		Register register = Register.getInstance();
 		Domain dom = register.getObject(entityName, Long.parseLong(idObjeto));
 		DTO dto = this.getAss().domainToDto(dom);
 		return dto;
 	}
-	
-	
-	public List<DTO> getAllDTOs(String entityName) throws Exception{
-		return getAllDTOs(entityName,  this.ass);
+
+	public List<DTO> getAllDTOs(String entityName) throws Exception {
+		return getAllDTOs(entityName, this.ass);
 	}
 
-	
-	public List<DTO> getAllDTOs(String entityName, Assembler ass) throws Exception{
+	public List<DTO> getAllDTOs(String entityName, Assembler ass)
+			throws Exception {
 		List<DTO> ldto = new ArrayList<DTO>();
 		Register register = Register.getInstance();
-		List<Domain> ldom = (List<Domain>)register.getObjects(entityName);
+		List<Domain> ldom = (List<Domain>) register.getObjects(entityName);
 		for (int i = 0; i < ldom.size(); i++) {
 			Domain dom = ldom.get(i);
-			DTO dto =  	ass.domainToDto(dom);
+			DTO dto = ass.domainToDto(dom);
 			ldto.add(dto);
 		}
 		return ldto;
 	}
-
-	
 
 	public List<String> getColumnNames() {
 		System.out.println("** Control.getColumnNames:  No implementado en "
@@ -358,14 +364,11 @@ public abstract class Control {
 	}
 
 	/*
-	public ControlAgendaEvento getCtrAgenda() {
-		return ctrAgenda;
-	}
-
-	public void setCtrAgenda(ControlAgendaEvento ctrAgenda) {
-		this.ctrAgenda = ctrAgenda;
-	}
-	*/
+	 * public ControlAgendaEvento getCtrAgenda() { return ctrAgenda; }
+	 * 
+	 * public void setCtrAgenda(ControlAgendaEvento ctrAgenda) { this.ctrAgenda
+	 * = ctrAgenda; }
+	 */
 
 	public LoginUsuarioDTO getUs() {
 		return us;
@@ -382,22 +385,20 @@ public abstract class Control {
 	public void setAliasFormularioCorriente(String aliasFormularioCorriente) {
 		this.aliasFormularioCorriente = aliasFormularioCorriente;
 	}
-	
-	
+
 	public String getTextoFormularioCorriente() {
 		return textoFormularioCorriente;
 	}
 
-
 	public void setTextoFormularioCorriente(String textoFormularioCorriente) {
 		this.textoFormularioCorriente = textoFormularioCorriente;
 		Component main = Path.getComponent("/templateInicio");
-		Label lab = (Label)main.getFellow("nombreFormulario");
-		lab.setValue(this.textoFormularioCorriente );
+		Label lab = (Label) main.getFellow("nombreFormulario");
+		lab.setValue(this.textoFormularioCorriente);
 	}
 
-
-	public synchronized  boolean operacionHabilitada(String aliasOperacion) throws Exception {
+	public synchronized boolean operacionHabilitada(String aliasOperacion)
+			throws Exception {
 		String form = this.getAliasFormularioCorriente();
 		if (form.compareTo(Control.aliasFormularioCorrienteTXT) == 0) {
 			Exception ex = new Exception(
@@ -409,8 +410,6 @@ public abstract class Control {
 		return this.getUs().opeHabilitada(form, aliasOperacion);
 
 	}
-	
-	
 
 	public boolean mensajeEliminar(String texto) {
 
@@ -458,13 +457,31 @@ public abstract class Control {
 		}
 		return false;
 	}
-	
-	
-	
-	public boolean esGrupo(String grupo){
+
+	public boolean esGrupo(String grupo) {
 		boolean out = false;
 		out = this.getUs().esGrupo(grupo);
 		return out;
+	}
+
+	public void inicializarDtoUtil(String prefix) {
+
+		if (this.getDtoUtil() == null) {
+			try {
+				String inicio = "com." + prefix + ".inicio.Inicio";
+
+				Class cls = Class.forName(inicio);
+				Object obj = cls.newInstance();
+
+				Class noparams[] = {};
+				Method method = cls.getDeclaredMethod("init", noparams);
+				method.invoke(obj, null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
 	}
 
 	public static void main(String[] args) {

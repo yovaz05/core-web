@@ -19,6 +19,7 @@ import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.domain.AgendaEvento;
 import com.coreweb.domain.Register;
+import com.coreweb.dto.UtilCoreDTO;
 
 
 public class ControlAgendaEvento extends GenericViewModel {
@@ -178,6 +179,7 @@ public class ControlAgendaEvento extends GenericViewModel {
 	public void setDto(AgendaEventoDTO dto) {
 		this.dto = dto;
 	}
+
 
 	
 }
