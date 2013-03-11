@@ -42,7 +42,7 @@ public class Carita  extends SelectorComposer<Component> {
 
 			
 			Window window = (Window) Executions.createComponents(
-					"/misc/carita.zul", null, map);
+					"/core/misc/carita.zul", null, map);
 			window.doModal();
 
 		} catch (Exception e) {

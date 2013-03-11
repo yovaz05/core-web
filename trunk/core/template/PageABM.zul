@@ -2,12 +2,12 @@
 		width="100%"
 		height="100%"
 		viewModel="@id('Page')
-	@init('com.yhaguy.core.template.Page')">
+	@init('com.coreweb.templateABM.Page')">
 
 	<borderlayout height="100%">
 		<north border="0" vflex="min"  collapsible="false">
 			<div>
-				<include id="tool" mode="instant" src="/template/Toolbar.zul" pageVM="${Page}"
+				<include id="tool" mode="instant" src="/core/template/Toolbar.zul" pageVM="${Page}"
 					height="10%"
 					/>
 			</div>
@@ -15,12 +15,12 @@
 		<center border="0" autoscroll="true" vflex="max">
 			<!-- style="overflow:auto;"  -->
 			<div>
-				<include id="body" mode="instant" src="/template/BodyDefault.zul" pageVM="${Page}"/>
+				<include id="body" mode="instant" src="/core/template/BodyDefault.zul" pageVM="${Page}"/>
 			</div>
 		</center>
 		<south border="0" vflex="min" collapsible="true">
 			<div>
-				<include id="footer" mode="instant" src="/template/Footer.zul" pageVM="${Page}"
+				<include id="footer" mode="instant" src="/core/template/Footer.zul" pageVM="${Page}"
 					height="10%"
 					/>
 			</div>

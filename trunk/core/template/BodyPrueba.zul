@@ -1,5 +1,5 @@
 <zk>
-	<window id="Body" viewModel="@id('vm') @init('com.yhaguy.core.template.BodyPrueba')"		                                            
+	<window id="Body" viewModel="@id('vm') @init('com.coreweb.templateABM.BodyPrueba')"		                                            
     apply="org.zkoss.bind.BindComposer" width="100%">    
 
 	 <!-- Detalle  -->
