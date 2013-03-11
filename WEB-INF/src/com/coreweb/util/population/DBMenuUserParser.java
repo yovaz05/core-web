@@ -2,14 +2,13 @@ package com.coreweb.util.population;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
 
 import com.coreweb.IDCore;
 import com.coreweb.domain.*;
-
-
 import com.coreweb.util.Misc;
 
 public class DBMenuUserParser {
@@ -114,7 +113,7 @@ public class DBMenuUserParser {
 		Formulario formulario = null;
 		String fv = prop.getProperty(fn, dfv);
 		if (fv.compareTo(dfv) != 0) {
-			// alias ; habilitado ; label; descripcion ; url
+			// alias ; habilitado ; label; descripcion ; url			
 			String[] value = misc.split(fv, split);
 			formulario = new Formulario();
 			formulario.setAlias(value[0]);
@@ -280,7 +279,9 @@ public class DBMenuUserParser {
 		}
 		*/
 		prop = new Properties();
-		prop.load(new FileInputStream(file));
+		//prop.load(new FileInputStream(file));
+		prop.load(new InputStreamReader (new FileInputStream (file), "utf-8"));
+
 	}
 
 	private void deleteDatos() throws Exception {

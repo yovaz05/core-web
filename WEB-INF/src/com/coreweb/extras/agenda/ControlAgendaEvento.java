@@ -91,7 +91,7 @@ public class ControlAgendaEvento extends GenericViewModel {
 		map.put("titulo", titulo);
 		map.put("agendaEventoDto", aDto);
 		Window window = (Window) Executions.createComponents(
-				"/misc/agenda.zul", null, map);
+				"/core/misc/agenda.zul", null, map);
 		// window.doOverlapped();
 		window.doModal();
 

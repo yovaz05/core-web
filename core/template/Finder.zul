@@ -1,9 +1,9 @@
 <zk>
-	<window id="Finder" viewModel="@id('fi') @init('com.yhaguy.core.template.Finder')"
+	<window id="Finder" viewModel="@id('fi') @init('com.coreweb.templateABM.Finder')"
 		apply="org.zkoss.bind.BindComposer" 
 		width="50%" height="50%" closable="false" sizable="true"
 		>
-		<caption image="/images/find.png" label="Seleccione un elemento" />
+		<caption image="/core/images/find.png" label="Seleccione un elemento" />
 		<borderlayout>
 			<center autoscroll="true">
 				<listbox model="${arg.modelo}"
@@ -27,11 +27,11 @@
 
 			<south>
 				<toolbar id="fooFinder" sclass="vista" height="40px" align="center">
-					<button id="btnAccept" label="Aceptar" tooltiptext="Aceptar" image="/images/accept.png"
+					<button id="btnAccept" label="Aceptar" tooltiptext="Aceptar" image="/core/images/accept.png"
 						width="125px"
 						onClick="@command('doTask')"
 				/>
-					<button id="btnCancel" label="Cancelar" tooltiptext="Cancelar" image="/images/cancel.png"
+					<button id="btnCancel" label="Cancelar" tooltiptext="Cancelar" image="/core/images/cancel.png"
 						width="125px"
 				onClick="@command('discard')"
 						/>

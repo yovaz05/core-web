@@ -169,7 +169,7 @@ public class Toolbar extends GenericViewModel {
 		map.put("dtoCC", this.pagina.getBody().getDTOCorriente());
 		map.put("body", this.pagina.getBody());
 		
-		Window window = (Window)Executions.createComponents("/template/Finder.zul",
+		Window window = (Window)Executions.createComponents("/core/template/Finder.zul",
 		null, map);
 		window.doModal();
 		
