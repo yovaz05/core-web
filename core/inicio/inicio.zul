@@ -59,7 +59,7 @@
 
 
 			<!-- ==================== SUR ==================================== -->
-			<south border="0" style="background: #3FC6D2" vflex="10px">
+			<south border="0" style="background: #3FC6D2" height="17px">
 				<image id="carita" src="/core/images/face-angry.png" style="float: right;"
 					onClick="@command('mostrarCarita')" />
 			</south>
