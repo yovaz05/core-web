@@ -14,7 +14,6 @@ import com.coreweb.dto.DTO;
 import com.coreweb.templateABM.Body;
 import com.coreweb.util.MyArray;
 
-
 public class UsuarioControlBody extends Body {
 
 	@Init(superclass = true)
@@ -103,11 +102,8 @@ public class UsuarioControlBody extends Body {
 
 	public void setSelectedPerfil(MyArray selectedPerfil) {
 		this.selectedPerfil = selectedPerfil;
-		/*
-		 * MyArray aux = new MyArray(); aux.setPos2(new Operacion());
-		 * aux.setPos3(new Perfil()); this.selectedPermiso = aux;
-		 */
-		this.selectedPermiso = null;
+
+		this.setSelectedPermiso(null);
 	}
 
 	public MyArray getSelectedPermiso() {
@@ -116,6 +112,7 @@ public class UsuarioControlBody extends Body {
 
 	public void setSelectedPermiso(MyArray selectedPermiso) {
 		this.selectedPermiso = selectedPermiso;
+
 	}
 
 	public MyArray getSelectedModulo() {
@@ -140,7 +137,7 @@ public class UsuarioControlBody extends Body {
 
 	public void setSelectedOperacion(MyArray selectedOperacion) {
 		this.selectedOperacion = selectedOperacion;
-	}	
+	}
 
 	public MyArray getSelectedPerfilUsr() {
 		return selectedPerfilUsr;
@@ -153,7 +150,8 @@ public class UsuarioControlBody extends Body {
 	@Command()
 	@NotifyChange("*")
 	public void agregarPerfilAlUsuario() {
-		if (!((List) this.selectedUsuario.getPos4()).contains(selectedPerfilUsr))
+		if (!((List) this.selectedUsuario.getPos4())
+				.contains(selectedPerfilUsr))
 			((List) this.selectedUsuario.getPos4()).add(this.selectedPerfilUsr);
 
 		this.setSelectedPerfilUsr(null);
@@ -228,10 +226,11 @@ public class UsuarioControlBody extends Body {
 			MyArray nPerf = new MyArray();
 			nPerf.setPos1("--editar--");
 			nPerf.setPos2("--editar--");
+			nPerf.setPos3(null);
 			List<MyArray> listAux = new ArrayList<MyArray>();
 			MyArray aux = new MyArray();
 			aux.setPos2(new ArrayList<MyArray>());
-			nPerf.setPos3(listAux);
+			nPerf.setPos4(listAux);
 			this.getDto().getPerfiles().add(nPerf);
 			this.setSelectedPerfil(nPerf);
 
@@ -246,7 +245,7 @@ public class UsuarioControlBody extends Body {
 			if (mensajeEliminar("Está seguro que quiere eliminar el permiso?")) {
 				// verificar que no este asociado a ningun objeto
 
-				((List) this.selectedPerfil.getPos3()).remove(selectedPermiso);
+				((List) this.selectedPerfil.getPos4()).remove(selectedPermiso);
 			}
 			this.setSelectedPermiso(null);
 		}
@@ -262,7 +261,7 @@ public class UsuarioControlBody extends Body {
 			nPerm.setPos1(false);
 			nPerm.setPos2(new MyArray());
 			nPerm.setPos3(this.selectedPerfil.getId());
-			((List) this.selectedPerfil.getPos3()).add(nPerm);
+			((List) this.selectedPerfil.getPos4()).add(nPerm);
 			this.setSelectedPermiso(nPerm);
 
 		}

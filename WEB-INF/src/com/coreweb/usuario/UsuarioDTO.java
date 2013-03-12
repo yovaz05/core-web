@@ -12,6 +12,7 @@ public class UsuarioDTO extends DTO {
 	List<MyArray> usuarios = new ArrayList<MyArray>();
 	List<MyArray> perfiles = new ArrayList<MyArray>();
 	List<MyArray> modulos = new ArrayList<MyArray>();
+	
 
 	public List<MyArray> getUsuarios() {
 		return usuarios;

@@ -1,6 +1,7 @@
 package com.coreweb.usuario;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -41,10 +42,15 @@ public class AssemblerUsuario extends Assembler {
 	public DTO domainToDto(Domain domain) throws Exception {
 		// TODO Auto-generated method stub
 		UsuarioDTO dto = new UsuarioDTO();
-
+		
+		//========================================================================
+		// hash entre usuarios y perfiles
+		HashMap <Long,List<String>> usrPorPerfil = new HashMap <Long,List<String>>();
+		//========================================================================
+		
 		List<MyArray> listUsrArr = new ArrayList<MyArray>();
-
 		Register rr = Register.getInstance();
+		
 		// recorre los usuarios
 		List<Usuario> listUsr = rr.getAllUsuarios();
 
@@ -58,19 +64,25 @@ public class AssemblerUsuario extends Assembler {
 			usrArr.setPos3(usuario.getClave());
 
 			Set<Perfil> setPerf = usuario.getPerfiles();
-			//Set<Perfil> perfilesUsuario = new HashSet<Perfil>();
 			
 			List<MyArray> listPerfArr = new ArrayList<MyArray>();
 			for (Iterator iterator2 = setPerf.iterator(); iterator2.hasNext();) {
 				Perfil perfil = (Perfil) iterator2.next();
 				MyArray perfArr = new MyArray();
 
+				//agrega la lista en la que se almacenarán los usuarios del perfil
+				List lista = usrPorPerfil.get(perfil.getId());
+				if(lista == null){
+					lista = new ArrayList<String>();
+					usrPorPerfil.put(perfil.getId(), lista);
+				}
+				lista.add(usuario.getNombre());
+				
 				perfArr.setId(perfil.getId());
 				perfArr.setPos1(perfil.getNombre());
 				perfArr.setPos2(perfil.getDescripcion());
 				// depende de si al traer los usuarios se necesitan tb los
-				// permisos
-				// por ahora trae igual
+				// permisos, por ahora trae igual
 				Set<Permiso> setPerm = perfil.getPermisos();
 				List<MyArray> listPermArr = new ArrayList<MyArray>();
 				for (Iterator iterator3 = setPerm.iterator(); iterator3
@@ -93,7 +105,7 @@ public class AssemblerUsuario extends Assembler {
 		}
 		dto.setUsuarios(listUsrArr);
 
-		// para los perfiles.. se trae aparte del de usuarios
+		//recorre los perfiles
 
 		List<MyArray> listPerfArr = new ArrayList<MyArray>();
 		List<Perfil> listPerfi = rr.getAllPerfiles();
@@ -105,6 +117,7 @@ public class AssemblerUsuario extends Assembler {
 			perfArr.setId(perfil.getId());
 			perfArr.setPos1(perfil.getNombre());
 			perfArr.setPos2(perfil.getDescripcion());
+			perfArr.setPos3(usrPorPerfil.get(perfil.getId()));
 
 			Set<Permiso> setPerm = perfil.getPermisos();
 			List<MyArray> listPermArr = new ArrayList<MyArray>();
@@ -133,11 +146,10 @@ public class AssemblerUsuario extends Assembler {
 
 				listPermArr.add(permArr);
 			}
-			perfArr.setPos3(listPermArr);
+			perfArr.setPos4(listPermArr);
 			listPerfArr.add(perfArr);
 		}
 		dto.setPerfiles(listPerfArr);
-
 		dto.setModulos(AssemblerModulo.getModulos());
 
 		return dto;
