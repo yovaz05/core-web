@@ -64,6 +64,13 @@ public class ControlInicio extends Control {
 		String url = this.getUs().formURL(formAlias);
 		boolean deshabilitado = this.getUs().formDeshabilitado(formAlias);
 
+		/* quita del menu la opción que no tiene permiso
+		 
+		if (deshabilitado == true){
+			return;
+		}
+		*/
+		
 		Menupopup mp = (Menupopup) o;
 		Menuitem m = new Menuitem();
 		//m.setId(formAlias);

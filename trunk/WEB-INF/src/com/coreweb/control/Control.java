@@ -34,12 +34,15 @@ import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
 import com.coreweb.dto.UtilCoreDTO;
 import com.coreweb.login.LoginUsuarioDTO;
+import com.coreweb.util.Check;
 
 //public class Control extends UnicastRemoteObject implements IControl{
 public class Control {
 
 	private static UtilCoreDTO dtoUtil = null; // = new AssemblerUtil().getDTOUtil();
 
+	public static Check check = new Check();
+	
 	private Component main;
 	private Hashtable<String, String> hashFilterValue = new Hashtable<String, String>();
 	// private ControlAgendaEvento ctrAgenda = new ControlAgendaEvento();
@@ -125,12 +128,24 @@ public class Control {
 
 	// ================================================
 
+	public Check getCheck() {
+		return Control.check;
+	}
+
+	public void setCheck(Check check) {
+		Control.check = check;
+	}
+	
+	
+	
+	
 	// hacer un salto de pagina
 	public void saltoDePagina(String url, String param, Object value) {
 		Hashtable<String, Object> h = new Hashtable<String, Object>();
 		h.put(param, value);
 		saltoDePagina(url, h);
 	}
+
 
 	public void salirSistema(String url) {
 		try {
