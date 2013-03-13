@@ -666,6 +666,68 @@ public abstract class Assembler {
 
 	}
 
+	
+	
+	// **********************************************************************
+
+	// Para que un error en algun maping de atributos no haga que deje de
+	// funcionar otras partes
+	public void utilDomainToListaMyPair(DTO dto, String atributo,
+			String entidad) {
+		try {
+			this.domainToListaMyPair(dto, atributo, entidad);
+		} catch (Exception e) {
+			System.out.println("[Error] utilDomainToListaMyPair: atributo "
+					+ atributo + " " + entidad);
+			e.printStackTrace();
+		}
+	}
+
+	public void utilDomainToListaMyArray(DTO dto, String atributo,
+			String entidad, String[] campos) {
+		try {
+			domainToListaMyArray(dto, atributo, entidad, campos);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("[Error] utilDomainToListaMyArray: atributo "
+					+ atributo + " " + entidad);
+			e.printStackTrace();
+		}
+	}
+
+	public void listaMyPairToListaDomain(List<MyPair> list, Class class1)
+			throws Exception {
+		Register rr = Register.getInstance();
+		List<Domain> listDom = rr.getObjects(class1.getName());
+		List<IiD> listIiD = new ArrayList<IiD>();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			MyPair mp = (MyPair) iterator.next();
+			listIiD.add(mp);
+		}
+
+		listaDTOtoListaDomain(listIiD, listDom, new String[] { "descripcion" },
+				true, true, MY_PAIR, null, class1);
+
+	}
+
+	public void listaMyArrayToListaDomain(List<MyArray> list, Class class1,
+			String[] campos) throws Exception {
+		Register rr = Register.getInstance();
+		List<Domain> listDom = rr.getObjects(class1.getName());
+		List<IiD> listIiD = new ArrayList<IiD>();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			MyArray mp = (MyArray) iterator.next();
+			listIiD.add(mp);
+		}
+
+		listaDTOtoListaDomain(listIiD, listDom, campos, true, true, MY_ARRAY,
+				null, class1);
+
+	}
+
+	
+	
+	
 	// *************************************************************************************
 	// *************************************************************************************
 	// *************************************************************************************
