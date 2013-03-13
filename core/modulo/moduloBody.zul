@@ -1,5 +1,5 @@
 <zk>
-	<window id="Modulo"
+	<window id="Módulo"
 		viewModel="@id('vm') @init('com.coreweb.modulo.ModuloControlBody')"
 		apply="org.zkoss.bind.BindComposer" width="100%" height="100%">
 
@@ -11,7 +11,7 @@
 						<listbox model="@load(vm.dto.modulos)"
 							width="250px" selectedItem="@bind(vm.selectedModulo)" rows="3">
 							<listhead>
-								<listheader label="Moduloos"
+								<listheader label="Módulos"
 									sort="auto(model)" />
 							</listhead>
 							<template name="model" var="modulo">
@@ -30,7 +30,7 @@
 									value="@bind(vm.selectedModulo.pos1)" />
 							</row>
 							<row>
-								Descripcion:
+								Descripción:
 								<textbox
 									value="@bind(vm.selectedModulo.pos2)" />
 							</row>
@@ -71,7 +71,7 @@
 									value="@bind(vm.selectedFormulario.pos1)" />
 							</row>
 							<row>
-								Descripcion:
+								Descripción:
 								<textbox
 									value="@bind(vm.selectedFormulario.pos2)" />
 							</row>
@@ -137,7 +137,7 @@
 									value="@bind(vm.selectedOperacion.pos2)" />
 							</row>
 							<row>
-								Descripcion:
+								Descripción:
 								<textbox
 									value="@bind(vm.selectedOperacion.pos3)" />
 							</row>

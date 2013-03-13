@@ -108,7 +108,7 @@
 														value="@bind(vm.selectedPerfilUsr.pos1)" />
 												</row>
 												<row>
-													Descripcion:
+													Descripción:
 													<textbox
 														value="@bind(vm.selectedPerfilUsr.pos2)" />
 												</row>
@@ -121,7 +121,7 @@
 						</groupbox>
 					</tabpanel>
 					<tabpanel>
-						<groupbox title="Gestion de Perfiles"
+						<groupbox title="Gestión de Perfiles"
 							hflex="min" width="500px">
 							<hlayout>
 								<vlayout>
@@ -148,7 +148,7 @@
 														value="@bind(vm.selectedPerfil.pos1)" />
 												</row>
 												<row>
-													Descripcion:
+													Descripción:
 													<textbox
 														value="@bind(vm.selectedPerfil.pos2)" />
 												</row>
@@ -199,7 +199,7 @@
 											<grid hflex="min">
 												<rows>
 													<row>
-														Operacion:
+														Operación:
 														<textbox
 															value="@bind(vm.selectedPermiso.pos2.pos3)" />
 													</row>
@@ -224,7 +224,7 @@
 											<grid hflex="min">
 												<rows>
 													<row>
-														Modulo:
+														Módulo:
 														<combobox
 															id="mod" model="@load(vm.dto.modulos)" width="200px"
 															selectedItem="@bind(vm.selectedModulo)">
@@ -249,7 +249,7 @@
 														</combobox>
 													</row>
 													<row>
-														Operacion:
+														Operación:
 														<combobox
 															id="ope" model="@load(vm.selectedFormulario.pos6)"
 															width="200px"
