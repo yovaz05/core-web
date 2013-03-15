@@ -237,7 +237,7 @@ public abstract class GenericViewModel extends Control {
 
 	}
 
-	// Pone el (*) en los campos con constraint
+	// Pone el (*) en los campos con constraint, si tiene constraint es obligatorio
 	public void addCamposObligotorios(Component ac) {
 		this.addCamposObligotorios((AbstractComponent) ac);
 	}
