@@ -3,6 +3,7 @@ package com.coreweb.util;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zul.Constraint;
+import org.zkoss.zul.SimpleConstraint;
 
 public class Check {
 	
@@ -13,11 +14,11 @@ public class Check {
 	public static String BEFORE = "before ";
 	public static String BETWEEN = "between ";
 	
-	public static String NO_NEGATIVO = "no negative : Este campo no admite valor negativo";
+	public static String NO_NEGATIVO = "no negative";
 	public static String NO_POSITIVO = "no positive : Este campo no admite valor positivo";
 	public static String NO_CERO = "no zero : Este campo no admite valor (0) 'cero'";
 	
-	public static String NO_VACIO = "no empty : Este campo es obligatorio";
+	public static String NO_VACIO = "no empty";
 	public static String EMAIL = "/.+@.+\\.[a-z]+/:Debe ingresar un correo valido";
 	
 	
@@ -70,12 +71,24 @@ public class Check {
 	
 	/********************** OTROS CONSTRAINTS **********************/
 	
-	public String getNoVacio(){
+	public String getObligatorio(){
 		return NO_VACIO;
 	}
 	
 	public String getEmail(){
 		return EMAIL;
+	}
+	
+	public String getObligatorioAndNoNegativo(){
+		return NO_VACIO+" ; "+NO_NEGATIVO;
+	}
+	
+	public String getObligatorioAndNoPositivo(){
+		return NO_VACIO + ";" + NO_POSITIVO;
+	}
+	
+	public String getObligatorioAndNoCero(){
+		return NO_VACIO + ";" + NO_CERO;
 	}
 	
 	/***************************************************************/
@@ -92,21 +105,33 @@ public class Check {
 		return new MiConstraint(MiConstraint.MENOR_A, value);
 	}
 	
+	public MiConstraint getRuc(){
+		return new MiConstraint(MiConstraint.RUC, NO_VACIO);
+	}
+	
 	/***************************************************************/
 }
 
 
 
-class MiConstraint implements Constraint {
+class MiConstraint extends SimpleConstraint implements Constraint{
 
 	public static final int MAYOR_A = 1;
-	public static final int MENOR_A = 2;	
+	public static final int MENOR_A = 2;
+	public static final int RUC = 3;
+	
 	private int constraint = 0;
 	private int value = 0;
 
 	public MiConstraint(int constraint, int value){
-		 this.constraint = constraint;
-		 this.value = value;
+		super("");
+		this.constraint = constraint;
+		this.value = value;
+	}
+	
+	public MiConstraint(int constraint, String obligatorio){
+		super(SimpleConstraint.NO_EMPTY);
+		this.constraint = constraint;
 	}
 
 	
@@ -116,12 +141,19 @@ class MiConstraint implements Constraint {
 		
 		if (this.constraint == MAYOR_A) {
 			if (value == null || ((Integer)value).intValue() < this.value)
-	            throw new WrongValueException(comp, "el valor debe ser mayor a "+ this.value);
+	            throw new WrongValueException(comp, "El valor debe ser mayor a "+ this.value);
 		}
 		
 		if (this.constraint == MENOR_A) {
 			if (value == null || ((Integer)value).intValue() > this.value)
-	            throw new WrongValueException(comp, "el valor debe ser menor a "+ this.value);
-		}		
+	            throw new WrongValueException(comp, "El valor debe ser menor a "+ this.value);
+		}
+		
+		if (this.constraint == RUC) {
+			Ruc ruc = new Ruc();
+			if (ruc.validarRuc((String) value) == false) {
+				throw new WrongValueException(comp, "Debe Ingresar un Ruc valido");
+			}
+		}
 	}	
 }

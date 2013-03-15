@@ -44,6 +44,8 @@ public class Misc {
 	private static String LABEL_AZUL = "color:#003390; font-size:14px; text-align: center";
 	private static String LABEL_ROJO = "color:red; font-size:14px; text-align: center";
 	private static String BACKGROUND_NARANJA = "background:#f6d197";
+	public static String COLOR_ROJO = "color:red";
+	public static String SIMBOLO_ASTERISCO = "(*)";
 
 	public static String YYYY_MM_DD = "yyyy-mm-dd";
 	public static String YYYY_MM_DD_HORA_MIN_SEG = "yyyy-mm-dd h:m:s";
