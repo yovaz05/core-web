@@ -30,6 +30,7 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
+import org.zkoss.zul.SimpleConstraint;
 import org.zkoss.zul.ext.Constrainted;
 
 import com.coreweb.dto.Assembler;
@@ -236,9 +237,12 @@ public abstract class GenericViewModel extends Control {
 
 	}
 
-
 	// Pone el (*) en los campos con constraint
-	public AbstractComponent addCamposObligotorios(AbstractComponent ac) {
+	public void addCamposObligotorios(Component ac) {
+		this.addCamposObligotorios((AbstractComponent) ac);
+	}
+
+	private AbstractComponent addCamposObligotorios(AbstractComponent ac) {
 
 		List<AbstractComponent> children2 = new ArrayList<AbstractComponent>();
 
@@ -257,11 +261,13 @@ public abstract class GenericViewModel extends Control {
 			}
 		}
 
-
 		if (ac instanceof Constrainted) {
+
 			Constrainted c = (Constrainted) ac;
 			Constraint cn = c.getConstraint();
+
 			if (cn != null) {
+
 				Label l = new Label();
 				l.setValue("(*)");
 				l.setStyle("color:red");
