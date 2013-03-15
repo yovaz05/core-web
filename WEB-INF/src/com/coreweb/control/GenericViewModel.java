@@ -19,6 +19,7 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
@@ -31,6 +32,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.SimpleConstraint;
+import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Constrainted;
 
 import com.coreweb.dto.Assembler;
@@ -283,6 +285,15 @@ public abstract class GenericViewModel extends Control {
 
 		return ac;
 
+	}
+	
+	// Crea un nuevo Window recibiendo como parametro el Path del zul..
+	public Window createWindow(Window window, String zulPath){
+		
+		window = (Window) Executions.createComponents(zulPath, this.mainComponent, null);
+		this.addCamposObligotorios(window);
+		
+		return window;
 	}
 
 }
