@@ -130,20 +130,7 @@ public class AssemblerModulo extends Assembler {
 		return listModArr;
 	}
 
-	public void listaMyArrayToListaDomain(List<MyArray> list, Class class1,
-			String[] campos) throws Exception {
-		Register rr = Register.getInstance();
-		List<Domain> listDom = rr.getObjects(class1.getName());
-		List<IiD> listIiD = new ArrayList<IiD>();
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			MyArray mp = (MyArray) iterator.next();
-			listIiD.add(mp);
-		}
-
-		listaDTOtoListaDomain(listIiD, listDom, campos, true, true, MY_ARRAY,
-				null, class1);
-
-	}
+	
 
 	
 	public static void main(String[] args) {
