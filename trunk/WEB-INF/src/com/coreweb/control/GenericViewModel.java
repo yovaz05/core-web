@@ -2,6 +2,7 @@ package com.coreweb.control;
 
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -21,14 +22,17 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Constraint;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Hlayout;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
+import org.zkoss.zul.ext.Constrainted;
 
 import com.coreweb.dto.Assembler;
-
 
 public abstract class GenericViewModel extends Control {
 
@@ -44,12 +48,10 @@ public abstract class GenericViewModel extends Control {
 	 */
 
 	private static Object[][] listaClasePropiedad = {
-			{ Button.class, DISABLED, true }, 
-			{ Bandbox.class, DISABLED, true },
-			{ Radio.class, DISABLED, true }, 
+			{ Button.class, DISABLED, true },
+			{ Bandbox.class, DISABLED, true }, { Radio.class, DISABLED, true },
 			{ Combobox.class, BUTTON_VISIBLE, false },
-			{ Datebox.class, BUTTON_VISIBLE, false }
-			};
+			{ Datebox.class, BUTTON_VISIBLE, false } };
 
 	private static Object[][] listaInstancePropiedad = new Object[listaClasePropiedad.length][3];
 
@@ -89,7 +91,7 @@ public abstract class GenericViewModel extends Control {
 	public void initGenericViewModel(
 			@ContextParam(ContextType.VIEW) Component view) {
 		this.mainComponent = view;
-		
+
 	}
 
 	public void readonlyAllComponents() {
@@ -111,13 +113,14 @@ public abstract class GenericViewModel extends Control {
 					String propertyAux = (String) listaInstancePropiedad[i][1];
 					boolean valueDisable = (boolean) listaInstancePropiedad[i][2];
 
-					// si se va a aplicar la propiedad luego, entonces no es necesario hacerlo
-					// ahora. Además, si se hace ahora, luego da como que ya tenia la propiedad de
+					// si se va a aplicar la propiedad luego, entonces no es
+					// necesario hacerlo
+					// ahora. Además, si se hace ahora, luego da como que ya
+					// tenia la propiedad de
 					// antes y entonce luego no lo vuelve a habilitar
-					if (propertyAux.compareTo(property)!=0){
+					if (propertyAux.compareTo(property) != 0) {
 						this.disableComponente(ac, propertyAux, valueDisable);
 					}
-					
 
 				}
 			}
@@ -129,20 +132,15 @@ public abstract class GenericViewModel extends Control {
 		}
 
 		/*
-		if (ac instanceof Radiogroup){
-			
-			Radiogroup rg = (Radiogroup)ac;
-			List<Component> lr = rg.getChildren();
-			//rg.getModel()
-			for (int i = 0; i < lr.size(); i++) {
-				System.out.println("------------- Radio "+property);
-				AbstractComponent r = (AbstractComponent)lr.get(i);
-				disableComponents(r, property);
-			}
-		}
-		*/
-		
-		
+		 * if (ac instanceof Radiogroup){
+		 * 
+		 * Radiogroup rg = (Radiogroup)ac; List<Component> lr =
+		 * rg.getChildren(); //rg.getModel() for (int i = 0; i < lr.size(); i++)
+		 * { System.out.println("------------- Radio "+property);
+		 * AbstractComponent r = (AbstractComponent)lr.get(i);
+		 * disableComponents(r, property); } }
+		 */
+
 		List children = ac.getChildren();
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
@@ -150,9 +148,6 @@ public abstract class GenericViewModel extends Control {
 				disableComponents(co, property);
 			}
 		}
-		
-		
-
 
 	}
 
@@ -202,23 +197,18 @@ public abstract class GenericViewModel extends Control {
 			}
 		}
 
-		
 		/*
-		if (ac instanceof Radiogroup){
-			
-			Radiogroup rg = (Radiogroup)ac;
-			
-			List<Component> lr = rg.getChildren();
-			//rg.getModel()
-			for (int i = 0; i < lr.size(); i++) {
-				System.out.println("------------- (restore) Radio "+property);
-				AbstractComponent r = (AbstractComponent)lr.get(i);
-				//disableComponents(r, property);
-			}
-		}
-		*/
+		 * if (ac instanceof Radiogroup){
+		 * 
+		 * Radiogroup rg = (Radiogroup)ac;
+		 * 
+		 * List<Component> lr = rg.getChildren(); //rg.getModel() for (int i =
+		 * 0; i < lr.size(); i++) {
+		 * System.out.println("------------- (restore) Radio "+property);
+		 * AbstractComponent r = (AbstractComponent)lr.get(i);
+		 * //disableComponents(r, property); } }
+		 */
 
-		
 		List children = ac.getChildren();
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
@@ -243,10 +233,50 @@ public abstract class GenericViewModel extends Control {
 	@GlobalCommand
 	@NotifyChange("*")
 	public void refreshComponentes() {
-		
+
 	}
-	
 
 
+	// Pone el (*) en los campos con constraint
+	public AbstractComponent addCamposObligotorios(AbstractComponent ac) {
+
+		List<AbstractComponent> children2 = new ArrayList<AbstractComponent>();
+
+		boolean nuevaLista = false;
+		List children = ac.getChildren();
+
+		if (children != null) {
+			int len = children.size();
+			for (int i = (len - 1); i >= 0; i--) {
+				AbstractComponent co = (AbstractComponent) children.get(i);
+				AbstractComponent co2 = addCamposObligotorios(co);
+				if (co != co2) {
+					children.remove(co);
+					children.add(i, co2);
+				}
+			}
+		}
+
+
+		if (ac instanceof Constrainted) {
+			Constrainted c = (Constrainted) ac;
+			Constraint cn = c.getConstraint();
+			if (cn != null) {
+				Label l = new Label();
+				l.setValue("(*)");
+				l.setStyle("color:red");
+
+				Hlayout hl = new Hlayout();
+				hl.getChildren().add(ac);
+				hl.getChildren().add(l);
+
+				ac = hl;
+
+			}
+		}
+
+		return ac;
+
+	}
 
 }

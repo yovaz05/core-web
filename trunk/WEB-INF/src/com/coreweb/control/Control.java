@@ -71,13 +71,16 @@ public class Control {
 	public void initPrincipal() throws Exception {
 		System.out.println("[ToDo] control de session de usuario ==========");
 
-		String prefix = Executions.getCurrent().getParameter(Config.PREFIX);
-		this.inicializarDtoUtil(prefix);
 
 		Session s = Sessions.getCurrent();
 		this.us = (LoginUsuarioDTO) s.getAttribute(Config.USUARIO);
 		if (this.us == null) {
 			// primera vez
+			
+			String prefix = Executions.getCurrent().getParameter(Config.PREFIX);
+			this.inicializarDtoUtil(prefix);
+
+			
 			this.us = new LoginUsuarioDTO();
 			System.out
 					.println("--- entra al initPrincipal por primera vez al sistema");
