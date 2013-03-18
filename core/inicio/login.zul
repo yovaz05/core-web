@@ -5,7 +5,7 @@
 </style>
 <vlayout xmlns:c="client">
 
-    <window id="loginWin" mode="modal" title="Login Yhaguy" width="300px" 
+    <window id="loginWin" mode="modal" title="Login" width="300px" 
          visible="true" minimizable="false"   border='normal'
          apply="org.zkoss.bind.BindComposer"
 		 viewModel="@id('crt') @init('com.coreweb.login.Login')"   
