@@ -13,6 +13,7 @@ import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
 import com.coreweb.templateABM.Body;
 import com.coreweb.util.MyArray;
+import com.coreweb.util.MyPair;
 
 
 
@@ -166,7 +167,12 @@ public class ModuloControlBody extends Body {
 			nForm.setPos2("--editar--");
 			nForm.setPos3("--editar--");
 			nForm.setPos4("--editar--");
-			nForm.setPos5(true);
+			
+			MyPair forHabilitado = new MyPair();
+			forHabilitado.setId(new Long(2));
+			forHabilitado.setText("NO");
+			
+			nForm.setPos5(forHabilitado);
 			nForm.setPos6(new ArrayList<MyArray>());
 			((List) this.selectedModulo.getPos3()).add(nForm);
 			this.setSelectedFormulario(nForm);
@@ -200,7 +206,14 @@ public class ModuloControlBody extends Body {
 			nOper.setPos1("--editar--");
 			nOper.setPos2("--editar--");
 			nOper.setPos3("--editar--");
-			nOper.setPos4(true);
+			
+			MyPair opHabilitado = new MyPair();
+			
+			opHabilitado.setId(new Long(2));
+			opHabilitado.setText("NO");
+			
+			nOper.setPos4(opHabilitado);
+			
 			nOper.setPos5("--editar--");
 			nOper.setPos6(selectedFormulario.getId());
 			((List) this.selectedFormulario.getPos6()).add(nOper);

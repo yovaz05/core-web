@@ -41,9 +41,9 @@ public class AssemblerModulo extends Assembler {
 
 		List<MyArray> modulos = dto.getModulos();
 
-		List<Modulo> allModulos = new ArrayList<Modulo>();
-		List<Formulario> allFormularios = new ArrayList<Formulario>();
-		List<Operacion> allOperaciones = new ArrayList<Operacion>();
+		List<Domain> allModulos = new ArrayList<Domain>();
+		List<Domain> allFormularios = new ArrayList<Domain>();
+		List<Domain> allOperaciones = new ArrayList<Domain>();
 
 		Register rr = Register.getInstance();
 
@@ -99,20 +99,24 @@ public class AssemblerModulo extends Assembler {
 					allOperaciones.add(operDom);
 				}
 				formDom.setOperaciones(setOper);
-				// rr.saveObject(formDom);
+				//rr.saveObject(formDom);
 				setForm.add(formDom);
 				allFormularios.add(formDom);
 			}
 			modDom.setFormularios(setForm);
-			rr.saveObject(modDom);
+			//rr.saveObject(modDom);
 			allModulos.add(modDom);
 		}
+		
+		rr.saveObjects(allModulos);
+		rr.saveObjects(allFormularios);
+		rr.saveObjects(allOperaciones);
 
 		// controlar modulos
 		List<Modulo> modulosDom = rr.getAllModulos();
 		boolean existeM = false;
 		for (Modulo moduloD : modulosDom) {
-			for (Modulo moduloNew : allModulos) {
+			for (Domain moduloNew : allModulos) {
 				if (moduloD.getId() == moduloNew.getId()) {
 					existeM = true;
 				}
@@ -120,27 +124,29 @@ public class AssemblerModulo extends Assembler {
 			if (!existeM) {
 				rr.deleteObject(moduloD);
 			}
+			existeM = false;
 		}
 
 		// controlar formularios
 		List<Formulario> formulariosDom = rr.getAllFormulario();
 		boolean existeF = false;
 		for (Formulario formularioD : formulariosDom) {
-			for (Formulario formularioNew : allFormularios) {
+			for (Domain formularioNew : allFormularios) {
 				if (formularioD.getId() == formularioNew.getId()) {
-					existeM = true;
+					existeF= true;
 				}
 			}
 			if (!existeF) {
 				rr.deleteObject(formularioD);
 			}
+			existeF = false;
 		}
 
 		// controlar operaciones
 		List<Operacion> operacionesDom = rr.getAllOperaciones();
 		boolean existeO = false;
 		for (Operacion operacionD : operacionesDom) {
-			for (Operacion operacionNew : allOperaciones) {
+			for (Domain operacionNew : allOperaciones) {
 				if (operacionD.getId() == operacionNew.getId()) {
 					existeO = true;
 				}
@@ -148,6 +154,7 @@ public class AssemblerModulo extends Assembler {
 			if (!existeO) {
 				rr.deleteObject(operacionD);
 			}
+			existeO = false;
 		}
 
 		Ping ping = new Ping();
