@@ -44,10 +44,10 @@ public abstract class Assembler {
 		List<MyPair> lImpo = new ArrayList<MyPair>();
 
 		MyPair si = new MyPair();
-		si.setId(1);
+		si.setId(new Long(1));
 		si.setText("SI");
 		MyPair no = new MyPair();
-		no.setId(2);
+		no.setId(new Long(2));
 		no.setText("NO");
 		lImpo.add(si);
 		lImpo.add(no);
@@ -671,7 +671,7 @@ public abstract class Assembler {
 	// **********************************************************************
 
 	// Para que un error en algun maping de atributos no haga que deje de
-	// funcionar otras partes
+	// funcionar otras partes...
 	public void utilDomainToListaMyPair(DTO dto, String atributo,
 			String entidad) {
 		try {
