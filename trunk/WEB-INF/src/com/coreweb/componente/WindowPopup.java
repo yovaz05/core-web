@@ -13,6 +13,8 @@ public class WindowPopup {
 	// si tiene permiso, habilita el boton de edicion
 	public static int EDITABLE = 3;
 
+	public final static String DATO_NAME = "dato";
+	
 	
 	private Object dato = null;
 	private String titulo = "Titulo";
@@ -36,7 +38,7 @@ public class WindowPopup {
 		Include inc = new Include();
 		inc.setSrc(zul);
 		if (this.dato != null){
-			inc.setDynamicProperty("dato", this.dato);
+			inc.setDynamicProperty(DATO_NAME, this.dato);
 		}
 		
 		
