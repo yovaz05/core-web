@@ -16,7 +16,7 @@
 		<property name="idTexto"/>
 		<many-to-one name="formulario" class="com.coreweb.domain.Formulario"
 			column="idFormulario"
-			lazy="false" cascade="none" not-null="true" />
+			lazy="false" cascade="none" not-null="false" />
 
 
 	</class>
