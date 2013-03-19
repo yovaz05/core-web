@@ -101,6 +101,13 @@ public class Register {
 		return session;
 	}
 
+	public void saveObjects(List<Domain> ld) throws Exception {
+		for (Iterator iterator = ld.iterator(); iterator.hasNext();) {
+			Domain d = (Domain) iterator.next();
+			this.saveObject(d);
+		}
+	}
+	
 	public synchronized void saveObject(Domain o) throws Exception {
 
 		Session session = null;
