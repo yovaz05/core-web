@@ -155,13 +155,13 @@ public class BodyPopupAceptarCancelar {
 		for (int i = 0; i < this.listaComponentes.size(); i++) {
 			Pair p = this.listaComponentes.get(i);
 			Component c = (Component)p.getRight();
-
+			v.getChildren().add(c);
 			Row row = new Row();
-			row.getChildren().add(c);
+			//row.getChildren().add(c);
 			
 			rows.getChildren().add(row);
 		}
-		v.getChildren().add(grid);
+		//v.getChildren().add(grid);
 		v.setWidth(this.widthWindows);
 		window.setPosition("center");
 
