@@ -125,6 +125,54 @@ public class BodyPopupAceptarCancelar {
 		window.doModal();		
 	}
 	
+
+	public void showPopupUnaColumna(String titulo){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("control", this);
+		map.put("titulo", titulo);
+
+		
+		Window window = (Window) Executions.createComponents(
+				Archivo.PopupAceptarCancelar, null, map);
+		Vlayout v = (Vlayout)window.getFellow("cuerpo");
+		
+		Grid grid = new Grid();
+		grid.setWidth(this.widthWindows);
+		
+		// definir la columnas
+		Columns cols = new Columns();
+		Column col1 = new Column();
+		col1.setWidth(this.widthColumnLabel);
+
+		cols.getChildren().add(col1);
+		grid.getChildren().add(cols);
+		
+		Rows rows = new Rows();
+		grid.getChildren().add(rows);
+	
+		
+		for (int i = 0; i < this.listaComponentes.size(); i++) {
+			Pair p = this.listaComponentes.get(i);
+			Component c = (Component)p.getRight();
+
+			Row row = new Row();
+			row.getChildren().add(c);
+			
+			rows.getChildren().add(row);
+		}
+		v.getChildren().add(grid);
+		v.setWidth(this.widthWindows);
+		window.setPosition("center");
+
+		window.setWidth(null);
+
+		window.doModal();		
+	}
+
+	
+	
+	
 	public boolean isClickAceptar(){
 		return this.clickAceptar;
 	}
