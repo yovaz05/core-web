@@ -108,9 +108,17 @@ public class AssemblerModulo extends Assembler {
 			allModulos.add(modDom);
 		}
 		
-		rr.saveObjects(allModulos);
-		rr.saveObjects(allFormularios);
 		rr.saveObjects(allOperaciones);
+		rr.saveObjects(allFormularios);
+		rr.saveObjects(allModulos);
+		
+		if (false){
+			Ping ping = new Ping();
+			ping.setEcho("Configuracion modulo modificada: "
+					+ System.currentTimeMillis());
+			return ping;
+		}
+		
 
 		// controlar modulos
 		List<Modulo> modulosDom = rr.getAllModulos();
@@ -142,6 +150,7 @@ public class AssemblerModulo extends Assembler {
 			existeF = false;
 		}
 
+		
 		// controlar operaciones
 		List<Operacion> operacionesDom = rr.getAllOperaciones();
 		boolean existeO = false;
@@ -156,7 +165,7 @@ public class AssemblerModulo extends Assembler {
 			}
 			existeO = false;
 		}
-
+		
 		Ping ping = new Ping();
 		ping.setEcho("Configuracion modulo modificada: "
 				+ System.currentTimeMillis());
@@ -285,6 +294,7 @@ public class AssemblerModulo extends Assembler {
 		try {
 
 			ModuloDTO mdto = AssemblerModulo.getDTOModulo();
+		
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -11,8 +11,7 @@
 						<listbox model="@load(vm.dto.modulos)"
 							width="250px" selectedItem="@bind(vm.selectedModulo)" rows="3">
 							<listhead>
-								<listheader label="Módulos"
-									sort="auto(model)" />
+								<listheader label="Módulos" sort="auto(pos1)" />
 							</listhead>
 							<template name="model" var="modulo">
 								<listitem label="@load(modulo.pos1)" />
@@ -52,7 +51,7 @@
 							rows="3">
 							<listhead>
 								<listheader label="Formularios"
-									sort="auto(model)" />
+									sort="auto(pos1)" />
 							</listhead>
 							<template name="model" var="formulario">
 								<listitem
@@ -114,7 +113,7 @@
 							selectedItem="@bind(vm.selectedOperacion)" rows="3">
 							<listhead>
 								<listheader label="Operaciones"
-									sort="auto(model)" />
+									sort="auto(pos1)" />
 							</listhead>
 							<template name="model" var="operacion">
 								<listitem label="@load(operacion.pos1)" />
