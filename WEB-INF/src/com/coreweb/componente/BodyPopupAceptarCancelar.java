@@ -143,7 +143,7 @@ public class BodyPopupAceptarCancelar {
 		// definir la columnas
 		Columns cols = new Columns();
 		Column col1 = new Column();
-		col1.setWidth(this.widthColumnLabel);
+		col1.setWidth(this.widthWindows);
 
 		cols.getChildren().add(col1);
 		grid.getChildren().add(cols);

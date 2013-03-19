@@ -17,7 +17,7 @@ public class WindowPopup {
 	private Object dato = null;
 	private String titulo = "Titulo";
 	private int modo = 0;
-
+	private String width = "100px";
 	
 	private boolean clickAceptar = false;
 	
@@ -39,11 +39,14 @@ public class WindowPopup {
 			inc.setDynamicProperty("dato", this.dato);
 		}
 		
+		
 		// falta pasarle como parametro el dato
 		vl.getChildren().add(inc);
 		
 		BodyPopupAceptarCancelar b = new BodyPopupAceptarCancelar();
 		b.addComponente("vlayout", vl);
+		b.setWidthWindows(this.width);
+
 		b.showPopupUnaColumna(this.titulo);
 		this.clickAceptar = b.isClickAceptar();
 	}	
@@ -72,6 +75,16 @@ public class WindowPopup {
 	}
 	public void setModo(int modo) {
 		this.modo = modo;
+	}
+
+
+	public String getWidth() {
+		return width;
+	}
+
+
+	public void setWidth(String width) {
+		this.width = width;
 	}
 
 	
