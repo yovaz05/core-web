@@ -1,7 +1,7 @@
 <window id="windowPopupAceptarCancelar" border="normal" hflex="min"
 	apply="org.zkoss.bind.BindComposer"
 	width="400px" sizable="true" 
-	viewModel="@id('crtAgenda') @init('com.coreweb.componente.BodyPopupAceptarCancelar')"
+	viewModel="@id('vmAC') @init('com.coreweb.componente.BodyPopupAceptarCancelar')"
 	title="${arg.titulo}">
 
 	<vlayout>
