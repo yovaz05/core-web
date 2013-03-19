@@ -12,7 +12,7 @@ import com.coreweb.util.Misc;
 
 public abstract class DTO  implements IiD , Comparable{
 	
-	private long id = -1;	
+	private Long id = new Long(-1);	
 	
 	public Misc misc = new Misc();
 		
@@ -38,13 +38,13 @@ public abstract class DTO  implements IiD , Comparable{
 		this.checked = checked;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
 
 	
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

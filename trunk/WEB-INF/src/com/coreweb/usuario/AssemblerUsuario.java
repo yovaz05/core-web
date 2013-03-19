@@ -28,7 +28,7 @@ public class AssemblerUsuario extends Assembler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		dto.setId(1);
+		dto.setId(new Long(1));
 		return dto;
 	}
 
@@ -128,10 +128,10 @@ public class AssemblerUsuario extends Assembler {
 				permArr.setId(permiso.getId());
 				MyPair habilitado = new MyPair();
 				if (permiso.isHabilitado()) {
-					habilitado.setId(1);
+					habilitado.setId(new Long(1));
 					habilitado.setText("SI");
 				} else {
-					habilitado.setId(2);
+					habilitado.setId(new Long(2));
 					habilitado.setText("NO");
 				}
 				permArr.setPos1(habilitado);

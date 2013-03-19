@@ -2,7 +2,7 @@ package com.coreweb.domain;
 
 import java.io.Serializable;
 
-public abstract class Domain implements Serializable, Comparable {
+public abstract class Domain implements Serializable, Comparable, IiD {
 
 	protected Long id = new Long(-1);
 	

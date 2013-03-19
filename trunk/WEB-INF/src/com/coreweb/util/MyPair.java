@@ -8,7 +8,7 @@ import com.coreweb.domain.IiD;
 
 public class MyPair  implements IiD {
 
-	private long id = 0;
+	private Long id = new Long(0);
 	private String text = " ";
 	
 	public MyPair(){
@@ -19,11 +19,11 @@ public class MyPair  implements IiD {
 		this.text = text;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

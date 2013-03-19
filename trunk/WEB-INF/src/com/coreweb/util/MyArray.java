@@ -6,7 +6,7 @@ import com.coreweb.domain.IiD;
 
 public class MyArray  implements IiD {
 	
-	long id = -1;
+	Long id = new Long(-1);
 	private Object pos1 = "";
 	private Object pos2 = "";
 	private Object pos3 = "";
@@ -167,11 +167,11 @@ public class MyArray  implements IiD {
 		this.pos10 = pos10;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

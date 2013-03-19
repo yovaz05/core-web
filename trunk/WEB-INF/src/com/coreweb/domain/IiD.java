@@ -2,8 +2,8 @@ package com.coreweb.domain;
 
 public interface IiD {
 	
-	public long getId();
+	public Long getId();
 
-	public void setId(long id);
+	public void setId(Long id);
 
 }
