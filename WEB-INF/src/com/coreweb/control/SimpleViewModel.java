@@ -18,7 +18,7 @@ public abstract class SimpleViewModel extends GenericViewModel {
 	
 	@AfterCompose(superclass = true)
 	public void afterComposeSimpleViewModel(){
-		
+		this.addCamposObligotorios(this.mainComponent);
 	}
 	
 	
