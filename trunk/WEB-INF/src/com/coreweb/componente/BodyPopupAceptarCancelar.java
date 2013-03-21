@@ -27,6 +27,7 @@ import org.zkoss.zul.Vlayout;
 import org.zkoss.zul.Window;
 
 import com.coreweb.Archivo;
+import com.coreweb.util.Misc;
 import com.coreweb.util.Pair;
 
 
@@ -39,6 +40,10 @@ public class BodyPopupAceptarCancelar {
 	String widthColumnLabel = "100px";
 	
 	List<Pair> listaComponentes = new ArrayList<Pair>();
+	
+	VerificaAceptarCancelar checkAC = null;
+	
+	Misc m = new Misc();
 	
 	// para saber si se hizo click
 	BodyPopupAceptarCancelar controlInicial;
@@ -56,12 +61,24 @@ public class BodyPopupAceptarCancelar {
 
 	@Command()
 	public void aceptar() {
+		// si no cumple la verificacion, entonces no sale
+		if ((this.checkAC != null)&&(this.checkAC.verificarAceptar()==false)){
+			this.m.mensajeError(this.checkAC.textoVerificarAceptar());
+			return;
+		}
+		
+		
 		this.controlInicial.clickAceptar = true;
 		this.windowPopupAceptarCancelar.detach();
 	}
 
 	@Command()
 	public void cancelar() {
+		// si no cumple la verificacion, entonces no sale
+		if ((this.checkAC != null)&&(this.checkAC.verificarCancelar()==false)){
+			this.m.mensajeError(this.checkAC.textoVerificarCancelar());
+			return;
+		}
 		this.controlInicial.clickAceptar = false;
 		this.windowPopupAceptarCancelar.detach();
 	}
@@ -192,6 +209,16 @@ public class BodyPopupAceptarCancelar {
 	public void setWidthColumnLabel(String widthColumnLabel) {
 		this.widthColumnLabel = widthColumnLabel;
 	}
+
+	public VerificaAceptarCancelar getCheckAC() {
+		return checkAC;
+	}
+
+	public void setCheckAC(VerificaAceptarCancelar checkAC) {
+		this.checkAC = checkAC;
+	}
+	
+	
 	
 	
 }

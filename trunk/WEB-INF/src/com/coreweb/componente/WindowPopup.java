@@ -16,6 +16,7 @@ public class WindowPopup {
 	public final static String DATO_NAME = "dato";
 	
 	
+	private VerificaAceptarCancelar checkAC = null;
 	private Object dato = null;
 	private String titulo = "Titulo";
 	private int modo = 0;
@@ -48,6 +49,7 @@ public class WindowPopup {
 		BodyPopupAceptarCancelar b = new BodyPopupAceptarCancelar();
 		b.addComponente("vlayout", vl);
 		b.setWidthWindows(this.width);
+		b.setCheckAC(this.getCheckAC());
 
 		b.showPopupUnaColumna(this.titulo);
 		this.clickAceptar = b.isClickAceptar();
@@ -87,6 +89,16 @@ public class WindowPopup {
 
 	public void setWidth(String width) {
 		this.width = width;
+	}
+
+
+	public VerificaAceptarCancelar getCheckAC() {
+		return checkAC;
+	}
+
+
+	public void setCheckAC(VerificaAceptarCancelar checkAC) {
+		this.checkAC = checkAC;
 	}
 
 	

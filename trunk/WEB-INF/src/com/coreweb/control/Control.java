@@ -35,10 +35,13 @@ import com.coreweb.dto.DTO;
 import com.coreweb.dto.UtilCoreDTO;
 import com.coreweb.login.LoginUsuarioDTO;
 import com.coreweb.util.Check;
+import com.coreweb.util.Misc;
 
 //public class Control extends UnicastRemoteObject implements IControl{
 public class Control {
 
+	private Misc m = new Misc();
+	
 	private static UtilCoreDTO dtoUtil = null; // = new AssemblerUtil().getDTOUtil();
 
 	public static Check check = new Check();
@@ -430,38 +433,19 @@ public class Control {
 	}
 
 	public boolean mensajeEliminar(String texto) {
-
-		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Eliminar",
-				new Messagebox.Button[] { Messagebox.Button.YES,
-						Messagebox.Button.NO }, Messagebox.QUESTION, null);
-		if ((b != null) && (b.compareTo(Messagebox.Button.YES)) == 0) {
-			return true;
-		}
-		return false;
+		return this.m.mensajeEliminar(texto);
 	}
 
 	public boolean mensajeAgregar(String texto) {
-		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Agregar",
-				new Messagebox.Button[] { Messagebox.Button.YES,
-						Messagebox.Button.NO }, Messagebox.QUESTION, null);
-		if ((b != null) && (b.compareTo(Messagebox.Button.YES)) == 0) {
-			return true;
-		}
-		return false;
-
+		return this.m.mensajeAgregar(texto);
 	}
 
 	public void mensajeInfo(String texto) {
-		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto,
-				"Informacion",
-				new Messagebox.Button[] { Messagebox.Button.OK },
-				Messagebox.INFORMATION, null);
+		this.m.mensajeInfo(texto);
 	}
 
 	public void mensajeError(String texto) {
-		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Error",
-				new Messagebox.Button[] { Messagebox.Button.OK },
-				Messagebox.ERROR, null);
+		this.m.mensajeError(texto);
 	}
 
 	public boolean mensajeSiNo(String texto) {
