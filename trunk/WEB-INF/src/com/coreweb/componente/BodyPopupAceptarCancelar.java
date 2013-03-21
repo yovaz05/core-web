@@ -53,10 +53,11 @@ public class BodyPopupAceptarCancelar {
 	@Init(superclass = true)
 	public void initPopupAceptarCancelar(
 			@ContextParam(ContextType.VIEW) Component view,
-			@ExecutionArgParam("control") Object control) {
+			@ExecutionArgParam("control") Object control, @ExecutionArgParam("checkAC") VerificaAceptarCancelar checkAC) {
 		
 		this.windowPopupAceptarCancelar = (Window) view;
 		this.controlInicial = (BodyPopupAceptarCancelar) control;
+		this.checkAC = checkAC;
 	}
 
 	@Command()
@@ -99,6 +100,7 @@ public class BodyPopupAceptarCancelar {
 		
 		map.put("control", this);
 		map.put("titulo", titulo);
+		map.put("checkAC", this.checkAC);
 
 		
 		Window window = (Window) Executions.createComponents(
