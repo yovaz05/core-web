@@ -22,6 +22,7 @@ import java.util.Set;
 import javax.sound.midi.SysexMessage;
 
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zul.Messagebox;
 
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
@@ -659,6 +660,62 @@ public class Misc {
 
 	// ======================================================
 
+	
+	
+	public boolean mensajeEliminar(String texto) {
+
+		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Eliminar",
+				new Messagebox.Button[] { Messagebox.Button.YES,
+						Messagebox.Button.NO }, Messagebox.QUESTION, null);
+		if ((b != null) && (b.compareTo(Messagebox.Button.YES)) == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean mensajeAgregar(String texto) {
+		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Agregar",
+				new Messagebox.Button[] { Messagebox.Button.YES,
+						Messagebox.Button.NO }, Messagebox.QUESTION, null);
+		if ((b != null) && (b.compareTo(Messagebox.Button.YES)) == 0) {
+			return true;
+		}
+		return false;
+
+	}
+
+	public void mensajeInfo(String texto) {
+		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto,
+				"Informacion",
+				new Messagebox.Button[] { Messagebox.Button.OK },
+				Messagebox.INFORMATION, null);
+	}
+
+	public void mensajeError(String texto) {
+		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Error",
+				new Messagebox.Button[] { Messagebox.Button.OK },
+				Messagebox.ERROR, null);
+	}
+
+	public boolean mensajeSiNo(String texto) {
+
+		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Confirmar",
+				new Messagebox.Button[] { Messagebox.Button.YES,
+						Messagebox.Button.NO }, Messagebox.QUESTION, null);
+
+		if ((b != null) && (b.compareTo(Messagebox.Button.YES)) == 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) {
 
 		try {
