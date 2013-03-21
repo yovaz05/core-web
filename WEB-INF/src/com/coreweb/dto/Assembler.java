@@ -171,6 +171,7 @@ public abstract class Assembler {
 		setValue(dom, atributo, d);
 
 		rr.saveObject(dom);
+		mp.setId(dom.getId());
 	}
 
 	public void domainToMyPair(Domain dom, DTO dto, String atributo)
@@ -276,6 +277,7 @@ public abstract class Assembler {
 		setValue(dom, atributo, d);
 
 		rr.saveObject(dom);
+		mp.setId(dom.getId());
 
 	}
 
@@ -362,6 +364,7 @@ public abstract class Assembler {
 		if ((mp.esNuevo() == true) || (siActualiza == true)) {
 			dd = ass.dtoToDomain(mp);
 			rr.saveObject(dd);
+			mp.setId(dd.getId());
 		} else {
 			String entidad = getEntidadAtributo(dom, atributo);
 			dd = rr.getObject(entidad, mp.getId());
@@ -369,6 +372,7 @@ public abstract class Assembler {
 
 		setValue(dom, atributo, dd);
 		rr.saveObject(dom);
+		dto.setId(dom.getId());
 	}
 
 	public void hijoDomainToHijoDTO(Domain dom, DTO dto, String atributo,
@@ -506,7 +510,9 @@ public abstract class Assembler {
 									+ tipo + ") en " + tipoColeccion.getName()
 									+ " con id:" + mp.getId() + "");
 				}
+				
 				rr.saveObject(dAux);
+				mp.setId(dAux.getId());
 			}
 
 			// si no estaba lo agregamos a la lista
