@@ -158,7 +158,7 @@ public abstract class Assembler {
 		// ver si el objeto del dominio ya tiene el mismo valor seteado
 		if (value != null) {
 			Domain asso = (Domain) value;
-			if (asso.getId() == mp.getId()) {
+			if (asso.getId().longValue() == mp.getId().longValue()) {
 				// es el mismo, no hace nada
 				return;
 			}
@@ -264,7 +264,7 @@ public abstract class Assembler {
 		// ver si el objeto del dominio ya tiene el mismo valor seteado
 		if (value != null) {
 			Domain asso = (Domain) value;
-			if (asso.getId() == mp.getId()) {
+			if (asso.getId().longValue() == mp.getId().longValue()) {
 				// es el mismo, no hace nada
 				return;
 			}
@@ -435,7 +435,7 @@ public abstract class Assembler {
 			// recorrer la lista del dominio para ver si ya está
 			for (int i = 0; i < oldListaId.size(); i++) {
 				Domain dIte = oldListaId.get(i);
-				if (dIte.getId() == mp.getId()) {
+				if (dIte.getId().longValue() == mp.getId().longValue()) {
 					esta = true;
 					dAux = dIte; // guarda la referencia
 				}
@@ -530,7 +530,7 @@ public abstract class Assembler {
 			Iterator<IiD> iteAux = listIiD.iterator();
 			while (iteAux.hasNext()) {
 				IiD mp = iteAux.next();
-				if (mp.getId() == dAux.getId()) {
+				if (mp.getId().longValue() == dAux.getId().longValue()) {
 					esta = true;
 				}
 			}
