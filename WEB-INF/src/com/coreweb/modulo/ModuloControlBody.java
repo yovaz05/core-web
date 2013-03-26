@@ -90,6 +90,8 @@ public class ModuloControlBody extends Body {
 
 		MyArray aux2 = new MyArray();
 		this.selectedOperacion = aux2;
+		List aux3 = new ArrayList();
+		this.selectedOperacion.setPos7(aux3);
 
 	}
 
@@ -102,6 +104,8 @@ public class ModuloControlBody extends Body {
 
 		MyArray aux2 = new MyArray();
 		this.selectedOperacion = aux2;
+		List aux = new ArrayList();
+		this.selectedOperacion.setPos7(aux);
 	}
 
 	public MyArray getSelectedOperacion() {

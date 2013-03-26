@@ -128,9 +128,8 @@
 									<vlayout>
 										<listbox
 											model="@load(vm.dto.perfiles)" width="280px"
-											selectedItem="@bind(vm.selectedPerfil)" rows="3"
-											hflex="min"
-											onSelect='mod.setSelectedItem(null);form.setSelectedItem(null);ope.setSelectedItem(null);hab.setSelectedItem(null)'>
+											selectedItem="@bind(vm.selectedPerfil)" rows="3" hflex="min"
+											onSelect='mod.setSelectedItem(null);form.setSelectedItem(null);ope.setSelectedItem(null)'>
 											<listhead>
 												<listheader
 													label="Perfiles" sort="auto" />
@@ -178,11 +177,10 @@
 								</vlayout>
 								<vlayout>
 									<vlayout>
-										<!-- onSelect='mod.setSelectedItem(null);form.setSelectedItem(null);ope.setSelectedItem(null);hab.setSelectedItem(null)' -->
 										<listbox
-											model="@load(vm.selectedPerfil.pos4)" width="300px"
+											model="@load(vm.selectedPerfil.pos4)" width="500px"
 											selectedItem="@bind(vm.selectedPermiso)" rows="3"
-											onSelect='mod.setSelectedItem(null);form.setSelectedItem(null);ope.setSelectedItem(null);hab.setSelectedItem(null)'>
+											onSelect='mod.setSelectedItem(null);form.setSelectedItem(null);ope.setSelectedItem(null)'>
 											<listhead>
 												<listheader
 													label="Permisos" sort="auto(model)" />
