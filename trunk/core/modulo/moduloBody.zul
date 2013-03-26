@@ -11,7 +11,8 @@
 						<listbox model="@load(vm.dto.modulos)"
 							width="250px" selectedItem="@bind(vm.selectedModulo)" rows="3">
 							<listhead>
-								<listheader label="Módulos" sort="auto(pos1)" />
+								<listheader label="Módulos"
+									sort="auto(pos1)" />
 							</listhead>
 							<template name="model" var="modulo">
 								<listitem label="@load(modulo.pos1)" />
@@ -40,6 +41,7 @@
 						<button label="Agregar"
 							onClick="@command('agregarModulo')" />
 						<button label="Eliminar"
+							disabled="@load(!vm.selectedModulo.pos4)"
 							onClick="@command('eliminarModulo')" />
 					</hlayout>
 
@@ -87,11 +89,11 @@
 							<row>
 								Habilitado:
 								<radiogroup
-									selectedItem="@bind(vm.selectedFormulario.pos5)"
-									model="@load(vm.dtoUtil.habilitado)">
+									model="@load(vm.dtoUtil.habilitado)"
+									selectedItem="@bind(vm.selectedFormulario.pos1)">
 									<template name="model">
 										<radio label="@load(each.text)"
-											value="@load(each)" />
+											value="@load(each)"/>
 									</template>
 								</radiogroup>
 							</row>
@@ -102,7 +104,8 @@
 						<button label="Agregar"
 							onClick="@command('agregarFormulario')" />
 						<button label="Eliminar"
-							onClick="@command('eliminarFormulario')" />
+							onClick="@command('eliminarFormulario')"
+							disabled="@load(!vm.selectedFormulario.pos7)" />
 					</hlayout>
 
 				</vlayout>
@@ -153,7 +156,7 @@
 							</row>
 							<row>
 								IdTexto:
-								<textbox
+								<textbox readonly="true"
 									value="@bind(vm.selectedOperacion.pos5)" />
 							</row>
 						</rows>
@@ -163,10 +166,22 @@
 						<button label="Agregar"
 							onClick="@command('agregarOperacion')" />
 						<button label="Eliminar"
+							disabled="@load(!vm.selectedOperacion.pos8)"
 							onClick="@command('eliminarOperacion')" />
 					</hlayout>
 
 				</vlayout>
+
+				<listbox model="@load(vm.selectedOperacion.pos7)"
+					width="250px" rows="3">
+					<listhead>
+						<listheader label="Perfiles por Operacion" />
+					</listhead>
+					<template name="model">
+						<listitem label="@load(each)" />
+					</template>
+				</listbox>
+
 			</hlayout>
 		</groupbox>
 

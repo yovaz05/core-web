@@ -11,6 +11,7 @@ import com.coreweb.domain.Formulario;
 import com.coreweb.domain.IiD;
 import com.coreweb.domain.Modulo;
 import com.coreweb.domain.Operacion;
+import com.coreweb.domain.Perfil;
 import com.coreweb.domain.Ping;
 import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
@@ -32,7 +33,8 @@ public class AssemblerModulo extends Assembler {
 		return dto;
 	}
 
-	// ==========================================================================
+	private static String queryPerfil = "" + " select p.perfil.nombre "
+			+ " from Permiso p" + " where p.operacion.id = ? ";
 
 	@Override
 	public Domain dtoToDomain(DTO dtoM) throws Exception {
@@ -99,26 +101,25 @@ public class AssemblerModulo extends Assembler {
 					allOperaciones.add(operDom);
 				}
 				formDom.setOperaciones(setOper);
-				//rr.saveObject(formDom);
+				// rr.saveObject(formDom);
 				setForm.add(formDom);
 				allFormularios.add(formDom);
 			}
 			modDom.setFormularios(setForm);
-			//rr.saveObject(modDom);
+			// rr.saveObject(modDom);
 			allModulos.add(modDom);
 		}
-		
+
 		rr.saveObjects(allOperaciones);
 		rr.saveObjects(allFormularios);
 		rr.saveObjects(allModulos);
-		
-		if (false){
+
+		if (false) {
 			Ping ping = new Ping();
 			ping.setEcho("Configuracion modulo modificada: "
 					+ System.currentTimeMillis());
 			return ping;
 		}
-		
 
 		// controlar modulos
 		List<Modulo> modulosDom = rr.getAllModulos();
@@ -141,7 +142,7 @@ public class AssemblerModulo extends Assembler {
 		for (Formulario formularioD : formulariosDom) {
 			for (Domain formularioNew : allFormularios) {
 				if (formularioD.getId() == formularioNew.getId()) {
-					existeF= true;
+					existeF = true;
 				}
 			}
 			if (!existeF) {
@@ -150,7 +151,6 @@ public class AssemblerModulo extends Assembler {
 			existeF = false;
 		}
 
-		
 		// controlar operaciones
 		List<Operacion> operacionesDom = rr.getAllOperaciones();
 		boolean existeO = false;
@@ -165,7 +165,7 @@ public class AssemblerModulo extends Assembler {
 			}
 			existeO = false;
 		}
-		
+
 		Ping ping = new Ping();
 		ping.setEcho("Configuracion modulo modificada: "
 				+ System.currentTimeMillis());
@@ -195,7 +195,7 @@ public class AssemblerModulo extends Assembler {
 		for (Iterator iterator = listMod.iterator(); iterator.hasNext();) {
 			Modulo mod = (Modulo) iterator.next();
 			MyArray modArr = new MyArray();
-
+			boolean permitidoMod = true;
 			modArr.setId(mod.getId());
 			modArr.setPos1(mod.getNombre());
 			modArr.setPos2(mod.getDescripcion());
@@ -205,6 +205,7 @@ public class AssemblerModulo extends Assembler {
 			List<MyArray> listFormArr = new ArrayList<MyArray>();
 
 			for (Iterator iterator2 = setForm.iterator(); iterator2.hasNext();) {
+				boolean permitidoForm = true;
 				Formulario form = (Formulario) iterator2.next();
 				MyArray formArr = new MyArray();
 
@@ -222,11 +223,10 @@ public class AssemblerModulo extends Assembler {
 					formHabilitado.setText("NO");
 				}
 				formArr.setPos5(formHabilitado);
-				// formArr.setPos5(form.isHabilitado());
 
 				Set<Operacion> setOper = form.getOperaciones();
 				List<MyArray> listOperArr = new ArrayList<MyArray>();
-
+				// recorre las operaciones
 				for (Iterator iterator3 = setOper.iterator(); iterator3
 						.hasNext();) {
 					Operacion oper = (Operacion) iterator3.next();
@@ -244,34 +244,32 @@ public class AssemblerModulo extends Assembler {
 						operHabilitada.setText("NO");
 					}
 					operArr.setPos4(operHabilitada);
-					// operArr.setPos4(oper.isHabilitado());
 					operArr.setPos5(oper.getIdTexto());
 					operArr.setPos6(oper.getFormulario().getId());
 
+					// ===================================================
+					List listPerfiles = rr.hql(queryPerfil, oper.getId());
+					boolean permitido = true;
+					//System.out.println(oper.getAlias()
+						//	+ "lista de perfiles ===> " + listPerfiles);
+					if  ((listPerfiles != null) && (listPerfiles.size() > 0)) {
+						permitido = false;
+						permitidoForm = false;
+						permitidoMod = false;
+					}
+					operArr.setPos7(listPerfiles);
+					operArr.setPos8(permitido);
 					listOperArr.add(operArr);
 				}
 				formArr.setPos6(listOperArr);
+				formArr.setPos7(permitidoForm);
 				listFormArr.add(formArr);
 			}
 			modArr.setPos3(listFormArr);
+			modArr.setPos4(permitidoMod);
 			listModArr.add(modArr);
 		}
 		return listModArr;
-	}
-
-	public void listaMyArrayToListaDomain(List<MyArray> list, Class class1,
-			String[] campos) throws Exception {
-		Register rr = Register.getInstance();
-		List<Domain> listDom = rr.getObjects(class1.getName());
-		List<IiD> listIiD = new ArrayList<IiD>();
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			MyArray mp = (MyArray) iterator.next();
-			listIiD.add(mp);
-		}
-
-		listaDTOtoListaDomain(listIiD, listDom, campos, true, true, MY_ARRAY,
-				null, class1);
-
 	}
 
 	public static void xmain(String[] args) {
@@ -289,16 +287,4 @@ public class AssemblerModulo extends Assembler {
 		}
 
 	}
-
-	public static void main(String[] args) {
-		try {
-
-			ModuloDTO mdto = AssemblerModulo.getDTOModulo();
-		
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 }

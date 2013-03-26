@@ -8,8 +8,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.coreweb.domain.Domain;
+import com.coreweb.domain.Formulario;
+import com.coreweb.domain.Modulo;
+import com.coreweb.domain.Operacion;
 import com.coreweb.domain.Perfil;
 import com.coreweb.domain.Permiso;
+import com.coreweb.domain.Ping;
 import com.coreweb.domain.Register;
 import com.coreweb.domain.Usuario;
 import com.coreweb.dto.Assembler;
@@ -17,7 +21,6 @@ import com.coreweb.dto.DTO;
 import com.coreweb.modulo.AssemblerModulo;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
-
 
 public class AssemblerUsuario extends Assembler {
 	public static UsuarioDTO getDTOUsuario() {
@@ -32,25 +35,171 @@ public class AssemblerUsuario extends Assembler {
 		return dto;
 	}
 
+	//private static String queryUsuario = "" + " select u " + " from Usuario u"
+		//	+ " where u.perfiles.id = ? ";
+
 	@Override
-	public Domain dtoToDomain(DTO dto) throws Exception {
+	public Domain dtoToDomain(DTO dtoU) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		UsuarioDTO dto = (UsuarioDTO) dtoU;
+
+		List<Domain> allUsuarios = new ArrayList<Domain>();
+		List<Domain> allPerfilesUsuario = new ArrayList<Domain>();
+		List<Domain> allPerfiles = new ArrayList<Domain>();
+		List<Domain> allPermisos = new ArrayList<Domain>();
+
+		List<MyArray> usuarios = dto.getUsuarios();
+		Register rr = Register.getInstance();
+
+		for (Iterator iterator = usuarios.iterator(); iterator.hasNext();) {
+			MyArray usrArr = (MyArray) iterator.next();
+			Usuario usrDom = new Usuario();
+
+			usrDom.setId(usrArr.getId());
+			usrDom.setNombre((String) usrArr.getPos1());
+			usrDom.setLogin((String) usrArr.getPos2());
+			usrDom.setClave((String) usrArr.getPos3());
+
+			List<MyArray> perfiles = (List<MyArray>) usrArr.getPos4();
+			Set<Perfil> setPerf = new HashSet<Perfil>();
+
+			for (Iterator iterator2 = perfiles.iterator(); iterator2.hasNext();) {
+				MyArray perfArr = (MyArray) iterator2.next();
+				Perfil perfDom = new Perfil();
+
+				perfDom.setId(perfArr.getId());
+				perfDom.setNombre((String) perfArr.getPos1());
+				perfDom.setDescripcion((String) perfArr.getPos2());
+				setPerf.add(perfDom);
+				allPerfilesUsuario.add(perfDom);
+			}
+			usrDom.setPerfiles(setPerf);
+			allUsuarios.add(usrDom);
+		}
+		rr.saveObjects(allUsuarios);
+
+		// controlar usuarios
+		List<Usuario> usuariosDom = rr.getAllUsuarios();
+		boolean existeU = false;
+		// boolean existePU = false;
+		for (Usuario usuarioD : usuariosDom) {
+			for (Domain usuarioNew : allUsuarios) {
+				if (usuarioD.getId() == usuarioNew.getId()) {
+					existeU = true;
+				}
+			}
+			if (!existeU) {
+				rr.deleteObject(usuarioD);
+			}
+			existeU = false;
+		}
+
+		// recorre los perfiles
+		List<MyArray> perfiles = dto.getPerfiles();
+
+		for (Iterator iterator = perfiles.iterator(); iterator.hasNext();) {
+			Perfil perDom = new Perfil();
+			MyArray perfArr = (MyArray) iterator.next();
+
+			perDom.setId(perfArr.getId());
+			perDom.setNombre((String) perfArr.getPos1());
+			perDom.setDescripcion((String) perfArr.getPos2());
+
+			List<MyArray> permisos = (List<MyArray>) perfArr.getPos4();
+			Set<Permiso> setPerm = new HashSet<Permiso>();
+
+			for (Iterator iterator2 = permisos.iterator(); iterator2.hasNext();) {
+				MyArray permArr = (MyArray) iterator2.next();
+				Permiso permDom = new Permiso();
+
+				permDom.setId(permArr.getId());
+				if (((MyPair) permArr.getPos1()).getId() == 1) {
+					permDom.setHabilitado(true);
+				} else {
+					permDom.setHabilitado(false);
+				}
+				Domain oper = rr.getObject(
+						com.coreweb.domain.Operacion.class.getName(),
+						((MyArray) permArr.getPos2()).getId());
+				permDom.setOperacion((Operacion) oper);
+				permDom.setPerfil(perDom);
+				setPerm.add(permDom);
+				rr.saveObject(permDom);
+				allPermisos.add(permDom);
+			}
+			perDom.setPermisos(setPerm);
+			rr.saveObject(perDom);
+			allPerfiles.add(perDom);
+		}
+		//rr.saveObjects(allPerfiles);
+		//rr.saveObjects(allPermisos);
+
+		// controlar permisos
+		List<Permiso> permisosDom = rr.getAllPermisos();
+		boolean existePE = false;
+		for (Permiso permisoD : permisosDom) {
+			for (Domain permisoNew : allPermisos) {
+				if (permisoD.getId() == permisoNew.getId()) {
+					existePE = true;
+				}
+			}
+			if (!existePE) {
+				rr.deleteObject(permisoD);
+			}
+			existePE = false;
+		}
+
+		
+		// controlar perfiles
+		List<Perfil> perfilesDom = rr.getAllPerfiles();
+		boolean existeP = false;
+		for (Perfil perfilD : perfilesDom) {
+			for (Domain perfilNew : allPerfiles) {
+				if (perfilD.getId() == perfilNew.getId()) {
+					existeP = true;
+				}
+			}
+			if (!existeP) {
+				//List listUsuarios = rr.hql(queryUsuario, perfilD.getId());
+				List<Usuario> listUsuarios = rr.getAllUsuarios();
+				for (Iterator iterator = listUsuarios.iterator(); iterator
+						.hasNext();) {
+					Usuario usr = (Usuario) iterator.next();
+					Set<Perfil> usrPerf = usr.getPerfiles();
+					for (Iterator iterator2 = usrPerf.iterator(); iterator2
+							.hasNext();) {
+						Perfil perfil = (Perfil) iterator2.next();
+						if (perfil.getId() == perfilD.getId()) {
+							usrPerf.remove(perfil);
+						}
+					}
+					rr.saveObject(usr);
+				}
+				rr.deleteObject(perfilD);
+			}
+			existeP = false;
+		}
+
+
+		Ping ping = new Ping();
+		ping.setEcho("Configuracion usuario modificada: "
+				+ System.currentTimeMillis());
+		return ping;
 	}
 
 	@Override
 	public DTO domainToDto(Domain domain) throws Exception {
 		// TODO Auto-generated method stub
 		UsuarioDTO dto = new UsuarioDTO();
-		
-		//========================================================================
+
+		// ========================================================================
 		// hash entre usuarios y perfiles
-		HashMap <Long,List<String>> usrPorPerfil = new HashMap <Long,List<String>>();
-		//========================================================================
-		
+		HashMap<Long, List<String>> usrPorPerfil = new HashMap<Long, List<String>>();
+		// ========================================================================
+
 		List<MyArray> listUsrArr = new ArrayList<MyArray>();
 		Register rr = Register.getInstance();
-		
+
 		// recorre los usuarios
 		List<Usuario> listUsr = rr.getAllUsuarios();
 
@@ -64,26 +213,27 @@ public class AssemblerUsuario extends Assembler {
 			usrArr.setPos3(usuario.getClave());
 
 			Set<Perfil> setPerf = usuario.getPerfiles();
-			
+
 			List<MyArray> listPerfArr = new ArrayList<MyArray>();
 			for (Iterator iterator2 = setPerf.iterator(); iterator2.hasNext();) {
 				Perfil perfil = (Perfil) iterator2.next();
 				MyArray perfArr = new MyArray();
 
-				//agrega la lista en la que se almacenarán los usuarios del perfil
+				// agrega la lista en la que se almacenarán los usuarios del
+				// perfil
 				List lista = usrPorPerfil.get(perfil.getId());
-				if(lista == null){
+				if (lista == null) {
 					lista = new ArrayList<String>();
 					usrPorPerfil.put(perfil.getId(), lista);
 				}
 				lista.add(usuario.getNombre());
-				
+
 				perfArr.setId(perfil.getId());
 				perfArr.setPos1(perfil.getNombre());
 				perfArr.setPos2(perfil.getDescripcion());
 				// depende de si al traer los usuarios se necesitan tb los
 				// permisos, por ahora trae igual
-				Set<Permiso> setPerm = perfil.getPermisos();
+				/*Set<Permiso> setPerm = perfil.getPermisos();
 				List<MyArray> listPermArr = new ArrayList<MyArray>();
 				for (Iterator iterator3 = setPerm.iterator(); iterator3
 						.hasNext();) {
@@ -94,10 +244,9 @@ public class AssemblerUsuario extends Assembler {
 					permArr.setPos1(permiso.isHabilitado());
 					permArr.setPos2(permiso.getOperacion());
 					permArr.setPos3(permiso.getPerfil());
-
 					listPermArr.add(permArr);
 				}
-				perfArr.setPos3(listPermArr);
+				perfArr.setPos3(listPermArr);*/
 				listPerfArr.add(perfArr);
 			}
 			usrArr.setPos4(listPerfArr);
@@ -105,7 +254,7 @@ public class AssemblerUsuario extends Assembler {
 		}
 		dto.setUsuarios(listUsrArr);
 
-		//recorre los perfiles
+		// recorre los perfiles
 
 		List<MyArray> listPerfArr = new ArrayList<MyArray>();
 		List<Perfil> listPerfi = rr.getAllPerfiles();
@@ -139,7 +288,7 @@ public class AssemblerUsuario extends Assembler {
 				MyArray operMA = new MyArray();
 				operMA = createMyArray(permiso.getOperacion(), new String[] {
 						"alias", "nombre", "descripcion", "habilitado",
-						"idTexto"});
+						"idTexto" });
 				permArr.setPos2(operMA);
 
 				permArr.setPos3(permiso.getPerfil().getId());

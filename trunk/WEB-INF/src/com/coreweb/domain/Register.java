@@ -360,6 +360,14 @@ public class Register {
 				new Vector(), new Vector());
 		return l;
 	}
+	
+	public List<Permiso> getAllPermisos() throws Exception {
+		List l = getObjects(
+				com.coreweb.domain.Permiso.class.getName(),
+				new Vector(), new Vector());
+		return l;
+	}
+
 
 	public List<Modulo> getAllModulos() throws Exception {
 		List l = getObjects(
