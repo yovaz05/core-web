@@ -35,8 +35,9 @@ public class AssemblerUsuario extends Assembler {
 		return dto;
 	}
 
-	//private static String queryUsuario = "" + " select u " + " from Usuario u"
-		//	+ " where u.perfiles.id = ? ";
+	// private static String queryUsuario = "" + " select u " +
+	// " from Usuario u"
+	// + " where u.perfiles.id = ? ";
 
 	@Override
 	public Domain dtoToDomain(DTO dtoU) throws Exception {
@@ -131,8 +132,6 @@ public class AssemblerUsuario extends Assembler {
 			rr.saveObject(perDom);
 			allPerfiles.add(perDom);
 		}
-		//rr.saveObjects(allPerfiles);
-		//rr.saveObjects(allPermisos);
 
 		// controlar permisos
 		List<Permiso> permisosDom = rr.getAllPermisos();
@@ -149,7 +148,6 @@ public class AssemblerUsuario extends Assembler {
 			existePE = false;
 		}
 
-		
 		// controlar perfiles
 		List<Perfil> perfilesDom = rr.getAllPerfiles();
 		boolean existeP = false;
@@ -160,7 +158,6 @@ public class AssemblerUsuario extends Assembler {
 				}
 			}
 			if (!existeP) {
-				//List listUsuarios = rr.hql(queryUsuario, perfilD.getId());
 				List<Usuario> listUsuarios = rr.getAllUsuarios();
 				for (Iterator iterator = listUsuarios.iterator(); iterator
 						.hasNext();) {
@@ -179,7 +176,6 @@ public class AssemblerUsuario extends Assembler {
 			}
 			existeP = false;
 		}
-
 
 		Ping ping = new Ping();
 		ping.setEcho("Configuracion usuario modificada: "
@@ -233,20 +229,19 @@ public class AssemblerUsuario extends Assembler {
 				perfArr.setPos2(perfil.getDescripcion());
 				// depende de si al traer los usuarios se necesitan tb los
 				// permisos, por ahora trae igual
-				/*Set<Permiso> setPerm = perfil.getPermisos();
-				List<MyArray> listPermArr = new ArrayList<MyArray>();
-				for (Iterator iterator3 = setPerm.iterator(); iterator3
-						.hasNext();) {
-					Permiso permiso = (Permiso) iterator3.next();
-					MyArray permArr = new MyArray();
-
-					permArr.setId(permiso.getId());
-					permArr.setPos1(permiso.isHabilitado());
-					permArr.setPos2(permiso.getOperacion());
-					permArr.setPos3(permiso.getPerfil());
-					listPermArr.add(permArr);
-				}
-				perfArr.setPos3(listPermArr);*/
+				/*
+				 * Set<Permiso> setPerm = perfil.getPermisos(); List<MyArray>
+				 * listPermArr = new ArrayList<MyArray>(); for (Iterator
+				 * iterator3 = setPerm.iterator(); iterator3 .hasNext();) {
+				 * Permiso permiso = (Permiso) iterator3.next(); MyArray permArr
+				 * = new MyArray();
+				 * 
+				 * permArr.setId(permiso.getId());
+				 * permArr.setPos1(permiso.isHabilitado());
+				 * permArr.setPos2(permiso.getOperacion());
+				 * permArr.setPos3(permiso.getPerfil());
+				 * listPermArr.add(permArr); } perfArr.setPos3(listPermArr);
+				 */
 				listPerfArr.add(perfArr);
 			}
 			usrArr.setPos4(listPerfArr);
