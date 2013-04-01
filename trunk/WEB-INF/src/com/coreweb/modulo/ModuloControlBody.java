@@ -7,10 +7,14 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zk.ui.util.Clients;
 
 import com.coreweb.domain.Modulo;
+import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
+import com.coreweb.dto.UtilCoreDTO;
 import com.coreweb.templateABM.Body;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
@@ -224,6 +228,51 @@ public class ModuloControlBody extends Body {
 			this.setSelectedOperacion(nOper);
 		}
 	}
+	
+	MyPair selectedTest = new MyPair();
+	MyPair si = new MyPair(1,"SI");
+	MyPair no = new MyPair(2,"NO");
+	
+	public MyPair getSelectedTest() {
+		return selectedTest;
+	}
 
+	public void setSelectedTest(MyPair selectedTest) {
+		this.selectedTest = selectedTest;
+	}
 
+	@Command
+	@NotifyChange("*")
+	public void seleccionar(){
+		MyPair selected = (MyPair) this.selectedFormulario.getPos5();
+		if (selected.getId() == 1) {
+			this.selectedTest = si;
+		} else {
+			this.selectedTest = no;
+		}
+	}
+	
+	public List<MyPair> getListaPrueba(){
+		List<MyPair> out = new ArrayList<>();		
+		out.add(si);
+		out.add(no);
+		return out;		
+	}
+	
+	
+	private static String queryAlias = "" + " select f.alias "
+			+ " from Formulario f" + " where f.alias = ? ";
+	
+	@Command
+	public void validarAlias(){
+		try {			
+			Register rr = Register.getInstance();
+			List l = rr.hql(this.queryAlias, this.selectedFormulario.getPos4());
+			if (!l.isEmpty()) {
+				throw new Exception("Ya existe el Alias");
+			}
+		} catch (Exception e) {
+			mensajeError(e.getMessage());
+		}
+	}
 }
