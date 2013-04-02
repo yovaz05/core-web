@@ -12,6 +12,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Execution;
@@ -49,11 +50,12 @@ public class Finder extends GenericViewModel {
 		System.out.println("----------------->" + selectedDTO);
 	}
 
+
 	@Command
 	public void doTask() {
 		if (this.selectedDTO != null) {
 			this.body.setDTOCorriente(this.selectedDTO);
-			this.windowFinder.detach();
+			this.windowFinder.detach();		
 		}
 	}
 

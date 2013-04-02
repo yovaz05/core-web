@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hamcrest.core.IsInstanceOf;
@@ -20,6 +21,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.util.Template;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
@@ -106,6 +108,7 @@ public abstract class GenericViewModel extends Control {
 	}
 
 	private void disableComponents(AbstractComponent ac, String property) {
+		System.out.println("-----paso: "+ac.getId() + " - " + ac.getClass().getName());
 		this.deshabilitado = true;
 		try {
 
@@ -144,6 +147,24 @@ public abstract class GenericViewModel extends Control {
 		 * disableComponents(r, property); } }
 		 */
 
+		/*
+		Set<String> tm = ac.getTemplateNames();
+		for (Iterator iterator = tm.iterator(); iterator.hasNext();) {
+			String tname = (String) iterator.next();
+			Template t = ac.getTemplate(tname);
+			System.out.println("-----paso: template "+tname+" - "+ t.getClass().getName());
+			Map<String, Object> m =  t.getParameters();
+			Set<String> ks = m.keySet();
+			for (Iterator iterator2 = ks.iterator(); iterator2.hasNext();) {
+				String k = (String) iterator2.next();
+				Object o = m.get(k);
+				System.out.println("------------------------"+k+" - "+ o.getClass().getName());	
+			}
+			//disableComponents((AbstractComponent)t, property);
+		}
+		*/
+
+		
 		List children = ac.getChildren();
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
