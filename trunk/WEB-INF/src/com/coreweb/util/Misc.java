@@ -8,19 +8,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
-
-import javax.sound.midi.SysexMessage;
-
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Messagebox;
 
@@ -251,6 +245,13 @@ public class Misc {
 		return yy + ":" + mes + ":" + dia;
 	}
 
+	public boolean esAproximado(double d1, double d2, double diferencia) {
+		double diff = d1 - d2;
+		double d = Math.sqrt(diff * diff);
+		return d <= diferencia;
+	}
+
+	
 	public boolean esIgual(double d1, double d2) {
 		double diff = d1 - d2;
 		return ((diff * diff) < 0.00001);
@@ -709,22 +710,25 @@ public class Misc {
 		return false;
 	}
 	
+	//Metodo que retorna el valor del Iva a partir de un valor gravado..
+	public double calcularIVA(double gravado, int porcentajeIva){		
+		return (gravado / (100 + porcentajeIva)) * porcentajeIva;
+	}
 	
-	
-	
-	
-	
+	//Metodo que retorna el valor Gravado sin Iva a partir de un valor Gravado iva incluido..
+	public double calcularGravado(double gravado, int porcentajeIva){
+		return (gravado / (100 + porcentajeIva)) * 100;
+	}
 	
 	
 	public static void main(String[] args) {
 
 		try {
 			Misc m = new Misc();
-			String d = "imporExteCVS";
-
-			System.out
-					.println(d + " -> " + m.parserPalabrasAMayusculas("F", d));
-
+			System.out.println(""+m.calcularIVA(0, 10));
+			System.out.println(""+m.calcularGravado(0, 10));
+			System.out.println(""+m.esAproximado(5000, 5100, 101));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
