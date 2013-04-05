@@ -259,7 +259,7 @@ public class MyArray  implements IiD {
 		boolean b = false;
 		try {
 			MyArray aux = (MyArray)o;
-			b = (this.getId() == aux.getId());
+			b = (this.getId().longValue() == aux.getId().longValue());
 		} catch (Exception e) {
 			b = false;
 		}

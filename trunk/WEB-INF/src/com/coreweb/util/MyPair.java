@@ -43,7 +43,7 @@ public class MyPair  implements IiD {
 		boolean b = false;
 		try {
 			MyPair aux = (MyPair)o;
-			b = ((this.getId() == aux.getId())); //  &&(this.getText().compareTo(aux.getText())==0));
+			b = ((this.getId().longValue() == aux.getId().longValue())); //  &&(this.getText().compareTo(aux.getText())==0));
 		} catch (Exception e) {
 			b = false;
 		}

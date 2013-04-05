@@ -20,6 +20,40 @@ import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
 
 public class AssemblerModulo extends Assembler {
+	
+	/* listModArr: lista que contiene todos los modulos
+	 * modArr: MyArray que guarda los datos del modulo 
+	 * 		id: id
+	 * 		pos1: nombre
+	 * 		pos2: descripcion
+	 * 		pos3: listFormArr
+	 * 		pos4: un valor booleano que indica si esta permitido o no eliminar el modulo
+	 * listFormArr: lista que contiene los formularios de un modulo
+	 * formArr: MyArray que guarda los datos del formulario
+	 * 		id: id
+	 * 		pos1: label
+	 * 		pos2: descripcion
+	 * 		pos3: url
+	 * 		pos4: alias
+	 * 		pos5: estado (habilitado o no)
+	 * 		pos6: listOperArr
+	 * 		pos7: un valor booleano que indica si esta permitido o no eliminar el formulario
+	 * listOperArr: lista que contiene las operaciones de un formulario
+	 * operArr: MyArray que guarda los datos de la operacion
+	 * 		id: id
+	 * 		pos1: alias
+	 * 		pos2: nombre
+	 * 		pos3: descripcion
+	 * 		pos4: estado (habilitada o no)
+	 * 		pos5: idTexto
+	 * 		pos6: id del formulario al que pertenece la operacion
+	 * 		pos7: la lista de los perfiles que utilizan la operacion
+	 * 		pos8: un valor booleano que indica si esta permitido o no eliminar la operacion
+	 */
+	
+	static List<Object> listaAliasFormularios = null;
+	static List<Object> listaAliasOperaciones = null;
+	static List<Object> listaIdTextoOperaciones = null;
 
 	public static ModuloDTO getDTOModulo() {
 		ModuloDTO dto = null;
@@ -181,6 +215,9 @@ public class AssemblerModulo extends Assembler {
 		List<MyArray> listModArr = getModulos();
 
 		dto.setModulos(listModArr);
+		dto.setListaAliasFormularios(listaAliasFormularios);
+		dto.setListaAliasOperaciones(listaAliasOperaciones);
+		dto.setListaIdTextoOperaciones(listaIdTextoOperaciones);
 
 		return dto;
 	}
@@ -191,6 +228,11 @@ public class AssemblerModulo extends Assembler {
 		Register rr = Register.getInstance();
 		// recorre los modulos
 		List<Modulo> listMod = rr.getAllModulos();
+		
+		listaAliasFormularios = new ArrayList<Object>();
+		listaAliasOperaciones = new ArrayList<Object>();
+		listaIdTextoOperaciones = new ArrayList<Object>();
+
 
 		for (Iterator iterator = listMod.iterator(); iterator.hasNext();) {
 			Modulo mod = (Modulo) iterator.next();
@@ -213,7 +255,10 @@ public class AssemblerModulo extends Assembler {
 				formArr.setPos1(form.getLabel());
 				formArr.setPos2(form.getDescripcion());
 				formArr.setPos3(form.getUrl());
-				formArr.setPos4(form.getAlias());
+				formArr.setPos4(form.getAlias());	
+				
+				listaAliasFormularios.add(form.getAlias());	
+				
 				MyPair formHabilitado = new MyPair();
 				if (form.isHabilitado()) {
 					formHabilitado.setId(new Long(1));
@@ -233,6 +278,9 @@ public class AssemblerModulo extends Assembler {
 					MyArray operArr = new MyArray();
 					operArr.setId(oper.getId());
 					operArr.setPos1(oper.getAlias());
+						
+					listaAliasOperaciones.add(oper.getAlias());	
+					
 					operArr.setPos2(oper.getNombre());
 					operArr.setPos3(oper.getDescripcion());
 					MyPair operHabilitada = new MyPair();
@@ -245,13 +293,12 @@ public class AssemblerModulo extends Assembler {
 					}
 					operArr.setPos4(operHabilitada);
 					operArr.setPos5(oper.getIdTexto());
+					
+					listaIdTextoOperaciones.add(oper.getIdTexto());
+								
 					operArr.setPos6(oper.getFormulario().getId());
-
-					// ===================================================
 					List listPerfiles = rr.hql(queryPerfil, oper.getId());
 					boolean permitido = true;
-					//System.out.println(oper.getAlias()
-						//	+ "lista de perfiles ===> " + listPerfiles);
 					if  ((listPerfiles != null) && (listPerfiles.size() > 0)) {
 						permitido = false;
 						permitidoForm = false;

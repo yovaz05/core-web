@@ -19,8 +19,6 @@ import com.coreweb.templateABM.Body;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
 
-
-
 public class ModuloControlBody extends Body {
 
 	@Init(superclass = true)
@@ -118,6 +116,10 @@ public class ModuloControlBody extends Body {
 
 	public void setSelectedOperacion(MyArray selectedOperacion) {
 		this.selectedOperacion = selectedOperacion;
+
+		System.out.println("====== vm.selectedOperacion.pos4:"
+				+ selectedOperacion.getPos4());
+
 	}
 
 	@Command()
@@ -146,7 +148,7 @@ public class ModuloControlBody extends Body {
 			this.getDto().getModulos().add(nMod);
 			this.setSelectedModulo(nMod);
 			this.setSelectedFormulario(null);
-			//this.setSelectedOperacion(null);
+			// this.setSelectedOperacion(null);
 		}
 	}
 
@@ -175,23 +177,23 @@ public class ModuloControlBody extends Body {
 			nForm.setPos2("--editar--");
 			nForm.setPos3("--editar--");
 			nForm.setPos4("--editar--");
-			
+
 			MyPair forHabilitado = new MyPair();
 			forHabilitado.setId(new Long(2));
 			forHabilitado.setText("NO");
-			
+
 			nForm.setPos5(forHabilitado);
 			nForm.setPos6(new ArrayList<MyArray>());
 			((List) this.selectedModulo.getPos3()).add(nForm);
 			this.setSelectedFormulario(nForm);
-			//this.setSelectedOperacion(null);
+			// this.setSelectedOperacion(null);
 		}
 	}
 
 	@Command()
 	@NotifyChange("*")
 	public void eliminarOperacion() {
-		if (this.selectedModulo != null) {
+		if (this.selectedOperacion != null) {
 
 			if (mensajeEliminar("Está seguro que quiere eliminar la operacion?")) {
 				// verificar que no este asociado a ningun objeto
@@ -214,65 +216,88 @@ public class ModuloControlBody extends Body {
 			nOper.setPos1("--editar--");
 			nOper.setPos2("--editar--");
 			nOper.setPos3("--editar--");
-			
+
 			MyPair opHabilitado = new MyPair();
-			
+
 			opHabilitado.setId(new Long(2));
 			opHabilitado.setText("NO");
-			
+
 			nOper.setPos4(opHabilitado);
-			
+
 			nOper.setPos5("--editar--");
 			nOper.setPos6(selectedFormulario.getId());
+			nOper.setPos7(new ArrayList());
 			((List) this.selectedFormulario.getPos6()).add(nOper);
 			this.setSelectedOperacion(nOper);
 		}
 	}
-	
-	MyPair selectedTest = new MyPair();
-	MyPair si = new MyPair(1,"SI");
-	MyPair no = new MyPair(2,"NO");
-	
-	public MyPair getSelectedTest() {
-		return selectedTest;
-	}
-
-	public void setSelectedTest(MyPair selectedTest) {
-		this.selectedTest = selectedTest;
-	}
 
 	@Command
-	@NotifyChange("*")
-	public void seleccionar(){
-		MyPair selected = (MyPair) this.selectedFormulario.getPos5();
-		if (selected.getId() == 1) {
-			this.selectedTest = si;
-		} else {
-			this.selectedTest = no;
-		}
-	}
-	
-	public List<MyPair> getListaPrueba(){
-		List<MyPair> out = new ArrayList<>();		
-		out.add(si);
-		out.add(no);
-		return out;		
-	}
-	
-	
-	private static String queryAlias = "" + " select f.alias "
-			+ " from Formulario f" + " where f.alias = ? ";
-	
-	@Command
-	public void validarAlias(){
-		try {			
-			Register rr = Register.getInstance();
-			List l = rr.hql(this.queryAlias, this.selectedFormulario.getPos4());
-			if (!l.isEmpty()) {
-				throw new Exception("Ya existe el Alias");
+	public void validarAliasFor() {
+		try {
+			MyPair validado = validar(dto.getListaAliasFormularios(),
+					this.selectedFormulario.getPos4());
+			if (validado.getId().longValue() != new Long(0)) {
+				this.selectedFormulario.setPos4("--editar--");
+				if (validado.getId().longValue() == new Long(1)){
+					throw new Exception("El campo alias es obligatorio");
+				}					
+				if (validado.getId().longValue() == new Long(2)){
+					throw new Exception("El alias del formulario ya existe");
+				}				
 			}
 		} catch (Exception e) {
 			mensajeError(e.getMessage());
 		}
+	}
+
+	@Command
+	public void validarAliasOp() {
+		try {
+			MyPair validado = validar(dto.getListaAliasOperaciones(),
+					this.selectedOperacion.getPos1());
+			if (validado.getId().longValue() != new Long(0)) {
+				this.selectedOperacion.setPos1("--editar--");
+				if (validado.getId().longValue() == new Long(1)){
+					throw new Exception("El campo alias es obligatorio");
+				}
+				if (validado.getId().longValue() == new Long(2)){
+					throw new Exception("El alias de la operacion ya existe");
+				}	
+			}
+		} catch (Exception e) {
+			mensajeError(e.getMessage());
+		}
+	}
+
+	@Command
+	public void validarIdTexto() {
+		try {
+			MyPair validado = validar(dto.getListaIdTextoOperaciones(),
+					this.selectedOperacion.getPos5());
+			if (validado.getId().longValue() != new Long(0)) {
+				this.selectedOperacion.setPos5("--editar--");
+				if (validado.getId().longValue() == new Long(1)){
+					throw new Exception("El camo idTexto es obligatorio");
+				}
+				if (validado.getId().longValue() == new Long(2)){
+					throw new Exception("El idTexto de la operacion ya existe");
+				}
+			}
+		} catch (Exception e) {
+			mensajeError(e.getMessage());
+		}
+	}
+
+	public MyPair validar(List<Object> lista, Object cadena) {
+		// si esta en la lista debe retornar false
+		MyPair valido = new MyPair();
+		valido.setId(new Long(0));
+		if (cadena.equals("")) {
+			valido.setId(new Long(1));
+		} else if (lista.contains(cadena)) {
+			valido.setId(new Long(2));
+		}
+		return valido;
 	}
 }

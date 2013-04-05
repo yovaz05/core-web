@@ -84,17 +84,17 @@
 							<row>
 								Alias:
 								<textbox
-									value="@bind(vm.selectedFormulario.pos4)" 
-									onChange="@command('validarAlias')"/>
+									value="@bind(vm.selectedFormulario.pos4)"
+									onChange="@command('validarAliasFor')" />
 							</row>
 							<row>
 								Habilitado:
 								<radiogroup
 									model="@load(vm.dtoUtil.habilitado)"
-									selectedItem="@bind(vm.selectedFormulario.pos1)">
+									selectedItem="@bind(vm.selectedFormulario.pos5)">
 									<template name="model">
 										<radio label="@load(each.text)"
-											value="@load(each)"/>
+											value="@load(each)" />
 									</template>
 								</radiogroup>
 							</row>
@@ -132,7 +132,8 @@
 							<row>
 								Alias:
 								<textbox
-									value="@bind(vm.selectedOperacion.pos1)" />
+									value="@bind(vm.selectedOperacion.pos1)" 
+									onChange="@command('validarAliasOp')"   />
 							</row>
 							<row>
 								Nombre:
@@ -146,19 +147,20 @@
 							</row>
 							<row>
 								Habilitado:
-								<radiogroup
+								<radiogroup id="rgHabi"
 									selectedItem="@bind(vm.selectedOperacion.pos4)"
 									model="@load(vm.dtoUtil.habilitado)">
 									<template name="model">
 										<radio label="@load(each.text)"
-											value="@load(each)" />
+											value="@load(each)" radiogroup="rgHabi" />
 									</template>
 								</radiogroup>
 							</row>
 							<row>
 								IdTexto:
-								<textbox readonly="true"
-									value="@bind(vm.selectedOperacion.pos5)" />
+								<textbox readonly="false"
+									value="@bind(vm.selectedOperacion.pos5)"
+									onChange="@command('validarIdTexto')" />
 							</row>
 						</rows>
 					</grid>

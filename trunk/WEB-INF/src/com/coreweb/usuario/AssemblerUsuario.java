@@ -23,6 +23,31 @@ import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
 
 public class AssemblerUsuario extends Assembler {
+	
+	/* listUsrArr: lista que contiene todos los usuarios
+	 * usrArr: MyArray que guarda los datos del usuario 
+	 * 		id: id
+	 * 		pos1: nombre
+	 * 		pos2: login
+	 * 		pos3: clave
+	 * 		pos4: listPerfArr (lista de los perfiles del usuario)
+	 * 
+	 * listPerfArr: lista que contiene los perfiles
+	 * perfArr: MyArray que guarda los datos del perfil
+	 * 		id: id
+	 * 		pos1: nombre
+	 * 		pos2: descripcion
+	 * 		pos3: usuarios que utilizan el perfil
+	 * 		pos4: listPermArr
+	 * listPermArr: lista que contiene los permisos de un perfil
+	 * permArr: MyArray que guarda los datos del permiso
+	 * 		id: id
+	 * 		pos1: habilitado
+	 * 		pos2: operacion
+	 * 		pos3: perfil
+	 */
+	
+	
 	public static UsuarioDTO getDTOUsuario() {
 		UsuarioDTO dto = null;
 		try {
@@ -34,10 +59,6 @@ public class AssemblerUsuario extends Assembler {
 		dto.setId(new Long(1));
 		return dto;
 	}
-
-	// private static String queryUsuario = "" + " select u " +
-	// " from Usuario u"
-	// + " where u.perfiles.id = ? ";
 
 	@Override
 	public Domain dtoToDomain(DTO dtoU) throws Exception {
