@@ -10,6 +10,9 @@ import com.coreweb.util.MyArray;
 public class ModuloDTO extends DTO {
 
 	List<MyArray> modulos = new ArrayList<MyArray>();
+	List<Object> listaAliasFormularios = new ArrayList<Object>();
+	List<Object> listaAliasOperaciones = new ArrayList<Object>();
+	List<Object> listaIdTextoOperaciones = new ArrayList<Object>();
 
 	public List<MyArray> getModulos() {
 		return modulos;
@@ -19,4 +22,30 @@ public class ModuloDTO extends DTO {
 		this.modulos = modulos;
 	}
 
+	public List<Object> getListaAliasFormularios() {
+		return listaAliasFormularios;
+	}
+
+	public void setListaAliasFormularios(List<Object> listaAliasFormularios) {
+		this.listaAliasFormularios = listaAliasFormularios;
+	}
+
+	public List<Object> getListaAliasOperaciones() {
+		return listaAliasOperaciones;
+	}
+
+	public void setListaAliasOperaciones(List<Object> listaAliasOperaciones) {
+		this.listaAliasOperaciones = listaAliasOperaciones;
+	}
+
+	public List<Object> getListaIdTextoOperaciones() {
+		return listaIdTextoOperaciones;
+	}
+
+	public void setListaIdTextoOperaciones(List<Object> listaIdTextoOperaciones) {
+		this.listaIdTextoOperaciones = listaIdTextoOperaciones;
+	}
+
+	
+	
 }
