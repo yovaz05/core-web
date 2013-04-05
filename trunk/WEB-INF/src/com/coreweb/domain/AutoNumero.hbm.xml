@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//hibernate/hibernate Mapping DTD 3.0//EN"
+        "file:./hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+        <class name="com.coreweb.domain.AutoNumero" table="AutoNumero">
+                <id name="id" column="id" type="long">
+                        <generator class="increment"/>
+                </id>
+                <property name="key"/>
+                <property name="numero"/>
+                <property name="fecha"/>
+                <property name="descripcion"/>
+                	
+        </class>
+
+</hibernate-mapping>

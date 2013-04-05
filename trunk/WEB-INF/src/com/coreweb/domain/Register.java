@@ -555,6 +555,19 @@ public class Register {
 	}
 	
 	
+	public AutoNumero getAutoNumero(String key) throws Exception {
+		AutoNumero d = null;
+
+		Vector v = new Vector();
+		v.add(Restrictions.eq("key", key));
+
+		List l = getObjects(AutoNumero.class.getName(), v, new Vector());
+		if (l.size() == 1) {
+			d = (AutoNumero) l.get(0);
+		}
+		return d;
+	}
+	
 	public static void main(String[] args) {
 		try {
 			String query = "" +
