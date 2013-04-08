@@ -77,6 +77,13 @@ public class Login extends Control{
 			}
 			infoUser.setTooltiptext(perStr);
 			*/
+			
+			try {
+				this.m.ejecutarMetoto(Config.INIT_CLASE, Config.INIT_AFTER_LOGIN);
+			} catch (Exception e) {
+				System.out.println("Metodo afterLogin: "+Config.INIT_AFTER_LOGIN+ " no está implementado");
+			}
+			
 			this.setTextoFormularioCorriente("");
 			this.saltoDePagina(Archivo.okLogin);
 			
