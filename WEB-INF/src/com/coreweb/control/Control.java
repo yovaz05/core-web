@@ -40,7 +40,7 @@ import com.coreweb.util.Misc;
 //public class Control extends UnicastRemoteObject implements IControl{
 public class Control {
 
-	private Misc m = new Misc();
+	public Misc m = new Misc();
 	
 	private static UtilCoreDTO dtoUtil = null; // = new AssemblerUtil().getDTOUtil();
 
@@ -81,10 +81,14 @@ public class Control {
 			// primera vez
 			
 			String prefix = Executions.getCurrent().getParameter(Config.PREFIX);
+			s.setAttribute(Config.PREFIX, prefix);
 			this.inicializarDtoUtil(prefix);
 
 			
 			this.us = new LoginUsuarioDTO();
+			
+			//dr aca poner la invocacion afterLogin
+			
 			System.out
 					.println("--- entra al initPrincipal por primera vez al sistema");
 			return;
@@ -470,14 +474,12 @@ public class Control {
 
 		if (this.getDtoUtil() == null) {
 			try {
-				String inicio = "com." + prefix + ".inicio.Inicio";
-
-				Class cls = Class.forName(inicio);
-				Object obj = cls.newInstance();
-
-				Class noparams[] = {};
-				Method method = cls.getDeclaredMethod("init", noparams);
-				method.invoke(obj, null);
+				
+				synchronized(Config.INIT_CLASE){
+					Config.INIT_CLASE = Config.INIT_CLASE.replace("?", prefix);
+				}
+				this.m.ejecutarMetoto(Config.INIT_CLASE, Config.INIT_METODO);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

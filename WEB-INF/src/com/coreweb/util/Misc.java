@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -17,6 +18,8 @@ import java.util.Map;
 import java.util.Random;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Messagebox;
+
+import com.coreweb.Config;
 
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
@@ -719,6 +722,37 @@ public class Misc {
 	public double calcularGravado(double gravado, int porcentajeIva){
 		return (gravado / (100 + porcentajeIva)) * 100;
 	}
+	
+	// ejecuta el método de una clase
+	public void ejecutarMetoto(String clase, String metodo) throws Exception {
+		
+		Class cls = Class.forName(clase);
+		Object obj = cls.newInstance();
+
+		Class[] noparams = {};
+		Method method = cls.getDeclaredMethod(metodo, noparams);
+		method.invoke(obj, null);
+		
+	}
+
+	/*  NO ESTA REVISADO SI FUNCIONA
+	// ejecuta el método de una clase
+	public void ejecutarMetoto(String clase, String metodo, Object[] params) throws Exception {
+		
+		Class cls = Class.forName(clase);
+		Object obj = cls.newInstance();
+
+		
+		Class[] paramsT = new Class[params.length];
+		for(int i=0; i<params.length; i++){
+			paramsT[i] = params.getClass();
+		}
+		
+		Method method = cls.getDeclaredMethod(metodo, paramsT);
+		method.invoke(obj, params);
+		
+	}
+	*/
 	
 	
 	public static void main(String[] args) {
