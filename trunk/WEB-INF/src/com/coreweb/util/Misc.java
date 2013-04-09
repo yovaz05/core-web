@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -47,6 +48,7 @@ public class Misc {
 
 	public static String YYYY_MM_DD = "yyyy-mm-dd";
 	public static String YYYY_MM_DD_HORA_MIN_SEG = "yyyy-mm-dd h:m:s";
+	public static String YYYY_MM_DD_HORA_MIN_SEG2 = "yyyy-mm-dd (h:m:s)";
 
 	public static String LABEL_BORDER = "border:1px solid; border-color:#54afcb; padding:2px";
 
@@ -149,9 +151,24 @@ public class Misc {
 
 	}
 
+	public String dateHoyToString() {
+		return dateToString(new Date(), YYYY_MM_DD_HORA_MIN_SEG2);
+	}
+
+	
 	public String dateToString(java.util.Date dd, String format) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		String out2 = sdf.format(dd);
+		if (true){
+			return out2;
+		}
+		
+		// de acá en adelante no se usa mas
+		
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(dd);
+		
 
 		int anio = calendar.get(Calendar.YEAR); // año
 		int mes = calendar.get(Calendar.MONTH) + 1; // mes, de 0 a 11
