@@ -22,9 +22,31 @@ public class HibernateUtil {
 	static {
 		try {
 			configuration = new Configuration();
+					
 			// Create the SessionFactory from hibernate.cfg.xml
 			sessionFactory = configuration.configure().buildSessionFactory();
+			
+			/*
+			System.out.println("====================================================");
+			System.out.println("====================================================");
+			System.out.println("====================================================");
+			
+			
+			Properties p = configuration.getProperties();
+			Set ks = p.keySet();
+			for (Iterator iterator = ks.iterator(); iterator.hasNext();) {
+				Object k = (String) iterator.next();
+				Object o = configuration.getProperty((String)k);
+				System.out.println("k: "+ k + " - " + o );
+			}
+			
+			System.out.println("====================================================");
+			System.out.println("====================================================");
+			System.out.println("====================================================");
+			 */
+			
 			session = sessionFactory.openSession();
+			
 		} catch (Throwable ex) {
 			// Make sure you log the exception, as it might be swallowed
 			System.out.println("Initial SessionFactory creation failed." + ex);
