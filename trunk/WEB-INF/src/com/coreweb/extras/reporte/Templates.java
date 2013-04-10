@@ -23,7 +23,7 @@ import net.sf.dynamicreports.report.definition.ReportParameters;
 /**
  * @author Ricardo Mariaca (r.mariaca@dynamicreports.org)
  */
-public abstract class Templates {
+public  class Templates {
 	
    public static final StyleBuilder rootStyle;
    public static final StyleBuilder boldStyle;
@@ -38,7 +38,7 @@ public abstract class Templates {
    public static final StyleBuilder subtotalStyle;
  
    public static final ReportTemplateBuilder reportTemplate;
-   public static final CurrencyType currencyType;
+//   public static final CurrencyType currencyType;
 //   public static final ComponentBuilder<?, ?> dynamicReportsComponent;
    public static final ComponentBuilder<?, ?> footerComponent;
  
@@ -97,18 +97,7 @@ public abstract class Templates {
                          .setCrosstabCellStyle(crosstabCellStyle)
                          .setTableOfContentsCustomizer(tableOfContentsCustomizer);
  
-      currencyType = new CurrencyType();
- 
-      /*
-      HyperLinkBuilder link = hyperLink("http://www.tdn.com.py");
-      dynamicReportsComponent =
-        cmp.horizontalList(
-         //cmp.image(Templates.class.getResource("images/perry.png")).setFixedDimension(60, 60),
-         cmp.verticalList(
-            cmp.text(NOMBRE_EMPRESA).setStyle(bold12CenteredStyle).setHorizontalAlignment(HorizontalAlignment.LEFT),
-            cmp.text("http://www.tdn.com.py").setStyle(italicStyle).setHyperLink(link))).setFixedWidth(200);    
-            
-      */
+
       
       footerComponent = cmp.pageXofY()
                            .setStyle(
@@ -117,13 +106,13 @@ public abstract class Templates {
    }
  
    
-   public  ComponentBuilder<?, ?> createTitleComponent(String titulo, String user){
+   public  ComponentBuilder<?, ?> createTitleComponent(String empresa, String titulo, String user){
 	  
 	   String us = ("Usuario: "+ user+"                        ").substring(0, 25).trim();
 	   
 	   ComponentBuilder<?, ?> cabecera = cmp.horizontalList(
 			   cmp.verticalList(
-	    				  cmp.text( this.getNombreEmpresa()).setStyle(boldStyle).setHorizontalAlignment(HorizontalAlignment.LEFT),
+	    				  cmp.text(empresa).setStyle(boldStyle).setHorizontalAlignment(HorizontalAlignment.LEFT),
 	    				  cmp.text(titulo).setStyle(bold12CenteredStyle).setHorizontalAlignment(HorizontalAlignment.LEFT)).setWidth(270),
 	    	    cmp.verticalList(
 	    	    		cmp.text("Fecha: " + m.dateHoyToString()).setHorizontalAlignment(HorizontalAlignment.RIGHT), 
@@ -133,55 +122,5 @@ public abstract class Templates {
 	   return cabecera;
    }
    
-   
-   
-   /**
-    * Creates custom component which is possible to add to any report band component
-    */
-   /*
-   public ComponentBuilder<?, ?> xxcreateTitleComponent(String label) {
-	   
-      return cmp.horizontalList()
-              .add(
-               dynamicReportsComponent,
-               cmp.text(label).setStyle(bold18CenteredStyle).setHorizontalAlignment(HorizontalAlignment.RIGHT))
-              .newRow()
-              .add(cmp.line())
-              .newRow()
-              .add(cmp.verticalGap(10));
-   }
- 
- */
-   
-   public static CurrencyValueFormatter createCurrencyValueFormatter(String label) {
-      return new CurrencyValueFormatter(label);
-   }
- 
-   public static class CurrencyType extends BigDecimalType {
-      private static final long serialVersionUID = 1L;
- 
-      @Override
-      public String getPattern() {
-         return "Gs #,###.00";
-      }
-   }
- 
-   private static class CurrencyValueFormatter extends AbstractValueFormatter<String, Number> {
-      private static final long serialVersionUID = 1L;
- 
-      private String label;
- 
-      public CurrencyValueFormatter(String label) {
-         this.label = label;
-      }
- 
-      @Override
-      public String format(Number value, ReportParameters reportParameters) {
-         return label + currencyType.valueToString(value, reportParameters.getLocale());
-      }
-   }
-   
-   
-   public abstract String  getNombreEmpresa();
-   
+  
 }

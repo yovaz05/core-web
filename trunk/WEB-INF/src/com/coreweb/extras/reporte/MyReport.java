@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.jasper.builder.export.JasperPdfExporterBuilder;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
@@ -24,11 +26,13 @@ public class MyReport {
 	String titulo;
 	String archivo;
 	String usuario;
+	String empresa;
 
 	public MyReport(CabeceraReporte cabecera, List<Object[]> datos,
-			String titulo, String usuario, String archivo) {
+			String empresa, String titulo, String usuario, String archivo) {
 		this.cabecera = cabecera;
 		this.datos = datos;
+		this.empresa = empresa;
 		this.titulo = titulo;
 		this.usuario = usuario;
 		this.archivo = archivo;
@@ -52,9 +56,10 @@ public class MyReport {
 				rep.addColumn(items[i]);
 			}
 
-			Templates tmp = new TemplateYhaguy();
+			Templates tmp = new Templates();
 			
-			rep.title(tmp.createTitleComponent(titulo, usuario));
+			
+			rep.title(tmp.createTitleComponent(empresa, titulo, usuario));
 			rep.pageFooter(Templates.footerComponent);
 			rep.setDataSource(createDataSource(cabecera.getColumnasDS(), datos));
 
@@ -87,10 +92,15 @@ public class MyReport {
 
 		try {
 			build();
+			
+			
+			
 			rep.toPdf(pdfExporter);
-			if (ver)
+			if (ver){
 				rep.show();
-		} catch (DRException e) {
+				
+			}
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
