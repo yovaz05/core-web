@@ -11,6 +11,7 @@ public abstract class DatosReporte {
 
 	public static final String TIPO_STRING = "STRING";
 	public static final String TIPO_INTEGER = "INTEGER";
+	public static final String TIPO_LONG = "LONG";
 	public static final String TIPO_BIGDECIMAL = "BIGDECIMAL";
 	public static final String TIPO_DATE = "java.util.Date";
 	public static final String TIPO_DATEYEAR = "DATEYEAR";

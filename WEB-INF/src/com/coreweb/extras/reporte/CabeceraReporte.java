@@ -24,6 +24,7 @@ public class CabeceraReporte {
 
 	private List<DatosColumnas> columnas = new ArrayList<DatosColumnas>();
 
+	/*
 	public static final String TIPO_STRING = "STRING";
 	public static final String TIPO_INTEGER = "INTEGER";
 	public static final String TIPO_BIGDECIMAL = "BIGDECIMAL";
@@ -31,7 +32,9 @@ public class CabeceraReporte {
 	public static final String TIPO_DATEYEAR = "DATEYEAR";
 	public static final String TIPO_DATEMONTH = "DATEMONTH";
 	public static final String TIPO_DATEDAY = "DATEDAY";
-
+	*/
+	
+	
 	public void addColumna(String titulo, String tipo) {
 		addColumna(titulo,tipo, 0);
 	}
@@ -48,9 +51,17 @@ public class CabeceraReporte {
 		for (int i = 0; i < columnas.size(); i++) {
 			DatosColumnas columna = columnas.get(i);
 			try {
+				
+			/*	
 				items[i] = col.column(columna.getTitulo(), columna.getTitulo()
 						.replace(" ", "").toLowerCase().replace(" ", "")
 						.toLowerCase(), type.detectType(columna.getTipo()));
+			*/	
+				
+				items[i] = col.column(columna.getTitulo(), columna.getTitulo()
+						.replace(" ", "").toLowerCase().replace(" ", "")
+						.toLowerCase(), type.detectType(columna.getTipo()));
+				
 				if(columna.getAncho()>0)
 					items[i].setWidth(columna.getAncho());
 				//items[i].setHeight(columna.getAlto());
@@ -132,12 +143,15 @@ public class CabeceraReporte {
 		}
 
 		public void setTipo(String tipo) {
+			/*
 			if (tipo.equals(TIPO_BIGDECIMAL) || tipo.equals(TIPO_DATE)
 					|| tipo.equals(TIPO_DATEDAY) || tipo.equals(TIPO_DATEMONTH)
 					|| tipo.equals(TIPO_DATEYEAR) || tipo.equals(TIPO_INTEGER))
 				this.tipo = tipo;
 			else
 				this.tipo = TIPO_STRING;
+			*/
+			this.tipo = tipo;
 		}
 
 		public int getAncho() {
