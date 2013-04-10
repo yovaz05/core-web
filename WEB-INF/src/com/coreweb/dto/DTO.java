@@ -74,7 +74,7 @@ public abstract class DTO  implements IiD , Comparable{
 	    if ((this.getId().longValue() == 0)&&(dtoAux.getId().longValue() == 0)){
 		    out = this.toString().compareTo(compareObject.toString());
 	    }else{
-	    	out = (int)(this.getId().longValue() - this.getId().longValue());
+	    	out = (int)(this.getId().longValue() - dtoAux.getId().longValue());
 	    }
 	    
 	    return out;
