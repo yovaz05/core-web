@@ -11,6 +11,8 @@ public class AutoNumeroControl {
 	 * Para generar un número incremental para cada clave
 	 */
 	
+	static Misc m = new Misc();
+	
 	public synchronized static long getAutoNumero(String key) throws Exception {
 		long out = 0;
 
@@ -31,4 +33,11 @@ public class AutoNumeroControl {
 		return out;
 	}
 
+	public synchronized static String getAutoNumero(String key, int ceros) throws Exception {
+		long i = getAutoNumero(key);
+		String out = m.ceros(i+"", ceros);
+		return out;
+	}
+
+	
 }

@@ -751,6 +751,10 @@ public class Misc {
 		method.invoke(obj, null);
 		
 	}
+	
+	
+	
+	
 
 	/*  NO ESTA REVISADO SI FUNCIONA
 	// ejecuta el método de una clase
@@ -770,6 +774,12 @@ public class Misc {
 		
 	}
 	*/
+	
+	public String ceros(String str, int ancho){
+		String out = "0000000000000000000000000000000000000000000000000000000000000000000000"+str.trim();
+		out = out.substring(out.length()-ancho, out.length());
+		return out;
+	}
 	
 	
 	public static void main(String[] args) {
