@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sf.dynamicreports.report.builder.datatype.LongType;
+
 
 
 public abstract class DatosReporte {

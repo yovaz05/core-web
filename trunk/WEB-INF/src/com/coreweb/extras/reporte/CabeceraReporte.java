@@ -5,6 +5,7 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 
 import net.sf.dynamicreports.jasper.builder.export.JasperPdfExporterBuilder;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
+import net.sf.dynamicreports.report.builder.datatype.LongType;
 import net.sf.dynamicreports.report.builder.grid.ColumnGridComponentBuilder;
 import net.sf.dynamicreports.report.builder.grid.HorizontalColumnGridListBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
@@ -52,16 +53,20 @@ public class CabeceraReporte {
 			DatosColumnas columna = columnas.get(i);
 			try {
 				
-			/*	
+				if (columna.getTipo().compareTo(DatosReporte.TIPO_LONG)==0){
+					items[i] = col.column(columna.getTitulo(), columna.getTitulo()
+							.replace(" ", "").toLowerCase().replace(" ", "")
+							.toLowerCase(), new LongType());
+				}else{
+					items[i] = col.column(columna.getTitulo(), columna.getTitulo()
+							.replace(" ", "").toLowerCase().replace(" ", "")
+							.toLowerCase(), type.detectType(columna.getTipo()));
+				}
+				/*
 				items[i] = col.column(columna.getTitulo(), columna.getTitulo()
 						.replace(" ", "").toLowerCase().replace(" ", "")
 						.toLowerCase(), type.detectType(columna.getTipo()));
-			*/	
-				
-				items[i] = col.column(columna.getTitulo(), columna.getTitulo()
-						.replace(" ", "").toLowerCase().replace(" ", "")
-						.toLowerCase(), type.detectType(columna.getTipo()));
-				
+				*/
 				if(columna.getAncho()>0)
 					items[i].setWidth(columna.getAncho());
 				//items[i].setHeight(columna.getAlto());
