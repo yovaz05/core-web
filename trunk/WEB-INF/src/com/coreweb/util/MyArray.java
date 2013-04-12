@@ -2,10 +2,8 @@ package com.coreweb.util;
 
 import com.coreweb.domain.IiD;
 
+public class MyArray implements IiD {
 
-
-public class MyArray  implements IiD {
-	
 	Long id = new Long(-1);
 	private Object pos1 = "";
 	private Object pos2 = "";
@@ -18,88 +16,83 @@ public class MyArray  implements IiD {
 	private Object pos9 = "";
 	private Object pos10 = "";
 
-	public MyArray(){
-	}
-	
-	
-	
-	public String toString(){
-		String out = "";
-		if (this.pos1 != null){
-			out = out + this.pos1;
-		}
-		if (this.pos2 != null){
-			out = out + this.pos2;
-		}
-		if (this.pos3 != null){
-			out = out + this.pos3;
-		}
-		if (this.pos4 != null){
-			out = out + this.pos4;
-		}
-		if (this.pos5 != null){
-			out = out + this.pos5;
-		}
-		if (this.pos6 != null){
-			out = out + this.pos6;
-		}
-		
-		return   out + " ("+this.id+")";
+	public MyArray() {
 	}
 
-	
-	public String xtoString(){
+	public String toString() {
 		String out = "";
-		if (this.pos1 != null){
-			out = out + ""+this.pos1;
+		if (this.pos1 != null) {
+			out = out + this.pos1;
 		}
-		if (this.pos2 != null){
-			out = out + " - "+this.pos2;
+		if (this.pos2 != null) {
+			out = out + this.pos2;
 		}
-		if (this.pos3 != null){
-			out = out + " -p3:"+this.pos3;
+		if (this.pos3 != null) {
+			out = out + this.pos3;
 		}
-		if (this.pos4 != null){
-			out = out + " -p4:"+this.pos4;
+		if (this.pos4 != null) {
+			out = out + this.pos4;
 		}
-		if (this.pos5 != null){
-			out = out + "-p5:"+this.pos5;
+		if (this.pos5 != null) {
+			out = out + this.pos5;
 		}
-		if (this.pos6 != null){
-			out = out + " -p6:"+this.pos6;
+		if (this.pos6 != null) {
+			out = out + this.pos6;
 		}
-		
-		return  " ("+this.id+")" + out;
+
+		return out + " (" + this.id + ")";
 	}
-	
-	public MyArray(long id, Object pos1){
-		this.id = id;
+
+	public String xtoString() {
+		String out = "";
+		if (this.pos1 != null) {
+			out = out + "" + this.pos1;
+		}
+		if (this.pos2 != null) {
+			out = out + " - " + this.pos2;
+		}
+		if (this.pos3 != null) {
+			out = out + " -p3:" + this.pos3;
+		}
+		if (this.pos4 != null) {
+			out = out + " -p4:" + this.pos4;
+		}
+		if (this.pos5 != null) {
+			out = out + "-p5:" + this.pos5;
+		}
+		if (this.pos6 != null) {
+			out = out + " -p6:" + this.pos6;
+		}
+
+		return " (" + this.id + ")" + out;
+	}
+
+	public MyArray(Object pos1) {
 		this.pos1 = pos1;
 	}
 
-	public MyArray(long id, Object pos1, Object pos2){
-		this.id = id;
+	public MyArray(Object pos1, Object pos2) {
+
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 	}
 
-	public MyArray(long id, Object pos1, Object pos2, Object pos3){
-		this.id = id;
+	public MyArray(Object pos1, Object pos2, Object pos3) {
+
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		this.pos3 = pos3;
 	}
 
-	public MyArray(long id, Object pos1, Object pos2, Object pos3, Object pos4){
-		this.id = id;
+	public MyArray(Object pos1, Object pos2, Object pos3, Object pos4) {
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		this.pos3 = pos3;
 		this.pos4 = pos4;
 	}
 
-	public MyArray(long id, Object pos1, Object pos2, Object pos3, Object pos4, Object pos5){
-		this.id = id;
+	public MyArray(Object pos1, Object pos2, Object pos3, Object pos4,
+			Object pos5) {
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		this.pos3 = pos3;
@@ -107,8 +100,8 @@ public class MyArray  implements IiD {
 		this.pos5 = pos5;
 	}
 
-	public MyArray(long id, Object pos1, Object pos2, Object pos3, Object pos4, Object pos5, Object pos6){
-		this.id = id;
+	public MyArray(Object pos1, Object pos2, Object pos3, Object pos4,
+			Object pos5, Object pos6) {
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		this.pos3 = pos3;
@@ -117,8 +110,8 @@ public class MyArray  implements IiD {
 		this.pos6 = pos6;
 	}
 
-	public MyArray(long id, Object pos1, Object pos2, Object pos3, Object pos4, Object pos5, Object pos6, Object pos7){
-		this.id = id;
+	public MyArray(Object pos1, Object pos2, Object pos3, Object pos4,
+			Object pos5, Object pos6, Object pos7) {
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		this.pos3 = pos3;
@@ -128,8 +121,8 @@ public class MyArray  implements IiD {
 		this.pos7 = pos7;
 	}
 
-	public MyArray(long id, Object pos1, Object pos2, Object pos3, Object pos4, Object pos5, Object pos6, Object pos7, Object pos8){
-		this.id = id;
+	public MyArray(Object pos1, Object pos2, Object pos3, Object pos4,
+			Object pos5, Object pos6, Object pos7, Object pos8) {
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		this.pos3 = pos3;
@@ -140,8 +133,8 @@ public class MyArray  implements IiD {
 		this.pos8 = pos8;
 	}
 
-	public MyArray(long id, Object pos1, Object pos2, Object pos3, Object pos4, Object pos5, Object pos6, Object pos7, Object pos8, Object pos9){
-		this.id = id;
+	public MyArray(Object pos1, Object pos2, Object pos3, Object pos4,
+			Object pos5, Object pos6, Object pos7, Object pos8, Object pos9) {
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		this.pos3 = pos3;
@@ -153,8 +146,9 @@ public class MyArray  implements IiD {
 		this.pos9 = pos9;
 	}
 
-	public MyArray(long id, Object pos1, Object pos2, Object pos3, Object pos4, Object pos5, Object pos6, Object pos7, Object pos8, Object pos9, Object pos10){
-		this.id = id;
+	public MyArray(Object pos1, Object pos2, Object pos3, Object pos4,
+			Object pos5, Object pos6, Object pos7, Object pos8, Object pos9,
+			Object pos10) {
 		this.pos1 = pos1;
 		this.pos2 = pos2;
 		this.pos3 = pos3;
@@ -254,16 +248,16 @@ public class MyArray  implements IiD {
 	public void setPos10(Object pos10) {
 		this.pos10 = pos10;
 	}
-	
+
 	public boolean equals(Object o) {
 		boolean b = false;
 		try {
-			MyArray aux = (MyArray)o;
+			MyArray aux = (MyArray) o;
 			b = (this.getId().longValue() == aux.getId().longValue());
 		} catch (Exception e) {
 			b = false;
 		}
 		return b;
 	}
-	
+
 }

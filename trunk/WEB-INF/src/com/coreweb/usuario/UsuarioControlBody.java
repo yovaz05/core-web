@@ -12,7 +12,9 @@ import com.coreweb.domain.Usuario;
 import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
 import com.coreweb.templateABM.Body;
+import com.coreweb.util.Misc;
 import com.coreweb.util.MyArray;
+import com.coreweb.util.MyPair;
 
 public class UsuarioControlBody extends Body {
 
@@ -71,14 +73,15 @@ public class UsuarioControlBody extends Body {
 		this.dto = dto;
 	}
 
-	MyArray selectedUsuario = null;
+	MyArray selectedUsuario = new MyArray("", "", "", new ArrayList<MyArray>());
 	MyArray selectedPerfilUsuario = null;
 	MyArray selectedPerfilUsr = null;
-	MyArray selectedPerfil = null;
+	MyArray selectedPerfil = new MyArray("", "", new ArrayList<String>(),
+			new ArrayList<MyArray>());
 	MyArray selectedPermiso = null;
 	MyArray selectedModulo = null;
 	MyArray selectedFormulario = null;
-	MyArray selectedOperacion = null;
+	MyArray selectedOperacion = new MyArray();
 
 	public MyArray getSelectedUsuario() {
 		return selectedUsuario;
@@ -86,6 +89,9 @@ public class UsuarioControlBody extends Body {
 
 	public void setSelectedUsuario(MyArray selectedUsuario) {
 		this.selectedUsuario = selectedUsuario;
+		if (this.selectedUsuario != null) {
+			this.selectedUsuario.setPos5(this.selectedUsuario.getPos3());
+		}
 	}
 
 	public MyArray getSelectedPerfilUsuario() {
@@ -180,8 +186,9 @@ public class UsuarioControlBody extends Body {
 			MyArray nUsr = new MyArray();
 			nUsr.setPos1("--editar--");
 			nUsr.setPos2("--editar--");
-			nUsr.setPos3("--editar--");
+			nUsr.setPos3("");
 			nUsr.setPos4(new ArrayList<MyArray>());
+			nUsr.setPos5("");
 			this.getDto().getUsuarios().add(nUsr);
 			this.setSelectedUsuario(nUsr);
 
@@ -264,6 +271,28 @@ public class UsuarioControlBody extends Body {
 			((List) this.selectedPerfil.getPos4()).add(nPerm);
 			this.setSelectedPermiso(nPerm);
 
+		}
+	}
+
+	@Command()
+	public void validarContra() {
+		try {
+			boolean valido = false;
+			Misc misc = new Misc();
+			if (this.selectedUsuario.getPos3().equals(
+					this.selectedUsuario.getPos5())
+					&& (!this.selectedUsuario.getPos5().equals(""))) {
+				valido = true;
+				this.selectedUsuario.setPos3(misc
+						.encriptar((String) this.selectedUsuario.getPos3()));
+				// this.selectedUsuario.setPos5(misc.encriptar((String)this.selectedUsuario.getPos3()));
+			} else {
+				valido = false;
+				this.selectedUsuario.setPos5("");
+				throw new Exception("Las contraseñas no coinciden");
+			}
+		} catch (Exception e) {
+			mensajeError(e.getMessage());
 		}
 	}
 
