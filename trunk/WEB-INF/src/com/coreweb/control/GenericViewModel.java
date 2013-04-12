@@ -108,7 +108,7 @@ public abstract class GenericViewModel extends Control {
 	}
 
 	private void disableComponents(AbstractComponent ac, String property) {
-		System.out.println("-----paso: "+ac.getId() + " - " + ac.getClass().getName());
+		//System.out.println("-----paso: "+ac.getId() + " - " + ac.getClass().getName());
 		this.deshabilitado = true;
 		try {
 
