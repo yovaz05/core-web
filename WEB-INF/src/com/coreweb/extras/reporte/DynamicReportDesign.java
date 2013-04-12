@@ -5,11 +5,14 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
- 
+
+
 import net.sf.dynamicreports.examples.Templates;
 import net.sf.dynamicreports.examples.complex.dynamicreport.DynamicColumn;
 import net.sf.dynamicreports.examples.complex.dynamicreport.DynamicReport;
 import net.sf.dynamicreports.examples.complex.dynamicreport.DynamicReportData;
+
+
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.base.component.DRComponent;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
