@@ -15,11 +15,12 @@ import com.coreweb.domain.Perfil;
 import com.coreweb.domain.Ping;
 import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
+import com.coreweb.dto.AssemblerCoreUtil;
 import com.coreweb.dto.DTO;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
 
-public class AssemblerModulo extends Assembler {
+public class AssemblerModulo extends Assembler{
 	
 	/* listModArr: lista que contiene todos los modulos
 	 * modArr: MyArray que guarda los datos del modulo 

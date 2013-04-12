@@ -17,12 +17,13 @@ import com.coreweb.domain.Ping;
 import com.coreweb.domain.Register;
 import com.coreweb.domain.Usuario;
 import com.coreweb.dto.Assembler;
+import com.coreweb.dto.AssemblerCoreUtil;
 import com.coreweb.dto.DTO;
 import com.coreweb.modulo.AssemblerModulo;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
 
-public class AssemblerUsuario extends Assembler {
+public class AssemblerUsuario extends AssemblerCoreUtil {
 	
 	/* listUsrArr: lista que contiene todos los usuarios
 	 * usrArr: MyArray que guarda los datos del usuario 
