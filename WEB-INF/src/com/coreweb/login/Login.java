@@ -53,8 +53,10 @@ public class Login extends Control{
 		
 		LoginUsuario lu = new LoginUsuario();
 		LoginUsuarioDTO uDto = lu.log(this.user, this.pass);
+
 		s.setAttribute(Config.LOGEADO, uDto.isLogeado());
 		s.setAttribute(Config.USUARIO, uDto);
+		
 		this.setUs(uDto);
 		this.poneCarita(uDto.isLogeado());
 
@@ -66,6 +68,9 @@ public class Login extends Control{
 		inc.invalidate(); // esto hace un refresh del menu
 
 		if (uDto.isLogeado() == true){
+
+			
+			
 			/*
 			Menuitem infoUser = (Menuitem)inc.getFellow("infoUser", true);
 			infoUser.setLabel("["+ uDto.getNombre()+"]");
