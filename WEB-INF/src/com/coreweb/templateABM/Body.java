@@ -113,13 +113,9 @@ public abstract class Body extends GenericViewModel {
 	
 
 	// se verifica antes de hacer una grabación
-	public boolean verificarAlGrabar(){
-		return true;
-	}
+	public abstract boolean verificarAlGrabar();
 	
-	public String textoErrorVerificarGrabar(){
-		return "La validación no es correcta, verifique";
-	}
+	public abstract String textoErrorVerificarGrabar();
 	
 	public abstract Assembler getAss();
 		
