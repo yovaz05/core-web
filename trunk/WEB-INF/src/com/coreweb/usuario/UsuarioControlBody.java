@@ -89,9 +89,9 @@ public class UsuarioControlBody extends Body {
 
 	public void setSelectedUsuario(MyArray selectedUsuario) {
 		this.selectedUsuario = selectedUsuario;
-		if (this.selectedUsuario != null) {
+		/*if (this.selectedUsuario != null) {
 			this.selectedUsuario.setPos5(this.selectedUsuario.getPos3());
-		}
+		}*/
 	}
 
 	public MyArray getSelectedPerfilUsuario() {
@@ -275,37 +275,32 @@ public class UsuarioControlBody extends Body {
 	}
 
 	@Command()
-	public void validarContra() {
-		try {
-			boolean valido = false;
-			Misc misc = new Misc();
-			if (this.selectedUsuario.getPos3().equals(
-					this.selectedUsuario.getPos5())
-					&& (!this.selectedUsuario.getPos5().equals(""))) {
-				valido = true;
-				this.selectedUsuario.setPos3(misc
-						.encriptar((String) this.selectedUsuario.getPos3()));
-				// this.selectedUsuario.setPos5(misc.encriptar((String)this.selectedUsuario.getPos3()));
-			} else {
-				valido = false;
-				this.selectedUsuario.setPos5("");
-				throw new Exception("Las contraseñas no coinciden");
-			}
-		} catch (Exception e) {
-			mensajeError(e.getMessage());
+	public boolean validarContra() {
+		boolean valido = false;
+		Misc misc = new Misc();
+		if (this.selectedUsuario.getPos3().equals(
+				this.selectedUsuario.getPos5())) {
+			valido = true;
+			this.selectedUsuario.setPos3(misc
+					.encriptar((String) this.selectedUsuario.getPos3()));
+			this.selectedUsuario.setPos5(misc.encriptar((String)this.selectedUsuario.getPos3()));
+		} else if((this.selectedUsuario.getPos5().equals(""))){
+			valido = false;
+		} else {
+			this.selectedUsuario.setPos5("");
 		}
+		return valido;
 	}
 
 	@Override
 	public boolean verificarAlGrabar() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.validarContra();
 	}
 
 	@Override
 	public String textoErrorVerificarGrabar() {
-		// TODO Auto-generated method stub
-		return null;
+		String error = new String("La contraseña no se pudo verificar");
+		return error;
 	}
 
 }

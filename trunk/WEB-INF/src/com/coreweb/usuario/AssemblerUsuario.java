@@ -32,6 +32,7 @@ public class AssemblerUsuario extends AssemblerCoreUtil {
 	 * 		pos2: login
 	 * 		pos3: clave
 	 * 		pos4: listPerfArr (lista de los perfiles del usuario)
+	 * 		pos5: copia de la clave
 	 * 
 	 * listPerfArr: lista que contiene los perfiles
 	 * perfArr: MyArray que guarda los datos del perfil
@@ -229,6 +230,7 @@ public class AssemblerUsuario extends AssemblerCoreUtil {
 			usrArr.setPos1(usuario.getNombre());
 			usrArr.setPos2(usuario.getLogin());
 			usrArr.setPos3(usuario.getClave());
+			usrArr.setPos5(usuario.getClave());
 
 			Set<Perfil> setPerf = usuario.getPerfiles();
 
