@@ -51,7 +51,7 @@
 											<row>
 												Verificar Clave:
 												<textbox type="password"
-													value="@bind(vm.selectedUsuario.pos5)" onChange="@command('validarContra')"/>
+													value="@bind(vm.selectedUsuario.pos5)"/>
 											</row>
 										</rows>
 									</grid>
