@@ -99,6 +99,20 @@ public class BodyPrueba extends Body{
 	}
 
 
+	@Override
+	public boolean verificarAlGrabar() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public String textoErrorVerificarGrabar() {
+		// TODO Auto-generated method stub
+		return "BodyPrueba.textoErrorVerificarGrabar";
+	}
+
+
 
 
 
