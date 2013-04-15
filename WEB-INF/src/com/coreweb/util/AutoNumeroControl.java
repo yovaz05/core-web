@@ -39,5 +39,10 @@ public class AutoNumeroControl {
 		return out;
 	}
 
+	public synchronized static String getAutoNumeroKey(String key, int ceros) throws Exception {
+		String out = getAutoNumero(key, ceros);
+		return (key+"-"+out);
+	}
+	
 	
 }
