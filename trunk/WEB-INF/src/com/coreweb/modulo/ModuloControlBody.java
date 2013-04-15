@@ -300,4 +300,16 @@ public class ModuloControlBody extends Body {
 		}
 		return valido;
 	}
+
+	@Override
+	public boolean verificarAlGrabar() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String textoErrorVerificarGrabar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
