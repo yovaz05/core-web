@@ -44,6 +44,18 @@ public class BodyDefault extends Body {
 		return null;
 	}
 
+	@Override
+	public boolean verificarAlGrabar() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public String textoErrorVerificarGrabar() {
+		// TODO Auto-generated method stub
+		return "BodyDefault.textoErrorVerificarGrabar";
+	}
+
 /*
 	@Override
 	public String getFormularioGrilla() {
