@@ -13,6 +13,10 @@ public class WindowPopup {
 	// si tiene permiso, habilita el boton de edicion
 	public static int EDITABLE = 3;
 
+	// Habre sin el toolbar
+	public static int SIN_TOOLBAR = 4;
+	
+	
 	public final static String DATO_NAME = "dato";
 	
 	
@@ -30,10 +34,16 @@ public class WindowPopup {
 
 		Vlayout vl = new Vlayout();
 
-		Button bEdit = new Button();
-		bEdit.setLabel("Edit");
-		// definir el listener
-		vl.getChildren().add(bEdit);
+		if (this.modo == SIN_TOOLBAR){
+			// no pone el tool bar
+		}else{
+			// hacer el toolbar
+			Button bEdit = new Button();
+			bEdit.setLabel("Edit");
+			// definir el listener
+			vl.getChildren().add(bEdit);
+		}
+		
 	
 		
 		Include inc = new Include();
