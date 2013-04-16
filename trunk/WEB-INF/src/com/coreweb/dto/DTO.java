@@ -3,6 +3,7 @@ package com.coreweb.dto;
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.reflect.Method;
+import java.util.Comparator;
 import java.util.List;
 
 import com.coreweb.domain.IiD;
@@ -10,7 +11,7 @@ import com.coreweb.util.Misc;
 
 
 
-public abstract class DTO  implements IiD , Comparable{
+public abstract class DTO  implements IiD , Comparable, Comparator{
 	
 	private Long id = new Long(-1);	
 	
@@ -79,6 +80,53 @@ public abstract class DTO  implements IiD , Comparable{
 	    
 	    return out;
 	}
+
+	@Override
+	public int compare(Object ob1, Object ob2) {
+		DTO o1 = (DTO) ob1;
+		DTO o2 = (DTO) ob2;
+		
+		int out = 0;
+		long idnuevo = -1;
+		long idO1 = o1.getId().longValue();
+		long idO2 = o2.getId().longValue();
+		
+		
+		if ((idO1 == idnuevo)&&(idO2 != idnuevo)) {
+			out = 1;
+		} else if ((idO1 != idnuevo)&&(idO2 == idnuevo)) {
+			out = -1;
+		}else{
+			out = (int) (idO1 - idO2);
+		}
+
+		return out;
+	}
+
+
+
 	
+/*	
+	public Comparator<DTO> COMPARATOR = new Comparator<DTO>() {
+		// This is where the sorting happens.
+		public int compare(DTO o1, DTO o2) {
+			int out = 0;
+			long idnuevo = -1;
+			long idO1 = o1.getId().longValue();
+			long idO2 = o2.getId().longValue();
+			
+			
+			if ((idO1 == idnuevo)&&(idO2 != idnuevo)) {
+				out = 1;
+			} else if ((idO1 != idnuevo)&&(idO2 == idnuevo)) {
+				out = -1;
+			}else{
+				out = (int) (idO1 - idO2);
+			}
+
+			return out;
+		}
+	};
 	
+*/
 }
