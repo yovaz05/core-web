@@ -23,6 +23,8 @@ public abstract class DTO  implements IiD , Comparable, Comparator{
 	
 //	public abstract Domain getDomainObject();
 
+	
+	//
 	public boolean esNuevo(){
 		return (this.id < 0);
 	}
