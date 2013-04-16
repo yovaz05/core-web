@@ -1,4 +1,4 @@
-<window id="windowPopupAceptarCancelar" border="normal" hflex="min"
+<window border="normal" hflex="min"
 	apply="org.zkoss.bind.BindComposer"
 	width="400px" sizable="true" 
 	viewModel="@id('vmAC') @init('com.coreweb.componente.BodyPopupAceptarCancelar')"

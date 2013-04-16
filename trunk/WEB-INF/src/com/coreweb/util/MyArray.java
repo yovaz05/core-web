@@ -4,7 +4,6 @@ import com.coreweb.domain.IiD;
 
 public class MyArray implements IiD {
 
-	Long id = new Long(-1);
 	private Object pos1 = "";
 	private Object pos2 = "";
 	private Object pos3 = "";
@@ -18,6 +17,30 @@ public class MyArray implements IiD {
 
 	public MyArray() {
 	}
+	
+	private static long ID_NUEVO  = -1;
+	Long id = new Long(ID_NUEVO);
+
+	@Override
+	public Long getId() {
+		// TODO Auto-generated method stub
+		return this.id;
+	}
+
+
+	@Override
+	public void setId(Long id) {
+		// TODO Auto-generated method stub
+		this.id = id;
+	}
+
+
+	@Override
+	public boolean esNuevo() {
+		// TODO Auto-generated method stub
+		return this.id.longValue() == ID_NUEVO;
+	}
+
 
 	public String toString() {
 		String out = "";
@@ -40,7 +63,7 @@ public class MyArray implements IiD {
 			out = out + this.pos6;
 		}
 
-		return out + " (" + this.id + ")";
+		return out + " (" + this.getId() + ")";
 	}
 
 	public String xtoString() {
@@ -64,7 +87,7 @@ public class MyArray implements IiD {
 			out = out + " -p6:" + this.pos6;
 		}
 
-		return " (" + this.id + ")" + out;
+		return " (" + this.getId() + ")" + out;
 	}
 
 	public MyArray(Object pos1) {
@@ -161,14 +184,6 @@ public class MyArray implements IiD {
 		this.pos10 = pos10;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public Object getPos1() {
 		return pos1;
 	}
@@ -259,5 +274,6 @@ public class MyArray implements IiD {
 		}
 		return b;
 	}
+
 
 }
