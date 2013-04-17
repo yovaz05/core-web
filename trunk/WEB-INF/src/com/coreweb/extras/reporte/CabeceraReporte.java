@@ -25,16 +25,6 @@ public class CabeceraReporte {
 
 	private List<DatosColumnas> columnas = new ArrayList<DatosColumnas>();
 
-	/*
-	public static final String TIPO_STRING = "STRING";
-	public static final String TIPO_INTEGER = "INTEGER";
-	public static final String TIPO_BIGDECIMAL = "BIGDECIMAL";
-	public static final String TIPO_DATE = "java.util.Date";
-	public static final String TIPO_DATEYEAR = "DATEYEAR";
-	public static final String TIPO_DATEMONTH = "DATEMONTH";
-	public static final String TIPO_DATEDAY = "DATEDAY";
-	*/
-	
 	
 	public void addColumna(String titulo, String tipo) {
 		addColumna(titulo,tipo, 0);
