@@ -98,7 +98,8 @@ public class Templates {
 		String us = ("Usuario: " + user + "                        ")
 				.substring(0, 25).trim();
 
-		ComponentBuilder cabecera = cmp.horizontalList(
+		ComponentBuilder cabecera = cmp.verticalList().add(
+				cmp.horizontalList(
 				cmp.verticalList(
 						cmp.text(empresa)
 								.setStyle(boldStyle)
@@ -113,9 +114,9 @@ public class Templates {
 								.setHorizontalAlignment(
 										HorizontalAlignment.RIGHT),
 						cmp.text(us).setHorizontalAlignment(
-								HorizontalAlignment.RIGHT))
+								HorizontalAlignment.RIGHT)))
 
-		);
+		).add(cmp.line());
 		return cabecera;
 	}
 

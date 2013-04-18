@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
-import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
+import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import net.sf.dynamicreports.report.builder.datatype.LongType;
 import net.sf.dynamicreports.report.constant.PageType;
 
@@ -117,4 +117,17 @@ public abstract class DatosReporte {
 	abstract public void setDatosReportes();
 
 
+	public ComponentBuilder texto(String texto){
+		return cmp.text(texto);
+	}
+	
+	public ComponentBuilder textoNegrita(String texto){
+		return cmp.text(texto).setStyle(Templates.boldStyle);
+	}
+	
+	public ComponentBuilder textoParValor(String texto, Object valor){
+		return cmp.horizontalList().add(cmp.text(texto+":").setStyle(Templates.boldStyle)).add(cmp.text(""+valor));
+	}
+	
+	
 }
