@@ -606,6 +606,23 @@ public class Misc {
 
 		return true;
 	}
+	
+	public boolean containsOnlyNumbers(String str) {
+
+		// It can't contain only numbers if it's null or empty...
+		if (str == null || str.length() == 0)
+			return false;
+
+		for (int i = 0; i < str.length(); i++) {
+
+			// If we find a non-digit character we return false.
+			if (!Character.isDigit(str.charAt(i)) && (Character.toString(str.charAt(i)).compareTo("-") != 0)){
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	// Genera un PDF con JasperPrint y luego abre en una nueva pestanha
 	public void redirectAndPrint(Map parameters, Collection dataSrc,
