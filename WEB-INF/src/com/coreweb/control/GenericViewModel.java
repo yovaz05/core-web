@@ -38,6 +38,7 @@ import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Constrainted;
 
 import com.coreweb.dto.Assembler;
+import com.coreweb.util.MyConverter;
 
 public abstract class GenericViewModel extends Control {
 
@@ -316,5 +317,11 @@ public abstract class GenericViewModel extends Control {
 		
 		return window;
 	}
+	
+	
+	public MyConverter getCnv(){
+		return new MyConverter();
+	}
+	
 
 }
