@@ -217,8 +217,7 @@ public class Control {
 				img.setSrc(Archivo.caritaEnojada);
 			}
 		} catch (Exception e) {
-			System.out.println("error poniendo carita");
-			e.printStackTrace();
+			System.out.println("error poniendo carita ("+ e.getMessage() +")");
 			this.noAutorizado();
 
 		}

@@ -126,7 +126,7 @@ public abstract class DatosReporte {
 	}
 	
 	public ComponentBuilder textoParValor(String texto, Object valor){
-		return cmp.horizontalList().add(cmp.text(texto+":").setStyle(Templates.boldStyle)).add(cmp.text(""+valor));
+		return cmp.verticalList().add(cmp.text(texto+":").setStyle(Templates.boldStyle)).add(cmp.text(""+valor));
 	}
 	
 	
