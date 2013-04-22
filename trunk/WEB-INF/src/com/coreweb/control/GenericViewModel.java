@@ -21,6 +21,8 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.util.Template;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
@@ -322,6 +324,12 @@ public abstract class GenericViewModel extends Control {
 	public MyConverter getCnv(){
 		return new MyConverter();
 	}
+	
+	/*public Object getAtributoSession(String arg) {
+		Session s = Sessions.getCurrent();
+		Object atributo = s.getAttribute(arg);
+		return atributo;
+	}*/
 	
 
 }
