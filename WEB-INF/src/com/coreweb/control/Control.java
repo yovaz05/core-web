@@ -487,6 +487,12 @@ public class Control {
 		}
 
 	}
+	
+	public Object getAtributoSession(String arg) {
+		Session s = Sessions.getCurrent();
+		Object atributo = s.getAttribute(arg);
+		return atributo;
+	}
 
 	public static void main(String[] args) {
 		String a = "";
