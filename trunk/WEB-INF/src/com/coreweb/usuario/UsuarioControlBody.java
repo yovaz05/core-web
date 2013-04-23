@@ -89,9 +89,10 @@ public class UsuarioControlBody extends Body {
 
 	public void setSelectedUsuario(MyArray selectedUsuario) {
 		this.selectedUsuario = selectedUsuario;
-		/*if (this.selectedUsuario != null) {
-			this.selectedUsuario.setPos5(this.selectedUsuario.getPos3());
-		}*/
+		/*
+		 * if (this.selectedUsuario != null) {
+		 * this.selectedUsuario.setPos5(this.selectedUsuario.getPos3()); }
+		 */
 	}
 
 	public MyArray getSelectedPerfilUsuario() {
@@ -283,8 +284,9 @@ public class UsuarioControlBody extends Body {
 			valido = true;
 			this.selectedUsuario.setPos3(misc
 					.encriptar((String) this.selectedUsuario.getPos3()));
-			this.selectedUsuario.setPos5(misc.encriptar((String)this.selectedUsuario.getPos3()));
-		} else if((this.selectedUsuario.getPos5().equals(""))){
+			this.selectedUsuario.setPos5(misc
+					.encriptar((String) this.selectedUsuario.getPos3()));
+		} else if ((this.selectedUsuario.getPos5().equals(""))) {
 			valido = false;
 		} else {
 			this.selectedUsuario.setPos5("");
@@ -294,7 +296,10 @@ public class UsuarioControlBody extends Body {
 
 	@Override
 	public boolean verificarAlGrabar() {
-		return this.validarContra();
+		if (this.selectedUsuario != null)
+			return this.validarContra();
+		else
+			return true;
 	}
 
 	@Override
