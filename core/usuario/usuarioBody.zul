@@ -110,13 +110,13 @@
 											<rows>
 												<row>
 													Nombre:
-													<textbox
-														value="@bind(vm.selectedPerfilUsr.pos1)" />
+													<textbox readonly="true"
+														value="@load(vm.selectedPerfilUsr.pos1)" />
 												</row>
 												<row>
 													Descripción:
-													<textbox
-														value="@bind(vm.selectedPerfilUsr.pos2)" />
+													<textbox readonly="true"
+														value="@load(vm.selectedPerfilUsr.pos2)" />
 												</row>
 											</rows>
 										</grid>
@@ -138,7 +138,7 @@
 											onSelect='mod.setSelectedItem(null);form.setSelectedItem(null);ope.setSelectedItem(null)'>
 											<listhead>
 												<listheader
-													label="Perfiles" sort="auto" />
+													label="Perfiles" sort="auto" hflex="min"/>
 											</listhead>
 											<template name="model">
 												<listitem
@@ -204,7 +204,7 @@
 												<rows>
 													<row>
 														Operación:
-														<textbox
+														<textbox readonly="true"
 															value="@bind(vm.selectedPermiso.pos2.pos3)" />
 													</row>
 													<row>

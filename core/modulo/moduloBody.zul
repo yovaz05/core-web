@@ -158,7 +158,7 @@
 							</row>
 							<row>
 								IdTexto:
-								<textbox readonly="false"
+								<textbox readonly="true"
 									value="@bind(vm.selectedOperacion.pos5)"
 									onChange="@command('validarIdTexto')" />
 							</row>

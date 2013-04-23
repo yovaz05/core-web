@@ -304,7 +304,7 @@ public class ModuloControlBody extends Body {
 	@Override
 	public boolean verificarAlGrabar() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
