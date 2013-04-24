@@ -2,7 +2,9 @@ package com.coreweb.util;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Constraint;
+import org.zkoss.zul.CustomConstraint;
 import org.zkoss.zul.SimpleConstraint;
 
 public class Check {
@@ -13,10 +15,6 @@ public class Check {
 	public static String AFTER = "after ";
 	public static String BEFORE = "before ";
 	public static String BETWEEN = "between ";
-	
-	public static String NO_NEGATIVO = "no negative";
-	public static String NO_POSITIVO = "no positive : Este campo no admite valor positivo";
-	public static String NO_CERO = "no zero : Este campo no admite valor (0) 'cero'";
 	
 	public static String NO_VACIO = "no empty";
 	public static String EMAIL = "/.+@.+\\.[a-z]+/:Debe ingresar un correo valido";
@@ -49,49 +47,7 @@ public class Check {
 		return BETWEEN + intervalo;
 	}
 	
-	/***************************************************************/
-	
-	
-	/****************** CONSTRAINT PARA NUMEROS ********************/
-	
-	public String getNoNegativo(){
-		return NO_NEGATIVO;
-	}
-	
-	public String getNoPositivo(){
-		return NO_POSITIVO;
-	}
-	
-	public String getNoCero(){
-		return NO_CERO;
-	}
-	
-	/***************************************************************/
-	
-	
-	/********************** OTROS CONSTRAINTS **********************/
-	
-	public String getObligatorio(){
-		return NO_VACIO;
-	}
-	
-	public String getEmail(){
-		return EMAIL;
-	}
-	
-	public String getObligatorioAndNoNegativo(){
-		return NO_VACIO+" ; "+NO_NEGATIVO;
-	}
-	
-	public String getObligatorioAndNoPositivo(){
-		return NO_VACIO + ";" + NO_POSITIVO;
-	}
-	
-	public String getObligatorioAndNoCero(){
-		return NO_VACIO + ";" + NO_CERO;
-	}
-	
-	/***************************************************************/
+	/***************************************************************/	
 	
 	
 	
@@ -106,7 +62,15 @@ public class Check {
 	}
 	
 	public MiConstraint getRuc(){
-		return new MiConstraint(MiConstraint.RUC, NO_VACIO);
+		return new MiConstraint(MiConstraint.RUC);
+	}
+	
+	public MiConstraint getNoVacio(){
+		return new MiConstraint(MiConstraint.NO_EMPTY);
+	}
+	
+	public MiConstraint getNoNegativo(){
+		return new MiConstraint(MiConstraint.NO_NEGATIVO);
 	}
 	
 	/***************************************************************/
@@ -114,11 +78,13 @@ public class Check {
 
 
 
-class MiConstraint extends SimpleConstraint implements Constraint{
+class MiConstraint extends SimpleConstraint implements Constraint, CustomConstraint{
 
 	public static final int MAYOR_A = 1;
 	public static final int MENOR_A = 2;
 	public static final int RUC = 3;
+	public static final int NO_EMPTY = 4;
+	public static final int NO_NEGATIVO = 5;
 	
 	private int constraint = 0;
 	private int value = 0;
@@ -129,8 +95,8 @@ class MiConstraint extends SimpleConstraint implements Constraint{
 		this.value = value;
 	}
 	
-	public MiConstraint(int constraint, String obligatorio){
-		super(SimpleConstraint.NO_EMPTY);
+	public MiConstraint(int constraint){
+		super("");
 		this.constraint = constraint;
 	}
 
@@ -155,5 +121,22 @@ class MiConstraint extends SimpleConstraint implements Constraint{
 				throw new WrongValueException(comp, "Debe Ingresar un Ruc valido");
 			}
 		}
-	}	
+		
+		if (this.constraint == this.NO_EMPTY) {
+			boolean correcto = true;
+			if (value instanceof String && ((String) value).length() == 0) {
+				correcto = false;
+			}
+			if (value instanceof Number && value == null) {
+				correcto = false;
+			}
+			if (!correcto) {
+				throw new WrongValueException(comp, "Este campo no debe quedar vacio");
+			}
+		}		
+	}
+	
+	public void showCustomError(Component comp, WrongValueException ex) {
+		Clients.showNotification(ex.getMessage(), "error", comp, "end_center", 3000, true);	
+	}
 }
