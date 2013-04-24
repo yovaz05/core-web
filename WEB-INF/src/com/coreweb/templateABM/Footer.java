@@ -45,13 +45,13 @@ public class Footer extends GenericViewModel {
 	@Command
     public void doTask () {
     	System.out.println("boton doTask...");
+		this.yesClick = false;
     	
     	if ( this.pagina.getBody().verificarAlGrabar() == false){
     		this.mensajeError(this.pagina.getBody().textoErrorVerificarGrabar());
     		return;
     	}
 
-		this.yesClick = false;
         Button b = Messagebox.show("Grabar los cambios y salir?", "Grabar y Salir", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO }, Messagebox.QUESTION, null);
         if (b.compareTo(Messagebox.Button.YES)==0){        	
