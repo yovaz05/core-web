@@ -2,6 +2,7 @@ package com.coreweb.extras.reporte;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 
+import java.awt.Color;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class MyReport {
 	JasperPdfExporterBuilder pdfExporter;
 	boolean landscape = false;
 	PageType tipoPagina = PageType.A4;
+
 	
 	String titulo;
 	String archivo;
@@ -84,7 +86,6 @@ public class MyReport {
 			cabecera = new CabeceraReporte();
 		}
 		
-		TextColumnBuilder[] items = cabecera.getColumnas();
 		try {
 
 			pdfExporter = export.pdfExporter(archivo).setEncrypted(false);
@@ -99,8 +100,17 @@ public class MyReport {
 			rep.setTemplate(Templates.reportTemplate);
 			rep.setColumnStyle(textStyle);
 
-			for (int i = 0; i < items.length; i++) {
-				rep.addColumn(items[i]);
+			
+			
+			
+			for (Iterator iterator = cabecera.getColumnas().iterator(); iterator.hasNext();) {
+				DatosColumnas dc = (DatosColumnas) iterator.next();
+				TextColumnBuilder tx = dc.getColumnBuilder();
+				rep.addColumn(tx);
+				if (dc.isTotaliza() == true){
+					rep.subtotalsAtSummary(sbt.sum( tx));
+				}
+
 			}
 
 			Templates tmp = new Templates();
@@ -110,22 +120,9 @@ public class MyReport {
 			
 			rep.addTitle(this.body);
 			
-			
-			
-		
 			rep.pageFooter(Templates.footerComponent);
 			rep.setDataSource(createDataSource(cabecera.getColumnasDS(), datos));
 			
-			/*
-			rep.subtotalsAtSummary(sbt.sum( items[2]));
-			rep.subtotalsAtSummary(sbt.sum( items[4]));
-			*/
-			//rep.subtotalsAtColumnFooter( sbt.sum( items[4]));
-
-			//NO			AggregationSubtotalBuilder<Long> unitPriceSum = sbt.sum(unitPriceField,  items[4]).setLabel("Total de la suma =");
-						
-
-			// .toPdf(pdfExporter);
 
 		} catch (Exception e) {
 			e.printStackTrace();

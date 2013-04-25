@@ -31,18 +31,21 @@ public class CabeceraReporte {
 		this.columnas = columnas;
 	}
 	
-	public void addColumna(String titulo, String tipo) {
-		addColumna(titulo,tipo, 0);
+	/*
+	public void xaddColumna(String titulo, String tipo) {
+		xaddColumna(titulo,tipo, 0);
 	}
 
 
-	public void addColumna(String titulo, String tipo, int ancho) {
+	public void xaddColumna(String titulo, String tipo, int ancho) {
 		DatosColumnas columna = new DatosColumnas(titulo, tipo);
 		columna.setAncho(ancho);
 		columnas.add(columna);
 	}
+	*/
 
-	public TextColumnBuilder[] getColumnas() {
+	
+	public TextColumnBuilder[] xxgetColumnas() {
 		TextColumnBuilder[] items = new TextColumnBuilder[columnas.size()];
 		for (int i = 0; i < columnas.size(); i++) {
 			DatosColumnas columna = columnas.get(i);
@@ -83,6 +86,12 @@ public class CabeceraReporte {
 		return items;
 	}
 
+	
+	public List<DatosColumnas> getColumnas(){
+		return this.columnas;
+	}
+	
+	
 	public String[] getColumnasDS() {
 		String[] items = new String[columnas.size() + 1];
 		for (int i = 0; i < columnas.size(); i++) {

@@ -42,28 +42,12 @@ public abstract class DatosReporte {
 	public DatosReporte() {
 	}
 
-	/*
-	public void setTitulosColumnas(List<Object[]> titulos){
-		cr = new CabeceraReporte();
-		for (Object[] objects : titulos) {
-			//for (int i = 0; i < objects.length; i++) {
-			if(objects.length == 2)
-				cr.addColumna((String)objects[0], (String)objects[1]);
-			else if(objects.length == 3)
-				cr.addColumna((String)objects[0], (String)objects[1],(Integer)objects[2]);
-			//}
-		}
-		//cr.addColumna();
-		//cr.addColumna("Cantidad", CabeceraReporte.TIPO_INTEGER);
-	}
-	*/
 	
 	public void setTitulosColumnas(List<DatosColumnas> columnas ){
 		cr = new CabeceraReporte();
 		cr.setColumnas(columnas);
 	}
 
-	
 	
 	public void setApaisada(){
 		this.apaisada = true;

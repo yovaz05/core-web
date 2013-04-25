@@ -1,19 +1,35 @@
 package com.coreweb.extras.reporte;
 
+import static net.sf.dynamicreports.report.builder.DynamicReports.col;
+import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
+import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
+
 public class DatosColumnas {
 	private String titulo;
 	private Object tipo;
 	private int ancho = 0;
 	private int alto = 0;
+	private boolean totaliza = false;
 
 	public DatosColumnas(String titulo, Object tipo) {
-		setColumna(titulo, tipo, 0);
-
+		this.setColumna(titulo, tipo, 0);
 	}
 
 	public DatosColumnas(String titulo, Object tipo, int ancho) {
-		setColumna(titulo, tipo, ancho);
+		this.setColumna(titulo, tipo, ancho);
 	}
+	
+	public DatosColumnas(String titulo, Object tipo, boolean totaliza) {
+		this.setColumna(titulo, tipo, 0);
+		this.setTotaliza(totaliza);
+	}
+
+	public DatosColumnas(String titulo, Object tipo, int ancho, boolean totaliza) {
+		this.setColumna(titulo, tipo, ancho);
+		this.setTotaliza(totaliza);
+	}
+
+	
 	private void setColumna(String titulo, Object tipo, int ancho) {
 		this.titulo = titulo;
 		setTipo(tipo);
@@ -62,4 +78,25 @@ public class DatosColumnas {
 		this.alto = alto;
 	}
 
+	public boolean isTotaliza() {
+		return totaliza;
+	}
+
+	public void setTotaliza(boolean totaliza) {
+		this.totaliza = totaliza;
+	}
+
+	public TextColumnBuilder getColumnBuilder(){	
+		TextColumnBuilder tx = 
+		col.column(this.getTitulo(), this.getTitulo()
+				.replace(" ", "").toLowerCase().replace(" ", "")
+				.toLowerCase(),(DRIDataType) this.getTipo());
+
+		if(this.getAncho()>0)
+			tx.setWidth(this.getAncho());
+
+		return tx;
+	}
+	
+	
 }
