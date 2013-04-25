@@ -171,7 +171,7 @@ public abstract class Assembler {
 		setValue(dom, atributo, d);
 
 		rr.saveObject(dom);
-		mp.setId(dom.getId());
+		mp.setId(d.getId());
 	}
 
 	public void domainToMyPair(Domain dom, DTO dto, String atributo)
@@ -277,8 +277,7 @@ public abstract class Assembler {
 		setValue(dom, atributo, d);
 
 		rr.saveObject(dom);
-		mp.setId(dom.getId());
-
+		mp.setId(d.getId());
 	}
 
 	// *************************************************************************************
