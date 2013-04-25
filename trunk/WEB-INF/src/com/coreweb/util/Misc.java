@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
+
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Messagebox;
 
@@ -24,6 +25,18 @@ import com.coreweb.Config;
 
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
+
+
+
+
+
+
+
+
+
+
+
+
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -799,13 +812,36 @@ public class Misc {
 	}
 	
 	
+	/**
+	 * Retorna -1 si el valor del primer parametro 'val' es menor al segundo parametro 'cmp'
+	 * Retorna  0 si el valor del primer parametro 'val' es igual al segundo parametro 'cmp'
+	 * Retorna  1 si el valor del primer parametro 'val' es mayor al segundo parametro 'cmp'
+	 */		
+	public int compararNumeros(Number n1, Number n2) {
+	    long l1 = n1.longValue();
+	    long l2 = n2.longValue();
+	    if (l1 != l2)
+	        return (l1 < l2 ? -1 : 1);
+	    return Double.compare(n1.doubleValue(), n2.doubleValue());
+	}
+	
+	
+	/**
+	 * Retorna false si el correo no es valido
+	 */
+	public boolean checkEmail(String email) {		
+		String validador = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";		
+		return email.matches(validador);
+	}
+	
+	
 	public static void main(String[] args) {
-
+		double d = 10.1;
+		int i = 140;
+		long l = 10;
 		try {
 			Misc m = new Misc();
-			System.out.println(""+m.calcularIVA(0, 10));
-			System.out.println(""+m.calcularGravado(0, 10));
-			System.out.println(""+m.esAproximado(5000, 5100, 101));
+			System.out.println(m.checkEmail("mail@mail.com"));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
