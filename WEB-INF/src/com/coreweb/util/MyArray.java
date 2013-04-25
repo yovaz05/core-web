@@ -45,22 +45,22 @@ public class MyArray implements IiD {
 	public String toString() {
 		String out = "";
 		if (this.pos1 != null) {
-			out = out + this.pos1;
+			out = out + this.pos1 + " ";
 		}
 		if (this.pos2 != null) {
-			out = out + this.pos2;
+			out = out + this.pos2 + " ";
 		}
 		if (this.pos3 != null) {
-			out = out + this.pos3;
+			out = out + this.pos3 + " ";
 		}
 		if (this.pos4 != null) {
-			out = out + this.pos4;
+			out = out + this.pos4 + " ";
 		}
 		if (this.pos5 != null) {
-			out = out + this.pos5;
+			out = out + this.pos5 + " ";
 		}
 		if (this.pos6 != null) {
-			out = out + this.pos6;
+			out = out + this.pos6 + " ";
 		}
 
 		return out + " (" + this.getId() + ")";
