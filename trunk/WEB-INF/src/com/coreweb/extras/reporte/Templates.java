@@ -63,7 +63,10 @@ public class Templates {
 				.setBackgroundColor(Color.LIGHT_GRAY).bold();
 		groupStyle = stl.style(boldStyle).setHorizontalAlignment(
 				HorizontalAlignment.LEFT);
-		subtotalStyle = stl.style(boldStyle).setTopBorder(stl.pen1Point());
+//		subtotalStyle = stl.style(boldStyle).setTopBorder(stl.pen1Point()).setBackgroundColor(new Color(56));
+		subtotalStyle = stl.style(columnStyle).setBorder(stl.pen1Point())
+				.setHorizontalAlignment(HorizontalAlignment.RIGHT)
+				.setBackgroundColor(Color.LIGHT_GRAY).bold();
 
 		StyleBuilder crosstabGroupStyle = stl.style(columnTitleStyle);
 		StyleBuilder crosstabGroupTotalStyle = stl.style(columnTitleStyle)
