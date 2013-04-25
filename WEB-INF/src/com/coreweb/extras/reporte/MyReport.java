@@ -11,9 +11,12 @@ import java.util.Set;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.jasper.builder.export.JasperPdfExporterBuilder;
+import net.sf.dynamicreports.report.builder.FieldBuilder;
+import net.sf.dynamicreports.report.builder.column.ColumnBuilder;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.builder.subtotal.AggregationSubtotalBuilder;
 import net.sf.dynamicreports.report.constant.PageOrientation;
 import net.sf.dynamicreports.report.constant.PageType;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
@@ -34,6 +37,8 @@ public class MyReport {
 	String archivo;
 	String usuario;
 	String empresa;
+	
+	
 
 	public MyReport(){
 		
@@ -110,6 +115,15 @@ public class MyReport {
 		
 			rep.pageFooter(Templates.footerComponent);
 			rep.setDataSource(createDataSource(cabecera.getColumnasDS(), datos));
+			
+			/*
+			rep.subtotalsAtSummary(sbt.sum( items[2]));
+			rep.subtotalsAtSummary(sbt.sum( items[4]));
+			*/
+			//rep.subtotalsAtColumnFooter( sbt.sum( items[4]));
+
+			//NO			AggregationSubtotalBuilder<Long> unitPriceSum = sbt.sum(unitPriceField,  items[4]).setLabel("Total de la suma =");
+						
 
 			// .toPdf(pdfExporter);
 

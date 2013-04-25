@@ -8,20 +8,24 @@ import java.util.List;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import net.sf.dynamicreports.report.builder.datatype.LongType;
+import net.sf.dynamicreports.report.builder.datatype.*;
 import net.sf.dynamicreports.report.constant.PageType;
-
 
 
 public abstract class DatosReporte {
 
-	public static final String TIPO_STRING = "STRING";
-	public static final String TIPO_INTEGER = "INTEGER";
-	public static final String TIPO_LONG = "LONG";
-	public static final String TIPO_BIGDECIMAL = "BIGDECIMAL";
-	public static final String TIPO_DATE = "java.util.Date";
-	public static final String TIPO_DATEYEAR = "DATEYEAR";
-	public static final String TIPO_DATEMONTH = "DATEMONTH";
-	public static final String TIPO_DATEDAY = "DATEDAY";
+	
+	
+	public static final StringType TIPO_STRING = type.stringType();
+	public static final IntegerType TIPO_INTEGER = type.integerType();
+	public static final LongType TIPO_LONG = type.longType();
+	public static final BigDecimalType TIPO_BIGDECIMAL = type.bigDecimalType();
+	public static final DateType TIPO_DATE = type.dateType();
+	public static final DateYearType TIPO_DATEYEAR = type.dateYearType();
+	public static final DateMonthType TIPO_DATEMONTH = type.dateMonthType();
+	public static final DateDayType TIPO_DATEDAY =type.dateDayType();
+		
+	
 	public static final PageType A4 = PageType.A4;
 	public static final PageType LEGAL = PageType.LEGAL;
 	
@@ -38,6 +42,7 @@ public abstract class DatosReporte {
 	public DatosReporte() {
 	}
 
+	/*
 	public void setTitulosColumnas(List<Object[]> titulos){
 		cr = new CabeceraReporte();
 		for (Object[] objects : titulos) {
@@ -51,6 +56,14 @@ public abstract class DatosReporte {
 		//cr.addColumna();
 		//cr.addColumna("Cantidad", CabeceraReporte.TIPO_INTEGER);
 	}
+	*/
+	
+	public void setTitulosColumnas(List<DatosColumnas> columnas ){
+		cr = new CabeceraReporte();
+		cr.setColumnas(columnas);
+	}
+
+	
 	
 	public void setApaisada(){
 		this.apaisada = true;
