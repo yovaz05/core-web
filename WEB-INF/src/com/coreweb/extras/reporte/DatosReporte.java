@@ -15,7 +15,6 @@ import net.sf.dynamicreports.report.constant.PageType;
 public abstract class DatosReporte {
 
 	
-	
 	public static final StringType TIPO_STRING = type.stringType();
 	public static final IntegerType TIPO_INTEGER = type.integerType();
 	public static final LongType TIPO_LONG = type.longType();
