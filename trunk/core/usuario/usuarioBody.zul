@@ -40,18 +40,20 @@
 											<row>
 												Login:
 												<textbox
-													value="@bind(vm.selectedUsuario.pos2)" constraint="no empty"/>
+													value="@bind(vm.selectedUsuario.pos2)"
+													constraint="${vm.check.noVacio}" />
 											</row>
 											<row>
 												Clave:
 												<textbox type="password"
 													value="@bind(vm.selectedUsuario.pos3)"
-													constraint="no empty" />
+													constraint="${vm.check.noVacio}" />
 											</row>
 											<row>
 												Verificar Clave:
 												<textbox type="password"
-													value="@bind(vm.selectedUsuario.pos5)"/>
+													value="@bind(vm.selectedUsuario.pos5)"
+													constraint="${vm.check.noVacio}" />
 											</row>
 										</rows>
 									</grid>
@@ -70,8 +72,7 @@
 									<vlayout>
 										<listbox
 											model="@load(vm.selectedUsuario.pos4)" width="230px"
-											selectedItem="@bind(vm.selectedPerfilUsuario)" rows="5"
-											hflex="1" multiple="true">
+											selectedItem="@bind(vm.selectedPerfilUsuario)" rows="5">
 											<listhead>
 												<listheader
 													label="Perfiles Del Usuario">
@@ -93,8 +94,7 @@
 										<vlayout>
 											<listbox
 												model="@load(vm.dto.perfiles)" width="280px"
-												selectedItem="@bind(vm.selectedPerfilUsr)" rows="8"
-												hflex="min" multiple="true">
+												selectedItem="@bind(vm.selectedPerfilUsr)" rows="8">
 												<listhead>
 													<listheader
 														label="Perfiles" sort="auto(model)" />
@@ -110,13 +110,13 @@
 											<rows>
 												<row>
 													Nombre:
-													<textbox readonly="true"
-														value="@load(vm.selectedPerfilUsr.pos1)" />
+													<textbox
+														readonly="true" value="@load(vm.selectedPerfilUsr.pos1)" />
 												</row>
 												<row>
 													Descripción:
-													<textbox readonly="true"
-														value="@load(vm.selectedPerfilUsr.pos2)" />
+													<textbox
+														readonly="true" value="@load(vm.selectedPerfilUsr.pos2)" />
 												</row>
 											</rows>
 										</grid>
@@ -134,11 +134,11 @@
 									<vlayout>
 										<listbox
 											model="@load(vm.dto.perfiles)" width="280px"
-											selectedItem="@bind(vm.selectedPerfil)" rows="3" hflex="min"
+											selectedItem="@bind(vm.selectedPerfil)" rows="3"
 											onSelect='mod.setSelectedItem(null);form.setSelectedItem(null);ope.setSelectedItem(null)'>
 											<listhead>
 												<listheader
-													label="Perfiles" sort="auto" hflex="min"/>
+													label="Perfiles" sort="auto" />
 											</listhead>
 											<template name="model">
 												<listitem
@@ -150,7 +150,8 @@
 												<row>
 													Nombre:
 													<textbox
-														value="@bind(vm.selectedPerfil.pos1)" />
+														value="@bind(vm.selectedPerfil.pos1)"
+														constraint="${vm.check.noVacio}" />
 												</row>
 												<row>
 													Descripción:
@@ -168,8 +169,8 @@
 									</vlayout>
 									<vlayout>
 										<listbox
-											model="@load(vm.selectedPerfil.pos3)" width="280px" rows="3"
-											hflex="min">
+											model="@load(vm.selectedPerfil.pos3)" width="280px"
+											rows="3">
 											<listhead>
 												<listheader
 													label="Usuarios" sort="auto" />
@@ -204,7 +205,8 @@
 												<rows>
 													<row>
 														Operación:
-														<textbox readonly="true"
+														<textbox
+															readonly="true"
 															value="@bind(vm.selectedPermiso.pos2.pos3)" />
 													</row>
 													<row>

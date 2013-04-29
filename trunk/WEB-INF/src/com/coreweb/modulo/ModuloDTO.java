@@ -13,6 +13,7 @@ public class ModuloDTO extends DTO {
 	List<Object> listaAliasFormularios = new ArrayList<Object>();
 	List<Object> listaAliasOperaciones = new ArrayList<Object>();
 	List<Object> listaIdTextoOperaciones = new ArrayList<Object>();
+	List<Object> listaNombresModulos = new ArrayList<Object>();
 
 	public List<MyArray> getModulos() {
 		return modulos;
@@ -45,6 +46,16 @@ public class ModuloDTO extends DTO {
 	public void setListaIdTextoOperaciones(List<Object> listaIdTextoOperaciones) {
 		this.listaIdTextoOperaciones = listaIdTextoOperaciones;
 	}
+
+	public List<Object> getListaNombresModulos() {
+		return listaNombresModulos;
+	}
+
+	public void setListaNombresModulos(List<Object> listaNombresModulos) {
+		this.listaNombresModulos = listaNombresModulos;
+	}
+	
+	
 
 	
 	
