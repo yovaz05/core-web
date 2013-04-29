@@ -231,7 +231,25 @@ public class ModuloControlBody extends Body {
 			this.setSelectedOperacion(nOper);
 		}
 	}
-
+	
+	@Command
+	public void validarNombreMod() {
+		try {
+			MyPair validado = validar(dto.getListaNombresModulos(),
+					this.selectedModulo.getPos1());
+			if (validado.getId().longValue() != new Long(0)) {
+				this.selectedModulo.setPos1("--editar--");
+				if (validado.getId().longValue() == new Long(1)){
+					throw new Exception("El campo nombre es obligatorio");
+				}
+				if (validado.getId().longValue() == new Long(2)){
+					throw new Exception("El nombre de la operacion ya existe");
+				}	
+			}
+		} catch (Exception e) {
+			mensajeError(e.getMessage());
+		}
+	}
 	@Command
 	public void validarAliasFor() {
 		try {
@@ -269,7 +287,7 @@ public class ModuloControlBody extends Body {
 			mensajeError(e.getMessage());
 		}
 	}
-
+/*
 	@Command
 	public void validarIdTexto() {
 		try {
@@ -288,11 +306,10 @@ public class ModuloControlBody extends Body {
 			mensajeError(e.getMessage());
 		}
 	}
-
+*/
 	public MyPair validar(List<Object> lista, Object cadena) {
 		// si esta en la lista debe retornar false
 		MyPair valido = new MyPair();
-		valido.setId(new Long(0));
 		if (cadena.equals("")) {
 			valido.setId(new Long(1));
 		} else if (lista.contains(cadena)) {
@@ -300,16 +317,16 @@ public class ModuloControlBody extends Body {
 		}
 		return valido;
 	}
-
+	
+	
 	@Override
 	public boolean verificarAlGrabar() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public String textoErrorVerificarGrabar() {
-		// TODO Auto-generated method stub
-		return null;
+		String error = new String("El nombre del modulo no puede ser vacío");
+		return error;
 	}
 }

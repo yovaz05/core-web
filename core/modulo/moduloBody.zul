@@ -27,7 +27,8 @@
 							<row>
 								Nombre:
 								<textbox
-									value="@bind(vm.selectedModulo.pos1)" />
+									value="@bind(vm.selectedModulo.pos1)"
+									onChange="@command('validarAliasOp')" constraint="" />
 							</row>
 							<row>
 								Descripción:
@@ -85,7 +86,7 @@
 								Alias:
 								<textbox
 									value="@bind(vm.selectedFormulario.pos4)"
-									onChange="@command('validarAliasFor')" />
+									onChange="@command('validarAliasFor')" constraint="" />
 							</row>
 							<row>
 								Habilitado:
@@ -132,8 +133,8 @@
 							<row>
 								Alias:
 								<textbox
-									value="@bind(vm.selectedOperacion.pos1)" 
-									onChange="@command('validarAliasOp')"   />
+									value="@bind(vm.selectedOperacion.pos1)"
+									onChange="@command('validarAliasOp')" constraint="" />
 							</row>
 							<row>
 								Nombre:
@@ -159,8 +160,7 @@
 							<row>
 								IdTexto:
 								<textbox readonly="true"
-									value="@bind(vm.selectedOperacion.pos5)"
-									onChange="@command('validarIdTexto')" />
+									value="@bind(vm.selectedOperacion.pos5)" />
 							</row>
 						</rows>
 					</grid>

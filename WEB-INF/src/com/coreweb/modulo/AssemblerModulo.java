@@ -55,6 +55,7 @@ public class AssemblerModulo extends Assembler{
 	static List<Object> listaAliasFormularios = null;
 	static List<Object> listaAliasOperaciones = null;
 	static List<Object> listaIdTextoOperaciones = null;
+	static List<Object> listaNombresModulos = null;
 
 	public static ModuloDTO getDTOModulo() {
 		ModuloDTO dto = null;
@@ -219,6 +220,7 @@ public class AssemblerModulo extends Assembler{
 		dto.setListaAliasFormularios(listaAliasFormularios);
 		dto.setListaAliasOperaciones(listaAliasOperaciones);
 		dto.setListaIdTextoOperaciones(listaIdTextoOperaciones);
+		dto.setListaNombresModulos(listaNombresModulos);
 
 		return dto;
 	}
@@ -233,6 +235,7 @@ public class AssemblerModulo extends Assembler{
 		listaAliasFormularios = new ArrayList<Object>();
 		listaAliasOperaciones = new ArrayList<Object>();
 		listaIdTextoOperaciones = new ArrayList<Object>();
+		listaNombresModulos = new ArrayList<Object>();
 
 
 		for (Iterator iterator = listMod.iterator(); iterator.hasNext();) {
@@ -242,6 +245,8 @@ public class AssemblerModulo extends Assembler{
 			modArr.setId(mod.getId());
 			modArr.setPos1(mod.getNombre());
 			modArr.setPos2(mod.getDescripcion());
+			
+			listaNombresModulos.add(mod.getNombre());
 
 			// recorre los formularios de cada modulo
 			Set<Formulario> setForm = mod.getFormularios();
