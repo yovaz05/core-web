@@ -79,8 +79,8 @@ public class MyReport {
 
 	private void build() {
 
-		StyleBuilder textStyle = stl.style(Templates.columnStyle).setBorder(
-				stl.pen1Point());
+//		StyleBuilder textStyle = stl.style(Templates.columnStyle).setBorder(
+//				stl.pen1Point());
 
 		if (cabecera == null){
 			cabecera = new CabeceraReporte();
@@ -91,14 +91,14 @@ public class MyReport {
 			pdfExporter = export.pdfExporter(archivo).setEncrypted(false);
 
 			rep = report();
+			rep.setTemplate(Templates.reportTemplate);
+			rep.setColumnStyle(Templates.columnStyle);
 			
 			rep.setPageFormat(this.tipoPagina);
 			if (this.landscape == true){
 				rep.setPageFormat(this.tipoPagina, PageOrientation.LANDSCAPE);
 			}
 		
-			rep.setTemplate(Templates.reportTemplate);
-			rep.setColumnStyle(textStyle);
 
 			
 			

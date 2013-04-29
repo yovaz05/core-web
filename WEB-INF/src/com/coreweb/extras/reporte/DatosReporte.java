@@ -18,11 +18,16 @@ public abstract class DatosReporte {
 	public static final StringType TIPO_STRING = type.stringType();
 	public static final IntegerType TIPO_INTEGER = type.integerType();
 	public static final LongType TIPO_LONG = type.longType();
+	public static final DoubleType TIPO_DOUBLE = type.doubleType();
 	public static final BigDecimalType TIPO_BIGDECIMAL = type.bigDecimalType();
 	public static final DateType TIPO_DATE = type.dateType();
 	public static final DateYearType TIPO_DATEYEAR = type.dateYearType();
 	public static final DateMonthType TIPO_DATEMONTH = type.dateMonthType();
 	public static final DateDayType TIPO_DATEDAY =type.dateDayType();
+	
+	public static final int COLUMNA_ALINEADA_CENTRADA = 1;
+	public static final int COLUMNA_ALINEADA_IZQUIERDA = 2;
+	public static final int COLUMNA_ALINEADA_DERECHA = 3;
 		
 	
 	public static final PageType A4 = PageType.A4;
