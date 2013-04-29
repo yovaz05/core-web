@@ -36,6 +36,9 @@ public class Templates {
 	public static final StyleBuilder bold18CenteredStyle;
 	public static final StyleBuilder bold22CenteredStyle;
 	public static final StyleBuilder columnStyle;
+	public static final StyleBuilder columnStyleCenter;
+	public static final StyleBuilder columnStyleLeft;
+	public static final StyleBuilder columnStyleRigth;
 	public static final StyleBuilder columnTitleStyle;
 	public static final StyleBuilder groupStyle;
 	public static final StyleBuilder subtotalStyle;
@@ -56,8 +59,25 @@ public class Templates {
 		bold12CenteredStyle = stl.style(boldCenteredStyle).setFontSize(12);
 		bold18CenteredStyle = stl.style(boldCenteredStyle).setFontSize(18);
 		bold22CenteredStyle = stl.style(boldCenteredStyle).setFontSize(22);
+
+		
 		columnStyle = stl.style(rootStyle).setVerticalAlignment(
-				VerticalAlignment.MIDDLE);
+				VerticalAlignment.MIDDLE).setBorder(stl.pen1Point());
+		
+		columnStyleCenter = stl.style(rootStyle).setVerticalAlignment(
+				VerticalAlignment.MIDDLE).setBorder(stl.pen1Point())
+				.setHorizontalAlignment(HorizontalAlignment.CENTER);
+		
+		columnStyleLeft = stl.style(rootStyle).setVerticalAlignment(
+				VerticalAlignment.MIDDLE).setBorder(stl.pen1Point())
+				.setHorizontalAlignment(HorizontalAlignment.LEFT);
+
+		columnStyleRigth = stl.style(rootStyle).setVerticalAlignment(
+				VerticalAlignment.MIDDLE).setBorder(stl.pen1Point())
+				.setHorizontalAlignment(HorizontalAlignment.RIGHT);
+		
+		
+		
 		columnTitleStyle = stl.style(columnStyle).setBorder(stl.pen1Point())
 				.setHorizontalAlignment(HorizontalAlignment.CENTER)
 				.setBackgroundColor(Color.LIGHT_GRAY).bold();
