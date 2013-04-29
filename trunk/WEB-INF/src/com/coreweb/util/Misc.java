@@ -60,8 +60,8 @@ public class Misc {
 	public static String SIMBOLO_ASTERISCO = "(*)";
 
 	public static String YYYY_MM_DD = "yyyy-mm-dd";
-	public static String YYYY_MM_DD_HORA_MIN_SEG = "yyyy-mm-dd h:m:s";
-	public static String YYYY_MM_DD_HORA_MIN_SEG2 = "yyyy-mm-dd (h:m:s)";
+	public static String YYYY_MM_DD_HORA_MIN_SEG = "yyyy-MM-dd h:m:s";
+	public static String YYYY_MM_DD_HORA_MIN_SEG2 = "yyyy-MM-dd (h:m:s)";
 
 	public static String LABEL_BORDER = "border:1px solid; border-color:#54afcb; padding:2px";
 
