@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
+import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import net.sf.dynamicreports.report.builder.datatype.*;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
@@ -74,6 +75,11 @@ public abstract class DatosReporte {
 	}
 	
 	
+	public String getArchivo() {
+		return archivo;
+	}
+
+
 	public void setDatosReporte(List<Object[]> datos){
 		data = datos; 		
 	}
@@ -148,8 +154,10 @@ public abstract class DatosReporte {
 	
 	public ComponentBuilder recuadro(ComponentBuilder dato){
 		
-		HorizontalListBuilder out = cmp.horizontalList().setStyle(Templates.box).setStretchType(StretchType.RELATIVE_TO_BAND_HEIGHT);
+		VerticalListBuilder out = cmp.verticalList().setStyle(Templates.box).setStretchType(StretchType.RELATIVE_TO_BAND_HEIGHT);
+		out.add(cmp.verticalGap(5));
 		out.add(dato);
+		out.add(cmp.verticalGap(5));
 		
 		return out;
 	}

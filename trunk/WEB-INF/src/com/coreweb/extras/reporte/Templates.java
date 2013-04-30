@@ -138,7 +138,7 @@ public class Templates {
 								.setHorizontalAlignment(
 										HorizontalAlignment.LEFT))
 						.setWidth(270), cmp.verticalList(
-						cmp.text("Fecha: " + m.dateHoyToString())
+						cmp.text("Generado: " + m.dateHoyToString())
 								.setHorizontalAlignment(
 										HorizontalAlignment.RIGHT),
 						cmp.text(us).setHorizontalAlignment(
