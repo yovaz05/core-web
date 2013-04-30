@@ -30,6 +30,7 @@ public class MyReport {
 	List<Object[]> datos = new ArrayList<Object[]>();;
 	JasperReportBuilder rep;
 	ComponentBuilder body;
+	ComponentBuilder footer;
 	JasperPdfExporterBuilder pdfExporter;
 	boolean landscape = false;
 	PageType tipoPagina = PageType.A4;
@@ -46,10 +47,11 @@ public class MyReport {
 		
 	}
 	
-	public MyReport(CabeceraReporte cabecera, ComponentBuilder body, List<Object[]> datos,
+	public MyReport(CabeceraReporte cabecera, ComponentBuilder body, ComponentBuilder footer, List<Object[]> datos,
 			String empresa, String titulo, String usuario, String archivo) {
 		this.cabecera = cabecera;
 		this.body = body;
+		this.footer = footer;
 		this.datos = datos;
 		this.empresa = empresa;
 		this.titulo = titulo;
@@ -122,6 +124,7 @@ public class MyReport {
 			
 			rep.pageFooter(Templates.footerComponent);
 			rep.setDataSource(createDataSource(cabecera.getColumnasDS(), datos));
+			rep.addSummary(this.footer);
 			
 
 		} catch (Exception e) {

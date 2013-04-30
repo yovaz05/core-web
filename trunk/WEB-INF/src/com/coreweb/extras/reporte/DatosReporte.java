@@ -35,6 +35,7 @@ public abstract class DatosReporte {
 	
 	private CabeceraReporte cr;
 	private ComponentBuilder body = cmp.horizontalList();
+	private ComponentBuilder footer = cmp.horizontalList();
 	private List<Object[]> data;
 	private String empresa;
 	private String titulo;
@@ -100,7 +101,7 @@ public abstract class DatosReporte {
 	public void ejecutar (boolean mostrar){
 		
 		this.setDatosReportes();
-		MyReport reporte = new MyReport(cr, body, data, empresa, titulo, usuario, archivo);
+		MyReport reporte = new MyReport(cr, body, footer, data, empresa, titulo, usuario, archivo);
 		reporte.setLandscape(this.apaisada);
 		reporte.show(mostrar);
 	}
@@ -113,6 +114,14 @@ public abstract class DatosReporte {
 
 	public void setBody(ComponentBuilder body) {
 		this.body = body;
+	}
+
+	public void setFooter(ComponentBuilder footer) {
+		this.footer = footer;
+	}
+
+	public ComponentBuilder getFooter() {
+		return footer;
 	}
 
 	abstract public void setDatosReportes();
