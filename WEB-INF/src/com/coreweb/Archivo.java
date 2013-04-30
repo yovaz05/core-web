@@ -8,6 +8,7 @@ public class Archivo {
 	private static String images = coreWeb +  "images/";
 	
 	public static String PopupAceptarCancelar = componente +  "PopupAceptarCancelar.zul";
+	public static String ViewPdf = componente +  "ViewPdf.zul";
 
 	
 	public static String okLogin = inicio +  "okLogin.zul";

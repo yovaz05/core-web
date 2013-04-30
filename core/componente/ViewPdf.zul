@@ -1,0 +1,12 @@
+<window border="normal" hflex="min" apply="org.zkoss.bind.BindComposer"
+	width="400px" sizable="true"
+	viewModel="@id('vmAC') @init('com.coreweb.componente.ViewPdf')" title="${arg.titulo}">
+
+	<div>PDF Browser</div>
+
+
+
+	<iframe src="${arg.pdf}" width="100%" height="400px"
+		style="border: 1px solid gray" />
+
+</window>
