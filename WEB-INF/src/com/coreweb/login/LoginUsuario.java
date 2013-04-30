@@ -23,6 +23,7 @@ public class LoginUsuario {
 			lu.setLogeado(true);
 			lu.setNombre(u.getNombre());
 			lu.setLogin(u.getLogin());
+			lu.setId(u.getId());
 
 			int cp = 0;
 			String[] nombrePerfiles = new String[u.getPerfiles().size()];
