@@ -212,7 +212,7 @@
 													<row>
 														Habilitado:
 														<radiogroup
-															selectedItem="@load(vm.selectedPermiso.pos1)"
+															selectedItem="@bind(vm.selectedPermiso.pos1)"
 															model="@load(vm.dtoUtil.habilitado)">
 															<template
 																name="model">
@@ -233,7 +233,8 @@
 														Módulo:
 														<combobox
 															id="mod" model="@load(vm.dto.modulos)" width="200px"
-															selectedItem="@bind(vm.selectedModulo)">
+															selectedItem="@bind(vm.selectedModulo)"
+															constraint="${vm.check.noVacio}">
 															<template
 																name="model">
 																<comboitem
@@ -245,8 +246,8 @@
 														Formulario:
 														<combobox
 															id="form" model="@load(vm.selectedModulo.pos3)"
-															width="200px"
-															selectedItem="@bind(vm.selectedFormulario)">
+															width="200px" selectedItem="@bind(vm.selectedFormulario)"
+															constraint="${vm.check.noVacio}">
 															<template
 																name="model">
 																<comboitem
@@ -259,7 +260,8 @@
 														<combobox
 															id="ope" model="@load(vm.selectedFormulario.pos6)"
 															width="200px"
-															selectedItem="@save(vm.selectedPermiso.pos2)">
+															selectedItem="@save(vm.selectedPermiso.pos2)"
+															constraint="${vm.check.noVacio}">
 															<template
 																name="model">
 																<comboitem
