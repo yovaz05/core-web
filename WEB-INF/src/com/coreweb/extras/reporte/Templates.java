@@ -20,6 +20,7 @@ import net.sf.dynamicreports.report.builder.datatype.BigDecimalType;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.builder.tableofcontents.TableOfContentsCustomizerBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
+import net.sf.dynamicreports.report.constant.Markup;
 import net.sf.dynamicreports.report.constant.VerticalAlignment;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 
@@ -42,6 +43,8 @@ public class Templates {
 	public static final StyleBuilder columnTitleStyle;
 	public static final StyleBuilder groupStyle;
 	public static final StyleBuilder subtotalStyle;
+	public static final StyleBuilder styleHTML;
+	public static final StyleBuilder box;
 
 	public static final ReportTemplateBuilder reportTemplate;
 	// public static final CurrencyType currencyType;
@@ -51,6 +54,7 @@ public class Templates {
 	Misc m = new Misc();
 
 	static {
+		styleHTML = stl.style().setMarkup(Markup.STYLED);
 		rootStyle = stl.style().setPadding(2);
 		boldStyle = stl.style(rootStyle).bold();
 		italicStyle = stl.style(rootStyle).italic();
@@ -60,6 +64,7 @@ public class Templates {
 		bold18CenteredStyle = stl.style(boldCenteredStyle).setFontSize(18);
 		bold22CenteredStyle = stl.style(boldCenteredStyle).setFontSize(22);
 
+		box = stl.style().setBorder(stl.pen1Point());
 		
 		columnStyle = stl.style(rootStyle).setVerticalAlignment(
 				VerticalAlignment.MIDDLE).setBorder(stl.pen1Point());
@@ -76,7 +81,7 @@ public class Templates {
 				VerticalAlignment.MIDDLE).setBorder(stl.pen1Point())
 				.setHorizontalAlignment(HorizontalAlignment.RIGHT);
 		
-		
+	
 		
 		columnTitleStyle = stl.style(columnStyle).setBorder(stl.pen1Point())
 				.setHorizontalAlignment(HorizontalAlignment.CENTER)
