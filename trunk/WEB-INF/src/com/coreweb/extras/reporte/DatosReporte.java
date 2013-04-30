@@ -6,10 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
+import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
-import net.sf.dynamicreports.report.builder.datatype.LongType;
 import net.sf.dynamicreports.report.builder.datatype.*;
+import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.constant.Markup;
 import net.sf.dynamicreports.report.constant.PageType;
+import net.sf.dynamicreports.report.constant.StretchType;
 
 
 public abstract class DatosReporte {
@@ -136,8 +139,20 @@ public abstract class DatosReporte {
 	}
 	
 	public ComponentBuilder textoParValor(String texto, Object valor){
-		return cmp.verticalList().add(cmp.text(texto+":").setStyle(Templates.boldStyle)).add(cmp.text(""+valor));
+		
+		return cmp.text("<b>"+texto+":</b> "+ valor).setStyle(Templates.styleHTML);
+
+		//		return cmp.verticalList().add(cmp.text(texto+":").setStyle(Templates.boldStyle)).add(cmp.text(""+valor));
 	}
+
 	
+	public ComponentBuilder recuadro(ComponentBuilder dato){
+		
+		HorizontalListBuilder out = cmp.horizontalList().setStyle(Templates.box).setStretchType(StretchType.RELATIVE_TO_BAND_HEIGHT);
+		out.add(dato);
+		
+		return out;
+	}
+
 	
 }
