@@ -28,7 +28,7 @@
 								Nombre:
 								<textbox
 									value="@bind(vm.selectedModulo.pos1)"
-									onChange="@command('validarAliasOp')" constraint="" />
+									onChange="@command('validarNombreMod')" constraint="" />
 							</row>
 							<row>
 								Descripción:
@@ -80,7 +80,7 @@
 							<row>
 								Url:
 								<textbox
-									value="@bind(vm.selectedFormulario.pos3)" />
+									value="@bind(vm.selectedFormulario.pos3)" constraint=""/>
 							</row>
 							<row>
 								Alias:
@@ -159,8 +159,8 @@
 							</row>
 							<row>
 								IdTexto:
-								<textbox readonly="true"
-									value="@bind(vm.selectedOperacion.pos5)" />
+								<textbox
+									value="@bind(vm.selectedOperacion.pos5)" constraint=""/>
 							</row>
 						</rows>
 					</grid>
