@@ -113,6 +113,7 @@ public class Toolbar extends GenericViewModel {
 	}
 
 	@Command
+	@NotifyChange("*")
 	public void agregarItem() throws Exception {
 		String texLabel = this.pagina.getTextoFormularioCorriente()
 				+ " (Agregar)";
