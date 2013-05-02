@@ -148,7 +148,7 @@ public class AssemblerUsuario extends AssemblerCoreUtil {
 				permDom.setOperacion((Operacion) oper);
 				permDom.setPerfil(perDom);
 				setPerm.add(permDom);
-				rr.saveObject(permDom);
+				//rr.saveObject(permDom);
 				allPermisos.add(permDom);
 			}
 			perDom.setPermisos(setPerm);

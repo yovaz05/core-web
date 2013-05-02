@@ -117,9 +117,6 @@ public class ModuloControlBody extends Body {
 	public void setSelectedOperacion(MyArray selectedOperacion) {
 		this.selectedOperacion = selectedOperacion;
 
-		System.out.println("====== vm.selectedOperacion.pos4:"
-				+ selectedOperacion.getPos4());
-
 	}
 
 	@Command()
@@ -145,6 +142,7 @@ public class ModuloControlBody extends Body {
 			nMod.setPos1("--editar--");
 			nMod.setPos2("--editar--");
 			nMod.setPos3(new ArrayList<MyArray>());
+			nMod.setPos4(true);
 			this.getDto().getModulos().add(nMod);
 			this.setSelectedModulo(nMod);
 			this.setSelectedFormulario(null);
@@ -181,9 +179,11 @@ public class ModuloControlBody extends Body {
 			MyPair forHabilitado = new MyPair();
 			forHabilitado.setId(new Long(2));
 			forHabilitado.setText("NO");
-
 			nForm.setPos5(forHabilitado);
+			
 			nForm.setPos6(new ArrayList<MyArray>());
+			nForm.setPos7(true);
+			
 			((List) this.selectedModulo.getPos3()).add(nForm);
 			this.setSelectedFormulario(nForm);
 			// this.setSelectedOperacion(null);
@@ -199,10 +199,12 @@ public class ModuloControlBody extends Body {
 				// verificar que no este asociado a ningun objeto
 
 				((List) this.selectedFormulario.getPos6())
-						.remove(selectedOperacion);
+						.remove(this.selectedOperacion);
 
 			}
-			this.setSelectedOperacion(null);
+			MyArray aux = new MyArray();
+			aux.setPos7(new ArrayList<MyArray>());
+			this.setSelectedOperacion(aux);
 		}
 	}
 
@@ -218,15 +220,15 @@ public class ModuloControlBody extends Body {
 			nOper.setPos3("--editar--");
 
 			MyPair opHabilitado = new MyPair();
-
 			opHabilitado.setId(new Long(2));
 			opHabilitado.setText("NO");
-
 			nOper.setPos4(opHabilitado);
 
 			nOper.setPos5("--editar--");
 			nOper.setPos6(selectedFormulario.getId());
 			nOper.setPos7(new ArrayList());
+			nOper.setPos8(true);
+			
 			((List) this.selectedFormulario.getPos6()).add(nOper);
 			this.setSelectedOperacion(nOper);
 		}
@@ -238,11 +240,12 @@ public class ModuloControlBody extends Body {
 			MyPair validado = validar(dto.getListaNombresModulos(),
 					this.selectedModulo.getPos1());
 			if (validado.getId().longValue() != new Long(0)) {
-				this.selectedModulo.setPos1("--editar--");
 				if (validado.getId().longValue() == new Long(1)){
+					this.selectedModulo.setPos1("--editar--");
 					throw new Exception("El campo nombre es obligatorio");
 				}
 				if (validado.getId().longValue() == new Long(2)){
+					this.selectedModulo.setPos1("--editar--");
 					throw new Exception("El nombre de la operacion ya existe");
 				}	
 			}
@@ -256,11 +259,13 @@ public class ModuloControlBody extends Body {
 			MyPair validado = validar(dto.getListaAliasFormularios(),
 					this.selectedFormulario.getPos4());
 			if (validado.getId().longValue() != new Long(0)) {
-				this.selectedFormulario.setPos4("--editar--");
+				
 				if (validado.getId().longValue() == new Long(1)){
+					this.selectedFormulario.setPos4("--editar--");
 					throw new Exception("El campo alias es obligatorio");
 				}					
 				if (validado.getId().longValue() == new Long(2)){
+					this.selectedFormulario.setPos4("--editar--");
 					throw new Exception("El alias del formulario ya existe");
 				}				
 			}
@@ -275,11 +280,12 @@ public class ModuloControlBody extends Body {
 			MyPair validado = validar(dto.getListaAliasOperaciones(),
 					this.selectedOperacion.getPos1());
 			if (validado.getId().longValue() != new Long(0)) {
-				this.selectedOperacion.setPos1("--editar--");
 				if (validado.getId().longValue() == new Long(1)){
+					this.selectedOperacion.setPos1("--editar--");
 					throw new Exception("El campo alias es obligatorio");
 				}
 				if (validado.getId().longValue() == new Long(2)){
+					this.selectedOperacion.setPos1("--editar--");
 					throw new Exception("El alias de la operacion ya existe");
 				}	
 			}
