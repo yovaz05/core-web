@@ -1,18 +1,14 @@
-<window border="normal" hflex="min" apply="org.zkoss.bind.BindComposer"
-	width="${arg.anchoWindows}" sizable="true" closable="true" maximizable="true" 
+<window border="normal"  apply="org.zkoss.bind.BindComposer"
+	 sizable="true" closable="true" maximizable="true" zclass="z-window-modal"
 	viewModel="@id('vmAC') @init('com.coreweb.componente.ViewPdf')" title="${arg.titulo}"
-	onClose="@command('cerrarViewPdf')"
+	onClose="@command('cerrarViewPdf')" width="${arg.anchoWindows}"  height="${arg.altoWindows}"
 	>
 
 	<vlayout>
-		<label value="${arg.anchoWindows}" />
-		<label value="${arg.altoWindows}" />
+		<label value="Descargar el reporte en diferentes formato (csv, rtf, etc)" />
 	</vlayout>
 
-	<include src="${arg.pdf}" />
-
-
-	<iframe src="${arg.pdf}" width="${arg.anchoWindows}" 
+	<iframe src="${arg.pdf}" width="100%"  height="90%"
 		style="border: 1px solid gray" />
 
 </window>
