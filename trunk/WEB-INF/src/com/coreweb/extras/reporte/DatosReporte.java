@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.coreweb.util.Misc;
+
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
@@ -44,9 +46,15 @@ public abstract class DatosReporte {
 	private String empresa;
 	private String titulo;
 	private String usuario;
+	private String directorioBase = "./";
 	private String archivo;
 	private boolean apaisada = false;
 	private PageType tipoPagina = A4;
+	
+	private boolean borrarDespuesDeVer = true;
+	
+
+	private Misc m = new Misc();
 	
 	public DatosReporte() {
 	}
@@ -75,8 +83,25 @@ public abstract class DatosReporte {
 	}
 	
 	
+	public String getTitulo() {
+		return titulo;
+	}
+
+
 	public String getArchivo() {
 		return archivo;
+	}
+
+
+
+
+	public String getDirectorioBase() {
+		return directorioBase;
+	}
+
+
+	public void setDirectorioBase(String directorioBase) {
+		this.directorioBase = directorioBase;
 	}
 
 
@@ -106,17 +131,38 @@ public abstract class DatosReporte {
 		ejecutar(false);
 	}
 	
+	public String getArchivoPathReal(){
+		String out = this.getDirectorioBase() + "/" + this.getArchivo();
+		return out;
+	}
+	
 	
 	public void ejecutar (boolean mostrar){
-		
+			
 		this.setDatosReportes();
-		MyReport reporte = new MyReport(cr, body, footer, data, empresa, titulo, usuario, archivo);
+
+		String pathCompleto = this.directorioBase + "/" + this.archivo;
+
+		MyReport reporte = new MyReport(cr, body, footer, data, empresa, titulo, usuario, pathCompleto);
 		reporte.setLandscape(this.apaisada);
 		reporte.show(mostrar);
+		if ((mostrar == true)&&(this.isBorrarDespuesDeVer() == true)){
+			this.m.borrarArchivo(pathCompleto);
+		}
 	}
 	
 	
 	
+	public boolean isBorrarDespuesDeVer() {
+		return borrarDespuesDeVer;
+	}
+
+
+	public void setBorrarDespuesDeVer(boolean borrarDespuesDeVer) {
+		this.borrarDespuesDeVer = borrarDespuesDeVer;
+	}
+
+
 	public ComponentBuilder getBody() {
 		return body;
 	}

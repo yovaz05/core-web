@@ -1,5 +1,6 @@
 package com.coreweb.util;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -834,6 +835,16 @@ public class Misc {
 		return email.matches(validador);
 	}
 	
+	
+	public void borrarArchivo(String archivo){
+		//Delete if tempFile exists
+		File fileTemp = new File(archivo);
+		if (fileTemp.exists()){
+		    fileTemp.delete();
+		}else{
+			System.out.println("[Misc] No existe:"+archivo);
+		}
+	}
 	
 	public static void main(String[] args) {
 		double d = 10.1;
