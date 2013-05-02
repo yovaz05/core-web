@@ -1,5 +1,7 @@
 package com.coreweb;
 
+import org.zkoss.zk.ui.Executions;
+
 
 
 public class Config {
@@ -19,8 +21,15 @@ public class Config {
 	public static String GRUPO_IMPORTACION = "Importacion";
 	
 	
+	// Para acceder a los archivos por la Web o por el disco
+	public static String DIRECTORIO_BASE_WEB = Executions.getCurrent().getDesktop().getCurrentDirectory();
+	public static String DIRECTORIO_BASE_REAL = Executions.getCurrent().getDesktop().getWebApp().getRealPath("/");
+
 	
-	
+	// directorios para reportes
+	private static String REPORTES = "reportes";
+	public static String DIRECTORIO_WEB_REPORTES = DIRECTORIO_BASE_WEB + REPORTES;
+	public static String DIRECTORIO_REAL_REPORTES = DIRECTORIO_BASE_REAL +  REPORTES;
 	
 
 }

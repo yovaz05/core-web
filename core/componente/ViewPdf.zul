@@ -1,12 +1,18 @@
 <window border="normal" hflex="min" apply="org.zkoss.bind.BindComposer"
-	width="400px" sizable="true"
-	viewModel="@id('vmAC') @init('com.coreweb.componente.ViewPdf')" title="${arg.titulo}">
+	width="${arg.anchoWindows}" sizable="true" closable="true" maximizable="true" 
+	viewModel="@id('vmAC') @init('com.coreweb.componente.ViewPdf')" title="${arg.titulo}"
+	onClose="@command('cerrarViewPdf')"
+	>
 
-	<div>PDF Browser</div>
+	<vlayout>
+		<label value="${arg.anchoWindows}" />
+		<label value="${arg.altoWindows}" />
+	</vlayout>
+
+	<include src="${arg.pdf}" />
 
 
-
-	<iframe src="${arg.pdf}" width="100%" height="400px"
+	<iframe src="${arg.pdf}" width="${arg.anchoWindows}" 
 		style="border: 1px solid gray" />
 
 </window>
