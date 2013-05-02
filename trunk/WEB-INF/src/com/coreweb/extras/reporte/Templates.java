@@ -65,30 +65,34 @@ public class Templates {
 		bold22CenteredStyle = stl.style(boldCenteredStyle).setFontSize(22);
 
 		box = stl.style().setBorder(stl.pen1Point());
-		
-		columnStyle = stl.style(rootStyle).setVerticalAlignment(
-				VerticalAlignment.MIDDLE).setBorder(stl.pen1Point());
-		
-		columnStyleCenter = stl.style(rootStyle).setVerticalAlignment(
-				VerticalAlignment.MIDDLE).setBorder(stl.pen1Point())
+
+		columnStyle = stl.style(rootStyle)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE)
+				.setBorder(stl.pen1Point());
+
+		columnStyleCenter = stl.style(rootStyle)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE)
+				.setBorder(stl.pen1Point())
 				.setHorizontalAlignment(HorizontalAlignment.CENTER);
-		
-		columnStyleLeft = stl.style(rootStyle).setVerticalAlignment(
-				VerticalAlignment.MIDDLE).setBorder(stl.pen1Point())
+
+		columnStyleLeft = stl.style(rootStyle)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE)
+				.setBorder(stl.pen1Point())
 				.setHorizontalAlignment(HorizontalAlignment.LEFT);
 
-		columnStyleRigth = stl.style(rootStyle).setVerticalAlignment(
-				VerticalAlignment.MIDDLE).setBorder(stl.pen1Point())
+		columnStyleRigth = stl.style(rootStyle)
+				.setVerticalAlignment(VerticalAlignment.MIDDLE)
+				.setBorder(stl.pen1Point())
 				.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-		
-	
-		
+
 		columnTitleStyle = stl.style(columnStyle).setBorder(stl.pen1Point())
 				.setHorizontalAlignment(HorizontalAlignment.CENTER)
 				.setBackgroundColor(Color.LIGHT_GRAY).bold();
 		groupStyle = stl.style(boldStyle).setHorizontalAlignment(
 				HorizontalAlignment.LEFT);
-//		subtotalStyle = stl.style(boldStyle).setTopBorder(stl.pen1Point()).setBackgroundColor(new Color(56));
+		// subtotalStyle =
+		// stl.style(boldStyle).setTopBorder(stl.pen1Point()).setBackgroundColor(new
+		// Color(56));
 		subtotalStyle = stl.style(columnStyle).setBorder(stl.pen1Point())
 				.setHorizontalAlignment(HorizontalAlignment.RIGHT)
 				.setBackgroundColor(Color.LIGHT_GRAY).bold();
@@ -126,27 +130,41 @@ public class Templates {
 		String us = ("Usuario: " + user + "                        ")
 				.substring(0, 25).trim();
 
-		ComponentBuilder cabecera = cmp.verticalList().add(
-				cmp.horizontalList(
-				cmp.verticalList(
-						cmp.text(empresa)
-								.setStyle(boldStyle)
-								.setHorizontalAlignment(
-										HorizontalAlignment.LEFT),
-						cmp.text(titulo)
-								.setStyle(bold12CenteredStyle)
-								.setHorizontalAlignment(
-										HorizontalAlignment.LEFT))
-						.setWidth(270), cmp.verticalList(
-						cmp.text("Generado: " + m.dateHoyToString())
-								.setHorizontalAlignment(
-										HorizontalAlignment.RIGHT),
-						cmp.text(us).setHorizontalAlignment(
-								HorizontalAlignment.RIGHT)))
+		VerticalListBuilder cab = cmp.verticalList();
+		
+		HorizontalListBuilder row1 = cmp.horizontalList();
+		HorizontalListBuilder row2 = cmp.horizontalList();
 
-		).add(cmp.line());
-		return cabecera;
+		row1.add(cmp.text(empresa).setStyle(boldStyle).setHorizontalAlignment(HorizontalAlignment.LEFT));
+		row1.add(cmp.text("Generado: " + m.dateHoyToString()).setHorizontalAlignment(HorizontalAlignment.RIGHT));
+
+		row2.add(cmp.text(titulo).setStyle(bold12CenteredStyle).setHorizontalAlignment(HorizontalAlignment.LEFT).setWidth(240));
+		row2.add(cmp.text(us).setHorizontalAlignment(HorizontalAlignment.RIGHT));
+		
+		
+		cab.add(row1).add(row2).add(cmp.line());
+
+		ComponentBuilder cabecera = cmp
+				.verticalList()
+				.add(cmp.horizontalList(
+						cmp.verticalList(
+								cmp.text(empresa)
+										.setStyle(boldStyle)
+										.setHorizontalAlignment(
+												HorizontalAlignment.LEFT),
+								cmp.text(titulo)
+										.setStyle(bold12CenteredStyle)
+										.setHorizontalAlignment(
+												HorizontalAlignment.LEFT))
+								.setWidth(250), cmp.verticalList(
+								cmp.text("Generado: " + m.dateHoyToString())
+										.setHorizontalAlignment(
+												HorizontalAlignment.RIGHT),
+								cmp.text(us).setHorizontalAlignment(
+										HorizontalAlignment.RIGHT)))
+
+				).add(cmp.line());
+		return cab;
 	}
-
 
 }

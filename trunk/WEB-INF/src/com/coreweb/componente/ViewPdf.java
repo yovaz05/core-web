@@ -15,6 +15,7 @@ import org.zkoss.zul.Window;
 
 import com.coreweb.Archivo;
 import com.coreweb.Config;
+import com.coreweb.control.GenericViewModel;
 import com.coreweb.extras.reporte.DatosReporte;
 import com.coreweb.util.Misc;
 
@@ -28,7 +29,7 @@ public class ViewPdf {
 	private Window w;
 	private DatosReporte reporte;
 	
-	public void showReporte(DatosReporte rep){
+	public void showReporte(DatosReporte rep, GenericViewModel vm){
 		
 		/*
 		String contexPath = Executions.getCurrent().getContextPath();
@@ -53,6 +54,8 @@ public class ViewPdf {
 		
 		// genera el pdf en el directorio de reportes		
 		rep.setDirectorioBase(Config.DIRECTORIO_REAL_REPORTES);
+		rep.setUsuario(vm.getUs().getNombre());
+		rep.setEmpresa(vm.getEmpresa());
 		rep.ejecutar(false);
 		
 		String urlPdf = Config.DIRECTORIO_WEB_REPORTES + "/" + rep.getArchivo();

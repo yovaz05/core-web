@@ -52,6 +52,9 @@ public class Control {
 	private Assembler ass;
 
 	private LoginUsuarioDTO us = new LoginUsuarioDTO();
+	
+	private static String empresa = "Definir empresa";
+
 
 	private static String aliasFormularioCorrienteTXT = "--AliasFormularioNoDefinido--";
 	private String aliasFormularioCorriente = aliasFormularioCorrienteTXT;
@@ -487,6 +490,16 @@ public class Control {
 
 	}
 	
+	
+	
+	public static String getEmpresa() {
+		return empresa;
+	}
+
+	public static void setEmpresa(String empresa) {
+		Control.empresa = empresa;
+	}
+
 	public Object getAtributoSession(String arg) {
 		Session s = Sessions.getCurrent();
 		Object atributo = s.getAttribute(arg);
