@@ -110,7 +110,7 @@ public class MyReport {
 				TextColumnBuilder tx = dc.getColumnBuilder();
 				rep.addColumn(tx);
 				if (dc.isTotaliza() == true){
-					rep.subtotalsAtSummary(sbt.sum( tx));
+					rep.subtotalsAtSummary(sbt.sum(tx));
 				}
 
 			}
