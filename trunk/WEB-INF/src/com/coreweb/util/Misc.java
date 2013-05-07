@@ -39,6 +39,7 @@ import com.coreweb.Config;
 
 
 
+
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -783,7 +784,28 @@ public class Misc {
 		
 	}
 	
+	// ejecuta el método de una clase
+	public void ejecutarMetoto(String clase, String metodo, Object obj, Object value) throws Exception {
+		
+		Class cls = Class.forName(clase);
+
+		Class[] noparams = {value.getClass()};
+		Method method = cls.getDeclaredMethod(metodo, noparams);
+		method.setAccessible(true);
+		method.invoke(obj, value);
+		
+	}
+
 	
+	// hace un set
+	public void setValue(Object obj, String att, Object value)
+			throws Exception {
+		Field fd = obj.getClass().getDeclaredField(att);
+		fd.setAccessible(true);
+		fd.set(obj, value);
+	}
+
+
 	
 	
 
