@@ -132,12 +132,32 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 		return v1.compareTo(v2);
 	}
 
-	
 	@Override
 	public void validate(Component comp, Object value)
+			throws WrongValueException {	
+		try {
+			
+			MiValidate(comp, value);
+			
+		} catch (WrongValueException ex) {
+			/*
+			if (comp instanceof InputElement){
+				InputElement im = (InputElement)comp;
+				String st = im.getStyle();
+				im.setStyle(st+";border: 1px solid red");
+			}
+			*/
+			
+			Clients.showNotification(ex.getMessage(), "error", comp, "end_center", 3000, true);
+		}
+		
+	}
+	
+
+	
+	
+	public void MiValidate(Component comp, Object value)
 			throws WrongValueException {			
-		
-		
 		
 		if (value == null) {			
 				throw new WrongValueException(comp, Check.MENSAJE_NO_EMPTY);
@@ -208,26 +228,21 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 			}
 		}
 	}
+
+	
 	
 	public void showCustomError(Component comp, WrongValueException ex) {
 		if (ex != null) {
-/*			
-			if ( comp instanceof Doublebox){
-				Doublebox inputElement = (Doublebox)comp;
-				
-				try {
-					inputElement.setRawValue(0);
-					//this.misc.setValue(comp, "valueDirectly", value);
-					//this.misc.ejecutarMetoto(Doublebox.class.getName(), "setValueDirectly", comp, value);
-					//this.misc.ejecutarMetoto(Doublebox.class.getName(), "setValue", comp, value);
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new WrongValueException(comp, e.getMessage());
-				}
-			}
-
-	*/		
 			Clients.showNotification(ex.getMessage(), "error", comp, "end_center", 3000, true);
 		}		
 	}
+
+
+
+
+
+	
+	
+	
+	
 }
