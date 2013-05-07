@@ -9,7 +9,9 @@ import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Constraint;
 import org.zkoss.zul.CustomConstraint;
+import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.SimpleConstraint;
+import org.zkoss.zul.impl.InputElement;
 
 public class Check {
 	
@@ -26,6 +28,8 @@ public class Check {
 	public static String MENSAJE_MENOR_IGUAL_A = "El valor debe ser menor o igual a ";
 	public static String MENSAJE_RUC = "Debe Ingresar un Ruc valido";
 	public static String MENSAJE_EMAIL = "Debe Ingresar un correo valido";
+	
+
 	
 	// No admite empty o null
 	public MiConstraint getNoVacio(){
@@ -133,6 +137,8 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 	public void validate(Component comp, Object value)
 			throws WrongValueException {			
 		
+		
+		
 		if (value == null) {			
 				throw new WrongValueException(comp, Check.MENSAJE_NO_EMPTY);
 				
@@ -160,7 +166,7 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 			if ((this.constraint == this.MENOR_A) && (misc.compararNumeros((Number) value, this.value) != -1)) {
 				throw new WrongValueException(comp, Check.MENSAJE_MENOR_A + this.value);
 			}
-			if ((this.constraint == this.MAYOR_IGUAL_A) && (misc.compararNumeros((Number) value, this.value) == -1)) {
+			if ((this.constraint == this.MAYOR_IGUAL_A) && (misc.compararNumeros((Number) value, this.value) == -1)) {			
 				throw new WrongValueException(comp, Check.MENSAJE_MAYOR_IGUAL_A + this.value);
 			}
 			if ((this.constraint == this.MENOR_IGUAL_A) && (misc.compararNumeros((Number) value, this.value) == 1)) {
@@ -205,6 +211,22 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 	
 	public void showCustomError(Component comp, WrongValueException ex) {
 		if (ex != null) {
+/*			
+			if ( comp instanceof Doublebox){
+				Doublebox inputElement = (Doublebox)comp;
+				
+				try {
+					inputElement.setRawValue(0);
+					//this.misc.setValue(comp, "valueDirectly", value);
+					//this.misc.ejecutarMetoto(Doublebox.class.getName(), "setValueDirectly", comp, value);
+					//this.misc.ejecutarMetoto(Doublebox.class.getName(), "setValue", comp, value);
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new WrongValueException(comp, e.getMessage());
+				}
+			}
+
+	*/		
 			Clients.showNotification(ex.getMessage(), "error", comp, "end_center", 3000, true);
 		}		
 	}
