@@ -24,32 +24,20 @@ import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
 
 public class AssemblerUsuario extends AssemblerCoreUtil {
-	
-	/* listUsrArr: lista que contiene todos los usuarios
-	 * usrArr: MyArray que guarda los datos del usuario 
-	 * 		id: id
-	 * 		pos1: nombre
-	 * 		pos2: login
-	 * 		pos3: clave
-	 * 		pos4: listPerfArr (lista de los perfiles del usuario)
-	 * 		pos5: copia de la clave
+
+	/*
+	 * listUsrArr: lista que contiene todos los usuarios usrArr: MyArray que
+	 * guarda los datos del usuario id: id pos1: nombre pos2: login pos3: clave
+	 * pos4: listPerfArr (lista de los perfiles del usuario) pos5: copia de la
+	 * clave
 	 * 
-	 * listPerfArr: lista que contiene los perfiles
-	 * perfArr: MyArray que guarda los datos del perfil
-	 * 		id: id
-	 * 		pos1: nombre
-	 * 		pos2: descripcion
-	 * 		pos3: usuarios que utilizan el perfil
-	 * 		pos4: listPermArr
-	 * listPermArr: lista que contiene los permisos de un perfil
-	 * permArr: MyArray que guarda los datos del permiso
-	 * 		id: id
-	 * 		pos1: habilitado
-	 * 		pos2: operacion
-	 * 		pos3: perfil
+	 * listPerfArr: lista que contiene los perfiles perfArr: MyArray que guarda
+	 * los datos del perfil id: id pos1: nombre pos2: descripcion pos3: usuarios
+	 * que utilizan el perfil pos4: listPermArr listPermArr: lista que contiene
+	 * los permisos de un perfil permArr: MyArray que guarda los datos del
+	 * permiso id: id pos1: habilitado pos2: operacion pos3: perfil
 	 */
-	
-	
+
 	public static UsuarioDTO getDTOUsuario() {
 		UsuarioDTO dto = null;
 		try {
@@ -148,7 +136,8 @@ public class AssemblerUsuario extends AssemblerCoreUtil {
 				permDom.setOperacion((Operacion) oper);
 				permDom.setPerfil(perDom);
 				setPerm.add(permDom);
-				//rr.saveObject(permDom);
+				// rr.saveObject(permDom); // verificar si se debe o no guardar
+				// ya aca
 				allPermisos.add(permDom);
 			}
 			perDom.setPermisos(setPerm);
@@ -156,7 +145,8 @@ public class AssemblerUsuario extends AssemblerCoreUtil {
 			allPerfiles.add(perDom);
 		}
 
-		// controlar permisos
+		// controlar permisos (cuando esto esta sale el error de cascada, cuando
+		// no esta sale el de transient..)
 		List<Permiso> permisosDom = rr.getAllPermisos();
 		boolean existePE = false;
 		for (Permiso permisoD : permisosDom) {
@@ -186,15 +176,20 @@ public class AssemblerUsuario extends AssemblerCoreUtil {
 						.hasNext();) {
 					Usuario usr = (Usuario) iterator.next();
 					Set<Perfil> usrPerf = usr.getPerfiles();
-					for (Iterator iterator2 = usrPerf.iterator(); iterator2
-							.hasNext();) {
-						Perfil perfil = (Perfil) iterator2.next();
-						if (perfil.getId() == perfilD.getId()) {
-							usrPerf.remove(perfil);
+					if (usrPerf.size() != 0) {
+						for (Iterator iterator2 = usrPerf.iterator(); iterator2
+								.hasNext();) {
+							Perfil perfil = (Perfil) iterator2.next();
+							if (perfil.getId() == perfilD.getId()) {
+								usrPerf.remove(perfil);
+							}
 						}
 					}
 					rr.saveObject(usr);
 				}
+				// verificar si esto es necesario
+				Set<Permiso> permisos = perfilD.getPermisos();
+				perfilD.getPermisos().removeAll(permisos);
 				rr.deleteObject(perfilD);
 			}
 			existeP = false;
