@@ -136,7 +136,7 @@ public class AssemblerUsuario extends AssemblerCoreUtil {
 				permDom.setOperacion((Operacion) oper);
 				permDom.setPerfil(perDom);
 				setPerm.add(permDom);
-				// rr.saveObject(permDom); // verificar si se debe o no guardar
+				//rr.saveObject(permDom); // verificar si se debe o no guardar
 				// ya aca
 				allPermisos.add(permDom);
 			}
@@ -145,6 +145,7 @@ public class AssemblerUsuario extends AssemblerCoreUtil {
 			allPerfiles.add(perDom);
 		}
 
+		/*
 		// controlar permisos (cuando esto esta sale el error de cascada, cuando
 		// no esta sale el de transient..)
 		List<Permiso> permisosDom = rr.getAllPermisos();
@@ -156,10 +157,12 @@ public class AssemblerUsuario extends AssemblerCoreUtil {
 				}
 			}
 			if (!existePE) {
+				System.out.println("Eliminar------- "+permisoD.getId());
 				rr.deleteObject(permisoD);
 			}
 			existePE = false;
 		}
+		*/
 
 		// controlar perfiles
 		List<Perfil> perfilesDom = rr.getAllPerfiles();

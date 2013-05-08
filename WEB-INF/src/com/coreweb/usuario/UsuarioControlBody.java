@@ -73,7 +73,8 @@ public class UsuarioControlBody extends Body {
 		this.dto = dto;
 	}
 
-	MyArray selectedUsuario = new MyArray("", "", "", new ArrayList<MyArray>());
+	String CNT_VACIA = "---vacia---";
+	MyArray selectedUsuario = new MyArray("", "", CNT_VACIA, new ArrayList<MyArray>());
 	MyArray selectedPerfilUsuario = null;
 	MyArray selectedPerfilUsr = null;
 	MyArray selectedPerfil = new MyArray("", "", new ArrayList<String>(),
@@ -279,24 +280,27 @@ public class UsuarioControlBody extends Body {
 	public boolean validarContra() {
 		boolean valido = false;
 		Misc misc = new Misc();
-		if (this.selectedUsuario.getPos3().equals(
-				this.selectedUsuario.getPos5())) {
+		
+		String cnt1 = ""+this.selectedUsuario.getPos3();
+		String cnt2 = ""+this.selectedUsuario.getPos5();
+		
+		
+		if ((cnt1.compareTo(cnt2)==0)&&(cnt1.trim().length()>0)) {
 			valido = true;
-			this.selectedUsuario.setPos3(misc
-					.encriptar((String) this.selectedUsuario.getPos3()));
-			this.selectedUsuario.setPos5(misc
-					.encriptar((String) this.selectedUsuario.getPos3()));
-		} else if ((this.selectedUsuario.getPos5().equals(""))) {
+			this.selectedUsuario.setPos3(misc.encriptar(cnt1));
+			this.selectedUsuario.setPos5(misc.encriptar(cnt1));
+		} else  {
+			xx = "1:["+cnt1 + "] 2:[" + cnt2+"]";
 			valido = false;
-		} else {
-			this.selectedUsuario.setPos5("");
-		}
+		} 
 		return valido;
 	}
 
+	String xx = "";
 	@Override
 	public boolean verificarAlGrabar() {
-		if (this.selectedUsuario != null)
+		String cnt = ""+this.selectedUsuario.getPos3();
+		if (cnt.compareTo(CNT_VACIA)!=0)
 			return this.validarContra();
 		else
 			return true;
@@ -304,7 +308,7 @@ public class UsuarioControlBody extends Body {
 
 	@Override
 	public String textoErrorVerificarGrabar() {
-		String error = new String("La contraseña no se pudo verificar");
+		String error = "La contraseña no se pudo verificar "+ xx;
 		return error;
 	}
 

@@ -13,7 +13,7 @@
 		<property name="descripcion"/>
 		<property name="grupo"/>
 		<set name="permisos" table="UsuarioPermiso"
-			inverse="false" lazy="false"
+			inverse="true" lazy="false"
 			cascade="all"
 			>
 			<key>
