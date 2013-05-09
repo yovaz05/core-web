@@ -53,7 +53,8 @@
 												Verificar Clave:
 												<textbox type="password"
 													value="@bind(vm.selectedUsuario.pos5)"
-													constraint="${vm.check.noVacio}" />
+													constraint="" 
+													onChange="@command('validarContra')"/>
 											</row>
 										</rows>
 									</grid>
