@@ -9,9 +9,7 @@ import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Constraint;
 import org.zkoss.zul.CustomConstraint;
-import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.SimpleConstraint;
-import org.zkoss.zul.impl.InputElement;
 
 public class Check {
 	
@@ -95,6 +93,11 @@ public class Check {
 	public MiConstraint getEmail(){
 		return new MiConstraint(MiConstraint.EMAIL);
 	}
+	
+	// Valida el formato de varios correos separados con ';'
+	public MiConstraint getEmails(){
+		return new MiConstraint(MiConstraint.EMAILS);
+	}
 }
 
 class MiConstraint extends SimpleConstraint implements Constraint, CustomConstraint{
@@ -112,6 +115,7 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 	public static final int MENOR_IGUAL_A = 11;
 	public static final int RUC = 12;
 	public static final int EMAIL = 13;
+	public static final int EMAILS = 14;
 	
 	private int constraint = 0;
 	private Number value = 0;
@@ -206,6 +210,10 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 				}
 			}
 			if ((this.constraint == this.EMAIL) && (misc.checkEmail((String) value) == false)) {
+				throw new WrongValueException(comp, Check.MENSAJE_EMAIL);
+			}
+			if ((this.constraint == this.EMAILS) && ((misc.chequearMultipleCorreos(((String) value).trim().split(";")) == false)
+					|| (((String) value).isEmpty()))) {
 				throw new WrongValueException(comp, Check.MENSAJE_EMAIL);
 			}
 		
