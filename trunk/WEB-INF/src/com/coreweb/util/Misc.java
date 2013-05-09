@@ -572,7 +572,7 @@ public class Misc {
 				String tipo = aliasTipo.get(alias);
 				if (tipo == null) {
 					System.err.println("[Fa] Error, la variable "
-							+ nombreVarianble
+							+ alias
 							+ " no esta en el menu_config.ini");
 					out = false;
 				} else {
