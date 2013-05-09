@@ -15,6 +15,7 @@ public class DatosColumnas {
 	private int alto = 0;
 	private boolean totaliza = false;
 	private int alineacionColuman = 0;
+	private boolean agrupar = false;
 
 	public DatosColumnas(String titulo, Object tipo) {
 		this.setColumna(titulo, tipo, 0);
@@ -92,6 +93,16 @@ public class DatosColumnas {
 
 	public void setAlineacionColuman(int alineacionColuman) {
 		this.alineacionColuman = alineacionColuman;
+	}
+	
+	
+
+	public boolean isAgrupar() {
+		return agrupar;
+	}
+
+	public void setAgrupar(boolean agrupar) {
+		this.agrupar = agrupar;
 	}
 
 	public TextColumnBuilder getColumnBuilder() {
