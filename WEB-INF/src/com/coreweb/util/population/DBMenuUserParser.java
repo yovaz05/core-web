@@ -272,7 +272,7 @@ public class DBMenuUserParser {
 
 	private void loadConfigMenu() throws Exception {
 
-		File f = new File(file);
+		//File f = new File(file);
 		/*
 		if (f.isFile() == false) {
 			file = fileS;
