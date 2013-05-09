@@ -4,16 +4,17 @@ import com.coreweb.domain.IiD;
 
 public class MyArray implements IiD {
 
-	private Object pos1 = "";
-	private Object pos2 = "";
-	private Object pos3 = "";
-	private Object pos4 = "";
-	private Object pos5 = "";
-	private Object pos6 = "";
-	private Object pos7 = "";
-	private Object pos8 = "";
-	private Object pos9 = "";
-	private Object pos10 = "";
+	private static String POS_VACIO = "";
+	private Object pos1 = POS_VACIO;
+	private Object pos2 = POS_VACIO;
+	private Object pos3 = POS_VACIO;
+	private Object pos4 = POS_VACIO;
+	private Object pos5 = POS_VACIO;
+	private Object pos6 = POS_VACIO;
+	private Object pos7 = POS_VACIO;
+	private Object pos8 = POS_VACIO;
+	private Object pos9 = POS_VACIO;
+	private Object pos10 = POS_VACIO;
 
 	public MyArray() {
 	}
@@ -44,23 +45,23 @@ public class MyArray implements IiD {
 
 	public String toString() {
 		String out = "";
-		if (this.pos1 != null) {
-			out = out + this.pos1 + " ";
+		if (this.pos1 != POS_VACIO) {
+			out = out + this.pos1 + " - ";
 		}
-		if (this.pos2 != null) {
-			out = out + this.pos2 + " ";
+		if (this.pos2 != POS_VACIO) {
+			out = out + this.pos2 + " - ";
 		}
-		if (this.pos3 != null) {
-			out = out + this.pos3 + " ";
+		if (this.pos3 != POS_VACIO) {
+			out = out + this.pos3 + " - ";
 		}
-		if (this.pos4 != null) {
-			out = out + this.pos4 + " ";
+		if (this.pos4 != POS_VACIO) {
+			out = out + this.pos4 + " - ";
 		}
-		if (this.pos5 != null) {
-			out = out + this.pos5 + " ";
+		if (this.pos5 != POS_VACIO) {
+			out = out + this.pos5 + " - ";
 		}
-		if (this.pos6 != null) {
-			out = out + this.pos6 + " ";
+		if (this.pos6 != POS_VACIO) {
+			out = out + this.pos6 + " - ";
 		}
 
 		return out + " (" + this.getId() + ")";

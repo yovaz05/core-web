@@ -277,33 +277,37 @@ public class UsuarioControlBody extends Body {
 	}
 
 	@Command()
-	public boolean validarContra() {
+	public void validarContra() {
 		boolean valido = false;
 		Misc misc = new Misc();
-		
-		String cnt1 = ""+this.selectedUsuario.getPos3();
-		String cnt2 = ""+this.selectedUsuario.getPos5();
-		
-		
-		if ((cnt1.compareTo(cnt2)==0)&&(cnt1.trim().length()>0)) {
-			valido = true;
-			this.selectedUsuario.setPos3(misc.encriptar(cnt1));
-			this.selectedUsuario.setPos5(misc.encriptar(cnt1));
-		} else  {
-			xx = "1:["+cnt1 + "] 2:[" + cnt2+"]";
-			valido = false;
-		} 
-		return valido;
+		try {
+			String cnt1 = ""+this.selectedUsuario.getPos3();
+			String cnt2 = ""+this.selectedUsuario.getPos5();
+			
+			if ((cnt1.compareTo(cnt2)==0)&&(cnt1.trim().length()>0)) {
+				valido = true;
+				this.selectedUsuario.setPos3(misc.encriptar(cnt1));
+				this.selectedUsuario.setPos5(misc.encriptar(cnt1));
+			} else  {
+				xx = "La contraseña no se pudo verificar. 1:["+cnt1 + "] 2:[" + cnt2+"]";
+				valido = false;
+				this.selectedUsuario.setPos5("");
+				throw new Exception(xx);
+			} 
+		} catch (Exception e) {
+			mensajeError(e.getMessage());
+		}
+		//return valido;
 	}
 
 	String xx = "";
 	@Override
 	public boolean verificarAlGrabar() {
-		String cnt = ""+this.selectedUsuario.getPos3();
+		/*String cnt = ""+this.selectedUsuario.getPos3();
 		if (cnt.compareTo(CNT_VACIA)!=0)
 			return this.validarContra();
-		else
-			return true;
+		else*/
+		return true;
 	}
 
 	@Override
