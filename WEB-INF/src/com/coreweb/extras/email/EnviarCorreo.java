@@ -15,17 +15,14 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;  
 import javax.mail.internet.MimeMultipart;
-
-
-import org.zkoss.zul.Messagebox;
   
   
 public class EnviarCorreo{  
   
-    private static final String SMTP_HOST_NAME = "secure.jimdo.com";  
-    private static final String SMTP_PORT = "465";  
+    private static final String SMTP_HOST_NAME = "mail.yhaguyrepuestos.com.py";  
+    private static final String SMTP_PORT = "587";  
     private static final String emailFromAddress = "sergioa@yhaguyrepuestos.com.py";
-    private static final String emailFromPasswrd = "yhaguysa123";
+    private static final String emailFromPasswrd = "sergio0985";
     private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";  
    
     
@@ -37,9 +34,9 @@ public class EnviarCorreo{
         props.put("mail.smtp.auth", "true");  
         props.put("mail.debug", "true");  
         props.put("mail.smtp.port", SMTP_PORT);  
-        props.put("mail.smtp.socketFactory.port", SMTP_PORT);  
-        props.put("mail.smtp.socketFactory.class", SSL_FACTORY);  
-        props.put("mail.smtp.socketFactory.fallback", "false");  
+        //props.put("mail.smtp.socketFactory.port", SMTP_PORT);  
+        //props.put("mail.smtp.socketFactory.class", SSL_FACTORY);  
+        //props.put("mail.smtp.socketFactory.fallback", "false"); 
   
         Session session = Session.getDefaultInstance(props,  
                 new javax.mail.Authenticator() {  
@@ -64,7 +61,7 @@ public class EnviarCorreo{
   
         Message msg = new MimeMessage(session);
         //aqui cambiar la cuenta, para que reciba como parametro..provisoriamente usa esta cuenta
-        InternetAddress addressFrom = new InternetAddress("sergioa@yhaguyrepuestos.com.py");  
+        InternetAddress addressFrom = new InternetAddress(emailFromAddress);  
         msg.setFrom(addressFrom);
           
         InternetAddress[] addressTo = new InternetAddress[recipients.length];  
