@@ -44,12 +44,7 @@ public class Config {
 		DIRECTORIO_WEB_REPORTES = DIRECTORIO_BASE_WEB + REPORTES;
 		DIRECTORIO_REAL_REPORTES = DIRECTORIO_BASE_REAL +  REPORTES;
 		
-		System.out.println("-------------------------------------------------------------");
-		System.out.println("DIRECTORIO_WEB_REPORTES:" + DIRECTORIO_WEB_REPORTES);
-		System.out.println("DIRECTORIO_REAL_REPORTES:" + DIRECTORIO_REAL_REPORTES);
-		System.out.println("-------------------------------------------------------------");
-		
-		
+	
 	}
 	
 	
