@@ -97,6 +97,17 @@ public class MyReport {
 				rep.setPageFormat(this.tipoPagina, PageOrientation.LANDSCAPE);
 			}
 
+			Templates tmp = new Templates();
+
+			rep.title(tmp.createCabeceraPrincipal(empresa, titulo, usuario));
+
+			rep.addTitle(this.body);
+
+			rep.pageFooter(Templates.footerComponent);
+			rep.setDataSource(createDataSource(cabecera.getColumnasDS(), datos));
+			rep.addSummary(this.footer);
+
+			
 			for (Iterator iterator = cabecera.getColumnas().iterator(); iterator
 					.hasNext();) {
 				DatosColumnas dc = (DatosColumnas) iterator.next();
@@ -109,22 +120,12 @@ public class MyReport {
 				if (dc.isAgrupar() == true) {
 					ColumnGroupBuilder grupo = grp.group(tx)
 							.setTitleWidth(30)
-							.setHeaderLayout(GroupHeaderLayout.TITLE_AND_VALUE)
-							.showColumnHeaderAndFooter();
+							.setHeaderLayout(GroupHeaderLayout.TITLE_AND_VALUE).showColumnHeaderAndFooter();
 					rep.groupBy(grupo);
 				}
 
 			}
-
-			Templates tmp = new Templates();
-
-			rep.title(tmp.createCabeceraPrincipal(empresa, titulo, usuario));
-
-			rep.addTitle(this.body);
-
-			rep.pageFooter(Templates.footerComponent);
-			rep.setDataSource(createDataSource(cabecera.getColumnasDS(), datos));
-			rep.addSummary(this.footer);
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
