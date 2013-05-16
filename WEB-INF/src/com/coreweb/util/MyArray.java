@@ -2,7 +2,7 @@ package com.coreweb.util;
 
 import com.coreweb.domain.IiD;
 
-public class MyArray implements IiD {
+public class MyArray extends MyAuxObject {
 
 	private static String POS_VACIO = "";
 	private Object pos1 = POS_VACIO;
@@ -19,28 +19,8 @@ public class MyArray implements IiD {
 	public MyArray() {
 	}
 	
-	private static long ID_NUEVO  = -1;
-	Long id = new Long(ID_NUEVO);
-
-	@Override
-	public Long getId() {
-		// TODO Auto-generated method stub
-		return this.id;
-	}
 
 
-	@Override
-	public void setId(Long id) {
-		// TODO Auto-generated method stub
-		this.id = id;
-	}
-
-
-	@Override
-	public boolean esNuevo() {
-		// TODO Auto-generated method stub
-		return this.id.longValue() == ID_NUEVO;
-	}
 
 
 	public String toString() {
@@ -263,17 +243,6 @@ public class MyArray implements IiD {
 
 	public void setPos10(Object pos10) {
 		this.pos10 = pos10;
-	}
-
-	public boolean equals(Object o) {
-		boolean b = false;
-		try {
-			MyArray aux = (MyArray) o;
-			b = (this.getId().longValue() == aux.getId().longValue());
-		} catch (Exception e) {
-			b = false;
-		}
-		return b;
 	}
 
 

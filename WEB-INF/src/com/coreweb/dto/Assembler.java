@@ -154,6 +154,8 @@ public abstract class Assembler {
 	protected void myPairToDomain(IiD mp, Domain dom, String atributo)
 			throws Exception, NoSuchFieldException {
 		Object value = getValue(dom, atributo);
+		
+		System.out.println("Dom:" + dom + "" + dom.getClass().getName() +" atributo:" + atributo + " value" + value);
 
 		// ver si el objeto del dominio ya tiene el mismo valor seteado
 		if (value != null) {
