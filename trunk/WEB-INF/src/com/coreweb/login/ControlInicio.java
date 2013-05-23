@@ -1,7 +1,9 @@
 package com.coreweb.login;
 
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -9,6 +11,7 @@ import java.util.Set;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
@@ -18,6 +21,7 @@ import org.zkoss.zul.Label;
 import org.zkoss.zul.Menubar;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
+import org.zkoss.zul.Window;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -118,6 +122,7 @@ class MenuitemOnclick implements EventListener {
 		this.ctr = ctr;
 	}
 
+	
 	public void onEvent(Event event) throws Exception {
 		try {
 			Component main = Path.getComponent("/templateInicio");
@@ -161,6 +166,80 @@ class MenuitemOnclick implements EventListener {
 		}
 	}
 
+	
+	public void onEvent_NO_ANDA(Event event) throws Exception {
+		try {
+			
+			Component main = Path.getComponent("/templateInicio");
+			
+			
+			Window window = (Window) Executions.createComponents(
+					"/core/inicio/inicioPopUp.zul", main, null);
+			
+			Window WindowP = (Window) window.getFellow("templateInnicioPopUp");
+
+			Collection<Component> cc =  WindowP.getFellows();
+			System.out.println("=======================================================I");
+			for (Iterator iterator = cc.iterator(); iterator.hasNext();) {
+				Component c = (Component) iterator.next();
+				System.out.println("id:" + c.getId() +"  spaceOwner:"+ c.getSpaceOwner()+ "" + c.getClass().getName());
+			}
+			System.out.println("=======================================================F");
+			
+			
+			Include inc = (Include) WindowP.getFellow("principalBody");
+			System.out.println("=== include:" + inc);
+			//inc.setSrc("");
+			this.ctr.setTextoFormularioCorriente(this.label);
+
+			String urlSolo = "";
+			String query = "";
+
+			int q = this.url.indexOf("?");
+			if (q > 0){
+				urlSolo = this.url.substring(0, q);
+				query = this.url.substring(q+1);
+				if (this.paramsFromMenu.trim().length() != 0){
+					query = query + "&" + this.paramsFromMenu;
+					
+				}
+			}else{
+				urlSolo = this.url;
+				query = this.paramsFromMenu;
+			}
+			
+			
+			if (query.length() > 1){
+				Misc m = new Misc();
+				Map<String, String> map = m.getQueryParam(query);
+				Set<String> keys = map.keySet();
+				for (String key : keys) {
+					inc.setDynamicProperty(key,  map.get(key));
+				}
+			}
+			
+			
+			inc.setSrc(urlSolo);
+						
+			window.doModal();
+
+			
+			
+			
+			
+			
+			
+		} catch (Exception e) {
+			System.out
+					.println("[Error] Control Inicio cuando se hace el include del formulario "
+							+ this.url + " \n" + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	
+	
+	
 }
 
 

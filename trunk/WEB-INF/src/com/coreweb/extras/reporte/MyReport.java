@@ -86,7 +86,7 @@ public class MyReport {
 
 		try {
 
-			pdfExporter = export.pdfExporter(archivo).setEncrypted(false);
+			
 
 			rep = report();
 			rep.setTemplate(Templates.reportTemplate);
@@ -159,8 +159,8 @@ public class MyReport {
 	public void show(boolean ver) {
 
 		try {
-			build();
-
+			build();		
+			pdfExporter = export.pdfExporter(archivo).setEncrypted(false);
 			rep.toPdf(pdfExporter);
 			if (ver) {
 				rep.show();

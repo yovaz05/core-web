@@ -55,7 +55,9 @@ public class Finder extends GenericViewModel {
 	public void doTask() {
 		if (this.selectedDTO != null) {
 			this.body.setDTOCorriente(this.selectedDTO);
-			this.windowFinder.detach();		
+			long ini = System.currentTimeMillis();
+			long fin = 0;
+		this.windowFinder.detach();		
 		}
 	}
 
