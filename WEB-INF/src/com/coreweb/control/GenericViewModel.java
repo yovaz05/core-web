@@ -35,6 +35,7 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
+import org.zkoss.zul.Rows;
 import org.zkoss.zul.SimpleConstraint;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Constrainted;
@@ -111,7 +112,7 @@ public abstract class GenericViewModel extends Control {
 	}
 
 	private void disableComponents(AbstractComponent ac, String property) {
-		//System.out.println("-----paso: "+ac.getId() + " - " + ac.getClass().getName());
+		//System.out.println("-----paso: " + ac.getId() + " - "+ ac.getClass().getName());
 		this.deshabilitado = true;
 		try {
 
@@ -140,6 +141,27 @@ public abstract class GenericViewModel extends Control {
 		} catch (Exception e) {
 		}
 
+		
+		/*
+		if (ac instanceof Rows) {
+
+			Rows rows = (Rows) ac;
+			
+			List<Component> lr = rows.getChildren();
+			
+			System.out.println("== rows ==I");
+			
+			System.out.println("Childrens:" + lr.size());
+			for (Iterator iterator = lr.iterator(); iterator.hasNext();) {
+				Component c = (Component) iterator.next();
+				System.out.println(c.getClass().getName());
+			}
+			
+			System.out.println("== rows ==F");
+			
+		}
+		*/
+
 		/*
 		 * if (ac instanceof Radiogroup){
 		 * 
@@ -151,23 +173,18 @@ public abstract class GenericViewModel extends Control {
 		 */
 
 		/*
-		Set<String> tm = ac.getTemplateNames();
-		for (Iterator iterator = tm.iterator(); iterator.hasNext();) {
-			String tname = (String) iterator.next();
-			Template t = ac.getTemplate(tname);
-			System.out.println("-----paso: template "+tname+" - "+ t.getClass().getName());
-			Map<String, Object> m =  t.getParameters();
-			Set<String> ks = m.keySet();
-			for (Iterator iterator2 = ks.iterator(); iterator2.hasNext();) {
-				String k = (String) iterator2.next();
-				Object o = m.get(k);
-				System.out.println("------------------------"+k+" - "+ o.getClass().getName());	
-			}
-			//disableComponents((AbstractComponent)t, property);
-		}
-		*/
+		 * Set<String> tm = ac.getTemplateNames(); for (Iterator iterator =
+		 * tm.iterator(); iterator.hasNext();) { String tname = (String)
+		 * iterator.next(); Template t = ac.getTemplate(tname);
+		 * System.out.println("-----paso: template "+tname+" - "+
+		 * t.getClass().getName()); Map<String, Object> m = t.getParameters();
+		 * Set<String> ks = m.keySet(); for (Iterator iterator2 = ks.iterator();
+		 * iterator2.hasNext();) { String k = (String) iterator2.next(); Object
+		 * o = m.get(k); System.out.println("------------------------"+k+" - "+
+		 * o.getClass().getName()); } //disableComponents((AbstractComponent)t,
+		 * property); }
+		 */
 
-		
 		List children = ac.getChildren();
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
@@ -263,7 +280,8 @@ public abstract class GenericViewModel extends Control {
 
 	}
 
-	// Pone el (*) en los campos con constraint, si tiene constraint es obligatorio
+	// Pone el (*) en los campos con constraint, si tiene constraint es
+	// obligatorio
 	public void addCamposObligotorios(Component ac) {
 		this.addCamposObligotorios((AbstractComponent) ac);
 	}
@@ -310,26 +328,25 @@ public abstract class GenericViewModel extends Control {
 		return ac;
 
 	}
-	
+
 	// Crea un nuevo Window recibiendo como parametro el Path del zul..
-	public Window createWindow(Window window, String zulPath){
-		
-		window = (Window) Executions.createComponents(zulPath, this.mainComponent, null);
+	public Window createWindow(Window window, String zulPath) {
+
+		window = (Window) Executions.createComponents(zulPath,
+				this.mainComponent, null);
 		this.addCamposObligotorios(window);
-		
+
 		return window;
 	}
-	
-	
-	public MyConverter getCnv(){
+
+	public MyConverter getCnv() {
 		return new MyConverter();
 	}
-	
-	/*public Object getAtributoSession(String arg) {
-		Session s = Sessions.getCurrent();
-		Object atributo = s.getAttribute(arg);
-		return atributo;
-	}*/
-	
+
+	/*
+	 * public Object getAtributoSession(String arg) { Session s =
+	 * Sessions.getCurrent(); Object atributo = s.getAttribute(arg); return
+	 * atributo; }
+	 */
 
 }
