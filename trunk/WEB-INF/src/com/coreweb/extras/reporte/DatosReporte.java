@@ -31,6 +31,10 @@ public abstract class DatosReporte {
 	public static final DateMonthType TIPO_DATEMONTH = type.dateMonthType();
 	public static final DateDayType TIPO_DATEDAY =type.dateDayType();
 	
+
+	public static final String EXPORT_PDF = ".pdf";
+	public static final String EXPORT_CSV = ".csv";
+	
 	public static final int COLUMNA_ALINEADA_CENTRADA = 1;
 	public static final int COLUMNA_ALINEADA_IZQUIERDA = 2;
 	public static final int COLUMNA_ALINEADA_DERECHA = 3;
@@ -144,6 +148,7 @@ public abstract class DatosReporte {
 		String pathCompleto = this.directorioBase + "/" + this.archivo;
 
 		MyReport reporte = new MyReport(cr, body, footer, data, empresa, titulo, usuario, pathCompleto);
+		reporte.setFormato(DatosReporte.EXPORT_PDF);
 		reporte.setLandscape(this.apaisada);
 		reporte.show(mostrar);
 		if ((mostrar == true)&&(this.isBorrarDespuesDeVer() == true)){
