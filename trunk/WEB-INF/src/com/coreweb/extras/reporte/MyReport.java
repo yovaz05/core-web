@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
+import net.sf.dynamicreports.jasper.builder.export.AbstractJasperExporterBuilder;
+import net.sf.dynamicreports.jasper.builder.export.ExporterBuilders;
+import net.sf.dynamicreports.jasper.builder.export.JasperCsvExporterBuilder;
 import net.sf.dynamicreports.jasper.builder.export.JasperPdfExporterBuilder;
 import net.sf.dynamicreports.report.builder.FieldBuilder;
 import net.sf.dynamicreports.report.builder.column.ColumnBuilder;
@@ -29,7 +32,9 @@ import net.sf.jasperreports.engine.JRDataSource;
 public class MyReport {
 
 	CabeceraReporte cabecera = new CabeceraReporte();
-	List<Object[]> datos = new ArrayList<Object[]>();;
+	List<Object[]> datos = new ArrayList<Object[]>();
+	AbstractJasperExporterBuilder exporter;
+	String tipoFormato = ".pdf";
 	JasperReportBuilder rep;
 	ComponentBuilder body;
 	ComponentBuilder footer;
@@ -85,8 +90,6 @@ public class MyReport {
 		}
 
 		try {
-
-			
 
 			rep = report();
 			rep.setTemplate(Templates.reportTemplate);
@@ -159,9 +162,21 @@ public class MyReport {
 	public void show(boolean ver) {
 
 		try {
+
+			build();
+			if(tipoFormato.equals(DatosReporte.EXPORT_CSV)){
+				exporter = export.csvExporter(archivo+".csv");
+				rep.toCsv((JasperCsvExporterBuilder)exporter);
+			}
+			else if(tipoFormato.equals(DatosReporte.EXPORT_PDF)){
+				exporter = export.pdfExporter(archivo+".csv");
+				rep.toPdf((JasperPdfExporterBuilder)exporter);
+			}
+			
 			build();		
 			pdfExporter = export.pdfExporter(archivo).setEncrypted(false);
 			rep.toPdf(pdfExporter);
+
 			if (ver) {
 				rep.show();
 
@@ -170,6 +185,10 @@ public class MyReport {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void setFormato(String exportPdf) {
+		tipoFormato = exportPdf;
 	}
 
 }
