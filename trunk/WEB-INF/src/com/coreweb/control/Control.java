@@ -12,12 +12,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.ext.Disable;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
@@ -67,14 +72,16 @@ public class Control {
 
 	// seteo inicial
 	public void preInit() {
+		/*
 		System.out.println("*******************************************");
 		System.out.println("** Falta implementar el preInit: "
 				+ this.getClass().getName());
 		System.out.println("*******************************************");
+		*/
 	}
 
-	@Init
-	public void initPrincipal() throws Exception {
+	@Init(superclass = true)
+	public void initControl() throws Exception {
 		System.out.println("[ToDo] control de session de usuario ==========");
 
 
@@ -100,17 +107,22 @@ public class Control {
 		this.poneCarita(this.us.isLogeado());
 	}
 
+
 	@AfterCompose(superclass = true)
-	public void afterComposeBody() {
+	public void afterComposeControl(
+			@ContextParam(ContextType.VIEW) Component view) {
+		Selectors.wireComponents(view, this, false);
+		Selectors.wireEventListeners(view, this);
+		
 		if (this.us.isLogeado() == true) {
 			// si esta logeado retorna, cualquier otro caso exepcion
-			System.out.println("usuario logeado: " + this.us.getLogin());
+			//System.out.println("usuario logeado: " + this.us.getLogin());
 
 			String aliasF = this.getAliasFormularioCorriente();
 			if (this.getUs().formDeshabilitado(aliasF) == true) {
 				System.out.println("=========== [" + this.us.getLogin()
 						+ "] No tiene permisos para acceder a esta pagina: ["
-						+ aliasF + "] " + this.getClass().getName());
+						+ aliasF + "] " + this.getClass().getName()+":"+this);
 				this.saltoDePagina(Archivo.errorLogin);
 			}
 
@@ -201,6 +213,7 @@ public class Control {
 
 		try {
 			main = Path.getComponent("/templateInicio");
+			/*
 			System.out
 					.println("========================================================");
 			System.out.println(main.getId() + "-" + main.getClass().getName());
@@ -213,6 +226,8 @@ public class Control {
 
 			System.out
 					.println("========================================================");
+			*/
+
 			Image img = (Image) main.getFellow("carita", true);
 			if (b == true) {
 				img.setSrc(Archivo.caritaFeliz);
@@ -242,8 +257,7 @@ public class Control {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out
-				.println("==================================== Fin no autorizado ============");
+		//System.out.println("==================================== Fin no autorizado ============");
 	}
 
 	public Assembler getAss() {
@@ -348,7 +362,7 @@ public class Control {
 			// ojo, siempre se usa el original
 			ListModel<DTO> listModel = this.getAllModelOriginalx();
 			int size = listModel.getSize();
-			System.out.println("");
+			//System.out.println("");
 
 			for (int i = 0; i < size; i++) {
 				DTO dto = listModel.getElementAt(i);

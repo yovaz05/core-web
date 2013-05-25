@@ -6,6 +6,7 @@ import org.zkoss.zk.ui.Executions;
 
 public class Config {
 
+	public static String ALIAS_HABILITADO_SI_O_SI = "-- Alias habilitado si o si  --";
 	public static String LOGEADO = "logeado";
 	public static String USUARIO = "usuario";
 

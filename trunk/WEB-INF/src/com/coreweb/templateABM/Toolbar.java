@@ -14,11 +14,13 @@ import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.ext.Disable;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.Messagebox.Button;
 
+import com.coreweb.Config;
 import com.coreweb.IDCore;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.dto.DTO;
@@ -38,15 +40,15 @@ public class Toolbar extends GenericViewModel {
 	}
 
 	@Init(superclass = true)
-	public void init(@ExecutionParam("pageVM") Object pageVM) {
-		System.out.println("Init Toolbar... ");
+	public void initToolbar(@ExecutionParam("pageVM") Object pageVM) {
+		
 		Page page = (Page) pageVM;
-		page.setTool(this);
 		this.setPagina(page);
+		page.setTool(this);
 	}
 
 	@AfterCompose(superclass = true)
-	public void afterComposeFooter() {
+	public void afterComposeToolbar() {
 		this.deshabilitarComponentes();
 	}
 
@@ -99,16 +101,12 @@ public class Toolbar extends GenericViewModel {
 	@GlobalCommand
 	@NotifyChange("*")
 	public void habilitarComponentes() {
-		System.out
-				.println("habilitarComponentes: " + this.getClass().getName());
 		this.disableAllComponents();
 	}
 
 	@GlobalCommand
 	@NotifyChange("*")
 	public void deshabilitarComponentes() {
-		System.out.println("deshabilitarComponentes: "
-				+ this.getClass().getName());
 		this.restoreAllDisabledComponents();
 	}
 
@@ -117,7 +115,6 @@ public class Toolbar extends GenericViewModel {
 		String texLabel = this.pagina.getTextoFormularioCorriente()
 				+ " (Agregar)";
 		this.setTextoFormularioCorriente(texLabel);
-		System.out.println("boton add...");
 
 		DTO dtoAux = this.getPagina().getBody().nuevoDTO();
 		this.getPagina().getBody().setDTOCorriente(dtoAux);
@@ -129,7 +126,6 @@ public class Toolbar extends GenericViewModel {
 		String texLabel = this.pagina.getTextoFormularioCorriente()
 				+ " (Editar)";
 		this.setTextoFormularioCorriente(texLabel);
-		System.out.println("boton edit...");
 
 	}
 
@@ -138,14 +134,13 @@ public class Toolbar extends GenericViewModel {
 		String texLabel = this.pagina.getTextoFormularioCorriente()
 				+ " (Eliminar)";
 		this.setTextoFormularioCorriente(texLabel);
-		System.out.println("boton delete...");
+
 
 		Button b = Messagebox.show("Eliminar el registro?", "Eliminar",
 				new Messagebox.Button[] { Messagebox.Button.YES,
 						Messagebox.Button.NO }, Messagebox.QUESTION, null);
 		if (b.compareTo(Messagebox.Button.YES) == 0) {
 
-			System.out.println("[ToDo] Eliminar");
 			this.pagina.borrarDTOCorriente();
 		}
 
@@ -159,7 +154,6 @@ public class Toolbar extends GenericViewModel {
 		String texLabel = this.pagina.getTextoFormularioCorriente()
 				+ " (Buscar)";
 		this.setTextoFormularioCorriente(texLabel);
-		System.out.println("boton search...");
 		
 		List listaOrdenada = this.pagina.getBody().getAllModel();
 		Collections.sort(listaOrdenada);
@@ -176,8 +170,12 @@ public class Toolbar extends GenericViewModel {
 		texLabel = this.pagina.getTextoFormularioCorriente();
 		this.setTextoFormularioCorriente(texLabel);
 
+			
 	}
 
+	
+
+	
 	public String getIdObjeto(){
 		String out = "-";
 		try {

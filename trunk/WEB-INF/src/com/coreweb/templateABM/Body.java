@@ -84,7 +84,7 @@ public abstract class Body extends GenericViewModel {
 	}
 
 	@AfterCompose(superclass = true)
-	public void afterComposeBody() {
+	public void afterComposeBodyxxx() {
 	
 		this.addCamposObligotorios(this.mainComponent);
 		this.deshabilitarComponentes();

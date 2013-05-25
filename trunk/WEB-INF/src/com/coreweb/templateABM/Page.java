@@ -19,6 +19,7 @@ import org.zkoss.zk.ui.Path;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Window;
 
+import com.coreweb.Config;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.dto.DTO;
 
@@ -29,10 +30,10 @@ public class Page extends GenericViewModel {
 	private Body body;
 	private Toolbar tool;
 	private Footer footer;
-	private String aliasABM = "--AliasTemplateABM--";
+	private String aliasABMx = "--AliasTemplateABM--";
 
 	@Init(superclass = true)
-	public void pageInit() {
+	public void initPage() {
 		
 	}
 
@@ -55,7 +56,6 @@ public class Page extends GenericViewModel {
 			Include body = (Include) this.mainComponent.getFellow("body");
 			String oldUrl = body.getSrc();
 			body.setSrc(bodyUrl);
-			
 			
 
 		} catch (Exception ex) {
@@ -107,11 +107,14 @@ public class Page extends GenericViewModel {
 	}
 	
 	public String getAliasFormularioCorriente() {
-		return this.aliasABM;
+		if (this.getBody() == null){
+			return Config.ALIAS_HABILITADO_SI_O_SI;
+		}
+		return  super.getAliasFormularioCorriente();// this.aliasABM;
 	}
 
 	public void setAliasABM(String aliasABM) {
-		this.aliasABM = aliasABM;
+		this.setAliasFormularioCorriente(aliasABM);
 	}
 
 	public Body getBody() {
