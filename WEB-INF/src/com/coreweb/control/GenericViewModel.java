@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.hamcrest.core.IsInstanceOf;
+import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Default;
@@ -23,6 +24,8 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.ext.Disable;
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Template;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
@@ -85,11 +88,12 @@ public abstract class GenericViewModel extends Control {
 		super(null);
 	}
 
+	
 	public Component mainComponent = null;
 
 	// creo que este método debería estar en control
 	// *ver* Para que se usaba?
-	public abstract String getAliasFormularioCorriente();
+	//public abstract String getAliasFormularioCorriente();
 
 	// para guardar el estado de los componentes, esto es porque segun los
 	// permisos puede que haya algunos que ya estan desabilitados, y cuando se
@@ -100,6 +104,12 @@ public abstract class GenericViewModel extends Control {
 	public void initGenericViewModel(
 			@ContextParam(ContextType.VIEW) Component view) {
 		this.mainComponent = view;
+
+	}
+
+
+	@AfterCompose(superclass = true)
+	public void afterComposeGenericViewModel() {
 
 	}
 

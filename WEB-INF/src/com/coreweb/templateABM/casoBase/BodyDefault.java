@@ -2,6 +2,10 @@ package com.coreweb.templateABM.casoBase;
 
 import java.util.List;
 
+import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Init;
+
+import com.coreweb.Config;
 import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
 import com.coreweb.templateABM.Body;
@@ -10,6 +14,21 @@ import com.coreweb.templateABM.Body;
 
 public class BodyDefault extends Body {
 
+	
+
+	@Init(superclass = true)
+	public void initBodyDefault() {	
+		//this.setAliasFormularioCorriente(Config.ALIAS_HABILITADO_SI_O_SI);
+		this.getPagina().setAliasFormularioCorriente(Config.ALIAS_HABILITADO_SI_O_SI);
+	}
+
+	
+	@AfterCompose(superclass = true)
+	public void afterComposeBodyDefault(){
+		
+	}
+
+	
 	@Override
 	public DTO getDTOCorriente() {
 		// TODO Auto-generated method stub
@@ -56,12 +75,5 @@ public class BodyDefault extends Body {
 		return "BodyDefault.textoErrorVerificarGrabar";
 	}
 
-/*
-	@Override
-	public String getFormularioGrilla() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-*/
 
 }

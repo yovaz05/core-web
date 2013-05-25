@@ -11,6 +11,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Messagebox.Button;
 import org.zkoss.zul.Messagebox.ClickEvent;
 
+import com.coreweb.Config;
 import com.coreweb.control.GenericViewModel;
 
 
@@ -28,23 +29,24 @@ public class Footer extends GenericViewModel {
 	}	
 	
 	@Init(superclass=true)
-	public void init(@ExecutionParam("pageVM") Object pageVM) {
-		System.out.println("Init Footer... ");
+	public void initFooter(@ExecutionParam("pageVM") Object pageVM) {
 		Page page = (Page) pageVM;
-		page.setFooter(this);
 		this.setPagina(page);
+		page.setFooter(this);
 	}
 
 	@AfterCompose(superclass = true)
 	public void afterComposeFooter() {
-		System.out.println("AfterCompose Footer... ");
 		this.deshabilitarComponentes();
+	}
+
+	public String getAliasFormularioCorriente() {
+		return this.getPagina().getAliasFormularioCorriente();
 	}
 
 	
 	@Command
     public void doTask () {
-    	System.out.println("boton doTask...");
 		this.yesClick = false;
     	
     	if ( this.pagina.getBody().verificarAlGrabar() == false){
@@ -66,7 +68,6 @@ public class Footer extends GenericViewModel {
 	
 	@Command
     public void save () {
-    	System.out.println("boton save...");
     	if ( this.pagina.getBody().verificarAlGrabar() == false){
     		this.mensajeError(this.pagina.getBody().textoErrorVerificarGrabar());
     		return;
@@ -87,7 +88,6 @@ public class Footer extends GenericViewModel {
 	@Command
 	@NotifyChange("*")
     public void discard () throws Exception {
-		System.out.println("boton discard...");
 		this.yesClick = false;
         Button b = Messagebox.show("Está seguro que quiere cancelar la operación?\n Perderá los cambios desde la última vez que grabó.", "Cancelar", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO }, Messagebox.QUESTION, null);
@@ -107,7 +107,6 @@ public class Footer extends GenericViewModel {
 	@GlobalCommand
 	@NotifyChange("*")
 	public void habilitarComponentes(){
-		System.out.println("habilitarComponentes: " + this.getClass().getName());
 		this.restoreAllDisabledComponents();
 	}
 	
@@ -115,13 +114,9 @@ public class Footer extends GenericViewModel {
 	@GlobalCommand
 	@NotifyChange("*")
 	public void deshabilitarComponentes(){
-		System.out.println("deshabilitarComponentes: " + this.getClass().getName());
 		this.disableAllComponents();
 	}
 	
-	public String getAliasFormularioCorriente(){
-		return this.getPagina().getAliasFormularioCorriente();
-	}
 	
 	public boolean isYesClick() {
 		return yesClick;
