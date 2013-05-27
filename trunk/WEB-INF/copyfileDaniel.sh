@@ -76,5 +76,3 @@ mv core.zip core.jar
 mv core.jar  $HASTA/WEB-INF/lib/
 
 
-
-
