@@ -64,6 +64,7 @@ public class Misc {
 	public static String YYYY_MM_DD = "yyyy-mm-dd";
 	public static String YYYY_MM_DD_HORA_MIN_SEG = "yyyy-MM-dd h:m:s";
 	public static String YYYY_MM_DD_HORA_MIN_SEG2 = "yyyy-MM-dd (h:m:s)";
+	public static String YYYY_MM_DD_HORA_MIN_SEG3 = "yyyy-MM-dd (hh:mm:ss)";
 
 	public static String LABEL_BORDER = "border:1px solid; border-color:#54afcb; padding:2px";
 

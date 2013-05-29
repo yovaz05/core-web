@@ -52,7 +52,7 @@ public class AgendaEventoDetalleDTO extends DTO {
 
 	public String getFechaHora() {
 		String out = "";
-		out = m.dateToString(this.fecha,Misc.YYYY_MM_DD_HORA_MIN_SEG);
+		out = m.dateToString(this.fecha,Misc.YYYY_MM_DD_HORA_MIN_SEG3);
 		return out;
 	}
 

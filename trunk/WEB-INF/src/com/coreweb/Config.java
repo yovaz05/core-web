@@ -9,6 +9,7 @@ public class Config {
 	public static String ALIAS_HABILITADO_SI_O_SI = "-- Alias habilitado si o si  --";
 	public static String LOGEADO = "logeado";
 	public static String USUARIO = "usuario";
+	public static String LOGIN = "login";
 
 	public static String PREFIX = "prefix";
 	
