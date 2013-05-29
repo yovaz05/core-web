@@ -60,6 +60,7 @@ public class WindowPopup {
 		b.addComponente("vlayout", vl);
 		b.setWidthWindows(this.width);
 		b.setCheckAC(this.getCheckAC());
+	
 
 		b.showPopupUnaColumna(this.titulo);
 		this.clickAceptar = b.isClickAceptar();

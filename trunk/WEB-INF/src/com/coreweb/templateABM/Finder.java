@@ -22,8 +22,6 @@ import org.zkoss.zul.Window;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.dto.DTO;
 
-
-
 public class Finder extends GenericViewModel {
 
 	Window windowFinder;
@@ -50,14 +48,11 @@ public class Finder extends GenericViewModel {
 		System.out.println("----------------->" + selectedDTO);
 	}
 
-
 	@Command
 	public void doTask() {
 		if (this.selectedDTO != null) {
 			this.body.setDTOCorriente(this.selectedDTO);
-			long ini = System.currentTimeMillis();
-			long fin = 0;
-		this.windowFinder.detach();		
+			this.windowFinder.detach();
 		}
 	}
 
