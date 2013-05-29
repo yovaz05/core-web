@@ -61,7 +61,7 @@ public class Misc {
 	public static String COLOR_ROJO = "color:red";
 	public static String SIMBOLO_ASTERISCO = "(*)";
 
-	public static String YYYY_MM_DD = "yyyy-mm-dd";
+	public static String YYYY_MM_DD = "yyyy-MM-dd";
 	public static String YYYY_MM_DD_HORA_MIN_SEG = "yyyy-MM-dd h:m:s";
 	public static String YYYY_MM_DD_HORA_MIN_SEG2 = "yyyy-MM-dd (h:m:s)";
 	public static String YYYY_MM_DD_HORA_MIN_SEG3 = "yyyy-MM-dd (hh:mm:ss)";
