@@ -27,8 +27,13 @@
 				@global-command('refreshComponentes')"
 				disabled="@load(Toolbar.buscarDeshabilitado)" />
 				
-
+				<!-- 
+			<toolbarbutton id="buscar2" image="/core/images/find.png" tooltiptext="Buscar2"
+				disabled="@load(Toolbar.buscarDeshabilitado)" />
+				 -->
+				 
 			<label id="idObjeto" value="@load(Toolbar.idObjeto)" />
+			
 		</toolbar>
 
 

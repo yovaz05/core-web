@@ -287,7 +287,7 @@ public abstract class GenericViewModel extends Control {
 	@GlobalCommand
 	@NotifyChange("*")
 	public void refreshComponentes() {
-
+		//System.out.println("=== refreshComponentes GenericViewModel:" + this.getClass().getName());
 	}
 
 	// Pone el (*) en los campos con constraint, si tiene constraint es

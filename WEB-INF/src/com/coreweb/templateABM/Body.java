@@ -27,11 +27,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.DependsOn;
 import org.zkoss.bind.annotation.ExecutionParam;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
@@ -103,10 +105,11 @@ public abstract class Body extends GenericViewModel {
 	@GlobalCommand
 	@NotifyChange("*")
 	public void deshabilitarComponentes(){
-		
+		//System.out.println("=== deshabilitarComponentes:" + this.getClass().getName());
 		this.readonlyAllComponents();
 	}
 
+	
 	public String getAliasFormularioCorriente(){
 		return this.getPagina().getAliasFormularioCorriente();
 	}

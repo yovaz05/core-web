@@ -6,17 +6,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.ContextParam;
+import org.zkoss.bind.annotation.ContextType;
+import org.zkoss.bind.annotation.DependsOn;
 import org.zkoss.bind.annotation.ExecutionParam;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.ext.Disable;
+import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.Listen;
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.Messagebox.Button;
 
@@ -48,8 +57,12 @@ public class Toolbar extends GenericViewModel {
 	}
 
 	@AfterCompose(superclass = true)
-	public void afterComposeToolbar() {
+	public void afterComposeToolbar(@ContextParam(ContextType.VIEW) Component xview) {
+		Selectors.wireEventListeners(xview, this);
+		Selectors.wireComponents(xview, this, false);
+
 		this.deshabilitarComponentes();
+		
 	}
 
 	public String getAliasFormularioCorriente() {
@@ -173,9 +186,51 @@ public class Toolbar extends GenericViewModel {
 			
 	}
 
-	
 
+	@Wire
+	Toolbarbutton buscar2;
 	
+	@Listen("onClick=#buscar2")
+	public void buscarMetodo() throws Exception {
+		System.out.println("=============== buscar 2 ==============");
+		String texLabel = this.pagina.getTextoFormularioCorriente()
+				+ " (Buscar)";
+		this.setTextoFormularioCorriente(texLabel);
+		
+		List listaOrdenada = this.pagina.getBody().getAllModel();
+		Collections.sort(listaOrdenada);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("modelo", new ListModelList<DTO>(listaOrdenada));
+		map.put("dtoCC", this.pagina.getBody().getDTOCorriente());
+		map.put("body", this.pagina.getBody());
+		
+		Window window = (Window)Executions.createComponents("/core/template/Finder.zul",
+		null, map);
+		window.doModal();
+		
+		texLabel = this.pagina.getTextoFormularioCorriente();
+		this.setTextoFormularioCorriente(texLabel);
+		
+		
+		System.out.println("== DTO:" + this.getPagina().getBody().getDTOCorriente().getClass().getName());
+		System.out.println("== DTO:" + this.getPagina().getBody().getDTOCorriente());
+		
+		
+		
+		BindUtils.postGlobalCommand(null, null, "refreshComponentes", null);
+		
+		//System.out.println("================= F-global command refresh componente");
+		//System.out.println("================= I-Readonly componentes");
+		//this.getPagina().getBody().readonlyAllComponents();
+		//System.out.println("================= F-Readonly componentes");
+		//BindUtils.postGlobalCommand(null, null, "refreshComponentes", null);
+		//BindUtils.postNotifyChange(null, null, this, "*");
+		//this.getPagina().getBody().readonlyAllComponents();
+				
+	}
+
+
 	public String getIdObjeto(){
 		String out = "-";
 		try {
