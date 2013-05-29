@@ -10,11 +10,14 @@ import org.zkoss.bind.annotation.ExecutionParam;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
+import com.coreweb.Config;
 import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.domain.AgendaEvento;
@@ -33,7 +36,7 @@ public class ControlAgendaEvento extends GenericViewModel {
 	public static int NORMAL = 1;
 	public static int LINK = 2;
 	
-	private String login = "error login";
+	private String xlogin = "error login";
 	
 	AssemblerAgenda assAge = new AssemblerAgenda();
 	
@@ -43,13 +46,13 @@ public class ControlAgendaEvento extends GenericViewModel {
 	}
 	
 	
-	public String getLogin() {
-		return login;
+	public String xgetLogin() {
+		return xlogin;
 	}
 
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void xsetLogin(String login) {
+		this.xlogin = login;
 	}
 
 
@@ -102,10 +105,13 @@ public class ControlAgendaEvento extends GenericViewModel {
 	public void addDetalle(int tipoAgenda, String claveAgenda, int tipoDetalle,
 			String texto, String link) throws Exception {
 		AgendaEventoDTO ageDto = this.getAgenda(tipoAgenda, claveAgenda);
+		
+		Session s = Sessions.getCurrent();
+		String login = (String) s.getAttribute(Config.LOGIN);
 
 		AgendaEventoDetalleDTO detaDto = new AgendaEventoDetalleDTO();
 		detaDto.setFecha(new Date());
-		detaDto.setUsuario(this.login); // login del control
+		detaDto.setUsuario(login); // login del control
 		detaDto.setTexto(texto);
 		detaDto.setLink(link);
 		
@@ -148,9 +154,12 @@ public class ControlAgendaEvento extends GenericViewModel {
 		bAC.showPopup("Agregar un item a la Agenda");
 
 		if (bAC.isClickAceptar() == true) {
+			Session s = Sessions.getCurrent();
+			String login = (String) s.getAttribute(Config.LOGIN);
+
 			AgendaEventoDetalleDTO aDto = new AgendaEventoDetalleDTO();
 			aDto.setFecha(new Date());
-			aDto.setUsuario(this.getUs().getLogin());
+			aDto.setUsuario(login);
 			aDto.setTexto(texto.getValue());
 			
 			this.dto.getAgendaEventoDetalles().add(aDto);

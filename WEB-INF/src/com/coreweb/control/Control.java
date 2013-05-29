@@ -92,6 +92,7 @@ public class Control {
 			
 			String prefix = Executions.getCurrent().getParameter(Config.PREFIX);
 			s.setAttribute(Config.PREFIX, prefix);
+			
 			this.inicializarDtoUtil(prefix);
 
 			
@@ -103,6 +104,7 @@ public class Control {
 					.println("--- entra al initPrincipal por primera vez al sistema");
 			return;
 		}
+		s.setAttribute(Config.LOGIN, this.us.getLogin());
 		this.preInit();
 		this.poneCarita(this.us.isLogeado());
 	}

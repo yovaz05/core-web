@@ -1,5 +1,5 @@
 
-<window id="winAgenda" border="normal" width="530px" minheight="370"
+<window id="winAgenda" border="normal" width="600px" minheight="370"
 	apply="org.zkoss.bind.BindComposer"
 	viewModel="@id('vm') @init('com.coreweb.extras.agenda.ControlAgendaEvento')"
 	closable="true" visible="false" position="&quot;right,bottom&quot;;"
@@ -18,7 +18,7 @@
 				sizedByContent="true" height="100%">
 				<custom-attributes org.zkoss.zul.grid.autoSort="true" />
 				<columns menupopup="auto">
-					<column label="Fecha" width="130px" sort="auto(fechaHora)"
+					<column label="Fecha" width="160px" sort="auto(fechaHora)"
 						onCreate="self.sort(true);" />
 					<column label="Detalle" width="240px" />
 					<column label="Link" />
