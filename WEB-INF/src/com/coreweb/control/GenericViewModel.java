@@ -53,6 +53,7 @@ public abstract class GenericViewModel extends Control {
 	private static String BUTTON_VISIBLE = "ButtonVisible";
 
 	private boolean deshabilitado = true;
+	private boolean siempreHabilitado = true;
 
 	/*
 	 * esto es para darle un tratamiento especial a algunos que se tienen que
@@ -352,6 +353,16 @@ public abstract class GenericViewModel extends Control {
 	public MyConverter getCnv() {
 		return new MyConverter();
 	}
+
+	public boolean isSiempreHabilitado() {
+		return siempreHabilitado && this.getCondicionComponenteSiempreHabilitado();
+	}
+
+	public void setSiempreHabilitado(boolean siempreHabilitado) {
+		this.siempreHabilitado = siempreHabilitado;
+	}
+	
+	public abstract boolean getCondicionComponenteSiempreHabilitado();
 
 	/*
 	 * public Object getAtributoSession(String arg) { Session s =

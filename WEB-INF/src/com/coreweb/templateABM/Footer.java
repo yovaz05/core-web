@@ -124,6 +124,11 @@ public class Footer extends GenericViewModel {
 	public void setYesClick(boolean yesClick) {
 		this.yesClick = yesClick;
 	}
+	@Override
+	public boolean getCondicionComponenteSiempreHabilitado() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 	
 	

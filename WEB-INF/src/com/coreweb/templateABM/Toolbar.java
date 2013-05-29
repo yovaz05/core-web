@@ -240,6 +240,12 @@ public class Toolbar extends GenericViewModel {
 		}
 		return "("+out+")";
 	}
+
+	@Override
+	public boolean getCondicionComponenteSiempreHabilitado() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 	
 	
 }

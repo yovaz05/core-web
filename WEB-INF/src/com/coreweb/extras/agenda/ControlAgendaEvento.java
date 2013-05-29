@@ -181,5 +181,13 @@ public class ControlAgendaEvento extends GenericViewModel {
 	}
 
 
+	@Override
+	public boolean getCondicionComponenteSiempreHabilitado() {
+		// TODO Auto-generated method stub
+		
+		return this.getDto() != null;
+	}
+
+
 	
 }
