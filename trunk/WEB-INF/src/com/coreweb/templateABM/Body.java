@@ -115,6 +115,14 @@ public abstract class Body extends GenericViewModel {
 	}
 	
 
+	@Override
+	public boolean getCondicionComponenteSiempreHabilitado() {
+		// TODO Auto-generated method stub
+		
+		return ((this.getDTOCorriente() != null) && (this.getDTOCorriente().esNuevo() == false));
+	}
+
+	
 	// se verifica antes de hacer una grabación
 	public abstract boolean verificarAlGrabar();
 	

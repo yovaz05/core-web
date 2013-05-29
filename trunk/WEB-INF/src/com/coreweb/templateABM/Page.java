@@ -141,4 +141,11 @@ public class Page extends GenericViewModel {
 		this.footer = footer;
 	}
 
+	@Override
+	public boolean getCondicionComponenteSiempreHabilitado() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	
 }

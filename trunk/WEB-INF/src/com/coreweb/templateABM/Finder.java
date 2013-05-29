@@ -67,4 +67,10 @@ public class Finder extends GenericViewModel {
 		return "Finder.java";
 	}
 
+	@Override
+	public boolean getCondicionComponenteSiempreHabilitado() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
 }

@@ -22,5 +22,11 @@ public abstract class SimpleViewModel extends GenericViewModel {
 	}
 	
 	
+	@Override
+	public boolean getCondicionComponenteSiempreHabilitado() {
+		// TODO Auto-generated method stub
+		
+		return true;
+	}
 
 }
