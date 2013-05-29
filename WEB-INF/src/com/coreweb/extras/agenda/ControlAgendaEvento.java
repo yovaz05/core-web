@@ -23,6 +23,7 @@ import com.coreweb.control.GenericViewModel;
 import com.coreweb.domain.AgendaEvento;
 import com.coreweb.domain.Register;
 import com.coreweb.dto.UtilCoreDTO;
+import com.coreweb.util.Misc;
 
 
 public class ControlAgendaEvento extends GenericViewModel {
@@ -36,7 +37,6 @@ public class ControlAgendaEvento extends GenericViewModel {
 	public static int NORMAL = 1;
 	public static int LINK = 2;
 	
-	private String xlogin = "error login";
 	
 	AssemblerAgenda assAge = new AssemblerAgenda();
 	
@@ -46,14 +46,6 @@ public class ControlAgendaEvento extends GenericViewModel {
 	}
 	
 	
-	public String xgetLogin() {
-		return xlogin;
-	}
-
-
-	public void xsetLogin(String login) {
-		this.xlogin = login;
-	}
 
 
 	@Override
@@ -106,12 +98,9 @@ public class ControlAgendaEvento extends GenericViewModel {
 			String texto, String link) throws Exception {
 		AgendaEventoDTO ageDto = this.getAgenda(tipoAgenda, claveAgenda);
 		
-		Session s = Sessions.getCurrent();
-		String login = (String) s.getAttribute(Config.LOGIN);
-
 		AgendaEventoDetalleDTO detaDto = new AgendaEventoDetalleDTO();
 		detaDto.setFecha(new Date());
-		detaDto.setUsuario(login); // login del control
+		detaDto.setUsuario(getLogin()); // login del control
 		detaDto.setTexto(texto);
 		detaDto.setLink(link);
 		
@@ -154,12 +143,10 @@ public class ControlAgendaEvento extends GenericViewModel {
 		bAC.showPopup("Agregar un item a la Agenda");
 
 		if (bAC.isClickAceptar() == true) {
-			Session s = Sessions.getCurrent();
-			String login = (String) s.getAttribute(Config.LOGIN);
-
+			
 			AgendaEventoDetalleDTO aDto = new AgendaEventoDetalleDTO();
 			aDto.setFecha(new Date());
-			aDto.setUsuario(login);
+			aDto.setUsuario(getLogin());
 			aDto.setTexto(texto.getValue());
 			
 			this.dto.getAgendaEventoDetalles().add(aDto);
@@ -174,7 +161,8 @@ public class ControlAgendaEvento extends GenericViewModel {
 	}
 
 	public String getTitulo() {
-		return titulo;
+		String fe = " (creado: "+ m.dateToString(this.getDto().getFecha(),Misc.YYYY_MM_DD_HORA_MIN_SEG)+")";
+		return titulo + fe;
 	}
 
 	public void setTitulo(String titulo) {
@@ -198,5 +186,17 @@ public class ControlAgendaEvento extends GenericViewModel {
 	}
 
 
+	private String getLogin(){
+		String out = "Juan - PoPu";
+		try {
+			Session s = Sessions.getCurrent();
+			out = (String) s.getAttribute(Config.LOGIN);
+			if (out.trim().length()==0){
+				out = "error "+" ("+ m.dateToString(new Date(),Misc.YYYY_MM_DD_HORA_MIN_SEG)+")";
+			}
+		} catch (Exception e) {
+		}
+		return out;
+	}
 	
 }

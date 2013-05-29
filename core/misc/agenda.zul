@@ -7,12 +7,12 @@
 
 	<caption image="/core/images/agenda.png" label="@load(vm.titulo)" />
 	<borderlayout height="300px">
-		<north border="none">
+		<!-- north border="none">
 			<hlayout>
 				<label value="Fecha de creación:" />
 				<label value="@load(vm.dto.fecha)" />
 			</hlayout>
-		</north>
+		</north  -->
 		<center>
 			<grid id="agendaDetalle" model="@load(vm.dto.agendaEventoDetalles)"
 				sizedByContent="true" height="100%">
