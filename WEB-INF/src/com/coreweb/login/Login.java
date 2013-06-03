@@ -2,6 +2,7 @@ package com.coreweb.login;
 
 import java.rmi.RemoteException;
 
+import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
@@ -39,15 +40,17 @@ public class Login extends Control{
 	
 
 	@Init
-	public void init(){
+	public void initLogin(){
 		Session s =  Sessions.getCurrent();
 		s.setAttribute(Config.LOGEADO, new Boolean(false));
-		
-		
+	}
+	
+	@AfterCompose
+	public void afterComposeLogin(){
 	}
 	
 	@Command
-	@NotifyChange({ "msg", "menu" })
+	@NotifyChange("*")
 	public void loginOk() throws Exception{
 		Session s =  Sessions.getCurrent();
 		
@@ -63,31 +66,19 @@ public class Login extends Control{
 		Component compTool = Path.getComponent("/templateInicio");
 		Control vm = (Control)compTool.getAttribute("vm");
 		vm.setUs(uDto);
-
 		Include inc = (Include) compTool.getFellow("menu");
 		inc.invalidate(); // esto hace un refresh del menu
 
+		
+
 		if (uDto.isLogeado() == true){
 
-			
-			
-			/*
-			Menuitem infoUser = (Menuitem)inc.getFellow("infoUser", true);
-			infoUser.setLabel("["+ uDto.getNombre()+"]");
-			
-			String perStr = "Perfiles del usuario:\n";
-			String[] arrPer = this.getUs().getPerfilesDescripcion();
-			for (int i = 0; i < arrPer.length; i++) {
-				perStr += "  - " + arrPer[i]+"\n";
-			}
-			infoUser.setTooltiptext(perStr);
-			*/
-			
 			try {
 				this.m.ejecutarMetoto(Config.INIT_CLASE, Config.INIT_AFTER_LOGIN);
 			} catch (Exception e) {
 				System.out.println("Error: Metodo afterLogin: "+Config.INIT_AFTER_LOGIN+ " no está implementado");
 			}
+			
 			
 			
 			this.setTextoFormularioCorriente("");

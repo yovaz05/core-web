@@ -9,7 +9,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.bind.annotation.QueryParam;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Path;
@@ -47,11 +50,29 @@ public class ControlInicio extends Control {
 	public ControlInicio(){
 		super(null);
 	}
+	
+	String menu = "";
+
+	public String getMenu() {
+		System.out.println("...............menu:"+menu);
+		return menu;
+	}
+
+	public void setMenu(String menu) {
+		this.menu = menu;
+	}
 
 	@Init(superclass = true)
-	public void init() {
+	public void init(@QueryParam("menu") String menu) {
 		Session s = Sessions.getCurrent();
 		s.setAttribute(Config.USUARIO, null);
+		this.setMenu(menu);
+	}
+	
+	
+	@GlobalCommand
+	@NotifyChange("*")
+	public void refreshMenu(){
 	}
 
 	@Command

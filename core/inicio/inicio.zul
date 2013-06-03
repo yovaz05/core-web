@@ -64,12 +64,12 @@
 			<!-- =================== NORTE ===================================== -->
 
 			<north border="0" collapsible="false" vflex="min">
-				<vlayout
+				<vlayout 
 					style="background: #DAF3FF repeat-x 0 center; ">
 
-					<include id="menu" src="${menuApp}" />
+					<include id="menu" src="@load(vm.menu)"/>
 
-					<label id="nombreFormulario" value="--formulario--"
+					<label id="nombreFormulario" value="."
 						style="font-size:14pt;font-weight:bold" />
 					<!-- separator bar="true" / -->
 
