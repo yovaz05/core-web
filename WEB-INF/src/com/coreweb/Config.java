@@ -33,6 +33,9 @@ public class Config {
 	public static String DIRECTORIO_WEB_REPORTES;
 	public static String DIRECTORIO_REAL_REPORTES;
 	
+	// buscar elementos
+	public static int CUANTOS_BUSCAR_ELEMENTOS = 50;
+	
 	
 	static {
 		try {

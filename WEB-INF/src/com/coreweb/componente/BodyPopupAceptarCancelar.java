@@ -99,16 +99,8 @@ public class BodyPopupAceptarCancelar {
 
 
 	public void showPopup(String titulo){
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("control", this);
-		map.put("titulo", titulo);
-		map.put("checkAC", this.checkAC);
 
 		
-		Window window = (Window) Executions.createComponents(
-				Archivo.PopupAceptarCancelar, null, map);
-		Vlayout v = (Vlayout)window.getFellow("cuerpo");
 		
 		Grid grid = new Grid();
 		grid.setWidth(this.widthWindows);
@@ -138,12 +130,25 @@ public class BodyPopupAceptarCancelar {
 			
 			rows.getChildren().add(row);
 		}
+		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("control", this);
+		map.put("titulo", titulo);
+		map.put("checkAC", this.checkAC);
+		map.put("widthWindows", this.widthWindows);
+		Window window = (Window) Executions.createComponents(
+				Archivo.PopupAceptarCancelar, null, map);
+		
+		
+		Vlayout v = (Vlayout)window.getFellow("cuerpo");
+		
 		v.getChildren().add(grid);
 		v.setWidth(this.widthWindows);
 		window.setPosition("center");
 
-		window.setWidth(null);
-		window.setWidth(null);
+		//window.setWidth(null);
 		if (this.heightWindows.trim().length() > 0){
 			window.setHeight(this.heightWindows);
 		}
@@ -153,19 +158,24 @@ public class BodyPopupAceptarCancelar {
 	
 
 	public void showPopupUnaColumna(String titulo){
-		Map<String, Object> map = new HashMap<String, Object>();
 		
+		
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("control", this);
 		map.put("titulo", titulo);
 		map.put("checkAC", this.checkAC);
+		map.put("widthWindows", this.widthWindows);
 
 		
 		Window window = (Window) Executions.createComponents(
 				Archivo.PopupAceptarCancelar, null, map);
 		Vlayout v = (Vlayout)window.getFellow("cuerpo");
+
 		
 		Grid grid = new Grid();
 		grid.setWidth(this.widthWindows);
+
+		
 		
 		// definir la columnas
 		Columns cols = new Columns();
@@ -188,6 +198,9 @@ public class BodyPopupAceptarCancelar {
 			
 			rows.getChildren().add(row);
 		}
+
+		
+
 		//v.getChildren().add(grid);
 		v.setWidth(this.widthWindows);
 		window.setPosition("center");

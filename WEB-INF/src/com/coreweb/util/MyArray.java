@@ -47,28 +47,24 @@ public class MyArray extends MyAuxObject {
 		return out + " (" + this.getId() + ")";
 	}
 
-	public String xtoString() {
-		String out = "";
-		if (this.pos1 != null) {
-			out = out + "" + this.pos1;
-		}
-		if (this.pos2 != null) {
-			out = out + " - " + this.pos2;
-		}
-		if (this.pos3 != null) {
-			out = out + " -p3:" + this.pos3;
-		}
-		if (this.pos4 != null) {
-			out = out + " -p4:" + this.pos4;
-		}
-		if (this.pos5 != null) {
-			out = out + "-p5:" + this.pos5;
-		}
-		if (this.pos6 != null) {
-			out = out + " -p6:" + this.pos6;
-		}
+	
 
-		return " (" + this.getId() + ")" + out;
+	public MyArray(Object[] dato) {
+		this.setId((long)dato[0]);
+		try {
+			this.pos1 = dato[1];
+			this.pos2 = dato[2];
+			this.pos3 = dato[3];
+			this.pos4 = dato[4];
+			this.pos5 = dato[5];
+			this.pos6 = dato[6];
+			this.pos7 = dato[7];
+			this.pos8 = dato[8];
+			this.pos9 = dato[9];
+			this.pos10 = dato[10];
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	public MyArray(Object pos1) {
