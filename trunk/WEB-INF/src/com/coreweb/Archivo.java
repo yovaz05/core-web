@@ -12,6 +12,7 @@ public class Archivo {
 
 	
 	public static String okLogin = inicio +  "okLogin.zul";
+	public static String vacio = inicio +  "vacio.zul";
 	public static String errorLogin = inicio +  "errorLogin.zul";
 	public static String noAutorizado = inicio +  "noAutorizado.zul";
 	public static String caritaFeliz = images +  "face-smile-2.png";
