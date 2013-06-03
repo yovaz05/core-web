@@ -37,6 +37,7 @@ public class BodyPopupAceptarCancelar {
 	Window windowPopupAceptarCancelar;
 
 	String widthWindows = "400px";
+	String heightWindows = "";
 	String widthColumnLabel = "100px";
 	
 	List<Pair> listaComponentes = new ArrayList<Pair>();
@@ -142,6 +143,10 @@ public class BodyPopupAceptarCancelar {
 		window.setPosition("center");
 
 		window.setWidth(null);
+		window.setWidth(null);
+		if (this.heightWindows.trim().length() > 0){
+			window.setHeight(this.heightWindows);
+		}
 
 		window.doModal();		
 	}
@@ -188,6 +193,9 @@ public class BodyPopupAceptarCancelar {
 		window.setPosition("center");
 
 		window.setWidth(null);
+		if (this.heightWindows.trim().length() > 0){
+			window.setHeight(this.heightWindows);
+		}
 
 		window.doModal();		
 	}
@@ -221,6 +229,14 @@ public class BodyPopupAceptarCancelar {
 
 	public void setCheckAC(VerificaAceptarCancelar checkAC) {
 		this.checkAC = checkAC;
+	}
+
+	public String getHighWindows() {
+		return heightWindows;
+	}
+
+	public void setHighWindows(String highWindows) {
+		this.heightWindows = highWindows;
 	}
 	
 	

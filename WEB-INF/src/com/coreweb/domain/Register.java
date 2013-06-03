@@ -568,6 +568,34 @@ public class Register {
 		return d;
 	}
 	
+	
+	public List buscarElemento(String clase, String[] atts, String[] values) throws Exception{
+		List l = null;
+		
+		String atOrd = "c."+atts[0];
+		String select = " ";
+		String where = " 1 = 1 and ";
+		int cnt = atts.length;
+		
+		for (int i = 0; i < cnt; i++) {
+			String at = "c."+atts[i];
+			String va = values[i].trim();
+			
+			select +=  at+" ,";
+			
+			if (va.length() > 0){
+				where += at + " like '%"+va+"%' and ";
+			}
+		}
+		
+		select = "select " + select.substring(0, select.length() -1);
+		where = "where " + where.substring(0, where.length() -4);
+		
+		String hql  = select +" from " + clase + " c " + where + " order by "+atOrd+" asc";
+		System.out.println(hql);
+		return this.hql(hql);
+	}
+	
 	public static void main(String[] args) {
 		try {
 			String query = "" +

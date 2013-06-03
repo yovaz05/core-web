@@ -2,7 +2,7 @@
 	apply="org.zkoss.bind.BindComposer"
 	width="400px" sizable="true" 
 	viewModel="@id('vmAC') @init('com.coreweb.componente.BodyPopupAceptarCancelar')"
-	title="${arg.titulo}">
+	title="${arg.titulo}"  contentStyle="overflow:auto"  >
 
 	<vlayout>
 
