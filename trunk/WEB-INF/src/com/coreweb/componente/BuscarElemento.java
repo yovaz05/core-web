@@ -1,5 +1,6 @@
 package com.coreweb.componente;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.*;
 
 import com.coreweb.domain.Register;
+import com.coreweb.util.MyArray;
 
 public class BuscarElemento {
 
@@ -17,10 +19,15 @@ public class BuscarElemento {
 	String[] nombresColumnas;
 	String[] valores;
 	String titulo = "Buscar ...";
+	String width = "400px";
+	String msgVacia = "Ingrese un criterio filtro...";
 
 	Listbox listbox = new Listbox();
-
+	BodyPopupAceptarCancelar bpac = new BodyPopupAceptarCancelar();
+	
 	public void show() throws Exception {
+
+		this.listbox.setEmptyMessage(this.msgVacia);
 
 		// Modelo
 		ListModelList model = new ListModelList(new ArrayList());
@@ -42,6 +49,7 @@ public class BuscarElemento {
 			FiltroBuscarElementoEvento ev = new FiltroBuscarElementoEvento(
 					this, listFiltros);
 			ahcT.addEventListener("onOK", ev);
+		
 		}
 
 		// Los headers
@@ -53,6 +61,11 @@ public class BuscarElemento {
 			Listheader lhc = new Listheader();
 			lhc.setLabel(colName);
 			lh.getChildren().add(lhc);
+
+			if (i==0){
+				// es el ID
+				lhc.setWidth("100px");
+			}
 		}
 
 		listbox.setItemRenderer(new ListitemRenderer() {
@@ -72,8 +85,10 @@ public class BuscarElemento {
 			}
 		});
 
-		BodyPopupAceptarCancelar bpac = new BodyPopupAceptarCancelar();
+		
+		
 		bpac.addComponente("Buscar", listbox);
+		bpac.setWidthWindows(this.width);
 		bpac.setHighWindows("400px");
 		bpac.showPopupUnaColumna(this.titulo);
 
@@ -81,9 +96,17 @@ public class BuscarElemento {
 
 	public void refreshModeloListbox() throws Exception {
 		Register rr = Register.getInstance();
-
-		List<Object[]> datos = (List<Object[]>) rr.buscarElemento(clase,
-				atributos, valores);
+		List<Object[]> datos = new ArrayList<Object[]>();
+		
+		String msg = this.msgVacia;
+		try {
+			datos = (List<Object[]>) rr.buscarElemento(clase,
+					atributos, valores);
+		} catch (Exception e) {
+			msg = e.getMessage();
+		}
+		
+		this.listbox.setEmptyMessage(msg);
 		this.listbox.setModel(new ListModelList(datos));
 	}
 
@@ -130,6 +153,17 @@ public class BuscarElemento {
 
 	}
 
+	public boolean isClickAceptar(){
+		return this.bpac.clickAceptar;
+	}
+	
+	public MyArray getSelectedItem(){
+		Listitem li = this.listbox.getSelectedItem();
+		Object[] dato = (Object[])li.getValue();
+		MyArray  ma = new MyArray(dato);
+		return ma;
+	}
+	
 	public String getTitulo() {
 		return titulo;
 	}
@@ -150,6 +184,15 @@ public class BuscarElemento {
 		return listbox;
 	}
 
+	public String getWidth() {
+		return width;
+	}
+
+	public void setWidth(String width) {
+		this.width = width;
+	}
+
+	
 }
 
 class FiltroBuscarElementoEvento implements EventListener {
@@ -165,13 +208,11 @@ class FiltroBuscarElementoEvento implements EventListener {
 	@Override
 	public void onEvent(Event ev) throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("==== evento: " + ev.getName() + "  id:"
-				+ ev.getTarget().getId());
-
+		
 		String[] valores = new String[listTx.size()];
 		for (int i = 0; i < listTx.size(); i++) {
 			Textbox tx = (Textbox) listTx.get(i);
-			valores[i] = tx.getValue();
+			valores[i] = tx.getValue().trim();
 		}
 		this.be.setValores(valores);
 		this.be.refreshModeloListbox();

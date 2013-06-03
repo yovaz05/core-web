@@ -18,6 +18,8 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
+import com.coreweb.Config;
+
 
 import java.io.*;
 
@@ -570,7 +572,16 @@ public class Register {
 	
 	
 	public List buscarElemento(String clase, String[] atts, String[] values) throws Exception{
-		List l = null;
+		List l = new ArrayList<Object[]>();;
+		
+		// verificar que tenga algo que buscar
+		String aux = "";
+		for (int i = 0; i < values.length; i++) {
+			aux += values[i].trim();
+		}
+		if (aux.length() < 1){
+			throw new Exception("debe ingresar un criterio de filtro");
+		}
 		
 		String atOrd = "c."+atts[0];
 		String select = " ";
@@ -592,8 +603,18 @@ public class Register {
 		where = "where " + where.substring(0, where.length() -4);
 		
 		String hql  = select +" from " + clase + " c " + where + " order by "+atOrd+" asc";
-		System.out.println(hql);
-		return this.hql(hql);
+		l = this.hql(hql);
+		
+		
+		if (l.size() > Config.CUANTOS_BUSCAR_ELEMENTOS){
+			throw new Exception("más de '"+Config.CUANTOS_BUSCAR_ELEMENTOS+"' elementos ("+l.size()+")...");
+		}
+
+		if (l.size() == 0 ){
+			throw new Exception("no se encontraron elementos ...");
+		}
+
+		return l;
 	}
 	
 	public static void main(String[] args) {
