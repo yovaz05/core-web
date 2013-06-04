@@ -25,6 +25,7 @@ public class WindowPopup {
 	private String titulo = "Titulo";
 	private int modo = 0;
 	private String width = "100px";
+	private String higth = "300px";
 	
 	private boolean clickAceptar = false;
 	
@@ -59,6 +60,7 @@ public class WindowPopup {
 		BodyPopupAceptarCancelar b = new BodyPopupAceptarCancelar();
 		b.addComponente("vlayout", vl);
 		b.setWidthWindows(this.width);
+		b.setHighWindows(this.higth);
 		b.setCheckAC(this.getCheckAC());
 	
 
@@ -90,6 +92,16 @@ public class WindowPopup {
 	}
 	public void setModo(int modo) {
 		this.modo = modo;
+	}
+
+
+	public String getHigth() {
+		return higth;
+	}
+
+
+	public void setHigth(String higth) {
+		this.higth = higth;
 	}
 
 
