@@ -14,7 +14,7 @@ import com.coreweb.util.MyArray;
 
 public class BuscarElemento {
 
-	String clase = "";
+	Class clase;
 	String[] atributos;
 	String[] nombresColumnas;
 	String[] valores;
@@ -49,6 +49,10 @@ public class BuscarElemento {
 			FiltroBuscarElementoEvento ev = new FiltroBuscarElementoEvento(
 					this, listFiltros);
 			ahcT.addEventListener("onOK", ev);
+			
+			if (i == 0){
+				ahcT.setDisabled(true);
+			}
 		
 		}
 
@@ -110,11 +114,11 @@ public class BuscarElemento {
 		this.listbox.setModel(new ListModelList(datos));
 	}
 
-	public String getClase() {
+	public Class getClase() {
 		return clase;
 	}
 
-	public void setClase(String clase) {
+	public void setClase(Class clase) {
 		this.clase = clase;
 	}
 
@@ -154,11 +158,14 @@ public class BuscarElemento {
 	}
 
 	public boolean isClickAceptar(){
-		return this.bpac.clickAceptar;
+		return ((this.getSelectedItem() != null) && (this.bpac.clickAceptar));
 	}
 	
 	public MyArray getSelectedItem(){
 		Listitem li = this.listbox.getSelectedItem();
+		if (li == null){
+			return null;
+		}
 		Object[] dato = (Object[])li.getValue();
 		MyArray  ma = new MyArray(dato);
 		return ma;
