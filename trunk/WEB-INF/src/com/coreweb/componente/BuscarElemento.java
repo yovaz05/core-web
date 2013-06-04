@@ -9,12 +9,16 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.*;
 
+import com.coreweb.domain.Domain;
 import com.coreweb.domain.Register;
+import com.coreweb.dto.Assembler;
+import com.coreweb.dto.DTO;
 import com.coreweb.util.MyArray;
 
 public class BuscarElemento {
 
 	Class clase;
+	Assembler assembler;
 	String[] atributos;
 	String[] nombresColumnas;
 	String[] valores;
@@ -171,6 +175,23 @@ public class BuscarElemento {
 		return ma;
 	}
 	
+
+	public DTO getSelectedItemDTO() throws Exception{
+		Listitem li = this.listbox.getSelectedItem();
+		if (li == null){
+			return null;
+		}
+		Object[] dato = (Object[])li.getValue();
+		long id = (long)dato[0];
+		
+		Register rr =  Register.getInstance();
+		Domain dom = rr.getObject(this.clase.getName(), id);
+		DTO dto = this.assembler.domainToDto(dom);
+		return dto;
+	}
+
+	
+	
 	public String getTitulo() {
 		return titulo;
 	}
@@ -197,6 +218,14 @@ public class BuscarElemento {
 
 	public void setWidth(String width) {
 		this.width = width;
+	}
+
+	public Assembler getAssembler() {
+		return assembler;
+	}
+
+	public void setAssembler(Assembler assembler) {
+		this.assembler = assembler;
 	}
 
 	
