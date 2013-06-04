@@ -571,7 +571,7 @@ public class Register {
 	}
 	
 	
-	public List buscarElemento(String clase, String[] atts, String[] values) throws Exception{
+	public List buscarElemento(Class clase, String[] atts, String[] values) throws Exception{
 		List l = new ArrayList<Object[]>();;
 		
 		// verificar que tenga algo que buscar
@@ -602,7 +602,7 @@ public class Register {
 		select = "select " + select.substring(0, select.length() -1);
 		where = "where " + where.substring(0, where.length() -4);
 		
-		String hql  = select +" from " + clase + " c " + where + " order by "+atOrd+" asc";
+		String hql  = select +" from " + clase.getName() + " c " + where + " order by "+atOrd+" asc";
 		l = this.hql(hql);
 		
 		
