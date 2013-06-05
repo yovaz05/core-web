@@ -82,7 +82,7 @@ public class Control {
 
 	@Init(superclass = true)
 	public void initControl() throws Exception {
-		System.out.println("[ToDo] control de session de usuario ==========");
+		//System.out.println("[ToDo] control de session de usuario ==========");
 
 
 		Session s = Sessions.getCurrent();
@@ -100,8 +100,7 @@ public class Control {
 			
 			//dr aca poner la invocacion afterLogin
 			
-			System.out
-					.println("--- entra al initPrincipal por primera vez al sistema");
+			//System.out.println("--- entra al initPrincipal por primera vez al sistema");
 			return;
 		}
 		s.setAttribute(Config.LOGIN, this.us.getLogin());

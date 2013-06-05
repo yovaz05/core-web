@@ -603,6 +603,7 @@ public class Register {
 		where = "where " + where.substring(0, where.length() -4);
 		
 		String hql  = select +" from " + clase.getName() + " c " + where + " order by "+atOrd+" asc";
+		System.out.println("\n\n\n"+hql+"\n\n\n");
 		l = this.hql(hql);
 		
 		
