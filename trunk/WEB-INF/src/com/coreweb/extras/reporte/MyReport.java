@@ -38,7 +38,7 @@ public class MyReport {
 	JasperReportBuilder rep;
 	ComponentBuilder body;
 	ComponentBuilder footer;
-	JasperPdfExporterBuilder pdfExporter;
+	//JasperPdfExporterBuilder pdfExporter;
 	boolean landscape = false;
 	PageType tipoPagina = PageType.A4;
 
@@ -169,12 +169,12 @@ public class MyReport {
 				rep.toCsv((JasperCsvExporterBuilder)exporter);
 			}
 			else if(tipoFormato.equals(DatosReporte.EXPORT_PDF)){
-				exporter = export.pdfExporter(archivo+".csv");
+				exporter = export.pdfExporter(archivo+".pdf");
 				rep.toPdf((JasperPdfExporterBuilder)exporter);
 			}
 			
 			build();		
-			pdfExporter = export.pdfExporter(archivo).setEncrypted(false);
+			JasperPdfExporterBuilder pdfExporter = export.pdfExporter(archivo).setEncrypted(false);
 			rep.toPdf(pdfExporter);
 
 			if (ver) {

@@ -2,6 +2,7 @@ package com.coreweb.login;
 
 import java.rmi.RemoteException;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -43,6 +44,7 @@ public class Login extends Control{
 	public void initLogin(){
 		Session s =  Sessions.getCurrent();
 		s.setAttribute(Config.LOGEADO, new Boolean(false));
+		BindUtils.postGlobalCommand(null, null, "deshabilitarMenu", null);
 	}
 	
 	@AfterCompose

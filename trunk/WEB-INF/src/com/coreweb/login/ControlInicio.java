@@ -67,14 +67,37 @@ public class ControlInicio extends Control {
 		Session s = Sessions.getCurrent();
 		s.setAttribute(Config.USUARIO, null);
 		this.setMenu(menu);
+
+		// poner en la session el controlInicio
+		//s.setAttribute(Config.CONTROL_INICIO, this);
 	}
 	
 	
 	@GlobalCommand
 	@NotifyChange("*")
-	public void refreshMenu(){
+	public void habilitarComponentes(){
+		this.setMenuVisible(false);
 	}
 
+	@GlobalCommand
+	@NotifyChange("*")
+	public void deshabilitarComponentes(){
+		this.setMenuVisible(true);
+	}
+	
+	@GlobalCommand
+	@NotifyChange("*")
+	public void habilitarMenu(){
+		this.setMenuVisible(true);
+	}
+
+	@GlobalCommand
+	@NotifyChange("*")
+	public void deshabilitarMenu(){
+		this.setMenuVisible(false);
+	}
+	
+	
 	@Command
 	public void mostrarCarita() {
 		this.carita.mostrarCarita();
@@ -121,6 +144,20 @@ public class ControlInicio extends Control {
 		
 		mp.getChildren().add(m);
 	}
+	
+
+	// Menu visible ================
+	public boolean menuVisible = false;
+
+	public boolean isMenuVisible() {
+		return menuVisible;
+	}
+
+
+	public void setMenuVisible(boolean menuVisible) {
+		this.menuVisible = menuVisible;
+	}
+
 	
 }
 
@@ -256,10 +293,7 @@ class MenuitemOnclick implements EventListener {
 							+ this.url + " \n" + e.getMessage());
 			e.printStackTrace();
 		}
-	}
-
-	
-	
+	}	
 	
 }
 

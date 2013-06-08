@@ -76,6 +76,8 @@ public class BuscarElemento {
 			}
 			if (i == 1){
 				ahcT.setValue(valores[1]); // el dato que viene como parámetro
+				ahcT.setFocus(true);
+				ahcT.focus();
 			}
 		
 		}

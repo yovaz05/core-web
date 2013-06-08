@@ -139,7 +139,6 @@ public class Toolbar extends GenericViewModel {
 		String texLabel = this.pagina.getTextoFormularioCorriente()
 				+ " (Editar)";
 		this.setTextoFormularioCorriente(texLabel);
-
 	}
 
 	@Command
