@@ -43,7 +43,9 @@ import org.zkoss.zul.SimpleConstraint;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.ext.Constrainted;
 
+import com.coreweb.Config;
 import com.coreweb.dto.Assembler;
+import com.coreweb.login.ControlInicio;
 import com.coreweb.util.MyConverter;
 
 public abstract class GenericViewModel extends Control {
@@ -370,4 +372,17 @@ public abstract class GenericViewModel extends Control {
 	 * atributo; }
 	 */
 
+
+	public void xhabilitarMenu(){
+		Session s =  Sessions.getCurrent();
+		ControlInicio ctr = (ControlInicio) s.getAttribute(Config.CONTROL_INICIO);
+		ctr.setMenuVisible(true);
+	}
+
+	public void xdeshabilitarMenu(){
+		Session s =  Sessions.getCurrent();
+		ControlInicio ctr = (ControlInicio) s.getAttribute(Config.CONTROL_INICIO);
+		ctr.setMenuVisible(false);
+	}
+	
 }

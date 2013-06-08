@@ -98,8 +98,6 @@ public class Footer extends GenericViewModel {
         	        	
         	String texLabel = this.pagina.getTextoFormularioCorriente();
     		this.setTextoFormularioCorriente(texLabel);
-
-        	
         }        
     }
 	

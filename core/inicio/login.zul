@@ -38,7 +38,7 @@
                 <row>Clave : <textbox id="pwd" type="password" value="@bind(crt.pass)" c:onFocus="this.select()"/></row>
                 <row><cell sclass="loginCtl" colspan="2"><vlayout>
                     <button label="Submit" onClick="@command('loginOk') 
-                          @global-command('refreshMenu')" width="100px"/>
+                          @global-command('habilitarMenu')" width="100px"/>
                     <label id="mesg" value="@load(crt.msg)" />
                 </vlayout></cell></row>
             </rows>

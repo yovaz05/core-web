@@ -42,6 +42,8 @@ public abstract class DatosReporte {
 	
 	public static final PageType A4 = PageType.A4;
 	public static final PageType LEGAL = PageType.LEGAL;
+	public static final PageType OFICIO = PageType.FLSA;
+
 	
 	private CabeceraReporte cr;
 	private ComponentBuilder body = cmp.horizontalList();
@@ -86,6 +88,9 @@ public abstract class DatosReporte {
 		this.tipoPagina = LEGAL;
 	}
 	
+	public void setOficio(){
+		this.tipoPagina = OFICIO;
+	}
 	
 	public String getTitulo() {
 		return titulo;

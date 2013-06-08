@@ -10,6 +10,7 @@ public class Config {
 	public static String LOGEADO = "logeado";
 	public static String USUARIO = "usuario";
 	public static String LOGIN = "login";
+	public static String CONTROL_INICIO = "ControlInicio";
 
 	public static String PREFIX = "prefix";
 	
