@@ -62,9 +62,10 @@ public class Misc {
 	public static String SIMBOLO_ASTERISCO = "(*)";
 
 	public static String YYYY_MM_DD = "yyyy-MM-dd";
-	public static String YYYY_MM_DD_HORA_MIN_SEG = "yyyy-MM-dd h:m:s";
-	public static String YYYY_MM_DD_HORA_MIN_SEG2 = "yyyy-MM-dd (h:m:s)";
-	public static String YYYY_MM_DD_HORA_MIN_SEG3 = "yyyy-MM-dd (hh:mm:ss)";
+	public static String YYYY_MM_DD_HORA_MIN_SEG = "yyyy-MM-dd HH:mm:ss";
+	public static String YYYY_MM_DD_HORA_MIN_SEG2 = "yyyy-MM-dd (H:m:s)";
+	public static String YYYY_MM_DD_HORA_MIN_SEG3 = "yyyy-MM-dd (HH:mm:ss)";
+	public static String YYYY_MM_DD_HORA_MIN_SEG_MIL = "yyyy-MM-dd_HH_mm_ss_S";
 
 	public static String LABEL_BORDER = "border:1px solid; border-color:#54afcb; padding:2px";
 
@@ -869,7 +870,8 @@ public class Misc {
 		}
 	}
 	
-	public static void main(String[] args) {
+	
+	public static void Xmain(String[] args) {
 		double d = 10.1;
 		int i = 140;
 		long l = 10;
@@ -881,6 +883,16 @@ public class Misc {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public static void main(String[] args) {
+		try {
+			Misc m = new Misc();
+			String s = m.dateToString(new Date(), m.YYYY_MM_DD_HORA_MIN_SEG_MIL);
+			System.out.println(s);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
