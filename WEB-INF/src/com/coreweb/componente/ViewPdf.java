@@ -58,7 +58,7 @@ public class ViewPdf {
 		rep.setEmpresa(vm.getEmpresa());
 		rep.ejecutar(false);
 		
-		String urlPdf = Config.DIRECTORIO_WEB_REPORTES + "/" + rep.getArchivo();
+		String urlPdf = Config.DIRECTORIO_WEB_REPORTES + "/" + rep.getArchivoSalida();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("reporte", rep);

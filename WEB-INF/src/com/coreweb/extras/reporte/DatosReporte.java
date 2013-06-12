@@ -53,7 +53,9 @@ public abstract class DatosReporte {
 	private String titulo;
 	private String usuario;
 	private String directorioBase = "./";
-	private String archivo;
+	private String idArchivo = "";
+	private String directorio = "";
+	private String nombreArchivo = "";
 	private boolean apaisada = false;
 	private PageType tipoPagina = A4;
 	
@@ -97,11 +99,25 @@ public abstract class DatosReporte {
 	}
 
 
-	public String getArchivo() {
-		return archivo;
+
+	public String getDirectorio() {
+		return directorio;
 	}
 
 
+	public void setDirectorio(String directorio) {
+		this.directorio = directorio;
+	}
+
+
+	public String getNombreArchivo() {
+		return nombreArchivo;
+	}
+
+
+	public void setNombreArchivo(String nombreArchivo) {
+		this.nombreArchivo = nombreArchivo;
+	}
 
 
 	public String getDirectorioBase() {
@@ -120,9 +136,6 @@ public abstract class DatosReporte {
 	public void setDatosReporte(String titulo){
 		this.titulo = titulo; 		
 	}
-	public void setArchivo(String archivo){
-		this.archivo = archivo; 		
-	}
 	
 	public void setUsuario(String usuario){
 		this.usuario = usuario;
@@ -140,8 +153,20 @@ public abstract class DatosReporte {
 		ejecutar(false);
 	}
 	
+	
+	public String getArchivoSalida(){
+		String out = "";
+		if (this.idArchivo.trim().length() == 0){
+			long id = m.getIdUnico();
+			this.idArchivo = m.dateToString(new Date(id), m.YYYY_MM_DD_HORA_MIN_SEG_MIL);
+		}
+		out = this.getDirectorio()+"/"+this.getNombreArchivo()+""+this.idArchivo+DatosReporte.EXPORT_PDF;
+		return out;
+	}
+	
+	
 	public String getArchivoPathReal(){
-		String out = this.getDirectorioBase() + "/" + this.getArchivo();
+		String out = this.getDirectorioBase() + "/" + this.getArchivoSalida();
 		return out;
 	}
 	
@@ -150,7 +175,7 @@ public abstract class DatosReporte {
 			
 		this.setDatosReportes();
 
-		String pathCompleto = this.directorioBase + "/" + this.archivo;
+		String pathCompleto = this.directorioBase + "/" + this.getArchivoSalida();
 
 		MyReport reporte = new MyReport(cr, body, footer, data, empresa, titulo, usuario, pathCompleto);
 		reporte.setFormato(DatosReporte.EXPORT_PDF);

@@ -165,18 +165,20 @@ public class MyReport {
 
 			build();
 			if(tipoFormato.equals(DatosReporte.EXPORT_CSV)){
-				exporter = export.csvExporter(archivo+".csv");
+				exporter = export.csvExporter(archivo);
 				rep.toCsv((JasperCsvExporterBuilder)exporter);
 			}
 			else if(tipoFormato.equals(DatosReporte.EXPORT_PDF)){
-				exporter = export.pdfExporter(archivo+".pdf");
+				exporter = export.pdfExporter(archivo);
 				rep.toPdf((JasperPdfExporterBuilder)exporter);
 			}
 			
+			/*
 			build();		
 			JasperPdfExporterBuilder pdfExporter = export.pdfExporter(archivo).setEncrypted(false);
 			rep.toPdf(pdfExporter);
-
+			*/
+			
 			if (ver) {
 				rep.show();
 
