@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.coreweb.Config;
 import com.coreweb.util.Misc;
 
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
@@ -166,16 +167,20 @@ public abstract class DatosReporte {
 	
 	
 	public String getArchivoPathReal(){
-		String out = this.getDirectorioBase() + "/" + this.getArchivoSalida();
+		String out = Config.DIRECTORIO_REAL_REPORTES + "/" + this.getArchivoSalida();
 		return out;
 	}
 	
+	public String getUrlReporte(){
+		String out = Config.DIRECTORIO_WEB_REPORTES + "/" + this.getArchivoSalida();
+		return out;
+	}
 	
 	public void ejecutar (boolean mostrar){
 			
 		this.setDatosReportes();
 
-		String pathCompleto = this.directorioBase + "/" + this.getArchivoSalida();
+		String pathCompleto = this.getArchivoPathReal();
 
 		MyReport reporte = new MyReport(cr, body, footer, data, empresa, titulo, usuario, pathCompleto);
 		reporte.setFormato(DatosReporte.EXPORT_PDF);
