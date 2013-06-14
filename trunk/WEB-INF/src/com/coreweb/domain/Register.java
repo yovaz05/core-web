@@ -543,19 +543,23 @@ public class Register {
 	}
 
 	
+	public List buscarElemento(Class clase, String[] atts, String[] values, List<String> where)
+			throws Exception {
+		return buscarElemento( clase, atts, values, false, Config.CUANTOS_BUSCAR_ELEMENTOS, where);
+	}
 	
 	public List buscarElemento(Class clase, String[] atts, String[] values)
 			throws Exception {
-		return buscarElemento( clase, atts, values, false, Config.CUANTOS_BUSCAR_ELEMENTOS);
+		return buscarElemento( clase, atts, values, false, Config.CUANTOS_BUSCAR_ELEMENTOS, new ArrayList());
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values, boolean permiteFiltroVacio)
 			throws Exception {
-		return buscarElemento( clase, atts, values, permiteFiltroVacio, Config.CUANTOS_BUSCAR_ELEMENTOS);
+		return buscarElemento( clase, atts, values, permiteFiltroVacio, Config.CUANTOS_BUSCAR_ELEMENTOS, new ArrayList());
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values,
-			boolean permiteFiltroVacio, int limite) throws Exception {
+			boolean permiteFiltroVacio, int limite, List<String> whereCl) throws Exception {
 		List l = new ArrayList<Object[]>();
 		;
 
@@ -574,8 +578,13 @@ public class Register {
 		String atOrd = "c." + atts[0];
 		String select = " ";
 		String where = " 1 = 1 and ";
-		int cnt = atts.length;
 
+		for (int i = 0; i < whereCl.size(); i++) {
+			String w = whereCl.get(i);
+			where += w + " and ";
+		}
+		
+		int cnt = atts.length;		
 		for (int i = 0; i < cnt; i++) {
 			String at = "c." + atts[i];
 			String va = values[i].trim();
