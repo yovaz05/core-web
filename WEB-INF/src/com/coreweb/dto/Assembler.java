@@ -732,7 +732,14 @@ public abstract class Assembler {
 
 	}
 
+
 	
+	public DTO getDto(String entityName, IiD id) throws Exception{
+		Register r = Register.getInstance();
+		Domain d =  r.getObject(entityName, id.getId());
+		DTO dto = this.domainToDto(d);
+		return dto;
+	}
 	
 	
 	// *************************************************************************************

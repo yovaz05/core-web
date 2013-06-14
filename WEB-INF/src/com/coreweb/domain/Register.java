@@ -1,6 +1,5 @@
 package com.coreweb.domain;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +18,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.coreweb.Config;
-
 
 import java.io.*;
 
@@ -109,7 +107,7 @@ public class Register {
 			this.saveObject(d);
 		}
 	}
-	
+
 	public synchronized void saveObject(Domain o) throws Exception {
 
 		Session session = null;
@@ -298,9 +296,7 @@ public class Register {
 		v.add(Restrictions.eq("tipo", tipo));
 		v.add(Restrictions.eq("key", clave));
 
-		List l = getObjects(
-				AgendaEvento.class.getName(), v,
-				new Vector());
+		List l = getObjects(AgendaEvento.class.getName(), v, new Vector());
 		AgendaEvento a = (AgendaEvento) l.get(0);
 		return a;
 	}
@@ -309,17 +305,14 @@ public class Register {
 		// retorna un chiste
 		Tecorei te = null;
 		// this.getObjects(entityName, rest, orders, ini, max)
-		int n = this.getSizeObjects(
-				Tecorei.class.getName(),
-				new Vector());
+		int n = this.getSizeObjects(Tecorei.class.getName(), new Vector());
 		int v = 0;
 
 		Random rand = new Random(System.currentTimeMillis());
 		v = rand.nextInt(n);
 
-		List l = this.getObjects(
-				Tecorei.class.getName(),
-				new Vector(), new Vector(), v, v);
+		List l = this.getObjects(Tecorei.class.getName(), new Vector(),
+				new Vector(), v, v);
 		te = (Tecorei) l.get(0);
 		return te;
 	}
@@ -331,9 +324,7 @@ public class Register {
 		Vector v = new Vector();
 		v.add(Restrictions.eq("alias", aliasFormulario));
 
-		List l = getObjects(
-				Formulario.class.getName(), v,
-				new Vector());
+		List l = getObjects(Formulario.class.getName(), v, new Vector());
 		if (l.size() > 0) {
 			Formulario f = (Formulario) l.get(0);
 			Set<Operacion> ops = f.getOperaciones();
@@ -350,48 +341,38 @@ public class Register {
 	}
 
 	public List<Usuario> getAllUsuarios() throws Exception {
-		List l = getObjects(
-				Usuario.class.getName(),
-				new Vector(), new Vector());
+		List l = getObjects(Usuario.class.getName(), new Vector(), new Vector());
 		return l;
 	}
-	
+
 	public List<Perfil> getAllPerfiles() throws Exception {
-		List l = getObjects(
-				com.coreweb.domain.Perfil.class.getName(),
-				new Vector(), new Vector());
-		return l;
-	}
-	
-	public List<Permiso> getAllPermisos() throws Exception {
-		List l = getObjects(
-				com.coreweb.domain.Permiso.class.getName(),
+		List l = getObjects(com.coreweb.domain.Perfil.class.getName(),
 				new Vector(), new Vector());
 		return l;
 	}
 
+	public List<Permiso> getAllPermisos() throws Exception {
+		List l = getObjects(com.coreweb.domain.Permiso.class.getName(),
+				new Vector(), new Vector());
+		return l;
+	}
 
 	public List<Modulo> getAllModulos() throws Exception {
-		List l = getObjects(
-				Modulo.class.getName(),
-				new Vector(), new Vector());
+		List l = getObjects(Modulo.class.getName(), new Vector(), new Vector());
 		return l;
 	}
 
 	public List<Formulario> getAllFormulario() throws Exception {
-		List l = getObjects(
-				Formulario.class.getName(),
-				new Vector(), new Vector());
-		return l;
-	}
-	
-	public List<Operacion> getAllOperaciones() throws Exception {
-		List l = getObjects(
-				com.coreweb.domain.Operacion.class.getName(),
-				new Vector(), new Vector());
+		List l = getObjects(Formulario.class.getName(), new Vector(),
+				new Vector());
 		return l;
 	}
 
+	public List<Operacion> getAllOperaciones() throws Exception {
+		List l = getObjects(com.coreweb.domain.Operacion.class.getName(),
+				new Vector(), new Vector());
+		return l;
+	}
 
 	public void deleteAllObjects(String entityName) throws Exception {
 		List<Domain> l = getObjects(entityName, new Vector(), new Vector());
@@ -407,9 +388,7 @@ public class Register {
 		v.add(Restrictions.eq("login", login));
 		v.add(Restrictions.eq("clave", clave));
 
-		List l = getObjects(
-				Usuario.class.getName(), v,
-				new Vector());
+		List l = getObjects(Usuario.class.getName(), v, new Vector());
 		if (l.size() == 1) {
 			u = (Usuario) l.get(0);
 		}
@@ -423,9 +402,7 @@ public class Register {
 		Vector v = new Vector();
 		v.add(Restrictions.eq("nombre", perfil));
 
-		List l = getObjects(
-				Perfil.class.getName(), v,
-				new Vector());
+		List l = getObjects(Perfil.class.getName(), v, new Vector());
 		if (l.size() == 1) {
 			p = (Perfil) l.get(0);
 		}
@@ -433,14 +410,16 @@ public class Register {
 		return p;
 	}
 
-	public List<Domain> selectFrom(String entity, String where) throws Exception{
+	public List<Domain> selectFrom(String entity, String where)
+			throws Exception {
 		List<Domain> list = new ArrayList<Domain>();
 		Session session = null;
 		try {
 			session = getSession();
 			session.beginTransaction();
-	
-			Query q = session.createQuery("from "+entity+" as t where t."+where);
+
+			Query q = session.createQuery("from " + entity + " as t where t."
+					+ where);
 			list = q.list();
 			session.getTransaction().commit();
 
@@ -449,37 +428,34 @@ public class Register {
 		} finally {
 			closeSession(session);
 		}
-		
-		return list;		
+
+		return list;
 	}
 
-	public Object hqlToObject(String query, Object o) throws Exception{
+	public Object hqlToObject(String query, Object o) throws Exception {
 		Object out = null;
-		List l = this.hql(query, new Object[]{o});
-		if (l.size() > 0){
+		List l = this.hql(query, new Object[] { o });
+		if (l.size() > 0) {
 			out = l.get(0);
 		}
 		return out;
 	}
 
-	
-	
-	public List hql(String query) throws Exception{
-		return this.hql(query, new Object[]{});
+	public List hql(String query) throws Exception {
+		return this.hql(query, new Object[] {});
 	}
 
-	public List hql(String query, Object o) throws Exception{
-		return this.hql(query, new Object[]{o});
+	public List hql(String query, Object o) throws Exception {
+		return this.hql(query, new Object[] { o });
 	}
-	
-	public List hql(String query, Object[] param) throws Exception{
+
+	public List hql(String query, Object[] param) throws Exception {
 		List list = new ArrayList<Domain>();
 		Session session = null;
 		try {
 			session = getSession();
 			session.beginTransaction();
 
-			
 			Query q = session.createQuery(query);
 			for (int i = 0; i < param.length; i++) {
 				Object o = param[i];
@@ -493,28 +469,26 @@ public class Register {
 		} finally {
 			closeSession(session);
 		}
-		
+
 		return list;
-		
+
 	}
 
-	
-	public int hqlDelete(String query) throws Exception{
-		return this.hqlDelete(query, new Object[]{});
+	public int hqlDelete(String query) throws Exception {
+		return this.hqlDelete(query, new Object[] {});
 	}
 
-	public int hqlDelete(String query, Object o) throws Exception{
-		return this.hqlDelete(query, new Object[]{o});
+	public int hqlDelete(String query, Object o) throws Exception {
+		return this.hqlDelete(query, new Object[] { o });
 	}
 
-	public int hqlDelete(String query, Object[] param) throws Exception{
+	public int hqlDelete(String query, Object[] param) throws Exception {
 		int out = 0;
 		Session session = null;
 		try {
 			session = getSession();
 			session.beginTransaction();
 
-			
 			Query q = session.createQuery(query);
 			for (int i = 0; i < param.length; i++) {
 				Object o = param[i];
@@ -528,13 +502,12 @@ public class Register {
 		} finally {
 			closeSession(session);
 		}
-		
+
 		return out;
-		
+
 	}
 
-	
-	public int sql2(String sql) throws Exception{
+	public int sql2(String sql) throws Exception {
 		int out = 0;
 		Session session = null;
 		try {
@@ -543,7 +516,7 @@ public class Register {
 
 			SQLQuery q = session.createSQLQuery(sql);
 			out = q.executeUpdate();
-			
+
 			session.getTransaction().commit();
 
 		} catch (Exception e) {
@@ -551,12 +524,11 @@ public class Register {
 		} finally {
 			closeSession(session);
 		}
-		
+
 		return out;
-		
+
 	}
-	
-	
+
 	public AutoNumero getAutoNumero(String key) throws Exception {
 		AutoNumero d = null;
 
@@ -569,68 +541,86 @@ public class Register {
 		}
 		return d;
 	}
+
 	
 	
-	public List buscarElemento(Class clase, String[] atts, String[] values) throws Exception{
-		List l = new ArrayList<Object[]>();;
-		
+	public List buscarElemento(Class clase, String[] atts, String[] values)
+			throws Exception {
+		return buscarElemento( clase, atts, values, false, Config.CUANTOS_BUSCAR_ELEMENTOS);
+	}
+
+	public List buscarElemento(Class clase, String[] atts, String[] values, boolean permiteFiltroVacio)
+			throws Exception {
+		return buscarElemento( clase, atts, values, permiteFiltroVacio, Config.CUANTOS_BUSCAR_ELEMENTOS);
+	}
+
+	public List buscarElemento(Class clase, String[] atts, String[] values,
+			boolean permiteFiltroVacio, int limite) throws Exception {
+		List l = new ArrayList<Object[]>();
+		;
+
 		// verificar que tenga algo que buscar
-		String aux = "";
-		for (int i = 0; i < values.length; i++) {
-			aux += values[i].trim();
+		if (permiteFiltroVacio == false) {
+
+			String aux = "";
+			for (int i = 0; i < values.length; i++) {
+				aux += values[i].trim();
+			}
+			if (aux.length() < 1) {
+				throw new Exception("debe ingresar un criterio de filtro");
+			}
 		}
-		if (aux.length() < 1){
-			throw new Exception("debe ingresar un criterio de filtro");
-		}
-		
-		String atOrd = "c."+atts[0];
+
+		String atOrd = "c." + atts[0];
 		String select = " ";
 		String where = " 1 = 1 and ";
 		int cnt = atts.length;
-		
+
 		for (int i = 0; i < cnt; i++) {
-			String at = "c."+atts[i];
+			String at = "c." + atts[i];
 			String va = values[i].trim();
-			
-			select +=  at+" ,";
-			
-			if (va.length() > 0){
-				where += at + " like '%"+va+"%' and ";
+
+			select += at + " ,";
+
+			if (va.length() > 0) {
+				where += at + " like '%" + va + "%' and ";
 			}
 		}
-		
-		select = "select " + select.substring(0, select.length() -1);
-		where = "where " + where.substring(0, where.length() -4);
-		
-		String hql  = select +" from " + clase.getName() + " c " + where + " order by "+atOrd+" asc";
-		System.out.println("\n\n\n"+hql+"\n\n\n");
+
+		select = "select " + select.substring(0, select.length() - 1);
+		where = "where " + where.substring(0, where.length() - 4);
+
+		String hql = select + " from " + clase.getName() + " c " + where
+				+ " order by " + atOrd + " asc";
+		//System.out.println("\n\n\n" + hql + "\n\n\n");
 		l = this.hql(hql);
-		
-		
-		if (l.size() > Config.CUANTOS_BUSCAR_ELEMENTOS){
-			throw new Exception("más de '"+Config.CUANTOS_BUSCAR_ELEMENTOS+"' elementos ("+l.size()+")...");
+
+		if (l.size() > limite) {
+			throw new Exception("más de '" + Config.CUANTOS_BUSCAR_ELEMENTOS
+					+ "' elementos (" + l.size() + ")...");
 		}
 
-		if (l.size() == 0 ){
+		if (l.size() == 0) {
 			throw new Exception("no se encontraron elementos ...");
 		}
 
 		return l;
 	}
-	
+
 	public static void main(String[] args) {
 		try {
-			String query = "" +
-					" select ci.id, tipo.descripcion, cli.empresa.nombre" +
-					" from  Cliente cli join cli.contactosInternos ci " +
-					"               join ci.tipoContactoInterno tipo " +
-					" where ci.funcionario.id = ? ";
-						
+			String query = ""
+					+ " select ci.id, tipo.descripcion, cli.empresa.nombre"
+					+ " from  Cliente cli join cli.contactosInternos ci "
+					+ "               join ci.tipoContactoInterno tipo "
+					+ " where ci.funcionario.id = ? ";
+
 			Register rr = Register.getInstance();
-			//List<Domain> l = rr.selectFrom(ContactoInterno.class.getName(), "funcionario.id='2'");
-			List l = rr.hql(query, new Object[]{(long)2});
+			// List<Domain> l = rr.selectFrom(ContactoInterno.class.getName(),
+			// "funcionario.id='2'");
+			List l = rr.hql(query, new Object[] { (long) 2 });
 			for (int i = 0; i < l.size(); i++) {
-				Object[] o = (Object[])l.get(i);
+				Object[] o = (Object[]) l.get(i);
 				System.out.println(o[0] + " - " + o[1]);
 			}
 
