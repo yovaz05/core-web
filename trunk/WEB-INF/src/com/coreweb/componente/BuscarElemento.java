@@ -24,7 +24,7 @@ public class BuscarElemento {
 	String[] valores;
 	String titulo = "Buscar ...";
 	String width = "400px";
-	String msgVacia = "Ingrese un criterio filtro...";
+	String msgVacia = "Ingrese un criterio de filtro...";
 
 	// para los casos que sea uno solo
 	boolean unDatoAceptar = false;

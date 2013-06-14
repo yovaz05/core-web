@@ -46,6 +46,7 @@ import org.zkoss.zk.ui.Execution;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
+import com.coreweb.extras.browser.Browser;
 
 
 
@@ -122,6 +123,11 @@ public abstract class Body extends GenericViewModel {
 		return ((this.getDTOCorriente() != null) && (this.getDTOCorriente().esNuevo() == false));
 	}
 
+	
+	// este método debe redefinir la clase que herera 
+	public Browser getBrowser(){
+		return null;
+	}
 	
 	// se verifica antes de hacer una grabación
 	public abstract boolean verificarAlGrabar();

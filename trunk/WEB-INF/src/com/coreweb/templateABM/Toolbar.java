@@ -32,9 +32,10 @@ import org.zkoss.zul.Messagebox.Button;
 import com.coreweb.Config;
 import com.coreweb.IDCore;
 import com.coreweb.control.GenericViewModel;
+import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
-
-
+import com.coreweb.extras.browser.Browser;
+import com.coreweb.util.MyArray;
 
 public class Toolbar extends GenericViewModel {
 
@@ -50,19 +51,20 @@ public class Toolbar extends GenericViewModel {
 
 	@Init(superclass = true)
 	public void initToolbar(@ExecutionParam("pageVM") Object pageVM) {
-		
+
 		Page page = (Page) pageVM;
 		this.setPagina(page);
 		page.setTool(this);
 	}
 
 	@AfterCompose(superclass = true)
-	public void afterComposeToolbar(@ContextParam(ContextType.VIEW) Component xview) {
+	public void afterComposeToolbar(
+			@ContextParam(ContextType.VIEW) Component xview) {
 		Selectors.wireEventListeners(xview, this);
 		Selectors.wireComponents(xview, this, false);
 
 		this.deshabilitarComponentes();
-		
+
 	}
 
 	public String getAliasFormularioCorriente() {
@@ -78,15 +80,14 @@ public class Toolbar extends GenericViewModel {
 
 	public boolean getEditarDeshabilitado() throws Exception {
 		boolean esDTOnuevo = false;
-		if ((this.pagina.getDTOCorriente() == null)||(this.pagina.getDTOCorriente().esNuevo() == true)){
+		if ((this.pagina.getDTOCorriente() == null)
+				|| (this.pagina.getDTOCorriente().esNuevo() == true)) {
 			esDTOnuevo = true;
 		}
 
-		boolean b = (this.isDeshabilitado() || !(this
-				.operacionHabilitada(IDCore.O_EDITAR
-						+ this.getAliasFormularioCorriente()))
-						|| (esDTOnuevo == true)			
-				);
+		boolean b = (this.isDeshabilitado()
+				|| !(this.operacionHabilitada(IDCore.O_EDITAR
+						+ this.getAliasFormularioCorriente())) || (esDTOnuevo == true));
 		return b;
 	}
 
@@ -99,15 +100,14 @@ public class Toolbar extends GenericViewModel {
 
 	public boolean getEliminarDeshabilitado() throws Exception {
 		boolean esDTOnuevo = false;
-		if ((this.pagina.getDTOCorriente() == null)||(this.pagina.getDTOCorriente().esNuevo() == true)){
+		if ((this.pagina.getDTOCorriente() == null)
+				|| (this.pagina.getDTOCorriente().esNuevo() == true)) {
 			esDTOnuevo = true;
 		}
-		
-		boolean b = (this.isDeshabilitado() || !(this
-						.operacionHabilitada(IDCore.O_ELIMINAR
-								+ this.getAliasFormularioCorriente()))
-				|| (esDTOnuevo == true)				
-				);
+
+		boolean b = (this.isDeshabilitado()
+				|| !(this.operacionHabilitada(IDCore.O_ELIMINAR
+						+ this.getAliasFormularioCorriente())) || (esDTOnuevo == true));
 		return b;
 	}
 
@@ -147,7 +147,6 @@ public class Toolbar extends GenericViewModel {
 				+ " (Eliminar)";
 		this.setTextoFormularioCorriente(texLabel);
 
-
 		Button b = Messagebox.show("Eliminar el registro?", "Eliminar",
 				new Messagebox.Button[] { Messagebox.Button.YES,
 						Messagebox.Button.NO }, Messagebox.QUESTION, null);
@@ -162,82 +161,95 @@ public class Toolbar extends GenericViewModel {
 	}
 
 	@Command
+	public void buscarItem_New() throws Exception {
+		String texLabel = this.pagina.getTextoFormularioCorriente()
+				+ " (Buscar)";
+		this.setTextoFormularioCorriente(texLabel);
+
+		Browser br = this.getPagina().getBody().getBrowser();
+		br.show();
+		if (br.isClickAceptar() == true){
+			MyArray m = br.getSelectedItem();
+			// obtener un DTO del MyArray
+			
+			Assembler as = this.getPagina().getBody().getAss();
+			DTO dto = as.getDto(this.getPagina().getBody().getEntidadPrincipal(), m);
+			this.getPagina().getBody().setDTOCorriente(dto);
+			System.out.println("DTO:"+dto);
+			System.out.println(this.getPagina().getBody().getClass().getName() + " " + this.getPagina().getBody());
+		}
+		
+
+	}
+
+	// este es el original, el que anda ahora
+	@Command
 	public void buscarItem() throws Exception {
 		String texLabel = this.pagina.getTextoFormularioCorriente()
 				+ " (Buscar)";
 		this.setTextoFormularioCorriente(texLabel);
-		
+
 		List listaOrdenada = this.pagina.getBody().getAllModel();
 		Collections.sort(listaOrdenada);
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("modelo", new ListModelList<DTO>(listaOrdenada));
 		map.put("dtoCC", this.pagina.getBody().getDTOCorriente());
 		map.put("body", this.pagina.getBody());
-		
-		Window window = (Window)Executions.createComponents("/core/template/Finder.zul",
-		null, map);
+
+		Window window = (Window) Executions.createComponents(
+				"/core/template/Finder.zul", null, map);
 		window.doModal();
-		
+
 		texLabel = this.pagina.getTextoFormularioCorriente();
 		this.setTextoFormularioCorriente(texLabel);
-
-			
 	}
-
 
 	@Wire
 	Toolbarbutton buscar2;
-	
+
 	@Listen("onClick=#buscar2")
 	public void buscarMetodo() throws Exception {
 		System.out.println("=============== buscar 2 ==============");
 		String texLabel = this.pagina.getTextoFormularioCorriente()
 				+ " (Buscar)";
 		this.setTextoFormularioCorriente(texLabel);
-		
+
 		List listaOrdenada = this.pagina.getBody().getAllModel();
 		Collections.sort(listaOrdenada);
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("modelo", new ListModelList<DTO>(listaOrdenada));
 		map.put("dtoCC", this.pagina.getBody().getDTOCorriente());
 		map.put("body", this.pagina.getBody());
-		
-		Window window = (Window)Executions.createComponents("/core/template/Finder.zul",
-		null, map);
+
+		Window window = (Window) Executions.createComponents(
+				"/core/template/Finder.zul", null, map);
 		window.doModal();
-		
+
 		texLabel = this.pagina.getTextoFormularioCorriente();
 		this.setTextoFormularioCorriente(texLabel);
-		
-		
-		System.out.println("== DTO:" + this.getPagina().getBody().getDTOCorriente().getClass().getName());
-		System.out.println("== DTO:" + this.getPagina().getBody().getDTOCorriente());
-		
-		
-		
+
 		BindUtils.postGlobalCommand(null, null, "refreshComponentes", null);
-		
-		//System.out.println("================= F-global command refresh componente");
-		//System.out.println("================= I-Readonly componentes");
-		//this.getPagina().getBody().readonlyAllComponents();
-		//System.out.println("================= F-Readonly componentes");
-		//BindUtils.postGlobalCommand(null, null, "refreshComponentes", null);
-		//BindUtils.postNotifyChange(null, null, this, "*");
-		//this.getPagina().getBody().readonlyAllComponents();
-				
+
+		// System.out.println("================= F-global command refresh componente");
+		// System.out.println("================= I-Readonly componentes");
+		// this.getPagina().getBody().readonlyAllComponents();
+		// System.out.println("================= F-Readonly componentes");
+		// BindUtils.postGlobalCommand(null, null, "refreshComponentes", null);
+		// BindUtils.postNotifyChange(null, null, this, "*");
+		// this.getPagina().getBody().readonlyAllComponents();
+
 	}
 
-
-	public String getIdObjeto(){
+	public String getIdObjeto() {
 		String out = "-";
 		try {
-			out = this.pagina.getDTOCorriente().getId()+"";
+			out = this.pagina.getDTOCorriente().getId() + "";
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		return "("+out+")";
+		return "(" + out + ")";
 	}
 
 	@Override
@@ -245,6 +257,5 @@ public class Toolbar extends GenericViewModel {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	
+
 }
