@@ -25,6 +25,7 @@ public class BuscarElemento {
 	String titulo = "Buscar ...";
 	String width = "400px";
 	String msgVacia = "Ingrese un criterio de filtro...";
+	List<String> where = new ArrayList<String>();
 
 	// para los casos que sea uno solo
 	boolean unDatoAceptar = false;
@@ -144,7 +145,7 @@ public class BuscarElemento {
 	private List<Object[]> getModelo() throws Exception{
 		Register rr = Register.getInstance();
 		List<Object[]> datos = new ArrayList<Object[]>();
-		datos = (List<Object[]>) rr.buscarElemento(clase,atributos, valores);
+		datos = (List<Object[]>) rr.buscarElemento(clase,atributos, valores, where);
 		return datos;
 	}
 	
@@ -271,6 +272,10 @@ public class BuscarElemento {
 
 	public void setAssembler(Assembler assembler) {
 		this.assembler = assembler;
+	}
+
+	public void addWhere(String w){
+		this.where.add(w);
 	}
 
 	
