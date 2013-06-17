@@ -176,7 +176,7 @@
 				</vlayout>
 
 				<listbox model="@load(vm.selectedOperacion.pos7)"
-					width="250px" rows="3">
+					width="220px" rows="3">
 					<listhead>
 						<listheader label="Perfiles por Operacion" />
 					</listhead>
