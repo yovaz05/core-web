@@ -161,7 +161,7 @@ public class Toolbar extends GenericViewModel {
 	}
 
 	@Command
-	public void buscarItem_New() throws Exception {
+	public void buscarItemBr() throws Exception {
 		String texLabel = this.pagina.getTextoFormularioCorriente()
 				+ " (Buscar)";
 		this.setTextoFormularioCorriente(texLabel);

@@ -28,6 +28,7 @@ import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModel;
 import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Panel;
 
@@ -227,7 +228,6 @@ public class Control {
 
 			System.out
 					.println("========================================================");
-			*/
 
 			Image img = (Image) main.getFellow("carita", true);
 			if (b == true) {
@@ -235,6 +235,17 @@ public class Control {
 			} else {
 				img.setSrc(Archivo.caritaEnojada);
 			}
+			*/
+		
+			Menuitem item = (Menuitem) main.getFellow("carita", true);
+			if (b == true) {
+				item.setImage(Archivo.caritaFeliz);
+			} else {
+				item.setImage(Archivo.caritaEnojada);
+			}
+			
+			
+			
 		} catch (Exception e) {
 			System.out.println("error poniendo carita ("+ e.getMessage() +")");
 			this.noAutorizado();
