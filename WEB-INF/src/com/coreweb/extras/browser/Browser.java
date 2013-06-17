@@ -19,12 +19,15 @@ import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Radio;
+import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.RowRenderer;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Window;
 
+import com.coreweb.Config;
 import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.componente.BuscarElemento;
 import com.coreweb.control.SimpleViewModel;
@@ -52,7 +55,7 @@ public abstract class Browser extends SimpleViewModel {
 	
 	public abstract String getTituloBrowser();
 	
-	private String widthWindows = "800px";
+	private String widthWindows = Config.ANCHO_APP;
 	private String higthWindows = "400px";
 	
 	private Grid grid = new Grid();
@@ -66,25 +69,31 @@ public abstract class Browser extends SimpleViewModel {
 	List<ColumnaBrowser> columnas; // la informacion de las columnas
 
 	private Object[] selectedItem;
+	private Row selectedRow = new Row();
+	private Row selectedRowPrevio = new Row();
+	private String styleSepectedRowOriginal = "";
+	public static String STYLE_SELECTED_ROW = "background-color: #DAE7F6;";
 	
+
+	Radiogroup rg = new Radiogroup();
 	BodyPopupAceptarCancelar bpac = new BodyPopupAceptarCancelar();
 	
 	private void cargarColumnas() {
 		this.clase = this.getEntidadPrincipal();
 		
 		this.columnas = this.getColumnasBrowser();
-		this.numeroColumnas = this.columnas.size() + 1; // por el id
+		this.numeroColumnas = this.columnas.size() + 1; // por el id y checkbox
 
 		this.atributos = new String[this.numeroColumnas];
 		this.valores = new String[this.numeroColumnas];
 		this.nombres = new String[this.numeroColumnas];
 
-		System.out
-				.println("============== columnas ======================================================");
+		System.out.println("========== columnas ==================================");
 
 		nombres[0] = "Id";
 		atributos[0] = "id";
 		valores[0] = "";
+
 		for (int i = 1; i < this.numeroColumnas; i++) {
 			ColumnaBrowser col = this.columnas.get(i-1); // porque el ID no viene.
 			nombres[i] = col.getTitulo();
@@ -94,8 +103,7 @@ public abstract class Browser extends SimpleViewModel {
 					+ valores[i]);
 
 		}
-		System.out
-				.println("====================================================================");
+		System.out.println("============================================");
 	}
 
 	public void show() throws Exception {
@@ -115,6 +123,10 @@ public abstract class Browser extends SimpleViewModel {
 		Auxhead ah = new Auxhead();
 		this.grid.getChildren().add(ah);
 
+		// el radiobuton
+		Auxheader ahcR = new Auxheader();
+		ah.getChildren().add(ahcR);
+		
 		for (int i = 0; i < this.numeroColumnas; i++) {
 			Auxheader ahc = new Auxheader();
 			Textbox ahcT = new Textbox();
@@ -140,6 +152,13 @@ public abstract class Browser extends SimpleViewModel {
 		Columns lcol = new Columns();
 		this.grid.getChildren().add(lcol);
 
+		// radiobuton
+		Column cRG = new Column();
+		cRG.setLabel("ck");
+		cRG.setWidth("30px");
+		lcol.getChildren().add(cRG);
+
+		
 		for (int i = 0; i < numeroColumnas; i++) {
 			Column c = new Column();
 			c.setLabel(nombres[i]);
@@ -148,16 +167,17 @@ public abstract class Browser extends SimpleViewModel {
 
 			if (i == 0) {
 				// es el ID
-				c.setWidth("100px");
+				c.setWidth("50px");
 			}
 		}
 
 		this.refreshModeloGrid();
 
-		this.grid.setRowRenderer(new GridRowRender(this));
+		this.grid.setRowRenderer(new GridRowRender(this, rg));
 
 		
-		bpac.addComponente("Buscar", this.grid);
+		this.rg.getChildren().add(this.grid);
+		bpac.addComponente("Buscar", this.rg);
 		bpac.setWidthWindows(this.getWidthWindows());
 		bpac.setHighWindows(this.getHigthWindows());
 		bpac.showPopupUnaColumna("Browser de "+this.getTituloBrowser());
@@ -238,6 +258,30 @@ public abstract class Browser extends SimpleViewModel {
 		this.selectedItem = selectedItem;
 	}
 
+	public Row getSelectedRow() {
+		return selectedRow;
+	}
+
+	public void setSelectedRow(Row selectedRow) {
+		this.selectedRow = selectedRow;
+	}
+
+	public Row getSelectedRowPrevio() {
+		return selectedRowPrevio;
+	}
+
+	public void setSelectedRowPrevio(Row selectedRowPrevio) {
+		this.selectedRowPrevio = selectedRowPrevio;
+	}
+
+	public String getStyleSepectedRowOriginal() {
+		return styleSepectedRowOriginal;
+	}
+
+	public void setStyleSepectedRowOriginal(String styleSepectedRowOriginal) {
+		this.styleSepectedRowOriginal = styleSepectedRowOriginal;
+	}
+
 
 	
 }
@@ -271,9 +315,11 @@ class FiltroBrowserEvento implements EventListener {
 class GridRowRender implements RowRenderer {
 
 	Browser br;
+	Radiogroup rg;
 	
-	public GridRowRender(Browser br){
+	public GridRowRender(Browser br, Radiogroup rg){
 		this.br = br;
+		this.rg = rg;
 	}
 	
 	
@@ -284,6 +330,12 @@ class GridRowRender implements RowRenderer {
 		row.addEventListener("onClick", new RowEventListener(this.br));
 
 		Object[] datosCel = (Object[]) data;
+		
+		// radiobutton
+		Radio ra = new Radio();
+		ra.setRadiogroup(this.rg);
+		ra.setChecked(false);
+		ra.setParent(row);
 
 		for (int i = 0; i < datosCel.length; i++) {
 			Object va = datosCel[i];
@@ -304,8 +356,23 @@ class RowEventListener implements EventListener{
 
 	@Override
 	public void onEvent(Event arg0) throws Exception {
-		Row r = (Row)arg0.getTarget();
-		this.br.setSelectedItem((Object[])r.getValue());
+
+		// actualizar el estylo de la row que estaba antes.
+		Row rPrevia = this.br.getSelectedRow();
+		rPrevia.setStyle(this.br.getStyleSepectedRowOriginal());
+
+		// nueva row selected
+		Row rClick = (Row)arg0.getTarget();
+		this.br.setSelectedRow(rClick);
+		this.br.setStyleSepectedRowOriginal(rClick.getStyle());
+		// le ponemos el style de seleccionado
+		rClick.setStyle(Browser.STYLE_SELECTED_ROW);
+		
+		
+		this.br.setSelectedItem((Object[])rClick.getValue());
+		Radio ra = (Radio)rClick.getChildren().get(0);
+		ra.setChecked(true);
+		ra.setFocus(true);
 	}
 	
 }

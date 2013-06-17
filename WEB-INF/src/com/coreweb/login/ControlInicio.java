@@ -102,6 +102,20 @@ public class ControlInicio extends Control {
 	public void mostrarCarita() {
 		this.carita.mostrarCarita();
 	}
+	
+	
+	@Command
+	public void informacionUsuario() {
+		String perStr = "Perfiles del usuario:\n";
+		String[] arrPer = this.getUs().getPerfilesDescripcion();
+		for (int i = 0; i < arrPer.length; i++) {
+			perStr += "  - " + arrPer[i]+"\n";
+		}
+
+		
+		this.mensajeInfo(perStr);	
+	}
+
 
 	public void menuItem(Object o, String formAlias) {
 		this.menuItem(o, formAlias, "");

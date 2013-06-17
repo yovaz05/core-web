@@ -5,24 +5,20 @@
 	@init('com.coreweb.templateABM.Page')">
 
 	<borderlayout height="100%">
-		<north border="0" vflex="min"  collapsible="false">
+		<north border="0" height="30px"  collapsible="false">
 			<div>
-				<include id="tool" mode="instant" src="/core/template/Toolbar.zul" pageVM="${Page}"
-					height="10%"
-					/>
+				<include id="tool" mode="instant" src="/core/template/Toolbar.zul" pageVM="${Page}"/>
 			</div>
 		</north>
-		<center border="0" autoscroll="true" vflex="max">
+		<center border="0" autoscroll="true"  style="overflow:auto;">
 			<!-- style="overflow:auto;"  -->
 			<div>
 				<include id="body" mode="instant" src="/core/template/BodyDefault.zul" pageVM="${Page}"/>
 			</div>
 		</center>
-		<south border="0" vflex="min" collapsible="true">
+		<south border="0" height="40px" collapsible="false">
 			<div>
-				<include id="footer" mode="instant" src="/core/template/Footer.zul" pageVM="${Page}"
-					height="10%"
-					/>
+				<include id="footer" mode="instant" src="/core/template/Footer.zul" pageVM="${Page}"/>
 			</div>
 		</south>
 	</borderlayout>
