@@ -161,7 +161,7 @@ public class ControlInicio extends Control {
 	
 
 	// Menu visible ================
-	public boolean menuVisible = false;
+	public boolean menuVisible = true;
 
 	public boolean isMenuVisible() {
 		return menuVisible;

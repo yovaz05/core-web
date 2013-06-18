@@ -83,7 +83,7 @@ public class Login extends Control{
 			
 			
 			
-			this.setTextoFormularioCorriente("");
+			this.setTextoFormularioCorriente(" ");
 			this.saltoDePagina(Archivo.okLogin);
 			
 		}else{

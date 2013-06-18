@@ -31,6 +31,7 @@ import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Panel;
+import org.zkoss.zul.Textbox;
 
 import com.coreweb.Archivo;
 import com.coreweb.Config;
@@ -446,8 +447,14 @@ public class Control {
 	public void setTextoFormularioCorriente(String textoFormularioCorriente) {
 		this.textoFormularioCorriente = textoFormularioCorriente;
 		Component main = Path.getComponent("/templateInicio");
+		
 		Label lab = (Label) main.getFellow("nombreFormulario");
-		lab.setValue(this.textoFormularioCorriente);
+		 lab.setValue(this.textoFormularioCorriente);
+
+		//Textbox lab = (Textbox) main.getFellow("nombreFormulario");
+		//lab.setValue(this.textoFormularioCorriente);
+
+	
 	}
 
 	public synchronized boolean operacionHabilitada(String aliasOperacion)

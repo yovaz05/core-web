@@ -5,11 +5,13 @@
 
 		.hightlight { color: #1469AB; font-weight: bold; }
 
-		.error { color: red; }
+		.error {
+		color: red; }
 
 		.dm-menuitem {width: 100%; }
 
-		.dm-menuitem .z-menu-item-cnt {display: none;}
+		.dm-menuitem .z-menu-item-cnt
+		{display: none;}
 
 		.mydb { background: white; border: 1px }
 
@@ -29,80 +31,74 @@
 		_tpWgt.setVisible.apply(this, arguments); if (n) { if (v)
 		jq(this.$n()).removeClass('z-tabpanel-hidden'); else
 		jq(this.$n()).addClass('z-tabpanel-hidden'); } } }); }); ]]>
-		
-		
+
+
 	</script>
 
 
 
 
-	<window id="templateInicio" border="normal" width="1024px" position="center"  mode="overlapped"
-		height="100%" apply="org.zkoss.bind.BindComposer"
+	<window id="templateInicio" border="normal" width="1024px"
+		position="center" mode="overlapped" height="100%"
+		apply="org.zkoss.bind.BindComposer" title=""
 		viewModel="@id('vm')
-		@init('com.coreweb.login.ControlInicio')"  contentStyle="overflow:auto" zclass="z-window-popup"
-		>
-		
-		<!-- contentStyle="overflow:auto"   -->
+		@init('com.coreweb.login.ControlInicio')"
+		contentStyle="overflow:auto" zclass="z-window-popup">
+
+		<!-- contentStyle="overflow:auto" -->
 
 		<zscript>
-	// esto es para recibir como parametro el archivo del menu a utilizar
-	import javax.servlet.http.HttpServletRequest;
-	import org.zkoss.zk.ui.Executions;
-	HttpServletRequest request = (HttpServletRequest) Executions.getCurrent()
+			// esto es para recibir como parametro el 
+			// archivo del menu a utilizar
+			import javax.servlet.http.HttpServletRequest;
+			import
+			org.zkoss.zk.ui.Executions;
+			HttpServletRequest request =
+			(HttpServletRequest) Executions.getCurrent()
 			.getNativeRequest();
-	String menuApp = request.getParameter("menu");
-</zscript>
+			String menuApp = request.getParameter("menu");
+		</zscript>
 
 		<borderlayout>
 
+			<!-- =================== NORTE ===================================== -->
+
+			<north border="0" collapsible="false" height="24px" style="background: #3FC6D2 ;">
+				<hlayout>
+					<hbox width="150px" align="center">
+						<label id="nombreFormulario" value=" "
+							style="font-size:12pt;font-weight:bold" />
+					</hbox>
+					<include id="menu" src="@load(vm.menu)" />
+				</hlayout>
+			</north>
 
 			<!-- ==================== SUR ==================================== -->
-			<south border="0" style="background: #94D3D3"
-				height="24px">
-				
-				<menubar id="menubarFoot" autodrop="false" width="100%" style="background: #3FC6D2" >
-					<menuitem width="100%" label="@load(vm.us.nombre)" onClick="@command('informacionUsuario')" image="/core/images/user1.png" />
+			<south border="0" style="background: #94D3D3" height="24px">
 
-					<menuitem id="carita" label="click me" onClick="@command('mostrarCarita')" image="/core/images/face-angry.png" />
-					
+				<menubar id="menubarFoot" autodrop="false" width="100%"
+					style="background: #3FC6D2">
+					<menuitem width="100%" label="@load(vm.us.nombre)"
+						onClick="@command('informacionUsuario')" image="/core/images/user1.png" />
+
+					<menuitem id="carita" label="click me" onClick="@command('mostrarCarita')"
+						image="/core/images/face-angry.png" />
+
 				</menubar>
 
-		<!-- 	
-							<menu label="@load(vm.us.nombre)" onClick="@command('informacionUsuario')" image="/core/images/user1.png" />
-		
-				<image id="infoUsuario" src="/core/images/user1.png"
-					style="float: left;" onClick="@command('informacionUsuario')" />
-				<label value="@load(vm.us.nombre)"/>
-				
-				
-				<image id="carita" src="/core/images/face-angry.png"
-					style="float: right;" onClick="@command('mostrarCarita')" />
-					
-					
-		 -->			
+				<!-- <menu label="@load(vm.us.nombre)" onClick="@command('informacionUsuario')" 
+					image="/core/images/user1.png" /> <image id="infoUsuario" src="/core/images/user1.png" 
+					style="float: left;" onClick="@command('informacionUsuario')" /> <label value="@load(vm.us.nombre)"/> 
+					<image id="carita" src="/core/images/face-angry.png" style="float: right;" 
+					onClick="@command('mostrarCarita')" /> -->
 
 			</south>
 
 
-			<!-- =================== NORTE ===================================== -->
-
-			<north border="0" collapsible="false" height="24px" >
-				<vlayout 
-					style="background: #3FC6D2   repeat-x 0 center; ">
-
-					<include id="menu" src="@load(vm.menu)"/>
-
-					<label id="nombreFormulario" value="."
-						style="font-size:12pt;font-weight:bold" />
-					<!-- separator bar="true" / -->
-
-				</vlayout>
-			</north>
 			<!-- =================== CENTER ===================================== -->
 
 			<center border="0" autoscroll="true">
-				<include id="principalBody" mode="instant"
-					src="/core/inicio/login.zul" />
+				<include id="principalBody" mode="instant" src="/core/inicio/login.zul" />
 			</center>
 
 
