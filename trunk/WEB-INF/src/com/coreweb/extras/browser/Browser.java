@@ -11,6 +11,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Auxhead;
 import org.zkoss.zul.Auxheader;
+import org.zkoss.zul.Cell;
 import org.zkoss.zul.Column;
 import org.zkoss.zul.Columns;
 import org.zkoss.zul.Grid;
@@ -64,11 +65,15 @@ public abstract class Browser extends SimpleViewModel {
 	private Grid grid = new Grid();
 	private Class clase;
 
+	private boolean checkVisible = false;
+	
+	
 	// estos datos se inicializan con el metodo cargarColumnas()
 	private int numeroColumnas = 0;
 	private String[] nombres; // nombre de la columna
 	private String[] atributos; // atributo de la clase
 	private String[] valores;
+	private String[] wheres;
 	List<ColumnaBrowser> columnas; // la informacion de las columnas
 
 	private Object[] selectedItem;
@@ -90,23 +95,21 @@ public abstract class Browser extends SimpleViewModel {
 		this.atributos = new String[this.numeroColumnas];
 		this.valores = new String[this.numeroColumnas];
 		this.nombres = new String[this.numeroColumnas];
+		this.wheres = new String[this.numeroColumnas];
 
-		System.out.println("========== columnas ==================================");
 
 		nombres[0] = "Id";
 		atributos[0] = "id";
 		valores[0] = "";
+		wheres[0] = "";
 
 		for (int i = 1; i < this.numeroColumnas; i++) {
 			ColumnaBrowser col = this.columnas.get(i-1); // porque el ID no viene.
 			nombres[i] = col.getTitulo();
 			atributos[i] = col.getCampo();
 			valores[i] = "";
-			System.out.println(nombres[i] + " - " + atributos[i] + " - "
-					+ valores[i]);
-
+			wheres[i] = col.getWhere();
 		}
-		System.out.println("============================================");
 	}
 
 	public void show() throws Exception {
@@ -130,9 +133,11 @@ public abstract class Browser extends SimpleViewModel {
 		Auxhead ah = new Auxhead();
 		this.grid.getChildren().add(ah);
 
-		// el radiobuton
+		// el radiobuton check
 		Auxheader ahcR = new Auxheader();
+		ahcR.setVisible(this.checkVisible);
 		ah.getChildren().add(ahcR);
+		
 		
 		for (int i = 0; i < this.numeroColumnas; i++) {
 			Auxheader ahc = new Auxheader();
@@ -163,6 +168,7 @@ public abstract class Browser extends SimpleViewModel {
 		Column cRG = new Column();
 		cRG.setLabel("ck");
 		cRG.setWidth("30px");
+		cRG.setVisible(this.checkVisible);
 		lcol.getChildren().add(cRG);
 
 		
@@ -215,7 +221,7 @@ public abstract class Browser extends SimpleViewModel {
 		Register rr = Register.getInstance();
 		List<Object[]> datos = new ArrayList<Object[]>();
 		try {
-			datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores,
+			datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores, wheres,
 					true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -290,6 +296,14 @@ public abstract class Browser extends SimpleViewModel {
 		this.styleSepectedRowOriginal = styleSepectedRowOriginal;
 	}
 
+	public boolean isCheckVisible() {
+		return checkVisible;
+	}
+
+	public void setCheckVisible(boolean checkVisible) {
+		this.checkVisible = checkVisible;
+	}
+
 
 	
 }
@@ -337,6 +351,9 @@ class GridRowRender implements RowRenderer {
 		row.setValue(data);
 		row.addEventListener("onClick", new RowEventListener(this.br));
 
+		// en las columnas esta la info de configuración
+		List<ColumnaBrowser> columnas = this.br.getColumnasBrowser();
+		
 		Object[] datosCel = (Object[]) data;
 		
 		// radiobutton
@@ -345,9 +362,22 @@ class GridRowRender implements RowRenderer {
 		ra.setChecked(false);
 		ra.setParent(row);
 
-		for (int i = 0; i < datosCel.length; i++) {
-			Object va = datosCel[i];
-			new Label(va+"").setParent(row);
+		Object va = datosCel[0]; // el ID
+		Label lbId = new Label(va+"");
+		lbId.setParent(row);
+		
+		
+		for (int i = 1; i < datosCel.length; i++) {
+			va = datosCel[i];
+			ColumnaBrowser col = columnas.get(i-1);
+			
+			Cell cel = new Cell();
+			cel.setStyle(col.getEstilo());
+			
+			Label lb = new Label(va+"");
+			//lb.setStyle(col.getEstilo());
+			cel.setParent(row);
+			lb.setParent(cel);
 		}
 
 	}

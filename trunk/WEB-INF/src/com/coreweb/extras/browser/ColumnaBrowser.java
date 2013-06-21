@@ -11,6 +11,7 @@ public class ColumnaBrowser {
 	private String campo = "campo";
 	private String tipo = "tipo";
 	private String estilo = "";
+	private String where = "";
 	private boolean visible = true;
 	
 
@@ -44,6 +45,12 @@ public class ColumnaBrowser {
 	}
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+	public String getWhere() {
+		return where;
+	}
+	public void setWhere(String where) {
+		this.where = where;
 	}
 
 	
