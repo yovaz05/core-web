@@ -19,27 +19,19 @@ package com.coreweb.templateABM;
  *************************************************/
 
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.zkoss.bind.BindUtils;
+import org.zkoss.bind.Binder;
 import org.zkoss.bind.annotation.AfterCompose;
-import org.zkoss.bind.annotation.BindingParam;
-import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
-import org.zkoss.bind.annotation.DependsOn;
 import org.zkoss.bind.annotation.ExecutionParam;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
-import org.zkoss.bind.annotation.QueryParam;
-import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 
@@ -54,6 +46,11 @@ public abstract class Body extends GenericViewModel {
 	
 	private Page pagina;
 
+	// componentes en la barra izquierda
+	// Object[] = 0: Componente, 1: commando, 2:Map<String, Object> args
+	private List<Object[]> barraAuxiliar = new ArrayList<Object[]>();
+	
+	
 	public Page getPagina() {
 		return pagina;
 	}
@@ -127,6 +124,13 @@ public abstract class Body extends GenericViewModel {
 	// este método debe redefinir la clase que herera 
 	public Browser getBrowser(){
 		return null;
+	}
+	
+	
+	public void addComponenteToBarraAuxiliar(Component c, String command, Map<String, Object> args){
+		
+		Object[] arr = {c, command, args};
+		this.barraAuxiliar.add(arr);
 	}
 	
 	// se verifica antes de hacer una grabación

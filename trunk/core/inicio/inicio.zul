@@ -1,4 +1,4 @@
-<?page title="${param.title}"?>
+<?page title="${param.title}"   style="background-color: #EBEBEB;"   ?>
 <?import com.coreweb.Config?>
 <zk>
 	<style>
@@ -47,10 +47,11 @@
 
 		<!-- contentStyle="overflow:auto" -->
 
+		<!-- // esto es para recibir como parametro el // archivo del menu a utilizar -->
+
 		<zscript>
-			// esto es para recibir como parametro el 
-			// archivo del menu a utilizar
-			import javax.servlet.http.HttpServletRequest;
+			import
+			javax.servlet.http.HttpServletRequest;
 			import
 			org.zkoss.zk.ui.Executions;
 			HttpServletRequest request =
@@ -63,29 +64,50 @@
 
 			<!-- =================== NORTE ===================================== -->
 
-			<north border="0" collapsible="false" height="24px" style="background: #3FC6D2 ;">
-				<hlayout>
-					<hbox width="150px" align="center">
-						<label id="nombreFormulario" value=" "
-							style="font-size:12pt;font-weight:bold" />
+			<north border="0" collapsible="false" height="24px"
+				style="background: #3FC6D2 ;">
+				<hlayout valign="middle">
+					<hbox width="3px" align="center" height="24px" />
+					<hbox width="250px" align="center" height="24px">
+						<label id="nombreFormulario" value=" " multiline="false"
+							maxlength="26" style="font-size:12pt;font-weight:bold" />
 					</hbox>
-					<include id="menu" src="@load(vm.menu)" />
+					<hbox width="750px" align="center" height="24px">
+						<include id="menu" src="@load(vm.menu)" />
+					</hbox>
 				</hlayout>
 			</north>
 
 			<!-- ==================== SUR ==================================== -->
-			<south border="0" style="background: #94D3D3" height="24px">
+			<south border="0" style="background: #3FC6D2" height="24px">
+				<hlayout>
 
-				<menubar id="menubarFoot" autodrop="false" width="100%"
-					style="background: #3FC6D2">
-					<menuitem width="100%" label="@load(vm.us.nombre)"
-						onClick="@command('informacionUsuario')" image="/core/images/user1.png" />
+					<hbox width="100px" align="center">
+						<include id="menuSistema" src="@load(vm.menuSistema)" />
+					</hbox>
 
-					<menuitem id="carita" label="click me" onClick="@command('mostrarCarita')"
-						image="/core/images/face-angry.png" />
+					<hbox width="300px" align="center">
 
-				</menubar>
+						<menubar id="menubarFoot1" autodrop="false" width="100%"
+							style="background: #3FC6D2">
+							<menuitem label="@load(vm.us.nombre)" onClick="@command('informacionUsuario')"
+								image="/core/images/user1.png" />
+						</menubar>
+					</hbox>
 
+					<hbox width="600px" align="center" pack="end">
+
+						<menubar id="menubarFoot2" autodrop="false" width="100%"
+							style="background: #3FC6D2">
+
+							<menuitem id="carita" label="click me" onClick="@command('mostrarCarita')"
+								image="/core/images/face-angry.png" />
+
+						</menubar>
+					</hbox>
+
+
+				</hlayout>
 				<!-- <menu label="@load(vm.us.nombre)" onClick="@command('informacionUsuario')" 
 					image="/core/images/user1.png" /> <image id="infoUsuario" src="/core/images/user1.png" 
 					style="float: left;" onClick="@command('informacionUsuario')" /> <label value="@load(vm.us.nombre)"/> 

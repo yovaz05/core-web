@@ -28,6 +28,7 @@ import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModel;
 import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Menu;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Panel;
@@ -48,20 +49,20 @@ import com.coreweb.util.Misc;
 public class Control {
 
 	public Misc m = new Misc();
-	
-	private static UtilCoreDTO dtoUtil = null; // = new AssemblerUtil().getDTOUtil();
+
+	private static UtilCoreDTO dtoUtil = null; // = new
+												// AssemblerUtil().getDTOUtil();
 
 	public static Check check = new Check();
-	
+
 	private Component main;
 	private Hashtable<String, String> hashFilterValue = new Hashtable<String, String>();
 	// private ControlAgendaEvento ctrAgenda = new ControlAgendaEvento();
 	private Assembler ass;
 
 	private LoginUsuarioDTO us = new LoginUsuarioDTO();
-	
-	private static String empresa = "Definir empresa";
 
+	private static String empresa = "Definir empresa";
 
 	private static String aliasFormularioCorrienteTXT = "--AliasFormularioNoDefinido--";
 	private String aliasFormularioCorriente = aliasFormularioCorrienteTXT;
@@ -75,34 +76,32 @@ public class Control {
 	// seteo inicial
 	public void preInit() {
 		/*
-		System.out.println("*******************************************");
-		System.out.println("** Falta implementar el preInit: "
-				+ this.getClass().getName());
-		System.out.println("*******************************************");
-		*/
+		 * System.out.println("*******************************************");
+		 * System.out.println("** Falta implementar el preInit: " +
+		 * this.getClass().getName());
+		 * System.out.println("*******************************************");
+		 */
 	}
 
 	@Init(superclass = true)
 	public void initControl() throws Exception {
-		//System.out.println("[ToDo] control de session de usuario ==========");
-
+		// System.out.println("[ToDo] control de session de usuario ==========");
 
 		Session s = Sessions.getCurrent();
 		this.us = (LoginUsuarioDTO) s.getAttribute(Config.USUARIO);
 		if (this.us == null) {
 			// primera vez
-			
+
 			String prefix = Executions.getCurrent().getParameter(Config.PREFIX);
 			s.setAttribute(Config.PREFIX, prefix);
-			
+
 			this.inicializarDtoUtil(prefix);
 
-			
 			this.us = new LoginUsuarioDTO();
-			
-			//dr aca poner la invocacion afterLogin
-			
-			//System.out.println("--- entra al initPrincipal por primera vez al sistema");
+
+			// dr aca poner la invocacion afterLogin
+
+			// System.out.println("--- entra al initPrincipal por primera vez al sistema");
 			return;
 		}
 		s.setAttribute(Config.LOGIN, this.us.getLogin());
@@ -110,22 +109,22 @@ public class Control {
 		this.poneCarita(this.us.isLogeado());
 	}
 
-
 	@AfterCompose(superclass = true)
 	public void afterComposeControl(
 			@ContextParam(ContextType.VIEW) Component view) {
 		Selectors.wireComponents(view, this, false);
 		Selectors.wireEventListeners(view, this);
-		
+
 		if (this.us.isLogeado() == true) {
 			// si esta logeado retorna, cualquier otro caso exepcion
-			//System.out.println("usuario logeado: " + this.us.getLogin());
+			// System.out.println("usuario logeado: " + this.us.getLogin());
 
 			String aliasF = this.getAliasFormularioCorriente();
 			if (this.getUs().formDeshabilitado(aliasF) == true) {
 				System.out.println("=========== [" + this.us.getLogin()
 						+ "] No tiene permisos para acceder a esta pagina: ["
-						+ aliasF + "] " + this.getClass().getName()+":"+this);
+						+ aliasF + "] " + this.getClass().getName() + ":"
+						+ this);
 				this.saltoDePagina(Archivo.errorLogin);
 			}
 
@@ -163,17 +162,13 @@ public class Control {
 	public void setCheck(Check check) {
 		Control.check = check;
 	}
-	
-	
-	
-	
+
 	// hacer un salto de pagina
 	public void saltoDePagina(String url, String param, Object value) {
 		Hashtable<String, Object> h = new Hashtable<String, Object>();
 		h.put(param, value);
 		saltoDePagina(url, h);
 	}
-
 
 	public void salirSistema(String url) {
 		try {
@@ -216,39 +211,18 @@ public class Control {
 
 		try {
 			main = Path.getComponent("/templateInicio");
-			/*
-			System.out
-					.println("========================================================");
-			System.out.println(main.getId() + "-" + main.getClass().getName());
-			Collection<Component> c = main.getFellows();
-			for (Iterator iterator = c.iterator(); iterator.hasNext();) {
-				Component component = (Component) iterator.next();
-				System.out.println(component.getId() + " - "
-						+ component.getClass().getName());
-			}
-
-			System.out
-					.println("========================================================");
-
-			Image img = (Image) main.getFellow("carita", true);
-			if (b == true) {
-				img.setSrc(Archivo.caritaFeliz);
-			} else {
-				img.setSrc(Archivo.caritaEnojada);
-			}
-			*/
-		
 			Menuitem item = (Menuitem) main.getFellow("carita", true);
 			if (b == true) {
 				item.setImage(Archivo.caritaFeliz);
+		
+
 			} else {
 				item.setImage(Archivo.caritaEnojada);
 			}
-			
-			
-			
+
 		} catch (Exception e) {
-			System.out.println("error poniendo carita ("+ e.getMessage() +")");
+			System.out
+					.println("error poniendo carita (" + e.getMessage() + ")");
 			this.noAutorizado();
 
 		}
@@ -270,7 +244,7 @@ public class Control {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		//System.out.println("==================================== Fin no autorizado ============");
+		// System.out.println("==================================== Fin no autorizado ============");
 	}
 
 	public Assembler getAss() {
@@ -375,7 +349,7 @@ public class Control {
 			// ojo, siempre se usa el original
 			ListModel<DTO> listModel = this.getAllModelOriginalx();
 			int size = listModel.getSize();
-			//System.out.println("");
+			// System.out.println("");
 
 			for (int i = 0; i < size; i++) {
 				DTO dto = listModel.getElementAt(i);
@@ -447,14 +421,9 @@ public class Control {
 	public void setTextoFormularioCorriente(String textoFormularioCorriente) {
 		this.textoFormularioCorriente = textoFormularioCorriente;
 		Component main = Path.getComponent("/templateInicio");
-		
+
 		Label lab = (Label) main.getFellow("nombreFormulario");
-		 lab.setValue(this.textoFormularioCorriente);
-
-		//Textbox lab = (Textbox) main.getFellow("nombreFormulario");
-		//lab.setValue(this.textoFormularioCorriente);
-
-	
+		lab.setValue(this.textoFormularioCorriente);
 	}
 
 	public synchronized boolean operacionHabilitada(String aliasOperacion)
@@ -509,12 +478,12 @@ public class Control {
 
 		if (this.getDtoUtil() == null) {
 			try {
-				
-				synchronized(Config.INIT_CLASE){
+
+				synchronized (Config.INIT_CLASE) {
 					Config.INIT_CLASE = Config.INIT_CLASE.replace("?", prefix);
 				}
 				this.m.ejecutarMetoto(Config.INIT_CLASE, Config.INIT_METODO);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -522,9 +491,7 @@ public class Control {
 		}
 
 	}
-	
-	
-	
+
 	public static String getEmpresa() {
 		return empresa;
 	}

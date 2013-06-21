@@ -48,6 +48,7 @@ public class LoginUsuarioDTO extends DTO {
 	
 	public String formLabel(String formAlias){
 		String label = (String)this.formLabelH.get(formAlias);
+		System.out.println("                         formAlias:"+formAlias + "   label:"+label);
 		if (NO_LABEL.compareTo(label)==0){
 			label = (String)this.allLabels.get(formAlias);
 		}
