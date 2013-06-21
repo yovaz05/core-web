@@ -138,6 +138,8 @@ public class ControlAgendaEvento extends GenericViewModel {
 		BodyPopupAceptarCancelar bAC = new BodyPopupAceptarCancelar();
 		//bAC.setWidthWindows("200px");
 		bAC.addComponente("Texto:", texto);
+		bAC.setHighWindows("200px");
+		bAC.setWidthWindows("430px");
 		
 
 		bAC.showPopup("Agregar un item a la Agenda");
