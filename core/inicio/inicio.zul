@@ -65,16 +65,16 @@
 			<!-- =================== NORTE ===================================== -->
 
 			<north border="0" collapsible="false" height="24px"
-				style="background: #3FC6D2 ;">
-				<hlayout valign="middle">
-					<hbox width="3px" align="center" height="24px" />
-					<hbox width="250px" align="center" height="24px">
-						<label id="nombreFormulario" value=" " multiline="false"
-							maxlength="26" style="font-size:12pt;font-weight:bold" />
-					</hbox>
-					<hbox width="750px" align="center" height="24px">
-						<include id="menu" src="@load(vm.menu)" />
-					</hbox>
+				style="background-color: #3FC6D2 ;">
+				<hlayout valign="middle" >
+						<hbox width="3px" align="center" height="24px" />
+						<hbox width="250px" align="center" height="24px">
+							<label id="nombreFormulario" value=" " multiline="false"
+								maxlength="26" style="font-size:12pt;font-weight:bold" />
+						</hbox>
+						<hbox width="750px" align="center" height="24px">
+							<include id="menu" src="@load(vm.menu)" />
+						</hbox>
 				</hlayout>
 			</north>
 
@@ -88,8 +88,7 @@
 
 					<hbox width="300px" align="center">
 
-						<menubar id="menubarFoot1" autodrop="false" width="100%"
-							style="background: #3FC6D2">
+						<menubar id="menubarFoot1" width="100%" >
 							<menuitem label="@load(vm.us.nombre)" onClick="@command('informacionUsuario')"
 								image="/core/images/user1.png" />
 						</menubar>
@@ -97,8 +96,7 @@
 
 					<hbox width="600px" align="center" pack="end">
 
-						<menubar id="menubarFoot2" autodrop="false" width="100%"
-							style="background: #3FC6D2">
+						<menubar id="menubarFoot2" width="100%">
 
 							<menuitem id="carita" label="click me" onClick="@command('mostrarCarita')"
 								image="/core/images/face-angry.png" />

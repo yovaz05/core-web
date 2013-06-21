@@ -553,9 +553,18 @@ public class Register {
 		return buscarElemento( clase, atts, values, false, Config.CUANTOS_BUSCAR_ELEMENTOS, new ArrayList());
 	}
 
-	public List buscarElemento(Class clase, String[] atts, String[] values, boolean permiteFiltroVacio)
+	public List buscarElemento(Class clase, String[] atts, String[] values, String[] wheres, boolean permiteFiltroVacio)
 			throws Exception {
-		return buscarElemento( clase, atts, values, permiteFiltroVacio, Config.CUANTOS_BUSCAR_ELEMENTOS, new ArrayList());
+		// armar la lista de wheres
+		List<String> whereCl = new ArrayList();
+		for (int i = 0; i < wheres.length; i++) {
+			String w = wheres[i];
+			if (w.trim().length() > 1){
+				whereCl.add(wheres[i]);
+			}
+		}
+		
+		return buscarElemento( clase, atts, values, permiteFiltroVacio, Config.CUANTOS_BUSCAR_ELEMENTOS, whereCl);
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values,
