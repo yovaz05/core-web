@@ -41,6 +41,13 @@ public class Toolbar extends GenericViewModel {
 
 	private Page pagina;
 
+	private String estadoABM = "";
+	public static String MODO_NADA = " ";
+	public static String MODO_EDITAR = "[editar]";
+	public static String MODO_BUSCAR = "[buscar]";
+	public static String MODO_AGREGAR = "[agregar]";
+	public static String MODO_BORRAR = "[borrar]";
+
 	public Page getPagina() {
 		return pagina;
 	}
@@ -125,9 +132,10 @@ public class Toolbar extends GenericViewModel {
 
 	@Command
 	public void agregarItem() throws Exception {
-		String texLabel = this.pagina.getTextoFormularioCorriente()
-				+ " (Agregar)";
-		this.setTextoFormularioCorriente(texLabel);
+		// String texLabel = this.pagina.getTextoFormularioCorriente()
+		// + " (Agregar)";
+		// this.setTextoFormularioCorriente(texLabel);
+		this.setEstadoABM(MODO_AGREGAR);
 
 		DTO dtoAux = this.getPagina().getBody().nuevoDTO();
 		this.getPagina().getBody().setDTOCorriente(dtoAux);
@@ -136,16 +144,20 @@ public class Toolbar extends GenericViewModel {
 
 	@Command
 	public void editarItem() {
-		String texLabel = this.pagina.getTextoFormularioCorriente()
-				+ " (Editar)";
-		this.setTextoFormularioCorriente(texLabel);
+		// String texLabel = this.pagina.getTextoFormularioCorriente()
+		// + " (Editar)";
+		// this.setTextoFormularioCorriente(texLabel);
+		this.setEstadoABM(MODO_EDITAR);
+
 	}
 
 	@Command
 	public void eliminarItem() {
-		String texLabel = this.pagina.getTextoFormularioCorriente()
-				+ " (Eliminar)";
-		this.setTextoFormularioCorriente(texLabel);
+		// String texLabel = this.pagina.getTextoFormularioCorriente()
+		// + " (Eliminar)";
+		// this.setTextoFormularioCorriente(texLabel);
+
+		this.setEstadoABM(MODO_BORRAR);
 
 		Button b = Messagebox.show("Eliminar el registro?", "Eliminar",
 				new Messagebox.Button[] { Messagebox.Button.YES,
@@ -155,39 +167,64 @@ public class Toolbar extends GenericViewModel {
 			this.pagina.borrarDTOCorriente();
 		}
 
-		texLabel = this.pagina.getTextoFormularioCorriente();
-		this.setTextoFormularioCorriente(texLabel);
+		// texLabel = this.pagina.getTextoFormularioCorriente();
+		// this.setTextoFormularioCorriente(texLabel);
+
+		this.setEstadoABM(MODO_NADA);
 
 	}
 
 	@Command
-	public void buscarItemBr() throws Exception {
-		String texLabel = this.pagina.getTextoFormularioCorriente()
-				+ " (Buscar)";
-		this.setTextoFormularioCorriente(texLabel);
+	public void buscarItem() throws Exception {
+		// String texLabel = this.pagina.getTextoFormularioCorriente()
+		// + " (Buscar)";
+		// this.setTextoFormularioCorriente(texLabel);
+
+		this.setEstadoABM(MODO_BUSCAR);
 
 		Browser br = this.getPagina().getBody().getBrowser();
-		br.show();
-		if (br.isClickAceptar() == true){
-			MyArray m = br.getSelectedItem();
-			// obtener un DTO del MyArray
-			
-			Assembler as = this.getPagina().getBody().getAss();
-			DTO dto = as.getDto(this.getPagina().getBody().getEntidadPrincipal(), m);
-			this.getPagina().getBody().setDTOCorriente(dto);
-			System.out.println("DTO:"+dto);
-			System.out.println(this.getPagina().getBody().getClass().getName() + " " + this.getPagina().getBody());
+
+		if (br == null) {
+			// lo hace de forma clasica, usando el buscar all dtos
+			List listaOrdenada = this.pagina.getBody().getAllModel();
+			Collections.sort(listaOrdenada);
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("modelo", new ListModelList<DTO>(listaOrdenada));
+			map.put("dtoCC", this.pagina.getBody().getDTOCorriente());
+			map.put("body", this.pagina.getBody());
+
+			Window window = (Window) Executions.createComponents(
+					"/core/template/Finder.zul", null, map);
+			window.doModal();
+
+		} else {
+			// tiene un browser definido
+			br.show();
+			if (br.isClickAceptar() == true) {
+				MyArray m = br.getSelectedItem();
+				// obtener un DTO del MyArray
+
+				Assembler as = this.getPagina().getBody().getAss();
+				DTO dto = as.getDto(this.getPagina().getBody()
+						.getEntidadPrincipal(), m);
+				this.getPagina().getBody().setDTOCorriente(dto);
+				
+			}
 		}
-		
+
+		this.setEstadoABM(MODO_NADA);
 
 	}
 
 	// este es el original, el que anda ahora
 	@Command
-	public void buscarItem() throws Exception {
-		String texLabel = this.pagina.getTextoFormularioCorriente()
-				+ " (Buscar)";
-		this.setTextoFormularioCorriente(texLabel);
+	public void buscarItem_Ori() throws Exception {
+		// String texLabel = this.pagina.getTextoFormularioCorriente()
+		// + " (Buscar)";
+		// /this.setTextoFormularioCorriente(texLabel);
+
+		this.setEstadoABM(MODO_BUSCAR);
 
 		List listaOrdenada = this.pagina.getBody().getAllModel();
 		Collections.sort(listaOrdenada);
@@ -201,8 +238,9 @@ public class Toolbar extends GenericViewModel {
 				"/core/template/Finder.zul", null, map);
 		window.doModal();
 
-		texLabel = this.pagina.getTextoFormularioCorriente();
-		this.setTextoFormularioCorriente(texLabel);
+		// texLabel = this.pagina.getTextoFormularioCorriente();
+		// this.setTextoFormularioCorriente(texLabel);
+		this.setEstadoABM(MODO_NADA);
 	}
 
 	@Wire
@@ -256,6 +294,14 @@ public class Toolbar extends GenericViewModel {
 	public boolean getCondicionComponenteSiempreHabilitado() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+
+	public String getEstadoABM() {
+		return estadoABM;
+	}
+
+	public void setEstadoABM(String estadoABM) {
+		this.estadoABM = estadoABM;
 	}
 
 }

@@ -53,6 +53,9 @@ public abstract class Browser extends SimpleViewModel {
 	public abstract Class getEntidadPrincipal();
 
 	
+	// para inicializar valores
+	public abstract void setingInicial();
+	
 	public abstract String getTituloBrowser();
 	
 	private String widthWindows = Config.ANCHO_APP;
@@ -107,6 +110,10 @@ public abstract class Browser extends SimpleViewModel {
 	}
 
 	public void show() throws Exception {
+		
+		// seteos iniciales
+		this.setingInicial();
+		
 		// inicializa los valores de las columnas
 		this.cargarColumnas();
 
@@ -173,11 +180,12 @@ public abstract class Browser extends SimpleViewModel {
 
 		this.refreshModeloGrid();
 
+		this.grid.setWidth("100%");
 		this.grid.setRowRenderer(new GridRowRender(this, rg));
 
 		
 		this.rg.getChildren().add(this.grid);
-		bpac.addComponente("Buscar", this.rg);
+		bpac.addComponente("Buscar", this.rg);	
 		bpac.setWidthWindows(this.getWidthWindows());
 		bpac.setHighWindows(this.getHigthWindows());
 		bpac.showPopupUnaColumna("Browser de "+this.getTituloBrowser());

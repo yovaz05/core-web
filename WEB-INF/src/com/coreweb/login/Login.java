@@ -13,6 +13,7 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Include;
+import org.zkoss.zul.Menu;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Panel;
 
@@ -45,6 +46,7 @@ public class Login extends Control{
 		Session s =  Sessions.getCurrent();
 		s.setAttribute(Config.LOGEADO, new Boolean(false));
 		BindUtils.postGlobalCommand(null, null, "deshabilitarMenu", null);
+		this.setTextoFormularioCorriente(" ");
 	}
 	
 	@AfterCompose
@@ -81,8 +83,11 @@ public class Login extends Control{
 				System.out.println("Error: Metodo afterLogin: "+Config.INIT_AFTER_LOGIN+ " no está implementado");
 			}
 			
-			
-			
+			Include incS = (Include) compTool.getFellow("menuSistema");
+			incS.invalidate(); // esto hace un refresh del menu
+
+			BindUtils.postGlobalCommand(null, null, "habilitarMenu", null);
+
 			this.setTextoFormularioCorriente(" ");
 			this.saltoDePagina(Archivo.okLogin);
 			

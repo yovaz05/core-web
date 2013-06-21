@@ -52,9 +52,9 @@ public class ControlInicio extends Control {
 	}
 	
 	String menu = "";
+	String menuSistema = "";
 
 	public String getMenu() {
-		System.out.println("...............menu:"+menu);
 		return menu;
 	}
 
@@ -62,11 +62,23 @@ public class ControlInicio extends Control {
 		this.menu = menu;
 	}
 
+	
+	
+	
+	public String getMenuSistema() {
+		return menuSistema;
+	}
+
+	public void setMenuSistema(String menuSistema) {
+		this.menuSistema = menuSistema;
+	}
+
 	@Init(superclass = true)
-	public void init(@QueryParam("menu") String menu) {
+	public void init(@QueryParam("menu") String menu, @QueryParam("menuSistema") String menuSistema) {
 		Session s = Sessions.getCurrent();
 		s.setAttribute(Config.USUARIO, null);
 		this.setMenu(menu);
+		this.setMenuSistema(menuSistema);
 
 		// poner en la session el controlInicio
 		//s.setAttribute(Config.CONTROL_INICIO, this);
