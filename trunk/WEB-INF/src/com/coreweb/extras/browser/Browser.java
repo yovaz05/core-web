@@ -1,38 +1,48 @@
 package com.coreweb.extras.browser;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.converter.sys.GridModelConverter;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Auxhead;
 import org.zkoss.zul.Auxheader;
 import org.zkoss.zul.Cell;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Column;
 import org.zkoss.zul.Columns;
 import org.zkoss.zul.Grid;
+import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Longbox;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.RowRenderer;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Vlayout;
 import org.zkoss.zul.Window;
+import org.zkoss.zul.impl.InputElement;
 
 import com.coreweb.Config;
 import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.componente.BuscarElemento;
 import com.coreweb.control.SimpleViewModel;
 import com.coreweb.domain.Register;
+import com.coreweb.util.Check;
 import com.coreweb.util.MyArray;
 
 public abstract class Browser extends SimpleViewModel {
@@ -47,33 +57,45 @@ public abstract class Browser extends SimpleViewModel {
 
 	}
 
+	public static String LABEL = "getLabel";
+	public static String TEXT_BOX = "getTextbox";
+	public static String LONG_BOX = "getLongbox";
+	public static String CHECK_BOX = "getCheckbox";
+	public static String RADIOGROUP = "getRadiogroup";
+	public static String RADIO = "getRadio";
+
+	
+	public static String TIPO_STRING = "String";
+	public static String TIPO_NUMERICO = "Numerico";
+	public static String TIPO_BOOL = "Bool";
+	
 	// la info de olas columnas del browser
 	public abstract List<ColumnaBrowser> getColumnasBrowser();
-	
+
 	// la clase principal de busqueda
 	public abstract Class getEntidadPrincipal();
 
-	
 	// para inicializar valores
 	public abstract void setingInicial();
-	
+
 	public abstract String getTituloBrowser();
-	
+
 	private String widthWindows = Config.ANCHO_APP;
 	private String higthWindows = "400px";
-	
+
 	private Grid grid = new Grid();
 	private Class clase;
 
 	private boolean checkVisible = false;
-	
-	
+
 	// estos datos se inicializan con el metodo cargarColumnas()
 	private int numeroColumnas = 0;
 	private String[] nombres; // nombre de la columna
 	private String[] atributos; // atributo de la clase
 	private String[] valores;
+	private String[] tipos; // los tipos de los campos
 	private String[] wheres;
+	private boolean[] visibles;
 	List<ColumnaBrowser> columnas; // la informacion de las columnas
 
 	private Object[] selectedItem;
@@ -81,14 +103,13 @@ public abstract class Browser extends SimpleViewModel {
 	private Row selectedRowPrevio = new Row();
 	private String styleSepectedRowOriginal = "";
 	public static String STYLE_SELECTED_ROW = "background-color: #DAE7F6;";
-	
 
 	Radiogroup rg = new Radiogroup();
 	BodyPopupAceptarCancelar bpac = new BodyPopupAceptarCancelar();
-	
+
 	private void cargarColumnas() {
 		this.clase = this.getEntidadPrincipal();
-		
+
 		this.columnas = this.getColumnasBrowser();
 		this.numeroColumnas = this.columnas.size() + 1; // por el id y checkbox
 
@@ -96,27 +117,32 @@ public abstract class Browser extends SimpleViewModel {
 		this.valores = new String[this.numeroColumnas];
 		this.nombres = new String[this.numeroColumnas];
 		this.wheres = new String[this.numeroColumnas];
-
+		this.tipos = new String[this.numeroColumnas];
+		this.visibles = new boolean[this.numeroColumnas];
 
 		nombres[0] = "Id";
 		atributos[0] = "id";
 		valores[0] = "";
 		wheres[0] = "";
+		tipos[0] = Browser.TIPO_NUMERICO;
 
 		for (int i = 1; i < this.numeroColumnas; i++) {
-			ColumnaBrowser col = this.columnas.get(i-1); // porque el ID no viene.
+			ColumnaBrowser col = this.columnas.get(i - 1); // porque el ID no
+															// viene.
 			nombres[i] = col.getTitulo();
 			atributos[i] = col.getCampo();
 			valores[i] = "";
 			wheres[i] = col.getWhere();
+			tipos[i] = col.getTipo();
+			visibles[i] = col.isVisible();
 		}
 	}
 
 	public void show() throws Exception {
-		
+
 		// seteos iniciales
 		this.setingInicial();
-		
+
 		// inicializa los valores de las columnas
 		this.cargarColumnas();
 
@@ -127,41 +153,13 @@ public abstract class Browser extends SimpleViewModel {
 		this.grid.setModel(model);
 
 		// Los filtros para recuperar los valores
-		List<Textbox> listFiltros = new ArrayList<Textbox>();
+		List<InputElement> listFiltros = new ArrayList<InputElement>();
 
-		// los textbox de filtro
-		Auxhead ah = new Auxhead();
-		this.grid.getChildren().add(ah);
 
-		// el radiobuton check
-		Auxheader ahcR = new Auxheader();
-		ahcR.setVisible(this.checkVisible);
-		ah.getChildren().add(ahcR);
 		
-		
-		for (int i = 0; i < this.numeroColumnas; i++) {
-			Auxheader ahc = new Auxheader();
-			Textbox ahcT = new Textbox();
-			ahc.getChildren().add(ahcT);
-			ah.getChildren().add(ahc);
-			listFiltros.add(ahcT);
-
-			FiltroBrowserEvento ev = new FiltroBrowserEvento(this, listFiltros);
-			ahcT.addEventListener("onOK", ev);
-
-			if (i == 0) {
-				ahcT.setDisabled(true);
-			}
-			ahcT.setValue(valores[i]); // el dato que viene como parámetro
-			if (i == 1) {
-				ahcT.setFocus(true);
-				ahcT.focus();
-			}
-
-		}
-
 		// la cebecera de la las columnas
 		Columns lcol = new Columns();
+		lcol.setMenupopup("auto");
 		this.grid.getChildren().add(lcol);
 
 		// radiobuton
@@ -171,11 +169,35 @@ public abstract class Browser extends SimpleViewModel {
 		cRG.setVisible(this.checkVisible);
 		lcol.getChildren().add(cRG);
 
-		
 		for (int i = 0; i < numeroColumnas; i++) {
 			Column c = new Column();
+			c.setSort("auto("+i+")");
 			c.setLabel(nombres[i]);
+			c.setVisible(visibles[i]);
+			
 
+			// el textbox del filtro
+			InputElement imputbox = new Textbox();
+			if (tipos[i].compareTo(Browser.TIPO_NUMERICO)==0){
+				imputbox = new Longbox();
+			}else if (tipos[i].compareTo(Browser.TIPO_BOOL)==0){
+				imputbox.setConstraint((new Check()).getTrueFalse());
+				imputbox.setMaxlength(1);
+			}
+			
+			
+			
+			listFiltros.add(imputbox);
+
+			FiltroBrowserEvento ev = new FiltroBrowserEvento(this, listFiltros);
+			imputbox.addEventListener("onOK", ev);			
+			
+			Vlayout vl = new Vlayout();
+			vl.appendChild(imputbox);
+			
+			c.appendChild(vl);
+
+			
 			lcol.getChildren().add(c);
 
 			if (i == 0) {
@@ -189,12 +211,11 @@ public abstract class Browser extends SimpleViewModel {
 		this.grid.setWidth("100%");
 		this.grid.setRowRenderer(new GridRowRender(this, rg));
 
-		
 		this.rg.getChildren().add(this.grid);
-		bpac.addComponente("Buscar", this.rg);	
+		bpac.addComponente("Buscar", this.rg);
 		bpac.setWidthWindows(this.getWidthWindows());
 		bpac.setHighWindows(this.getHigthWindows());
-		bpac.showPopupUnaColumna("Browser de "+this.getTituloBrowser());
+		bpac.showPopupUnaColumna("Browser de " + this.getTituloBrowser());
 
 	}
 
@@ -221,21 +242,17 @@ public abstract class Browser extends SimpleViewModel {
 		Register rr = Register.getInstance();
 		List<Object[]> datos = new ArrayList<Object[]>();
 		try {
-			datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores, wheres,
-					true);
+			datos = (List<Object[]>) rr.buscarElemento(clase, atributos,
+					valores, wheres, tipos, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return datos;
 	}
-	
-	
-	public boolean isClickAceptar(){
+
+	public boolean isClickAceptar() {
 		return this.bpac.isClickAceptar();
 	}
-	
-
-	
 
 	public String[] getValores() {
 		return valores;
@@ -262,7 +279,7 @@ public abstract class Browser extends SimpleViewModel {
 	}
 
 	public MyArray getSelectedItem() throws Exception {
-		if (this.isClickAceptar() == true){
+		if (this.isClickAceptar() == true) {
 			return new MyArray(selectedItem);
 		}
 		throw new Exception("No se hizo click en Aceptar !!");
@@ -304,22 +321,92 @@ public abstract class Browser extends SimpleViewModel {
 		this.checkVisible = checkVisible;
 	}
 
+	
+	// *********************************************************
+	// Lista de componentes
 
+	public HtmlBasedComponent getLabel(Object obj, Object[] datos) {
+		Label l = new Label();
+		l.setValue(obj.toString());
+		return l;
+	}
+
+	public HtmlBasedComponent getTextbox(Object obj, Object[] datos) {
+		Textbox t = new Textbox();
+		t.setReadonly(true);
+		t.setValue(obj.toString());
+		return t;
+	}
+
+	public HtmlBasedComponent getLongbox(Object obj, Object[] datos) {
+		Longbox t = new Longbox();
+		t.setFormat("###,###,###");
+		t.setStyle("text-align: right");
+		t.setReadonly(true);
+		t.setValue((long)obj);
+		return t;
+	}
+
+	
+	public HtmlBasedComponent getCheckbox(Object obj, Object[] datos) {
+		Checkbox ck = new Checkbox();
+		ck.setChecked((boolean) obj);
+		ck.setDisabled(true);
+		return ck;
+	}
+
+	public HtmlBasedComponent getRadiogroup(Object obj, Object[] datos) {
+		Radiogroup rg = new Radiogroup();
+		Radio r = (Radio)getRadio(obj, datos); 
+		r.setRadiogroup(rg);
+		rg.appendChild(r);
+		return rg;
+	}
+
+	public HtmlBasedComponent getRadio(Object obj, Object[] datos) {
+		Radio r = new Radio();
+		r.setChecked((boolean) obj);
+		r.setDisabled(true);
+		return r;
+	}
+
+	
+	// *********************************************************
+
+	
 	
 }
 
 class FiltroBrowserEvento implements EventListener {
 
-	List<Textbox> listTx = null;
+	List<InputElement> listTx = null;
 	Browser be = null;
 
-	public FiltroBrowserEvento(Browser be, List<Textbox> listTx) {
+	public FiltroBrowserEvento(Browser be, List<InputElement> listTx) {
 		this.be = be;
 		this.listTx = listTx;
 	}
 
 	@Override
 	public void onEvent(Event ev) throws Exception {
+		// TODO Auto-generated method stub
+
+		String[] valores = new String[listTx.size()];
+		for (int i = 0; i < listTx.size(); i++) {
+			InputElement tx = (InputElement) listTx.get(i);
+			Object valor = tx.getRawValue();
+			if (valor == null){
+				valor = "";
+			}
+			valores[i] = (valor+"").trim();
+		}
+		this.be.setValores(valores);
+		this.be.refreshModeloGrid();
+
+	}
+
+//	@Override
+	public void xonEvent(Event ev) throws Exception {
 		// TODO Auto-generated method stub
 
 		String[] valores = new String[listTx.size()];
@@ -331,20 +418,22 @@ class FiltroBrowserEvento implements EventListener {
 		this.be.refreshModeloGrid();
 
 	}
+	
 
+
+	
 }
 
 class GridRowRender implements RowRenderer {
 
 	Browser br;
 	Radiogroup rg;
-	
-	public GridRowRender(Browser br, Radiogroup rg){
+
+	public GridRowRender(Browser br, Radiogroup rg) {
 		this.br = br;
 		this.rg = rg;
 	}
-	
-	
+
 	@Override
 	public void render(Row row, Object data, int arg2) throws Exception {
 		// TODO Auto-generated method stub
@@ -353,9 +442,9 @@ class GridRowRender implements RowRenderer {
 
 		// en las columnas esta la info de configuración
 		List<ColumnaBrowser> columnas = this.br.getColumnasBrowser();
-		
+
 		Object[] datosCel = (Object[]) data;
-		
+
 		// radiobutton
 		Radio ra = new Radio();
 		ra.setRadiogroup(this.rg);
@@ -363,32 +452,42 @@ class GridRowRender implements RowRenderer {
 		ra.setParent(row);
 
 		Object va = datosCel[0]; // el ID
-		Label lbId = new Label(va+"");
+		Label lbId = new Label(va + "");
 		lbId.setParent(row);
-		
-		
+
 		for (int i = 1; i < datosCel.length; i++) {
 			va = datosCel[i];
-			ColumnaBrowser col = columnas.get(i-1);
-			
+			ColumnaBrowser col = columnas.get(i - 1);
+
 			Cell cel = new Cell();
 			cel.setStyle(col.getEstilo());
-			
-			Label lb = new Label(va+"");
-			//lb.setStyle(col.getEstilo());
 			cel.setParent(row);
-			lb.setParent(cel);
+
+			HtmlBasedComponent comp = null;
+
+			try {
+				// invoca a la operación
+				Method m = this.br.getClass().getMethod(col.getComponente(),
+						Object.class, Object[].class);
+				comp = (HtmlBasedComponent) m.invoke(this.br, va, datosCel);
+			} catch (Exception e) {
+				e.printStackTrace();
+				comp = this.br.getLabel(va, datosCel);
+			}
+			String auxSt = comp.getStyle();
+			comp.setStyle(auxSt+";"+col.getEstilo());
+			comp.setParent(cel);
 		}
 
 	}
 
 }
 
-class RowEventListener implements EventListener{
-	
+class RowEventListener implements EventListener {
+
 	private Browser br;
-	
-	public RowEventListener(Browser br){
+
+	public RowEventListener(Browser br) {
 		this.br = br;
 	}
 
@@ -400,17 +499,19 @@ class RowEventListener implements EventListener{
 		rPrevia.setStyle(this.br.getStyleSepectedRowOriginal());
 
 		// nueva row selected
-		Row rClick = (Row)arg0.getTarget();
+		Row rClick = (Row) arg0.getTarget();
 		this.br.setSelectedRow(rClick);
 		this.br.setStyleSepectedRowOriginal(rClick.getStyle());
 		// le ponemos el style de seleccionado
 		rClick.setStyle(Browser.STYLE_SELECTED_ROW);
-		
-		
-		this.br.setSelectedItem((Object[])rClick.getValue());
-		Radio ra = (Radio)rClick.getChildren().get(0);
+
+		this.br.setSelectedItem((Object[]) rClick.getValue());
+		Radio ra = (Radio) rClick.getChildren().get(0);
 		ra.setChecked(true);
 		ra.setFocus(true);
 	}
-	
+
 }
+
+
+

@@ -18,6 +18,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.coreweb.Config;
+import com.coreweb.extras.browser.Browser;
 
 import java.io.*;
 
@@ -542,33 +543,39 @@ public class Register {
 		return d;
 	}
 
-	
-	public List buscarElemento(Class clase, String[] atts, String[] values, List<String> where)
-			throws Exception {
-		return buscarElemento( clase, atts, values, false, Config.CUANTOS_BUSCAR_ELEMENTOS, where);
-	}
-	
-	public List buscarElemento(Class clase, String[] atts, String[] values)
-			throws Exception {
-		return buscarElemento( clase, atts, values, false, Config.CUANTOS_BUSCAR_ELEMENTOS, new ArrayList());
+	// este usa el buscar elemento
+	public List buscarElemento(Class clase, String[] atts, String[] values,
+			String[] tipos, List<String> where) throws Exception {
+		return buscarElemento(clase, atts, values, tipos, false,
+				Config.CUANTOS_BUSCAR_ELEMENTOS, where);
 	}
 
-	public List buscarElemento(Class clase, String[] atts, String[] values, String[] wheres, boolean permiteFiltroVacio)
+	public List buscarElemento(Class clase, String[] atts, String[] values,
+			String[] tipos) throws Exception {
+		return buscarElemento(clase, atts, values, tipos, false,
+				Config.CUANTOS_BUSCAR_ELEMENTOS, new ArrayList());
+	}
+
+	// este usa el browser
+	public List buscarElemento(Class clase, String[] atts, String[] values,
+			String[] wheres, String[] tipos, boolean permiteFiltroVacio)
 			throws Exception {
 		// armar la lista de wheres
 		List<String> whereCl = new ArrayList();
 		for (int i = 0; i < wheres.length; i++) {
 			String w = wheres[i];
-			if (w.trim().length() > 1){
+			if (w.trim().length() > 1) {
 				whereCl.add(wheres[i]);
 			}
 		}
-		
-		return buscarElemento( clase, atts, values, permiteFiltroVacio, Config.CUANTOS_BUSCAR_ELEMENTOS, whereCl);
+
+		return buscarElemento(clase, atts, values, tipos, permiteFiltroVacio,
+				Config.CUANTOS_BUSCAR_ELEMENTOS, whereCl);
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values,
-			boolean permiteFiltroVacio, int limite, List<String> whereCl) throws Exception {
+			String[] tipos, boolean permiteFiltroVacio, int limite,
+			List<String> whereCl) throws Exception {
 		List l = new ArrayList<Object[]>();
 		;
 
@@ -580,7 +587,7 @@ public class Register {
 				aux += values[i].trim();
 			}
 			if (aux.length() < 1) {
-				throw new Exception("debe ingresar un criterio de filtro");
+				throw new Exception("Debe ingresar un criterio de filtro");
 			}
 		}
 
@@ -588,29 +595,52 @@ public class Register {
 		String select = " ";
 		String where = " 1 = 1 and ";
 
+		// estos son los wheres que fueron agregados por el usuario al crear el
+		// browser
 		for (int i = 0; i < whereCl.size(); i++) {
 			String w = whereCl.get(i);
 			where += w + " and ";
 		}
-		
-		int cnt = atts.length;		
+
+		int cnt = atts.length;
 		for (int i = 0; i < cnt; i++) {
 			String at = "c." + atts[i];
 			String va = values[i].trim();
 
+			// va armando el select
 			select += at + " ,";
 
+			// para armar el where que vienen del filtro de los texbox
 			if (va.length() > 0) {
-				where += at + " like '%" + va + "%' and ";
+				String ww = "";
+
+				if (tipos[i].compareTo(Browser.TIPO_NUMERICO) == 0) {
+					ww = at + " = " + va.toLowerCase();
+					ww = " cast("+at+" as string) like '%" + va.toLowerCase()+ "%' ";
+					
+				} else if (tipos[i].compareTo(Browser.TIPO_BOOL) == 0) {
+					ww = at + " = " + va.toLowerCase();
+					ww = " lower(str(" + at + ")) like '%" + va.toLowerCase()+ "%' ";
+
+				} else {
+					// por defecto es String
+					ww = " lower(" + at + ") like '%" + va.toLowerCase()
+							+ "%' ";
+				}
+				where += " " + ww + " and ";
 			}
 		}
 
 		select = "select " + select.substring(0, select.length() - 1);
-		where = "where " + where.substring(0, where.length() - 4);
+		where = "where " + where.substring(0, where.length() - 4); // quita el
+																	// ultimo
+																	// and
 
 		String hql = select + " from " + clase.getName() + " c " + where
 				+ " order by " + atOrd + " asc";
-		//System.out.println("\n\n\n" + hql + "\n\n\n");
+		System.out.println("\n\n\n" + hql + "\n\n\n");
+		
+		
 		l = this.hql(hql);
 
 		if (l.size() > limite) {
@@ -619,13 +649,13 @@ public class Register {
 		}
 
 		if (l.size() == 0) {
-			throw new Exception("no se encontraron elementos ...");
+			throw new Exception("No se encontraron elementos ...");
 		}
 
 		return l;
 	}
 
-	public static void main(String[] args) {
+	public static void xmain(String[] args) {
 		try {
 			String query = ""
 					+ " select ci.id, tipo.descripcion, cli.empresa.nombre"
@@ -637,6 +667,25 @@ public class Register {
 			// List<Domain> l = rr.selectFrom(ContactoInterno.class.getName(),
 			// "funcionario.id='2'");
 			List l = rr.hql(query, new Object[] { (long) 2 });
+			for (int i = 0; i < l.size(); i++) {
+				Object[] o = (Object[]) l.get(i);
+				System.out.println(o[0] + " - " + o[1]);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void xxmain(String[] args) {
+		try {
+			String query = "select  c.id ,c.numeroPedidoCompra ,c.proveedor.empresa.razonSocial ,	c.importacionEstadoPedido.descripcion ,c.pedidoConfirmado ,	c.confirmadoVentas ,c.cambio  from com.yhaguy.domain.ImportacionPedidoCompra c where  1 = 1 and   lower(c.importacionEstadoPedido.descripcion) like '%env%'  and  	c.pedidoConfirmado = true  order by c.id asc";
+
+			Register rr = Register.getInstance();
+			// List<Domain> l = rr.selectFrom(ContactoInterno.class.getName(),
+			// "funcionario.id='2'");
+			List l = rr.hql(query);
 			for (int i = 0; i < l.size(); i++) {
 				Object[] o = (Object[]) l.get(i);
 				System.out.println(o[0] + " - " + o[1]);

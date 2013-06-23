@@ -859,6 +859,14 @@ public class Misc {
 		return email.matches(validador);
 	}
 	
+	/**
+	 * Verifica si es T, F, o vacio
+	 */
+	public boolean checkTrueFalse(String dato) {		
+		String validador = "[TtFf]?";		
+		return dato.matches(validador);
+	}
+
 	
 	public void borrarArchivo(String archivo){
 		//Delete if tempFile exists

@@ -12,8 +12,8 @@ import org.zkoss.zul.CustomConstraint;
 import org.zkoss.zul.SimpleConstraint;
 
 public class Check {
-	
-	public static String MENSAJE_NO_EMPTY = "Este campo no debe quedar vacio";		
+
+	public static String MENSAJE_NO_EMPTY = "Este campo no debe quedar vacio";
 	public static String MENSAJE_NO_FUTURO = "Fecha mayor a la actual no permitida";
 	public static String MENSAJE_NO_PRESENTE = "Fecha actual no permitida";
 	public static String MENSAJE_NO_PASADO = "Fecha menor a la actual no permitida";
@@ -26,83 +26,89 @@ public class Check {
 	public static String MENSAJE_MENOR_IGUAL_A = "El valor debe ser menor o igual a ";
 	public static String MENSAJE_RUC = "Debe Ingresar un Ruc valido";
 	public static String MENSAJE_EMAIL = "Debe Ingresar un correo valido";
-	
+	public static String TRUE_FALSE = "Debe Ingresar \nT para Verdadero, o \nF para Falso ";
 
-	
 	// No admite empty o null
-	public MiConstraint getNoVacio(){
+	public MiConstraint getNoVacio() {
 		return new MiConstraint(MiConstraint.NO_EMPTY);
 	}
-	
+
 	// No admite fecha mayor a la actual
-	public MiConstraint getNoFuturo(){
+	public MiConstraint getNoFuturo() {
 		return new MiConstraint(MiConstraint.NO_FUTURO);
 	}
-	
+
 	// No admite fecha menor a la actual
-	public MiConstraint getNoPasado(){
+	public MiConstraint getNoPasado() {
 		return new MiConstraint(MiConstraint.NO_PASADO);
 	}
-	
+
 	// No admite fecha actual
-	public MiConstraint getNoPresente(){
+	public MiConstraint getNoPresente() {
 		return new MiConstraint(MiConstraint.NO_PRESENTE);
 	}
-	
+
 	// No admite valor mayor a cero
-	public MiConstraint getNoPositivo(){
+	public MiConstraint getNoPositivo() {
 		return new MiConstraint(MiConstraint.NO_POSITIVO);
 	}
-	
+
 	// No admite valor cero
-	public MiConstraint getNoCero(){
+	public MiConstraint getNoCero() {
 		return new MiConstraint(MiConstraint.NO_CERO);
 	}
-	
+
 	// No admite valores menores a cero
-	public MiConstraint getNoNegativo(){
+	public MiConstraint getNoNegativo() {
 		return new MiConstraint(MiConstraint.NO_NEGATIVO);
 	}
-	
+
 	// Solo admite valor mayor a ?
 	public MiConstraint mayorA(Number value) {
 		return new MiConstraint(MiConstraint.MAYOR_A, value);
 	}
-		
+
 	// Solo admite valor menor a ?
 	public MiConstraint menorA(Number value) {
 		return new MiConstraint(MiConstraint.MENOR_A, value);
 	}
-	
+
 	// Solo admite valor mayor o igual a ?
-	public MiConstraint mayorIgualA(Number value){
+	public MiConstraint mayorIgualA(Number value) {
 		return new MiConstraint(MiConstraint.MAYOR_IGUAL_A, value);
 	}
-	
+
 	// Solo admite valor menor o igual a ?
-	public MiConstraint menorIgualA(Number value){
+	public MiConstraint menorIgualA(Number value) {
 		return new MiConstraint(MiConstraint.MENOR_IGUAL_A, value);
 	}
-	
+
 	// Valida el digito verificador del ruc
-	public MiConstraint getRuc(){
+	public MiConstraint getRuc() {
 		return new MiConstraint(MiConstraint.RUC);
 	}
-	
+
 	// Valida el formato del correo
-	public MiConstraint getEmail(){
+	public MiConstraint getEmail() {
 		return new MiConstraint(MiConstraint.EMAIL);
 	}
-	
+
 	// Valida el formato de varios correos separados con ';'
-	public MiConstraint getEmails(){
+	public MiConstraint getEmails() {
 		return new MiConstraint(MiConstraint.EMAILS);
 	}
+
+	// Valida el formato del correo
+	public MiConstraint getTrueFalse() {
+		return new MiConstraint(MiConstraint.TRUE_FALSE);
+	}
+
 }
 
-class MiConstraint extends SimpleConstraint implements Constraint, CustomConstraint{
+class MiConstraint extends SimpleConstraint implements Constraint,
+		CustomConstraint {
 
-	public static final int NO_EMPTY = 1;	
+	public static final int NO_EMPTY = 1;
 	public static final int NO_FUTURO = 2;
 	public static final int NO_PASADO = 3;
 	public static final int NO_PRESENTE = 4;
@@ -116,88 +122,96 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 	public static final int RUC = 12;
 	public static final int EMAIL = 13;
 	public static final int EMAILS = 14;
-	
+	public static final int TRUE_FALSE = 15;
+
 	private int constraint = 0;
 	private Number value = 0;
 	private Misc misc = new Misc();
 
-	public MiConstraint(int constraint, Number value){
+	public MiConstraint(int constraint, Number value) {
 		super("");
 		this.constraint = constraint;
 		this.value = value;
 	}
-	
-	public MiConstraint(int constraint){
+
+	public MiConstraint(int constraint) {
 		super("");
 		this.constraint = constraint;
 	}
-	
-	private static int compareTo(Comparable v1, Object v2){
+
+	private static int compareTo(Comparable v1, Object v2) {
 		return v1.compareTo(v2);
 	}
 
 	@Override
 	public void validate(Component comp, Object value)
-			throws WrongValueException {	
+			throws WrongValueException {
 		try {
-			
+
 			MiValidate(comp, value);
-			
+
 		} catch (WrongValueException ex) {
 			/*
-			if (comp instanceof InputElement){
-				InputElement im = (InputElement)comp;
-				String st = im.getStyle();
-				im.setStyle(st+";border: 1px solid red");
-			}
-			*/
-			
-			Clients.showNotification(ex.getMessage(), "error", comp, "end_center", 3000, true);
-		}
-		
-	}
-	
+			 * if (comp instanceof InputElement){ InputElement im =
+			 * (InputElement)comp; String st = im.getStyle();
+			 * im.setStyle(st+";border: 1px solid red"); }
+			 */
 
-	
-	
+			Clients.showNotification(ex.getMessage(), "error", comp,
+					"end_center", 3000, true);
+		}
+
+	}
+
 	public void MiValidate(Component comp, Object value)
-			throws WrongValueException {			
-		
-		if (value == null) {			
-				throw new WrongValueException(comp, Check.MENSAJE_NO_EMPTY);
-				
-		//Check de Numeros		
+			throws WrongValueException {
+
+		if (value == null) {
+			throw new WrongValueException(comp, Check.MENSAJE_NO_EMPTY);
+
+			// Check de Numeros
 		} else if (value instanceof Number) {
-			final int cmp = compareTo((Comparable)value,
-					Classes.coerce(value.getClass(), null, false)); //compara con cero
+			final int cmp = compareTo((Comparable) value,
+					Classes.coerce(value.getClass(), null, false)); // compara
+																	// con cero
 			if (cmp > 0) {
 				if (this.constraint == this.NO_POSITIVO) {
-					throw new WrongValueException(comp, Check.MENSAJE_NO_POSITIVO);
-				} 
+					throw new WrongValueException(comp,
+							Check.MENSAJE_NO_POSITIVO);
+				}
 			} else if (cmp == 0) {
-				if (this.constraint == this.NO_CERO) {					
+				if (this.constraint == this.NO_CERO) {
 					throw new WrongValueException(comp, Check.MENSAJE_NO_CERO);
 				}
 			} else {
 				if (this.constraint == this.NO_NEGATIVO) {
-					throw new WrongValueException(comp, Check.MENSAJE_NO_NEGATIVO);
+					throw new WrongValueException(comp,
+							Check.MENSAJE_NO_NEGATIVO);
 				}
 			}
-			
-			if ((this.constraint == this.MAYOR_A) && (misc.compararNumeros((Number) value, this.value) != 1)) {
-				throw new WrongValueException(comp, Check.MENSAJE_MAYOR_A + this.value);
+
+			if ((this.constraint == this.MAYOR_A)
+					&& (misc.compararNumeros((Number) value, this.value) != 1)) {
+				throw new WrongValueException(comp, Check.MENSAJE_MAYOR_A
+						+ this.value);
 			}
-			if ((this.constraint == this.MENOR_A) && (misc.compararNumeros((Number) value, this.value) != -1)) {
-				throw new WrongValueException(comp, Check.MENSAJE_MENOR_A + this.value);
+			if ((this.constraint == this.MENOR_A)
+					&& (misc.compararNumeros((Number) value, this.value) != -1)) {
+				throw new WrongValueException(comp, Check.MENSAJE_MENOR_A
+						+ this.value);
 			}
-			if ((this.constraint == this.MAYOR_IGUAL_A) && (misc.compararNumeros((Number) value, this.value) == -1)) {			
-				throw new WrongValueException(comp, Check.MENSAJE_MAYOR_IGUAL_A + this.value);
+			if ((this.constraint == this.MAYOR_IGUAL_A)
+					&& (misc.compararNumeros((Number) value, this.value) == -1)) {
+				throw new WrongValueException(comp, Check.MENSAJE_MAYOR_IGUAL_A
+						+ this.value);
 			}
-			if ((this.constraint == this.MENOR_IGUAL_A) && (misc.compararNumeros((Number) value, this.value) == 1)) {
-				throw new WrongValueException(comp, Check.MENSAJE_MENOR_IGUAL_A + this.value);
+			if ((this.constraint == this.MENOR_IGUAL_A)
+					&& (misc.compararNumeros((Number) value, this.value) == 1)) {
+				throw new WrongValueException(comp, Check.MENSAJE_MENOR_IGUAL_A
+						+ this.value);
 			}
-		
-		//Check de String
+
+			// Check de String
 		} else if (value instanceof String) {
 			String s = (String) value;
 			if (this.constraint == this.NO_EMPTY && s.isEmpty()) {
@@ -209,15 +223,22 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 					throw new WrongValueException(comp, Check.MENSAJE_RUC);
 				}
 			}
-			if ((this.constraint == this.EMAIL) && (misc.checkEmail((String) value) == false)) {
+			if ((this.constraint == this.EMAIL)
+					&& (misc.checkEmail(s) == false)) {
 				throw new WrongValueException(comp, Check.MENSAJE_EMAIL);
 			}
-			if ((this.constraint == this.EMAILS) && ((misc.chequearMultipleCorreos(((String) value).trim().split(";")) == false)
-					|| (((String) value).isEmpty()))) {
+			if ((this.constraint == this.EMAILS)
+					&& ((misc.chequearMultipleCorreos(s.trim()
+							.split(";")) == false) || (((String) value)
+							.isEmpty()))) {
 				throw new WrongValueException(comp, Check.MENSAJE_EMAIL);
 			}
-		
-		//Check de Fechas
+			if ((this.constraint == this.TRUE_FALSE)
+					&& (misc.checkTrueFalse(s) == false)) {
+				throw new WrongValueException(comp, Check.TRUE_FALSE);
+			}
+
+			// Check de Fechas
 		} else if (value instanceof Date) {
 			final Date date = Dates.beginOfDate((Date) value, null);
 			final int cmp = date.compareTo(Dates.today());
@@ -227,7 +248,8 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 				}
 			} else if (cmp == 0) {
 				if (this.constraint == this.NO_PRESENTE) {
-					throw new WrongValueException(comp, Check.MENSAJE_NO_PRESENTE);
+					throw new WrongValueException(comp,
+							Check.MENSAJE_NO_PRESENTE);
 				}
 			} else {
 				if (this.constraint == this.NO_PASADO) {
@@ -237,20 +259,11 @@ class MiConstraint extends SimpleConstraint implements Constraint, CustomConstra
 		}
 	}
 
-	
-	
 	public void showCustomError(Component comp, WrongValueException ex) {
 		if (ex != null) {
-			Clients.showNotification(ex.getMessage(), "error", comp, "end_center", 3000, true);
-		}		
+			Clients.showNotification(ex.getMessage(), "error", comp,
+					"end_center", 3000, true);
+		}
 	}
 
-
-
-
-
-	
-	
-	
-	
 }
