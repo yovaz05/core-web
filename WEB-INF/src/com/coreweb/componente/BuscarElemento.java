@@ -22,6 +22,7 @@ public class BuscarElemento {
 	String[] atributos;
 	String[] nombresColumnas;
 	String[] valores;
+	String[] tipos = null;
 	String titulo = "Buscar ...";
 	String width = "400px";
 	String msgVacia = "Ingrese un criterio de filtro...";
@@ -35,6 +36,16 @@ public class BuscarElemento {
 	BodyPopupAceptarCancelar bpac = new BodyPopupAceptarCancelar();
 	
 	public void show(String dato) throws Exception {
+		
+		// carga los tipos, por defecto String
+		if (this.tipos == null){
+			this.tipos = new String[this.atributos.length];
+			for (int i = 0; i < this.atributos.length; i++) {
+				this.tipos[i] = ""; // toma por defecto String
+			}			
+		}
+		
+		
 		try {
 			valores[1] = dato.trim(); // en el 0 está el ID
 			List<Object[]> datos = this.getModelo();
@@ -145,7 +156,7 @@ public class BuscarElemento {
 	private List<Object[]> getModelo() throws Exception{
 		Register rr = Register.getInstance();
 		List<Object[]> datos = new ArrayList<Object[]>();
-		datos = (List<Object[]>) rr.buscarElemento(clase,atributos, valores, where);
+		datos = (List<Object[]>) rr.buscarElemento(clase,atributos, valores, tipos, where);
 		return datos;
 	}
 	
@@ -276,6 +287,14 @@ public class BuscarElemento {
 
 	public void addWhere(String w){
 		this.where.add(w);
+	}
+
+	public String[] getTipos() {
+		return tipos;
+	}
+
+	public void setTipos(String[] tipos) {
+		this.tipos = tipos;
 	}
 
 	

@@ -60,7 +60,7 @@ public class BodyPopupAceptarCancelar {
 		this.windowPopupAceptarCancelar = (Window) view;
 		this.controlInicial = (BodyPopupAceptarCancelar) control;
 		this.checkAC = checkAC;
-		System.out.println("================================= check:" + this.checkAC);
+		//System.out.println("================================= check:" + this.checkAC);
 	}
 
 	@Command()
