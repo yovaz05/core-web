@@ -3,6 +3,7 @@ package com.coreweb.extras.browser;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,10 +65,12 @@ public abstract class Browser extends SimpleViewModel {
 	public static String CHECK_BOX = "getCheckbox";
 	public static String RADIOGROUP = "getRadiogroup";
 	public static String RADIO = "getRadio";
+	public static String LABEL_DATE = "getLabelDate";
 	
 	public static String TIPO_STRING = "String";
 	public static String TIPO_NUMERICO = "Numerico";
 	public static String TIPO_BOOL = "Bool";
+	public static String TIPO_DATE = "Date";
 	
 	// la info de olas columnas del browser
 	public abstract List<ColumnaBrowser> getColumnasBrowser();
@@ -389,6 +392,13 @@ public abstract class Browser extends SimpleViewModel {
 		r.setChecked((boolean) obj);
 		r.setDisabled(true);
 		return r;
+	}
+	
+	public HtmlBasedComponent getLabelDate(Object obj, Object[] datos) {
+		Label l = new Label();
+		System.out.println("  obj:"+obj+"   "+m.YYYY_MM_DD_HORA_MIN_SEG2+":"+this.m.dateToString((Date)obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
+		l.setValue(this.m.dateToString((Date)obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
+		return l;
 	}
 
 	

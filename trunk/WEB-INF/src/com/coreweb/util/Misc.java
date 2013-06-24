@@ -27,19 +27,6 @@ import com.coreweb.Config;
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -135,9 +122,10 @@ public class Misc {
 		}
 		return color;
 	}
-	
-	//Metodo para cambiar el color de las filas en el Grid del SubDiario Detalle
-	public String rowColorCuentaHaber(int tipo){
+
+	// Metodo para cambiar el color de las filas en el Grid del SubDiario
+	// Detalle
+	public String rowColorCuentaHaber(int tipo) {
 		String color = "";
 		if (tipo < 0.001) {
 			color = BACKGROUND_NARANJA;
@@ -172,46 +160,41 @@ public class Misc {
 		return dateToString(new Date(), YYYY_MM_DD_HORA_MIN_SEG2);
 	}
 
-	
 	public String dateToString(java.util.Date dd, String format) {
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		String out2 = sdf.format(dd);
-		if (true){
-			return out2;
-		}
-		
-		// de acá en adelante no se usa mas
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(dd);
-		
 
-		int anio = calendar.get(Calendar.YEAR); // año
-		int mes = calendar.get(Calendar.MONTH) + 1; // mes, de 0 a 11
-		int dia = calendar.get(Calendar.DAY_OF_MONTH); // dia del mes
+		return out2;
 
-		int hora24 = calendar.get(Calendar.HOUR_OF_DAY); // hora en formato 24hs
-		int minutos = calendar.get(Calendar.MINUTE);
-		int segundos = calendar.get(Calendar.SECOND);
-
-		String out = "";
-		if (format.compareTo(YYYY_MM_DD) == 0) {
-			out = (anio + "-" + lastNchars("00" + mes, 2) + "-" + lastNchars(
-					"00" + dia, 2));
-		}
-
-		if ((format.compareTo(YYYY_MM_DD_HORA_MIN_SEG) == 0)
-				|| (format.isEmpty())) {
-
-			out = (anio + "-" + lastNchars("00" + mes, 2) + "-"
-					+ lastNchars("00" + dia, 2) + " "
-					+ lastNchars("00" + hora24, 2) + ":"
-					+ lastNchars("00" + minutos, 2) + ":" + lastNchars("00"
-					+ segundos, 2));
-		}
-
-		return out;
+		/*
+		 * // de acá en adelante no se usa mas
+		 * 
+		 * Calendar calendar = Calendar.getInstance(); calendar.setTime(dd);
+		 * 
+		 * 
+		 * int anio = calendar.get(Calendar.YEAR); // año int mes =
+		 * calendar.get(Calendar.MONTH) + 1; // mes, de 0 a 11 int dia =
+		 * calendar.get(Calendar.DAY_OF_MONTH); // dia del mes
+		 * 
+		 * int hora24 = calendar.get(Calendar.HOUR_OF_DAY); // hora en formato
+		 * 24hs int minutos = calendar.get(Calendar.MINUTE); int segundos =
+		 * calendar.get(Calendar.SECOND);
+		 * 
+		 * String out = ""; if (format.compareTo(YYYY_MM_DD) == 0) { out = (anio
+		 * + "-" + lastNchars("00" + mes, 2) + "-" + lastNchars( "00" + dia,
+		 * 2)); }
+		 * 
+		 * if ((format.compareTo(YYYY_MM_DD_HORA_MIN_SEG) == 0) ||
+		 * (format.isEmpty())) {
+		 * 
+		 * out = (anio + "-" + lastNchars("00" + mes, 2) + "-" + lastNchars("00"
+		 * + dia, 2) + " " + lastNchars("00" + hora24, 2) + ":" +
+		 * lastNchars("00" + minutos, 2) + ":" + lastNchars("00" + segundos,
+		 * 2)); }
+		 * 
+		 * return out;
+		 */
 
 	}
 
@@ -251,7 +234,6 @@ public class Misc {
 		return dateCal.getTime();
 	}
 
-	
 	/**
 	 * Obtiene los n ultimos caracteres de un string
 	 */
@@ -288,7 +270,6 @@ public class Misc {
 		return d <= diferencia;
 	}
 
-	
 	public boolean esIgual(double d1, double d2) {
 		double diff = d1 - d2;
 		return ((diff * diff) < 0.00001);
@@ -298,8 +279,8 @@ public class Misc {
 		double d2 = Math.rint(d * 1000) / 1000;
 		return d2;
 	}
-	
-	public double redondeoDosDecimales(double d){
+
+	public double redondeoDosDecimales(double d) {
 		double d2 = Math.rint(d * 100) / 100;
 		return d2;
 	}
@@ -337,15 +318,13 @@ public class Misc {
 		}
 
 		if (dato instanceof Long) {
-			NumberFormat formatter =  new DecimalFormat("###,###,##0");
+			NumberFormat formatter = new DecimalFormat("###,###,##0");
 			String str = formatter.format(dato);
 			dato = str;
 		}
 		return formato("" + dato, 15, false);
 	}
 
-	
-	
 	public String formato(Object dato, int longitud, boolean izquierda) {
 		if (dato instanceof Boolean) {
 			if ((boolean) dato) {
@@ -362,7 +341,7 @@ public class Misc {
 		}
 
 		if (dato instanceof Long) {
-			NumberFormat formatter =  new DecimalFormat("###,###,##0");
+			NumberFormat formatter = new DecimalFormat("###,###,##0");
 			String str = formatter.format(dato);
 			dato = str;
 		}
@@ -558,7 +537,7 @@ public class Misc {
 		boolean out = false;
 		try {
 
-//			Class aClass = com.yhaguy.ID.class;
+			// Class aClass = com.yhaguy.ID.class;
 
 			String campo = this.parserPalabrasAMayusculas(tipo, alias);
 
@@ -578,25 +557,25 @@ public class Misc {
 
 	}
 
-	public boolean testIdInAlias(Hashtable<String, String> aliasTipo, Class aClass) {
+	public boolean testIdInAlias(Hashtable<String, String> aliasTipo,
+			Class aClass) {
 
 		System.out.println("-");
 		boolean out = false;
 		try {
 
-			
-//			Class aClass = com.yhaguy.ID.class;
+			// Class aClass = com.yhaguy.ID.class;
 			Field[] fields = aClass.getFields();
 			for (int i = 0; i < fields.length; i++) {
 				Field field = fields[i];
 				String nombreVarianble = field.getName();
 				String alias = (String) field.get(null);
 
-//				System.out.println("nombreVarianble:"+nombreVarianble + "  alias:" + alias);
+				// System.out.println("nombreVarianble:"+nombreVarianble +
+				// "  alias:" + alias);
 				String tipo = aliasTipo.get(alias);
 				if (tipo == null) {
-					System.err.println("[Fa] Error, la variable "
-							+ alias
+					System.err.println("[Fa] Error, la variable " + alias
 							+ " no esta en el menu_config.ini");
 					out = false;
 				} else {
@@ -625,7 +604,7 @@ public class Misc {
 		return v;
 
 	}
-	
+
 	public boolean containsOnlyNumbersAndPercent(String str) {
 
 		// It can't contain only numbers if it's null or empty...
@@ -635,17 +614,19 @@ public class Misc {
 		for (int i = 0; i < str.length(); i++) {
 
 			// If we find a non-digit character we return false.
-			if (!Character.isDigit(str.charAt(i)) && (Character.toString(str.charAt(i)).compareTo("%") != 0)){
+			if (!Character.isDigit(str.charAt(i))
+					&& (Character.toString(str.charAt(i)).compareTo("%") != 0)) {
 				return false;
 			}
-			if ((Character.toString(str.charAt(i)).compareTo("%") == 0) && str.length() == 1) {
+			if ((Character.toString(str.charAt(i)).compareTo("%") == 0)
+					&& str.length() == 1) {
 				return false;
 			}
 		}
 
 		return true;
 	}
-	
+
 	public boolean containsOnlyNumbers(String str) {
 
 		// It can't contain only numbers if it's null or empty...
@@ -655,7 +636,8 @@ public class Misc {
 		for (int i = 0; i < str.length(); i++) {
 
 			// If we find a non-digit character we return false.
-			if (!Character.isDigit(str.charAt(i)) && (Character.toString(str.charAt(i)).compareTo("-") != 0)){
+			if (!Character.isDigit(str.charAt(i))
+					&& (Character.toString(str.charAt(i)).compareTo("-") != 0)) {
 				return false;
 			}
 		}
@@ -714,8 +696,8 @@ public class Misc {
 			ex.printStackTrace();
 		}
 	}
-	
-	public double obtenerPorcentaje(double valor, double porcentaje){
+
+	public double obtenerPorcentaje(double valor, double porcentaje) {
 		return (valor * porcentaje) / 100;
 	}
 
@@ -737,8 +719,6 @@ public class Misc {
 
 	// ======================================================
 
-	
-	
 	public boolean mensajeEliminar(String texto) {
 
 		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Eliminar",
@@ -785,122 +765,114 @@ public class Misc {
 		}
 		return false;
 	}
-	
-	//Metodo que retorna el valor del Iva a partir de un valor gravado..
-	public double calcularIVA(double gravado, int porcentajeIva){		
+
+	// Metodo que retorna el valor del Iva a partir de un valor gravado..
+	public double calcularIVA(double gravado, int porcentajeIva) {
 		return (gravado / (100 + porcentajeIva)) * porcentajeIva;
 	}
-	
-	//Metodo que retorna el valor Gravado sin Iva a partir de un valor Gravado iva incluido..
-	public double calcularGravado(double gravado, int porcentajeIva){
+
+	// Metodo que retorna el valor Gravado sin Iva a partir de un valor Gravado
+	// iva incluido..
+	public double calcularGravado(double gravado, int porcentajeIva) {
 		return (gravado / (100 + porcentajeIva)) * 100;
 	}
-	
+
 	// ejecuta el método de una clase
 	public void ejecutarMetoto(String clase, String metodo) throws Exception {
-		
+
 		Class cls = Class.forName(clase);
 		Object obj = cls.newInstance();
 
 		Class[] noparams = {};
 		Method method = cls.getDeclaredMethod(metodo, noparams);
 		method.invoke(obj, null);
-		
+
 	}
-	
+
 	// ejecuta el método de una clase
-	public void ejecutarMetoto(String clase, String metodo, Object obj, Object value) throws Exception {
-		
+	public void ejecutarMetoto(String clase, String metodo, Object obj,
+			Object value) throws Exception {
+
 		Class cls = Class.forName(clase);
 
-		Class[] noparams = {value.getClass()};
+		Class[] noparams = { value.getClass() };
 		Method method = cls.getDeclaredMethod(metodo, noparams);
 		method.setAccessible(true);
 		method.invoke(obj, value);
-		
+
 	}
 
-	
 	// hace un set
-	public void setValue(Object obj, String att, Object value)
-			throws Exception {
+	public void setValue(Object obj, String att, Object value) throws Exception {
 		Field fd = obj.getClass().getDeclaredField(att);
 		fd.setAccessible(true);
 		fd.set(obj, value);
 	}
 
+	/*
+	 * NO ESTA REVISADO SI FUNCIONA // ejecuta el método de una clase public
+	 * void ejecutarMetoto(String clase, String metodo, Object[] params) throws
+	 * Exception {
+	 * 
+	 * Class cls = Class.forName(clase); Object obj = cls.newInstance();
+	 * 
+	 * 
+	 * Class[] paramsT = new Class[params.length]; for(int i=0; i<params.length;
+	 * i++){ paramsT[i] = params.getClass(); }
+	 * 
+	 * Method method = cls.getDeclaredMethod(metodo, paramsT);
+	 * method.invoke(obj, params);
+	 * 
+	 * }
+	 */
 
-	
-	
-
-	/*  NO ESTA REVISADO SI FUNCIONA
-	// ejecuta el método de una clase
-	public void ejecutarMetoto(String clase, String metodo, Object[] params) throws Exception {
-		
-		Class cls = Class.forName(clase);
-		Object obj = cls.newInstance();
-
-		
-		Class[] paramsT = new Class[params.length];
-		for(int i=0; i<params.length; i++){
-			paramsT[i] = params.getClass();
-		}
-		
-		Method method = cls.getDeclaredMethod(metodo, paramsT);
-		method.invoke(obj, params);
-		
-	}
-	*/
-	
-	public String ceros(String str, int ancho){
-		String out = "0000000000000000000000000000000000000000000000000000000000000000000000"+str.trim();
-		out = out.substring(out.length()-ancho, out.length());
+	public String ceros(String str, int ancho) {
+		String out = "0000000000000000000000000000000000000000000000000000000000000000000000"
+				+ str.trim();
+		out = out.substring(out.length() - ancho, out.length());
 		return out;
 	}
-	
-	
+
 	/**
-	 * Retorna -1 si el valor del primer parametro 'val' es menor al segundo parametro 'cmp'
-	 * Retorna  0 si el valor del primer parametro 'val' es igual al segundo parametro 'cmp'
-	 * Retorna  1 si el valor del primer parametro 'val' es mayor al segundo parametro 'cmp'
-	 */		
+	 * Retorna -1 si el valor del primer parametro 'val' es menor al segundo
+	 * parametro 'cmp' Retorna 0 si el valor del primer parametro 'val' es igual
+	 * al segundo parametro 'cmp' Retorna 1 si el valor del primer parametro
+	 * 'val' es mayor al segundo parametro 'cmp'
+	 */
 	public int compararNumeros(Number n1, Number n2) {
-	    long l1 = n1.longValue();
-	    long l2 = n2.longValue();
-	    if (l1 != l2)
-	        return (l1 < l2 ? -1 : 1);
-	    return Double.compare(n1.doubleValue(), n2.doubleValue());
+		long l1 = n1.longValue();
+		long l2 = n2.longValue();
+		if (l1 != l2)
+			return (l1 < l2 ? -1 : 1);
+		return Double.compare(n1.doubleValue(), n2.doubleValue());
 	}
-	
-	
+
 	/**
 	 * Retorna false si el correo no es valido
 	 */
-	public boolean checkEmail(String email) {		
-		String validador = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";		
+	public boolean checkEmail(String email) {
+		String validador = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 		return email.matches(validador);
 	}
-	
+
 	/**
 	 * Verifica si es T, F, o vacio
 	 */
-	public boolean checkTrueFalse(String dato) {		
-		String validador = "[TtFf]?";		
+	public boolean checkTrueFalse(String dato) {
+		String validador = "[TtFf]?";
 		return dato.matches(validador);
 	}
 
-	
-	public void borrarArchivo(String archivo){
-		//Delete if tempFile exists
+	public void borrarArchivo(String archivo) {
+		// Delete if tempFile exists
 		File fileTemp = new File(archivo);
-		if (fileTemp.exists()){
-		    fileTemp.delete();
-		}else{
-			System.out.println("[Misc] No existe:"+archivo);
+		if (fileTemp.exists()) {
+			fileTemp.delete();
+		} else {
+			System.out.println("[Misc] No existe:" + archivo);
 		}
 	}
-	
-	
+
 	public static void Xmain(String[] args) {
 		double d = 10.1;
 		int i = 140;
@@ -908,17 +880,18 @@ public class Misc {
 		try {
 			Misc m = new Misc();
 			System.out.println(m.checkEmail("mail@mail.com"));
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	public static void main(String[] args) {
 		try {
 			Misc m = new Misc();
-			String s = m.dateToString(new Date(), m.YYYY_MM_DD_HORA_MIN_SEG_MIL);
+			String s = m
+					.dateToString(new Date(), m.YYYY_MM_DD_HORA_MIN_SEG_MIL);
 			System.out.println(s);
 		} catch (Exception e) {
 			e.printStackTrace();
