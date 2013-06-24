@@ -58,12 +58,12 @@ public abstract class Browser extends SimpleViewModel {
 	}
 
 	public static String LABEL = "getLabel";
+	public static String LABEL_NUMERICO = "getLabelNumerico";
 	public static String TEXT_BOX = "getTextbox";
 	public static String LONG_BOX = "getLongbox";
 	public static String CHECK_BOX = "getCheckbox";
 	public static String RADIOGROUP = "getRadiogroup";
 	public static String RADIO = "getRadio";
-
 	
 	public static String TIPO_STRING = "String";
 	public static String TIPO_NUMERICO = "Numerico";
@@ -89,14 +89,15 @@ public abstract class Browser extends SimpleViewModel {
 	private boolean checkVisible = false;
 
 	// estos datos se inicializan con el metodo cargarColumnas()
-	private int numeroColumnas = 0;
-	private String[] nombres; // nombre de la columna
+	List<ColumnaBrowser> columnas; // la informacion de las columnas
+	
+	// usados por el Register para armar el HQL
+	//private String[] nombres; // nombre de la columna
 	private String[] atributos; // atributo de la clase
 	private String[] valores;
 	private String[] tipos; // los tipos de los campos
 	private String[] wheres;
-	private boolean[] visibles;
-	List<ColumnaBrowser> columnas; // la informacion de las columnas
+
 
 	private Object[] selectedItem;
 	private Row selectedRow = new Row();
@@ -110,31 +111,34 @@ public abstract class Browser extends SimpleViewModel {
 	private void cargarColumnas() {
 		this.clase = this.getEntidadPrincipal();
 
+		
+		// una ColumnaBrowser para el ID
+		ColumnaBrowser id = new ColumnaBrowser();
+		id.setTitulo("Id");
+		id.setCampo("id");
+		id.setTipo(Browser.TIPO_NUMERICO);
+		
+		// Columnas del browser + la columnad del ID
 		this.columnas = this.getColumnasBrowser();
-		this.numeroColumnas = this.columnas.size() + 1; // por el id y checkbox
+		this.columnas.add(0,id);
+		
+		
+		int numeroColumnas = this.columnas.size(); // por el id 
+		// usados por el Register para armar HQL
+		this.atributos = new String[numeroColumnas];
+		this.valores = new String[numeroColumnas];
+		//this.nombres = new String[numeroColumnas];
+		this.wheres = new String[numeroColumnas];
+		this.tipos = new String[numeroColumnas];
 
-		this.atributos = new String[this.numeroColumnas];
-		this.valores = new String[this.numeroColumnas];
-		this.nombres = new String[this.numeroColumnas];
-		this.wheres = new String[this.numeroColumnas];
-		this.tipos = new String[this.numeroColumnas];
-		this.visibles = new boolean[this.numeroColumnas];
-
-		nombres[0] = "Id";
-		atributos[0] = "id";
-		valores[0] = "";
-		wheres[0] = "";
-		tipos[0] = Browser.TIPO_NUMERICO;
-
-		for (int i = 1; i < this.numeroColumnas; i++) {
-			ColumnaBrowser col = this.columnas.get(i - 1); // porque el ID no
-															// viene.
-			nombres[i] = col.getTitulo();
+		for (int i = 0; i < numeroColumnas; i++) {
+			ColumnaBrowser col = this.columnas.get(i); 
+			
+			//nombres[i] = col.getTitulo();
 			atributos[i] = col.getCampo();
 			valores[i] = "";
 			wheres[i] = col.getWhere();
 			tipos[i] = col.getTipo();
-			visibles[i] = col.isVisible();
 		}
 	}
 
@@ -169,21 +173,28 @@ public abstract class Browser extends SimpleViewModel {
 		cRG.setVisible(this.checkVisible);
 		lcol.getChildren().add(cRG);
 
-		for (int i = 0; i < numeroColumnas; i++) {
+		for (int i = 0; i < this.columnas.size(); i++) {
+			
+			ColumnaBrowser col = this.columnas.get(i);
+			
 			Column c = new Column();
 			c.setSort("auto("+i+")");
-			c.setLabel(nombres[i]);
-			c.setVisible(visibles[i]);
+			c.setLabel(col.getTitulo());
+			c.setVisible(col.isVisible());
+			c.setWidth(col.getWidthColumna());
 			
 
 			// el textbox del filtro
 			InputElement imputbox = new Textbox();
-			if (tipos[i].compareTo(Browser.TIPO_NUMERICO)==0){
+			if (col.getTipo().compareTo(Browser.TIPO_NUMERICO)==0){
 				imputbox = new Longbox();
-			}else if (tipos[i].compareTo(Browser.TIPO_BOOL)==0){
+			}else if (col.getTipo().compareTo(Browser.TIPO_BOOL)==0){
+				// restringe que se escriba T o F
 				imputbox.setConstraint((new Check()).getTrueFalse());
 				imputbox.setMaxlength(1);
 			}
+			// se setea despues, por que puede cambiar según el tipo
+			imputbox.setWidth(col.getWidthComponente()); 
 			
 			
 			
@@ -331,6 +342,16 @@ public abstract class Browser extends SimpleViewModel {
 		return l;
 	}
 
+	public HtmlBasedComponent getLabelNumerico(Object obj, Object[] datos) {
+		Textbox t = new Textbox();
+		t.setValue((this.m.formatoNumero(obj)).trim());
+		t.setStyle("text-align: right");
+		t.setReadonly(true);
+		t.setInplace(true);
+		return t;
+	}
+
+	
 	public HtmlBasedComponent getTextbox(Object obj, Object[] datos) {
 		Textbox t = new Textbox();
 		t.setReadonly(true);
@@ -476,7 +497,9 @@ class GridRowRender implements RowRenderer {
 			}
 			String auxSt = comp.getStyle();
 			comp.setStyle(auxSt+";"+col.getEstilo());
+			comp.setWidth(col.getWidthComponente());
 			comp.setParent(cel);
+			
 		}
 
 	}
