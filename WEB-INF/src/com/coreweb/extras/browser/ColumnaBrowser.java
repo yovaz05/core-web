@@ -9,7 +9,8 @@ public class ColumnaBrowser {
 	private String tipo = Browser.TIPO_STRING;
 	private String estilo = "";
 	private String where = "";
-	private String width = "";
+	private String widthColumna = "";
+	private String widthComponente = "";
 	private boolean visible = true;
 
 	// permite definir la creación de un componente que se evaluará en la celda
@@ -90,14 +91,23 @@ public class ColumnaBrowser {
 	public void setComponente(String componente) {
 		this.componente = componente;
 	}
-	
-	public String getWidth() {
-		return width;
+
+	public String getWidthColumna() {
+		return widthColumna;
 	}
 
-	public void setWidth(String width) {
-		this.width = width;
+	public void setWidthColumna(String widthColumna) {
+		this.widthColumna = widthColumna;
+	}
+
+	public String getWidthComponente() {
+		return widthComponente;
+	}
+
+	public void setWidthComponente(String widthComponente) {
+		this.widthComponente = widthComponente;
 	}
 	
+
 
 }

@@ -329,6 +329,23 @@ public class Misc {
 		return formato(dato, longitud, true);
 	}
 
+	public String formatoNumero(Object dato) {
+		if (dato instanceof Double) {
+			NumberFormat formatter = new DecimalFormat("###,###,##0.00");
+			String str = formatter.format(dato);
+			dato = str;
+		}
+
+		if (dato instanceof Long) {
+			NumberFormat formatter =  new DecimalFormat("###,###,##0");
+			String str = formatter.format(dato);
+			dato = str;
+		}
+		return formato("" + dato, 15, false);
+	}
+
+	
+	
 	public String formato(Object dato, int longitud, boolean izquierda) {
 		if (dato instanceof Boolean) {
 			if ((boolean) dato) {
@@ -344,6 +361,11 @@ public class Misc {
 			dato = str;
 		}
 
+		if (dato instanceof Long) {
+			NumberFormat formatter =  new DecimalFormat("###,###,##0");
+			String str = formatter.format(dato);
+			dato = str;
+		}
 		return formato("" + dato, longitud, izquierda);
 	}
 
