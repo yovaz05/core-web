@@ -139,12 +139,17 @@ public abstract class Assembler {
 
 	// *************************************************************************************
 	// *************************************************************************************
-
 	public void myPairToDomain(DTO dto, Domain dom, String atributo)
+			throws Exception {
+		this.myPairToDomain(dto, dom,atributo, false);
+		
+	}
+	
+	public void myPairToDomain(DTO dto, Domain dom, String atributo, boolean ignorarNuevo)
 			throws Exception {
 
 		MyPair mp = (MyPair) getValue(dto, atributo);
-		if (mp == null) {
+		if ((mp == null)||((mp.esNuevo()==true)&&(ignorarNuevo == true))) {
 			// no tiene nada seteado, entonces retorna
 			return;
 		}
@@ -253,11 +258,18 @@ public abstract class Assembler {
 		return mp;
 	}
 
+
 	public void myArrayToDomain(DTO dto, Domain dom, String atributo)
+			throws Exception {
+		myArrayToDomain(dto, dom, atributo, false);
+	}
+	
+	
+	public void myArrayToDomain(DTO dto, Domain dom, String atributo, boolean ignorarNuevo)
 			throws Exception {
 
 		MyArray mp = (MyArray) getValue(dto, atributo);
-		if (mp == null) {
+		if ((mp == null)||( (mp.esNuevo()==true)&&(ignorarNuevo == true))) {
 			// no tiene nada seteado, entonces retorna
 			return;
 		}
