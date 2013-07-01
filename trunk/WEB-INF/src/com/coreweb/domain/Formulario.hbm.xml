@@ -9,6 +9,8 @@
 		<id name="id" column="id" type="long">
 			<generator class="increment"/>
 		</id>
+		<property name="dbEstado" />
+
 		<property name="habilitado"/>
 		<property name="alias"/>
 		<property name="label"/>

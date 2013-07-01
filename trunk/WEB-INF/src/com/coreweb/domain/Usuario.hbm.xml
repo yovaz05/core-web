@@ -10,6 +10,7 @@
 		<id name="id" column="id" type="long">
 			<generator class="increment"/>
 		</id>
+		<property name="dbEstado" />
 		<property name="nombre"/>
 		<property name="login"/>
 		<property name="clave"/>

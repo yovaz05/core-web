@@ -9,6 +9,8 @@
 		<id name="id" type="long" column="idAgendaEventoDetalle">
 			<generator class="increment" />
 		</id>
+		<property name="dbEstado" />
+
 		<property name="fecha" />
 		<property name="texto" />
 		<property name="tipo" />

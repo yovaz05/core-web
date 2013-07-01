@@ -44,20 +44,10 @@
 						multiline="false" style="font-size:12pt;font-weight:bold" />
 				</hbox>
 
-				<!-- 
+				<!-- <hbox id="AuxToolbarABM" width="700px" align="center" pack="end"> 
+					<hlayout> <label value="aca1" /> <label value="aca2" /> <label value="aca3" 
+					/> <label value="aca4" /> <label value="aca5" /> </hlayout> </hbox> -->
 
-				<hbox id="AuxToolbarABM" width="700px" align="center" pack="end">
-					<hlayout>
-						<label value="aca1" />
-						<label value="aca2" />
-						<label value="aca3" />
-						<label value="aca4" />
-						<label value="aca5" />
-					</hlayout>
-				</hbox>
-				
-				 -->
-				
 			</hlayout>
 		</toolbar>
 
