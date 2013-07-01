@@ -24,23 +24,31 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.ext.Disable;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Template;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Constraint;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Radio;
 import org.zkoss.zul.Radiogroup;
+import org.zkoss.zul.Row;
+import org.zkoss.zul.RowRenderer;
 import org.zkoss.zul.Rows;
 import org.zkoss.zul.SimpleConstraint;
 import org.zkoss.zul.Window;
+import org.zkoss.zul.event.ZulEvents;
 import org.zkoss.zul.ext.Constrainted;
 
 import com.coreweb.Config;
@@ -64,7 +72,9 @@ public abstract class GenericViewModel extends Control {
 
 	private static Object[][] listaClasePropiedad = {
 			{ Button.class, DISABLED, true },
-			{ Bandbox.class, DISABLED, true }, { Radio.class, DISABLED, true },
+			{ Bandbox.class, DISABLED, true }, 
+			{ Radio.class, DISABLED, true },
+			{ Checkbox.class, DISABLED, true },
 			{ Combobox.class, BUTTON_VISIBLE, false },
 			{ Datebox.class, BUTTON_VISIBLE, false } };
 
@@ -103,6 +113,11 @@ public abstract class GenericViewModel extends Control {
 	// restaure queremos que tenga su estado original
 	private Set<Component> tmpComponentesDeshabilitados = new HashSet<Component>();
 
+	public void clearTmpComponentesDeshabilitados(){
+		this.tmpComponentesDeshabilitados = new HashSet<Component>();
+	}
+	
+	
 	@Init(superclass = true)
 	public void initGenericViewModel(
 			@ContextParam(ContextType.VIEW) Component view) {
@@ -124,7 +139,7 @@ public abstract class GenericViewModel extends Control {
 		this.disableComponents((AbstractComponent) this.mainComponent, DISABLED);
 	}
 
-	private void disableComponents(AbstractComponent ac, String property) {
+	public void disableComponents(AbstractComponent ac, String property) {
 		//System.out.println("-----paso: " + ac.getId() + " - "+ ac.getClass().getName());
 		this.deshabilitado = true;
 		try {
@@ -154,6 +169,32 @@ public abstract class GenericViewModel extends Control {
 		} catch (Exception e) {
 		}
 
+
+		if (ac instanceof Grid) {
+			Grid grid = (Grid) ac;
+			Rows rows = grid.getRows();
+			if ((rows==null)) { // || (rows.getChildren().size() == 0)){
+				grid.addEventListener(ZulEvents.ON_AFTER_RENDER, new RefreshAfterRender(this, property, RefreshAfterRender.TIPO_GRID));
+			}
+		}
+
+		if (ac instanceof Listbox) {			
+			Listbox listbox = (Listbox) ac;
+			List lAux = listbox.getItems();
+			if ((lAux==null) || (lAux.size() == 0)){
+				listbox.addEventListener(ZulEvents.ON_AFTER_RENDER, new RefreshAfterRender(this, property, RefreshAfterRender.TIPO_LISTBOX));
+			}
+		}
+		
+
+		if (ac instanceof Radiogroup) {			
+			Radiogroup rg = (Radiogroup) ac;
+			List lAux = rg.getItems();
+			if ((lAux==null) || (lAux.size() == 0)){
+				rg.addEventListener(ZulEvents.ON_AFTER_RENDER, new RefreshAfterRender(this, property, RefreshAfterRender.TIPO_RADIOGROUP));
+			}
+		}
+
 		
 		/*
 		if (ac instanceof Rows) {
@@ -161,6 +202,11 @@ public abstract class GenericViewModel extends Control {
 			Rows rows = (Rows) ac;
 			
 			List<Component> lr = rows.getChildren();
+			RowRenderer r = rows.getGrid().getRowRenderer();
+			
+			RefreshRows myR = new RefreshRows(this, property, r);
+			rows.getGrid().setRowRenderer(myR);
+			
 			
 			System.out.println("== rows ==I");
 			
@@ -169,11 +215,13 @@ public abstract class GenericViewModel extends Control {
 				Component c = (Component) iterator.next();
 				System.out.println(c.getClass().getName());
 			}
+
 			
 			System.out.println("== rows ==F");
 			
 		}
 		*/
+		
 
 		/*
 		 * if (ac instanceof Radiogroup){
@@ -208,7 +256,7 @@ public abstract class GenericViewModel extends Control {
 
 	}
 
-	private void disableComponente(AbstractComponent ac, String property,
+	public void disableComponente(AbstractComponent ac, String property,
 			boolean valueDiabled) throws Exception {
 
 		// obtener su estado y guardar los deshabilitados
@@ -386,3 +434,62 @@ public abstract class GenericViewModel extends Control {
 	}
 	
 }
+
+
+
+
+
+class RefreshAfterRender implements EventListener{
+
+	public static int TIPO_GRID = 1;
+	public static int TIPO_LISTBOX = 2;
+	public static int TIPO_RADIOGROUP = 3;
+	
+	private int tipo = 0;
+	private GenericViewModel vm;
+	private String property;
+	
+	
+	public RefreshAfterRender(GenericViewModel vm, String property, int tipo){
+		this.vm = vm;
+		this.property = property;
+		this.tipo = tipo;
+	}
+	
+	@Override
+	public void onEvent(Event ev) throws Exception {
+		Component cmp = ev.getTarget();
+		
+		if (this.tipo == TIPO_GRID){
+			aplicarAccion(cmp);
+		}else if (this.tipo == TIPO_LISTBOX){
+			Listbox lb = (Listbox) cmp;
+			List lbis = lb.getItems();
+			for (Iterator iterator = lbis.iterator(); iterator.hasNext();) {
+				Component item = (Component) iterator.next();
+				aplicarAccion(item);
+			}	
+		}else if (this.tipo == TIPO_RADIOGROUP){
+			Radiogroup lb = (Radiogroup) cmp;
+			List lbis = lb.getItems();
+			for (Iterator iterator = lbis.iterator(); iterator.hasNext();) {
+				Component item = (Component) iterator.next();
+				aplicarAccion(item);
+			}	
+		}
+	}
+
+	
+	private void aplicarAccion(Component cmp){
+		if (this.vm.isDeshabilitado() == true){
+			//System.out.println("-- evento after render 00 : " + cmp.getClass().getName());
+			this.vm.disableComponents((AbstractComponent)cmp, this.property);
+		}else{
+			//System.out.println("-- evento after render 11 : " + cmp.getClass().getName());
+			this.vm.restoreAllReadonlyComponents();
+		}
+	}
+	
+	
+}
+

@@ -179,7 +179,9 @@ public class Toolbar extends GenericViewModel {
 		// String texLabel = this.pagina.getTextoFormularioCorriente()
 		// + " (Buscar)";
 		// this.setTextoFormularioCorriente(texLabel);
-
+		
+		this.pagina.getBody().clearTmpComponentesDeshabilitados();
+		
 		this.setEstadoABM(MODO_BUSCAR);
 
 		Browser br = this.getPagina().getBody().getBrowser();
@@ -214,6 +216,10 @@ public class Toolbar extends GenericViewModel {
 		}
 
 		this.setEstadoABM(MODO_NADA);
+//		BindUtils.postNotifyChange(null, null, this, "*");
+//		BindUtils.postGlobalCommand(null, null, "deshabilitarComponentes", null);
+		
+		
 
 	}
 
