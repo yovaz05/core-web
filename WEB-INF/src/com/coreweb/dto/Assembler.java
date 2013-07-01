@@ -83,12 +83,12 @@ public abstract class Assembler {
 		if (dto.esNuevo() == true) {
 			// crea un nuevo objeto del dominio
 			dom = (Domain) newInstance(classDomain);
-
 		} else {
 			// busca en la BD el objeto
 			Register rr = Register.getInstance();
 			dom = rr.getObject(classDomain.getName(), dto.getId());
 		}
+		dom.setDbEstado(dto.getDbEstado());
 		return dom;
 	}
 
@@ -107,6 +107,7 @@ public abstract class Assembler {
 		}
 		DTO dto = (DTO) newInstance(classDTO);
 		dto.setId(id);
+		dto.setDbEstado(dom.getDbEstado());
 		return dto;
 	}
 

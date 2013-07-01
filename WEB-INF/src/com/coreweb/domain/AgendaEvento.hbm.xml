@@ -8,6 +8,7 @@
 		<id name="id" type="long" column="idAgendaEvento">
 			<generator class="increment" />
 		</id>
+		<property name="dbEstado" />
 		<property name="fecha" type="date" column="fecha" />
 		<property name="key" />
 		<property name="tipo" />

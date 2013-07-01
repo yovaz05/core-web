@@ -9,7 +9,8 @@
                 <id name="id" column="id" type="long">
                         <generator class="increment"/>
                 </id>
-                <property name="key"/>
+ 		<property name="dbEstado" />
+               <property name="key"/>
                 <property name="numero"/>
                 <property name="fecha"/>
                 <property name="descripcion"/>

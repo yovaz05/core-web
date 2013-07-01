@@ -15,6 +15,8 @@ public abstract class DTO  implements IiD , Comparable, Comparator{
 	
 	private Long id = new Long(-1);	
 	
+	private char dbEstado = DBEstado.DB_EDITABLE;
+	
 	public Misc misc = new Misc();
 		
 	private boolean checked = false;  // agregar en todos los DTO
@@ -63,6 +65,24 @@ public abstract class DTO  implements IiD , Comparable, Comparator{
 		this.id = id;
 	}
 
+	
+	
+	public char getDbEstado() {
+		return dbEstado;
+	}
+
+	public void setDbEstado(char dbEstado) {
+		this.dbEstado = dbEstado;
+	}
+
+	public boolean esReadonly(){
+		return this.dbEstado == DBEstado.DB_READONLY;
+	}
+
+	public void setReadonly(){
+		this.dbEstado = DBEstado.DB_READONLY;
+	}
+	
 	public List<String> getColumnNames(){
 		
 		System.out.println("DTO.getColumnNames() no implementado en: "+this.getClass().getName());

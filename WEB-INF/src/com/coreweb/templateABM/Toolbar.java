@@ -47,6 +47,7 @@ public class Toolbar extends GenericViewModel {
 	public static String MODO_BUSCAR = "[buscar]";
 	public static String MODO_AGREGAR = "[agregar]";
 	public static String MODO_BORRAR = "[borrar]";
+	public static String MODO_SOLO_CONSULTA = "[consulta]";
 
 	public Page getPagina() {
 		return pagina;
@@ -87,14 +88,24 @@ public class Toolbar extends GenericViewModel {
 
 	public boolean getEditarDeshabilitado() throws Exception {
 		boolean esDTOnuevo = false;
-		if ((this.pagina.getDTOCorriente() == null)
-				|| (this.pagina.getDTOCorriente().esNuevo() == true)) {
+		boolean esDTOreadonly = false;
+
+		if (this.pagina.getDTOCorriente() == null){
 			esDTOnuevo = true;
+		}else {
+			esDTOnuevo = this.pagina.getDTOCorriente().esNuevo();
+			esDTOreadonly = this.pagina.getDTOCorriente().esReadonly();
 		}
 
-		boolean b = (this.isDeshabilitado()
+		if (esDTOreadonly == true){
+			this.setEstadoABM(MODO_SOLO_CONSULTA);
+		}
+
+		
+		boolean b = (this.isDeshabilitado() || esDTOreadonly
 				|| !(this.operacionHabilitada(IDCore.O_EDITAR
 						+ this.getAliasFormularioCorriente())) || (esDTOnuevo == true));
+
 		return b;
 	}
 
