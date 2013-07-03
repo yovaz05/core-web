@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,7 @@ import com.coreweb.Config;
 import com.coreweb.dto.Assembler;
 import com.coreweb.login.ControlInicio;
 import com.coreweb.util.MyConverter;
+
 
 public abstract class GenericViewModel extends Control {
 
@@ -112,8 +114,10 @@ public abstract class GenericViewModel extends Control {
 	// permisos puede que haya algunos que ya estan desabilitados, y cuando se
 	// restaure queremos que tenga su estado original
 	private Set<Component> tmpComponentesDeshabilitados = new HashSet<Component>();
+	//private Hashtable<Component, String> tmpComponentesDeshabilitados = new Hashtable<Component, String>();
 
 	public void clearTmpComponentesDeshabilitados(){
+		//this.tmpComponentesDeshabilitados = new Hashtable<Component, String>();
 		this.tmpComponentesDeshabilitados = new HashSet<Component>();
 	}
 	
@@ -140,7 +144,7 @@ public abstract class GenericViewModel extends Control {
 	}
 
 	public void disableComponents(AbstractComponent ac, String property) {
-		//System.out.println("-----paso: " + ac.getId() + " - "+ ac.getClass().getName());
+		System.out.println("-----paso: "+property+" " + ac.getId() + " - "+ ac.getClass().getName());
 		this.deshabilitado = true;
 		try {
 
@@ -259,13 +263,22 @@ public abstract class GenericViewModel extends Control {
 	public void disableComponente(AbstractComponent ac, String property,
 			boolean valueDiabled) throws Exception {
 
+		Button b = (Button) ac;
+		
+		
+		String tmp = "    "; 
 		// obtener su estado y guardar los deshabilitados
 		Method mget = ac.getClass().getMethod("is" + property);
 		boolean v = (Boolean) mget.invoke(ac);
 		if (v == valueDiabled) {
+			//this.tmpComponentesDeshabilitados.put(ac, property);
 			this.tmpComponentesDeshabilitados.add(ac);
+			tmp = " SI ";
 		}
 
+		System.out.println(tmp+" "+property+" - "+ac.getId()+" - " + ac.getClass().getName());
+		
+		
 		// deshabilita el componente
 		Method mset = ac.getClass().getMethod("set" + property, Boolean.TYPE);
 		mset.invoke(ac, valueDiabled);
@@ -282,6 +295,8 @@ public abstract class GenericViewModel extends Control {
 	private void restoreComponents(AbstractComponent ac, String property) {
 		this.deshabilitado = false;
 
+		System.out.println("=== paso: restoreComponents:"+property+" "+ ac.getId()+" - "+ac.getClass().getCanonicalName());
+				
 		if (this.tmpComponentesDeshabilitados.contains(ac) == false) {
 			try {
 
@@ -486,7 +501,7 @@ class RefreshAfterRender implements EventListener{
 			this.vm.disableComponents((AbstractComponent)cmp, this.property);
 		}else{
 			//System.out.println("-- evento after render 11 : " + cmp.getClass().getName());
-			this.vm.restoreAllReadonlyComponents();
+			//this.vm.restoreAllReadonlyComponents();
 		}
 	}
 	
