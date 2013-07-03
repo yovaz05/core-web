@@ -111,7 +111,6 @@ public abstract class DTO  implements IiD , Comparable, Comparator{
 	    }else{
 	    	out = (int)(this.getId().longValue() - dtoAux.getId().longValue());
 	    }
-	    System.out.println("Compare DTO:"+this+" - "+compareObject);
 	    return out;
 	}
 
