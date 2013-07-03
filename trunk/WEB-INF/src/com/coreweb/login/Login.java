@@ -28,8 +28,8 @@ import com.coreweb.dto.Assembler;
 
 public class Login extends Control{
 	
-	String user = "juan";
-	String pass = "juansa";
+	String user = "usuario";
+	String pass = "";
 	String msg = "";
 	
 	public Login(Assembler ass) throws RemoteException {
