@@ -191,7 +191,6 @@ public class Toolbar extends GenericViewModel {
 		// + " (Buscar)";
 		// this.setTextoFormularioCorriente(texLabel);
 		
-		this.pagina.getBody().clearTmpComponentesDeshabilitados();
 		
 		this.setEstadoABM(MODO_BUSCAR);
 

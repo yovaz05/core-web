@@ -11,6 +11,8 @@ import org.zkoss.zul.Constraint;
 import org.zkoss.zul.CustomConstraint;
 import org.zkoss.zul.SimpleConstraint;
 
+import com.coreweb.control.GenericViewModel;
+
 public class Check {
 
 	public static String MENSAJE_NO_EMPTY = "Este campo no debe quedar vacio";
@@ -28,79 +30,87 @@ public class Check {
 	public static String MENSAJE_EMAIL = "Debe Ingresar un correo valido";
 	public static String TRUE_FALSE = "Debe Ingresar \nT para Verdadero, o \nF para Falso ";
 
+	
+	private GenericViewModel vm = null;
+	
+	public Check(GenericViewModel vm){
+		this.vm = vm;
+	}
+	
+	
 	// No admite empty o null
 	public MiConstraint getNoVacio() {
-		return new MiConstraint(MiConstraint.NO_EMPTY);
+		return new MiConstraint(this.vm, MiConstraint.NO_EMPTY);
 	}
 
 	// No admite fecha mayor a la actual
 	public MiConstraint getNoFuturo() {
-		return new MiConstraint(MiConstraint.NO_FUTURO);
+		return new MiConstraint(this.vm, MiConstraint.NO_FUTURO);
 	}
 
 	// No admite fecha menor a la actual
 	public MiConstraint getNoPasado() {
-		return new MiConstraint(MiConstraint.NO_PASADO);
+		return new MiConstraint(this.vm, MiConstraint.NO_PASADO);
 	}
 
 	// No admite fecha actual
 	public MiConstraint getNoPresente() {
-		return new MiConstraint(MiConstraint.NO_PRESENTE);
+		return new MiConstraint(this.vm, MiConstraint.NO_PRESENTE);
 	}
 
 	// No admite valor mayor a cero
 	public MiConstraint getNoPositivo() {
-		return new MiConstraint(MiConstraint.NO_POSITIVO);
+		return new MiConstraint(this.vm, MiConstraint.NO_POSITIVO);
 	}
 
 	// No admite valor cero
 	public MiConstraint getNoCero() {
-		return new MiConstraint(MiConstraint.NO_CERO);
+		return new MiConstraint(this.vm, MiConstraint.NO_CERO);
 	}
 
 	// No admite valores menores a cero
 	public MiConstraint getNoNegativo() {
-		return new MiConstraint(MiConstraint.NO_NEGATIVO);
+		return new MiConstraint(this.vm, MiConstraint.NO_NEGATIVO);
 	}
 
 	// Solo admite valor mayor a ?
 	public MiConstraint mayorA(Number value) {
-		return new MiConstraint(MiConstraint.MAYOR_A, value);
+		return new MiConstraint(this.vm, MiConstraint.MAYOR_A, value);
 	}
 
 	// Solo admite valor menor a ?
 	public MiConstraint menorA(Number value) {
-		return new MiConstraint(MiConstraint.MENOR_A, value);
+		return new MiConstraint(this.vm, MiConstraint.MENOR_A, value);
 	}
 
 	// Solo admite valor mayor o igual a ?
 	public MiConstraint mayorIgualA(Number value) {
-		return new MiConstraint(MiConstraint.MAYOR_IGUAL_A, value);
+		return new MiConstraint(this.vm, MiConstraint.MAYOR_IGUAL_A, value);
 	}
 
 	// Solo admite valor menor o igual a ?
 	public MiConstraint menorIgualA(Number value) {
-		return new MiConstraint(MiConstraint.MENOR_IGUAL_A, value);
+		return new MiConstraint(this.vm, MiConstraint.MENOR_IGUAL_A, value);
 	}
 
 	// Valida el digito verificador del ruc
 	public MiConstraint getRuc() {
-		return new MiConstraint(MiConstraint.RUC);
+		return new MiConstraint(this.vm, MiConstraint.RUC);
 	}
 
 	// Valida el formato del correo
 	public MiConstraint getEmail() {
-		return new MiConstraint(MiConstraint.EMAIL);
+		return new MiConstraint(this.vm, MiConstraint.EMAIL);
 	}
 
 	// Valida el formato de varios correos separados con ';'
 	public MiConstraint getEmails() {
-		return new MiConstraint(MiConstraint.EMAILS);
+		return new MiConstraint(this.vm, MiConstraint.EMAILS);
 	}
 
 	// Valida el formato del correo
 	public MiConstraint getTrueFalse() {
-		return new MiConstraint(MiConstraint.TRUE_FALSE);
+		return new MiConstraint(this.vm, MiConstraint.TRUE_FALSE);
 	}
 
 }
@@ -127,15 +137,19 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 	private int constraint = 0;
 	private Number value = 0;
 	private Misc misc = new Misc();
+	private GenericViewModel vm = null;
 
-	public MiConstraint(int constraint, Number value) {
+	
+	public MiConstraint(GenericViewModel vm, int constraint, Number value) {
 		super("");
+		this.vm = vm;
 		this.constraint = constraint;
 		this.value = value;
 	}
 
-	public MiConstraint(int constraint) {
+	public MiConstraint(GenericViewModel vm, int constraint) {
 		super("");
+		this.vm = vm;
 		this.constraint = constraint;
 	}
 
@@ -148,6 +162,10 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 			throws WrongValueException {
 		try {
 
+			if (this.vm.isDeshabilitado() == true){
+				return;
+			}
+
 			MiValidate(comp, value);
 
 		} catch (WrongValueException ex) {
@@ -159,13 +177,14 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 
 			Clients.showNotification(ex.getMessage(), "error", comp,
 					"end_center", 3000, true);
+			
 		}
 
 	}
 
 	public void MiValidate(Component comp, Object value)
 			throws WrongValueException {
-
+		
 		if (value == null) {
 			throw new WrongValueException(comp, Check.MENSAJE_NO_EMPTY);
 
@@ -214,7 +233,7 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 			// Check de String
 		} else if (value instanceof String) {
 			String s = (String) value;
-			if (this.constraint == this.NO_EMPTY && s.isEmpty()) {
+			if (this.constraint == this.NO_EMPTY &&  s.isEmpty()) {
 				throw new WrongValueException(comp, Check.MENSAJE_NO_EMPTY);
 			}
 			if (this.constraint == RUC) {

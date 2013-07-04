@@ -53,7 +53,6 @@ public class Control {
 	private static UtilCoreDTO dtoUtil = null; // = new
 												// AssemblerUtil().getDTOUtil();
 
-	public static Check check = new Check();
 
 	private Component main;
 	private Hashtable<String, String> hashFilterValue = new Hashtable<String, String>();
@@ -155,13 +154,6 @@ public class Control {
 
 	// ================================================
 
-	public Check getCheck() {
-		return Control.check;
-	}
-
-	public void setCheck(Check check) {
-		Control.check = check;
-	}
 
 	// hacer un salto de pagina
 	public void saltoDePagina(String url, String param, Object value) {

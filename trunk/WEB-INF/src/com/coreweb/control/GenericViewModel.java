@@ -48,6 +48,8 @@ import org.zkoss.zul.Row;
 import org.zkoss.zul.RowRenderer;
 import org.zkoss.zul.Rows;
 import org.zkoss.zul.SimpleConstraint;
+import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.event.ZulEvents;
 import org.zkoss.zul.ext.Constrainted;
@@ -55,8 +57,8 @@ import org.zkoss.zul.ext.Constrainted;
 import com.coreweb.Config;
 import com.coreweb.dto.Assembler;
 import com.coreweb.login.ControlInicio;
+import com.coreweb.util.Check;
 import com.coreweb.util.MyConverter;
-
 
 public abstract class GenericViewModel extends Control {
 
@@ -66,6 +68,7 @@ public abstract class GenericViewModel extends Control {
 
 	private boolean deshabilitado = true;
 	private boolean siempreHabilitado = true;
+	public Check check = new Check(this);
 
 	/*
 	 * esto es para darle un tratamiento especial a algunos que se tienen que
@@ -74,8 +77,8 @@ public abstract class GenericViewModel extends Control {
 
 	private static Object[][] listaClasePropiedad = {
 			{ Button.class, DISABLED, true },
-			{ Bandbox.class, DISABLED, true }, 
-			{ Radio.class, DISABLED, true },
+			{ Toolbarbutton.class, DISABLED, true },
+			{ Bandbox.class, DISABLED, true }, { Radio.class, DISABLED, true },
 			{ Checkbox.class, DISABLED, true },
 			{ Combobox.class, BUTTON_VISIBLE, false },
 			{ Datebox.class, BUTTON_VISIBLE, false } };
@@ -103,25 +106,24 @@ public abstract class GenericViewModel extends Control {
 		super(null);
 	}
 
-	
 	public Component mainComponent = null;
 
 	// creo que este método debería estar en control
 	// *ver* Para que se usaba?
-	//public abstract String getAliasFormularioCorriente();
+	// public abstract String getAliasFormularioCorriente();
 
 	// para guardar el estado de los componentes, esto es porque segun los
 	// permisos puede que haya algunos que ya estan desabilitados, y cuando se
 	// restaure queremos que tenga su estado original
-	private Set<Component> tmpComponentesDeshabilitados = new HashSet<Component>();
-	//private Hashtable<Component, String> tmpComponentesDeshabilitados = new Hashtable<Component, String>();
 
-	public void clearTmpComponentesDeshabilitados(){
-		//this.tmpComponentesDeshabilitados = new Hashtable<Component, String>();
-		this.tmpComponentesDeshabilitados = new HashSet<Component>();
+	private Hashtable<Component, Object[][]> tmpCmpDeshabilitadosOri = new Hashtable<Component, Object[][]>();
+
+	public void clearTmpComponentesDeshabilitadosx() {
+		// this.tmpComponentesDeshabilitados = new Hashtable<Component,
+		// String>();
+		this.tmpCmpDeshabilitadosOri = new Hashtable<Component, Object[][]>();
 	}
-	
-	
+
 	@Init(superclass = true)
 	public void initGenericViewModel(
 			@ContextParam(ContextType.VIEW) Component view) {
@@ -129,29 +131,30 @@ public abstract class GenericViewModel extends Control {
 
 	}
 
-
 	@AfterCompose(superclass = true)
 	public void afterComposeGenericViewModel() {
 
 	}
 
 	public void readonlyAllComponents() {
-		this.disableComponents((AbstractComponent) this.mainComponent, READONLY);
+		this.disableComponents((AbstractComponent) this.mainComponent);
 	}
 
 	public void disableAllComponents() {
-		this.disableComponents((AbstractComponent) this.mainComponent, DISABLED);
+		this.disableComponents((AbstractComponent) this.mainComponent);
 	}
 
-	public void disableComponents(AbstractComponent ac, String property) {
-		System.out.println("-----paso: "+property+" " + ac.getId() + " - "+ ac.getClass().getName());
+	public void disableComponents(AbstractComponent ac) {
+
 		this.deshabilitado = true;
 		try {
 
+			boolean siEraEspecifica = false;
 			for (int i = 0; i < listaInstancePropiedad.length; i++) {
 
-				if (listaInstancePropiedad[i][0].getClass().isInstance(ac)) {
+				if (listaInstancePropiedad[i][0].getClass().isInstance(ac) == true) {
 
+					siEraEspecifica = true;
 					String propertyAux = (String) listaInstancePropiedad[i][1];
 					boolean valueDisable = (boolean) listaInstancePropiedad[i][2];
 
@@ -160,189 +163,188 @@ public abstract class GenericViewModel extends Control {
 					// ahora. Además, si se hace ahora, luego da como que ya
 					// tenia la propiedad de
 					// antes y entonce luego no lo vuelve a habilitar
-					if (propertyAux.compareTo(property) != 0) {
-						this.disableComponente(ac, propertyAux, valueDisable);
-					}
+					// if (propertyAux.compareTo(property) != 0) {
+					this.disableComponente(ac, valueDisable, true, propertyAux);
+					// }
 
 				}
 			}
-
-			// obtener su estado y guardar los deshabilitados
-			this.disableComponente(ac, property, true);
+			if (siEraEspecifica == false) {
+				// obtener su estado y guardar los deshabilitados
+				this.disableComponente(ac, true, false, null);
+			}
 
 		} catch (Exception e) {
 		}
 
-
 		if (ac instanceof Grid) {
 			Grid grid = (Grid) ac;
 			Rows rows = grid.getRows();
-			if ((rows==null)) { // || (rows.getChildren().size() == 0)){
-				grid.addEventListener(ZulEvents.ON_AFTER_RENDER, new RefreshAfterRender(this, property, RefreshAfterRender.TIPO_GRID));
+			if ((rows == null)) { // || (rows.getChildren().size() == 0)){
+				grid.addEventListener(ZulEvents.ON_AFTER_RENDER,
+						new RefreshAfterRender(this,
+								RefreshAfterRender.TIPO_GRID));
 			}
 		}
 
-		if (ac instanceof Listbox) {			
+		if (ac instanceof Listbox) {
 			Listbox listbox = (Listbox) ac;
 			List lAux = listbox.getItems();
-			if ((lAux==null) || (lAux.size() == 0)){
-				listbox.addEventListener(ZulEvents.ON_AFTER_RENDER, new RefreshAfterRender(this, property, RefreshAfterRender.TIPO_LISTBOX));
+			if ((lAux == null) || (lAux.size() == 0)) {
+				listbox.addEventListener(ZulEvents.ON_AFTER_RENDER,
+						new RefreshAfterRender(this,
+								RefreshAfterRender.TIPO_LISTBOX));
 			}
 		}
-		
 
-		if (ac instanceof Radiogroup) {			
+		if (ac instanceof Radiogroup) {
 			Radiogroup rg = (Radiogroup) ac;
 			List lAux = rg.getItems();
-			if ((lAux==null) || (lAux.size() == 0)){
-				rg.addEventListener(ZulEvents.ON_AFTER_RENDER, new RefreshAfterRender(this, property, RefreshAfterRender.TIPO_RADIOGROUP));
+			if ((lAux == null) || (lAux.size() == 0)) {
+				rg.addEventListener(ZulEvents.ON_AFTER_RENDER,
+						new RefreshAfterRender(this,
+								RefreshAfterRender.TIPO_RADIOGROUP));
 			}
 		}
-
-		
-		/*
-		if (ac instanceof Rows) {
-
-			Rows rows = (Rows) ac;
-			
-			List<Component> lr = rows.getChildren();
-			RowRenderer r = rows.getGrid().getRowRenderer();
-			
-			RefreshRows myR = new RefreshRows(this, property, r);
-			rows.getGrid().setRowRenderer(myR);
-			
-			
-			System.out.println("== rows ==I");
-			
-			System.out.println("Childrens:" + lr.size());
-			for (Iterator iterator = lr.iterator(); iterator.hasNext();) {
-				Component c = (Component) iterator.next();
-				System.out.println(c.getClass().getName());
-			}
-
-			
-			System.out.println("== rows ==F");
-			
-		}
-		*/
-		
-
-		/*
-		 * if (ac instanceof Radiogroup){
-		 * 
-		 * Radiogroup rg = (Radiogroup)ac; List<Component> lr =
-		 * rg.getChildren(); //rg.getModel() for (int i = 0; i < lr.size(); i++)
-		 * { System.out.println("------------- Radio "+property);
-		 * AbstractComponent r = (AbstractComponent)lr.get(i);
-		 * disableComponents(r, property); } }
-		 */
-
-		/*
-		 * Set<String> tm = ac.getTemplateNames(); for (Iterator iterator =
-		 * tm.iterator(); iterator.hasNext();) { String tname = (String)
-		 * iterator.next(); Template t = ac.getTemplate(tname);
-		 * System.out.println("-----paso: template "+tname+" - "+
-		 * t.getClass().getName()); Map<String, Object> m = t.getParameters();
-		 * Set<String> ks = m.keySet(); for (Iterator iterator2 = ks.iterator();
-		 * iterator2.hasNext();) { String k = (String) iterator2.next(); Object
-		 * o = m.get(k); System.out.println("------------------------"+k+" - "+
-		 * o.getClass().getName()); } //disableComponents((AbstractComponent)t,
-		 * property); }
-		 */
 
 		List children = ac.getChildren();
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
 				AbstractComponent co = (AbstractComponent) children.get(i);
-				disableComponents(co, property);
+				disableComponents(co);
 			}
 		}
 
 	}
 
-	public void disableComponente(AbstractComponent ac, String property,
-			boolean valueDiabled) throws Exception {
+	public void disableComponente(AbstractComponent ac, boolean valueDisabled,
+			boolean siPropiedadEspecifica, String property) throws Exception {
 
-		Button b = (Button) ac;
-		
-		
-		String tmp = "    "; 
-		// obtener su estado y guardar los deshabilitados
-		Method mget = ac.getClass().getMethod("is" + property);
-		boolean v = (Boolean) mget.invoke(ac);
-		if (v == valueDiabled) {
-			//this.tmpComponentesDeshabilitados.put(ac, property);
-			this.tmpComponentesDeshabilitados.add(ac);
-			tmp = " SI ";
+		Object[][] pros = { { DISABLED, !valueDisabled },
+				{ READONLY, !valueDisabled } };
+
+		pros = new Object[][] { { READONLY, !valueDisabled } };
+
+		if (siPropiedadEspecifica == true) {
+			pros = new Object[][] { { property, !valueDisabled } };
 		}
 
-		System.out.println(tmp+" "+property+" - "+ac.getId()+" - " + ac.getClass().getName());
-		
-		
-		// deshabilita el componente
-		Method mset = ac.getClass().getMethod("set" + property, Boolean.TYPE);
-		mset.invoke(ac, valueDiabled);
+		for (int i = 0; i < pros.length; i++) {
+			String pr = (String) pros[i][0];
+			Method mget = ac.getClass().getMethod("is" + pr);
+			boolean v = (Boolean) mget.invoke(ac);
+			pros[i][1] = v;
+
+			if (v == valueDisabled) {
+				this.tmpCmpDeshabilitadosOri.put(ac, pros);
+			}
+			// deshabilita el componente
+			Method mset = ac.getClass().getMethod("set" + pr, Boolean.TYPE);
+			mset.invoke(ac, valueDisabled);
+		}
+
 	}
 
 	public void restoreAllReadonlyComponents() {
-		this.restoreComponents((AbstractComponent) this.mainComponent, READONLY);
+		this.restoreComponents((AbstractComponent) this.mainComponent);
 	}
 
 	public void restoreAllDisabledComponents() {
-		this.restoreComponents((AbstractComponent) this.mainComponent, DISABLED);
+		this.restoreComponents((AbstractComponent) this.mainComponent);
 	}
 
-	private void restoreComponents(AbstractComponent ac, String property) {
-		this.deshabilitado = false;
+	private void restoreComponents(AbstractComponent ac) {
+		try {
 
-		System.out.println("=== paso: restoreComponents:"+property+" "+ ac.getId()+" - "+ac.getClass().getCanonicalName());
-				
-		if (this.tmpComponentesDeshabilitados.contains(ac) == false) {
-			try {
+			this.deshabilitado = false;
 
-				for (int i = 0; i < listaInstancePropiedad.length; i++) {
+			Object[][] pros = this.tmpCmpDeshabilitadosOri.get(ac);
 
-					if (listaInstancePropiedad[i][0].getClass().isInstance(ac)) {
-						String propertyAux = (String) listaInstancePropiedad[i][1];
-						boolean valueDisable = (boolean) listaInstancePropiedad[i][2];
-						this.restoreComponente(ac, propertyAux, !valueDisable);
+			if (pros == null) {
 
+				try {
+
+					boolean siEraEspecifico = false;
+
+					for (int i = 0; i < listaInstancePropiedad.length; i++) {
+
+						if (listaInstancePropiedad[i][0].getClass().isInstance(
+								ac)) {
+							siEraEspecifico = true;
+							String propertyAux = (String) listaInstancePropiedad[i][1];
+							boolean valueDisable = (boolean) listaInstancePropiedad[i][2];
+							this.restoreComponente(ac, !valueDisable, true,
+									propertyAux);
+
+						}
 					}
+
+					if (siEraEspecifico == false) {
+						// habilita el componente
+						this.restoreComponente(ac, false, false, null);
+					}
+
+				} catch (Exception e) {
+
 				}
+			} else {
+				// el componente tiene algo deshabilitado, pero hay que
+				// verificar que
+				this.restoreComponenteProps(ac, pros);
 
-				// habilita el componente
-				this.restoreComponente(ac, property, false);
-
-			} catch (Exception e) {
 			}
-		}
 
-		/*
-		 * if (ac instanceof Radiogroup){
-		 * 
-		 * Radiogroup rg = (Radiogroup)ac;
-		 * 
-		 * List<Component> lr = rg.getChildren(); //rg.getModel() for (int i =
-		 * 0; i < lr.size(); i++) {
-		 * System.out.println("------------- (restore) Radio "+property);
-		 * AbstractComponent r = (AbstractComponent)lr.get(i);
-		 * //disableComponents(r, property); } }
-		 */
+			/*
+			 * if (ac instanceof Radiogroup){
+			 * 
+			 * Radiogroup rg = (Radiogroup)ac;
+			 * 
+			 * List<Component> lr = rg.getChildren(); //rg.getModel() for (int i
+			 * = 0; i < lr.size(); i++) {
+			 * System.out.println("------------- (restore) Radio "+property);
+			 * AbstractComponent r = (AbstractComponent)lr.get(i);
+			 * //disableComponents(r, property); } }
+			 */
 
-		List children = ac.getChildren();
-		if (children != null) {
-			for (int i = 0; i < children.size(); i++) {
-				AbstractComponent co = (AbstractComponent) children.get(i);
-				restoreComponents(co, property);
+			List children = ac.getChildren();
+			if (children != null) {
+				for (int i = 0; i < children.size(); i++) {
+					AbstractComponent co = (AbstractComponent) children.get(i);
+					restoreComponents(co);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
-	private void restoreComponente(AbstractComponent ac, String property,
-			boolean valueEnable) throws Exception {
+	private void restoreComponente(AbstractComponent ac, boolean valueEnable,
+			boolean siPropiedadEspecifica, String property) throws Exception {
 		// habilita el componente
-		Method mset = ac.getClass().getMethod("set" + property, Boolean.TYPE);
-		mset.invoke(ac, valueEnable);
+
+		Object[][] pros = { { DISABLED, valueEnable },
+				{ READONLY, valueEnable } };
+
+		pros = new Object[][] { { READONLY, valueEnable } };
+
+		if (siPropiedadEspecifica == true) {
+			pros = new Object[][] { { property, valueEnable } };
+		}
+
+		restoreComponenteProps(ac, pros);
+	}
+
+	private void restoreComponenteProps(AbstractComponent ac, Object[][] pros)
+			throws Exception {
+		// habilita el componente
+
+		for (int i = 0; i < pros.length; i++) {
+			String po = (String) pros[i][0];
+			boolean va = (boolean) pros[i][1];
+
+			Method mset = ac.getClass().getMethod("set" + po, Boolean.TYPE);
+			mset.invoke(ac, va);
+		}
 
 	}
 
@@ -353,7 +355,6 @@ public abstract class GenericViewModel extends Control {
 	@GlobalCommand
 	@NotifyChange("*")
 	public void refreshComponentes() {
-		//System.out.println("=== refreshComponentes GenericViewModel:" + this.getClass().getName()+" - "+this);
 	}
 
 	// Pone el (*) en los campos con constraint, si tiene constraint es
@@ -420,14 +421,23 @@ public abstract class GenericViewModel extends Control {
 	}
 
 	public boolean isSiempreHabilitado() {
-		return siempreHabilitado && this.getCondicionComponenteSiempreHabilitado();
+		return siempreHabilitado
+				&& this.getCondicionComponenteSiempreHabilitado();
 	}
 
 	public void setSiempreHabilitado(boolean siempreHabilitado) {
 		this.siempreHabilitado = siempreHabilitado;
 	}
-	
+
 	public abstract boolean getCondicionComponenteSiempreHabilitado();
+
+	public Check getCheck() {
+		return check;
+	}
+
+	public void setCheck(Check check) {
+		this.check = check;
+	}
 
 	/*
 	 * public Object getAtributoSession(String arg) { Session s =
@@ -435,76 +445,69 @@ public abstract class GenericViewModel extends Control {
 	 * atributo; }
 	 */
 
-
-	public void xhabilitarMenu(){
-		Session s =  Sessions.getCurrent();
-		ControlInicio ctr = (ControlInicio) s.getAttribute(Config.CONTROL_INICIO);
+	public void xhabilitarMenu() {
+		Session s = Sessions.getCurrent();
+		ControlInicio ctr = (ControlInicio) s
+				.getAttribute(Config.CONTROL_INICIO);
 		ctr.setMenuVisible(true);
 	}
 
-	public void xdeshabilitarMenu(){
-		Session s =  Sessions.getCurrent();
-		ControlInicio ctr = (ControlInicio) s.getAttribute(Config.CONTROL_INICIO);
+	public void xdeshabilitarMenu() {
+		Session s = Sessions.getCurrent();
+		ControlInicio ctr = (ControlInicio) s
+				.getAttribute(Config.CONTROL_INICIO);
 		ctr.setMenuVisible(false);
 	}
-	
+
 }
 
-
-
-
-
-class RefreshAfterRender implements EventListener{
+class RefreshAfterRender implements EventListener {
 
 	public static int TIPO_GRID = 1;
 	public static int TIPO_LISTBOX = 2;
 	public static int TIPO_RADIOGROUP = 3;
-	
+
 	private int tipo = 0;
 	private GenericViewModel vm;
-	private String property;
-	
-	
-	public RefreshAfterRender(GenericViewModel vm, String property, int tipo){
+
+	public RefreshAfterRender(GenericViewModel vm, int tipo) {
 		this.vm = vm;
-		this.property = property;
 		this.tipo = tipo;
 	}
-	
+
 	@Override
 	public void onEvent(Event ev) throws Exception {
 		Component cmp = ev.getTarget();
-		
-		if (this.tipo == TIPO_GRID){
+
+		if (this.tipo == TIPO_GRID) {
 			aplicarAccion(cmp);
-		}else if (this.tipo == TIPO_LISTBOX){
+
+		} else if (this.tipo == TIPO_LISTBOX) {
 			Listbox lb = (Listbox) cmp;
 			List lbis = lb.getItems();
 			for (Iterator iterator = lbis.iterator(); iterator.hasNext();) {
 				Component item = (Component) iterator.next();
 				aplicarAccion(item);
-			}	
-		}else if (this.tipo == TIPO_RADIOGROUP){
+			}
+
+		} else if (this.tipo == TIPO_RADIOGROUP) {
 			Radiogroup lb = (Radiogroup) cmp;
 			List lbis = lb.getItems();
 			for (Iterator iterator = lbis.iterator(); iterator.hasNext();) {
 				Component item = (Component) iterator.next();
 				aplicarAccion(item);
-			}	
+			}
 		}
 	}
 
-	
-	private void aplicarAccion(Component cmp){
-		if (this.vm.isDeshabilitado() == true){
-			//System.out.println("-- evento after render 00 : " + cmp.getClass().getName());
-			this.vm.disableComponents((AbstractComponent)cmp, this.property);
-		}else{
-			//System.out.println("-- evento after render 11 : " + cmp.getClass().getName());
-			//this.vm.restoreAllReadonlyComponents();
+	private void aplicarAccion(Component cmp) {
+		if (this.vm.isDeshabilitado() == true) {
+			this.vm.disableComponents((AbstractComponent) cmp);
+		} else {
+			// System.out.println("-- evento after render 11 : " +
+			// cmp.getClass().getName());
+			// this.vm.restoreAllReadonlyComponents();
 		}
 	}
-	
-	
+
 }
-

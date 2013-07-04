@@ -193,7 +193,7 @@ public abstract class Browser extends SimpleViewModel {
 				imputbox = new Longbox();
 			}else if (col.getTipo().compareTo(Browser.TIPO_BOOL)==0){
 				// restringe que se escriba T o F
-				imputbox.setConstraint((new Check()).getTrueFalse());
+				imputbox.setConstraint(this.getCheck().getTrueFalse());
 				imputbox.setMaxlength(1);
 			}
 			// se setea despues, por que puede cambiar según el tipo
