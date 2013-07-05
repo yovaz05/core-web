@@ -279,12 +279,21 @@ public class Control {
 	}
 
 	public DTO getDTOById(String entityName, String idObjeto) throws Exception {
-		Register register = Register.getInstance();
-		Domain dom = register.getObject(entityName, Long.parseLong(idObjeto));
-		DTO dto = this.getAss().domainToDto(dom);
-		return dto;
+		return getDTOById(entityName, Long.parseLong(idObjeto), this.getAss());
 	}
 
+	public DTO getDTOById(String entityName, Long idObjeto) throws Exception {
+		return getDTOById(entityName, idObjeto, this.getAss());
+	}
+	
+	public DTO getDTOById(String entityName, Long idObjeto, Assembler ass) throws Exception {
+		Register register = Register.getInstance();
+		Domain dom = register.getObject(entityName, idObjeto);
+		DTO dto = ass.domainToDto(dom);
+		return dto;
+	}
+	
+	
 	public List<DTO> getAllDTOs(String entityName) throws Exception {
 		return getAllDTOs(entityName, this.ass);
 	}
