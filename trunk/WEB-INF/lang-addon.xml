@@ -79,7 +79,7 @@
 		<extends>doublebox</extends>
 		<property>
 			<property-name>style</property-name>
-			<property-value>text-align:rigth</property-value>
+			<property-value>text-align:right</property-value>
 		</property>
 		<property>
 			<property-name>format</property-name>
