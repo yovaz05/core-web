@@ -9,6 +9,8 @@ TDNAPP=/home/daniel/datos/tdn/tdnapp
 DESDE=$CORE
 HASTA=$YHAGUY
 
+cp $DESDE/WEB-INF/lang-addon.xml $HASTA/WEB-INF/lang-addon.xml
+
 # Archivos .zul
 cd $DESDE
 zip -r core core/*
@@ -31,6 +33,8 @@ mv core.jar  $HASTA/WEB-INF/lib/
 ########### vidrio luz ##########################
 DESDE=$CORE
 HASTA=$VIDRIOLUZ
+
+cp $DESDE/WEB-INF/lang-addon.xml $HASTA/WEB-INF/lang-addon.xml
 
 # Archivos .zul
 cd $DESDE
@@ -55,6 +59,8 @@ mv core.jar  $HASTA/WEB-INF/lib/
 ########### tdnapp ##########################
 DESDE=$CORE
 HASTA=$TDNAPP
+
+cp $DESDE/WEB-INF/lang-addon.xml $HASTA/WEB-INF/lang-addon.xml
 
 # Archivos .zul
 cd $DESDE
