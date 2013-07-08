@@ -102,7 +102,7 @@ public abstract class Browser extends SimpleViewModel {
 	private String[] wheres;
 
 
-	private Object[] selectedItem;
+	private Object[] selectedItem = {-1};
 	private Row selectedRow = new Row();
 	private Row selectedRowPrevio = new Row();
 	private String styleSepectedRowOriginal = "";
