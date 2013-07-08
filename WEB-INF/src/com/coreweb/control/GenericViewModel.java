@@ -76,12 +76,14 @@ public abstract class GenericViewModel extends Control {
 	 */
 
 	private static Object[][] listaClasePropiedad = {
-			{ Button.class, DISABLED, true },
 			//{ Toolbarbutton.class, DISABLED, true },
+			{ Button.class, DISABLED, true },
 			{ Bandbox.class, DISABLED, true }, { Radio.class, DISABLED, true },
 			{ Checkbox.class, DISABLED, true },
 			{ Combobox.class, BUTTON_VISIBLE, false },
-			{ Datebox.class, BUTTON_VISIBLE, false } };
+			//{ Combobox.class, READONLY, true },
+			{ Datebox.class, BUTTON_VISIBLE, false },
+			{ Datebox.class, READONLY, true }};
 
 	private static Object[][] listaInstancePropiedad = new Object[listaClasePropiedad.length][3];
 
