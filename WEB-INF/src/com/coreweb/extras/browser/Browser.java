@@ -14,6 +14,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Auxhead;
 import org.zkoss.zul.Auxheader;
 import org.zkoss.zul.Cell;
@@ -336,8 +337,17 @@ public abstract class Browser extends SimpleViewModel {
 	}
 
 	
+	
 	// *********************************************************
 	// Lista de componentes
+
+	public BodyPopupAceptarCancelar getBpac() {
+		return bpac;
+	}
+
+	public void setBpac(BodyPopupAceptarCancelar bpac) {
+		this.bpac = bpac;
+	}
 
 	public HtmlBasedComponent getLabel(Object obj, Object[] datos) {
 		Label l = new Label();
@@ -472,7 +482,8 @@ class GridRowRender implements RowRenderer {
 	public void render(Row row, Object data, int arg2) throws Exception {
 		// TODO Auto-generated method stub
 		row.setValue(data);
-		row.addEventListener("onClick", new RowEventListener(this.br));
+		row.addEventListener( Events.ON_CLICK, new RowEventListener(this.br));
+		row.addEventListener(Events.ON_DOUBLE_CLICK, new RowEventListener(this.br));
 
 		// en las columnas esta la info de configuración
 		List<ColumnaBrowser> columnas = this.br.getColumnasBrowser();
@@ -529,6 +540,10 @@ class RowEventListener implements EventListener {
 
 	@Override
 	public void onEvent(Event arg0) throws Exception {
+		if (arg0.getName().compareTo(Events.ON_DOUBLE_CLICK)==0){
+			this.br.getBpac().getControlVM().aceptar();
+			return;
+		}
 
 		// actualizar el estylo de la row que estaba antes.
 		Row rPrevia = this.br.getSelectedRow();
@@ -545,9 +560,14 @@ class RowEventListener implements EventListener {
 		Radio ra = (Radio) rClick.getChildren().get(0);
 		ra.setChecked(true);
 		ra.setFocus(true);
+		
+		
+		
 	}
 
 }
+
+
 
 
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
 
 import com.coreweb.domain.Domain;
@@ -130,6 +131,7 @@ public class BuscarElemento {
 		});
 
 		
+		listbox.addEventListener(Events.ON_DOUBLE_CLICK, new ListboxEventListener(bpac));
 		
 		bpac.addComponente("Buscar", listbox);
 		bpac.setWidthWindows(this.width);
@@ -325,3 +327,21 @@ class FiltroBuscarElementoEvento implements EventListener {
 	}
 
 }
+
+
+class ListboxEventListener implements EventListener {
+
+	BodyPopupAceptarCancelar bpac;
+	
+	public ListboxEventListener(BodyPopupAceptarCancelar bpac){
+		this.bpac = bpac;
+	}
+	
+	@Override
+	public void onEvent(Event arg0) throws Exception {
+		this.bpac.getControlVM().aceptar();
+	}
+	
+}
+
+
