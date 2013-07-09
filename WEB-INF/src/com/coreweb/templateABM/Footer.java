@@ -6,10 +6,14 @@ import org.zkoss.bind.annotation.ExecutionParam;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zul.Include;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Messagebox.Button;
 import org.zkoss.zul.Messagebox.ClickEvent;
+import org.zkoss.zul.Window;
 
 import com.coreweb.Config;
 import com.coreweb.control.GenericViewModel;
@@ -56,7 +60,7 @@ public class Footer extends GenericViewModel {
 
         Button b = Messagebox.show("Grabar los cambios y salir?", "Grabar y Salir", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO }, Messagebox.QUESTION, null);
-        if (b.compareTo(Messagebox.Button.YES)==0){        	
+        if ((b !=null) && (b.compareTo(Messagebox.Button.YES)==0)){        	
         	this.yesClick = true;
         	this.pagina.grabarDTOCorriente(true); // graba y sale
 
@@ -77,7 +81,7 @@ public class Footer extends GenericViewModel {
     	this.yesClick = false;
         Button b = Messagebox.show("Grabar los cambios?", "Grabar", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO }, Messagebox.QUESTION, null);
-        if (b.compareTo(Messagebox.Button.YES)==0){
+        if ((b !=null) && (b.compareTo(Messagebox.Button.YES)==0)){
 
         	this.yesClick = true;
         	this.pagina.grabarDTOCorriente(true); // graba y refresca el DTO
@@ -92,7 +96,7 @@ public class Footer extends GenericViewModel {
 		this.yesClick = false;
         Button b = Messagebox.show("Está seguro que quiere cancelar la operación?\n Perderá los cambios desde la última vez que grabó.", "Cancelar", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO }, Messagebox.QUESTION, null);
-        if (b.compareTo(Messagebox.Button.YES)==0){
+        if ((b !=null) && (b.compareTo(Messagebox.Button.YES)==0)){
         	this.yesClick = true;
 
         	this.pagina.refreshDTOCorriente();
@@ -109,6 +113,8 @@ public class Footer extends GenericViewModel {
 	@NotifyChange("*")
 	public void habilitarComponentes(){
 		this.restoreAllDisabledComponents();
+		Window win =   (Window) this.mainComponent; 
+		win.setVisible(true);
 	}
 	
 
@@ -116,6 +122,8 @@ public class Footer extends GenericViewModel {
 	@NotifyChange("*")
 	public void deshabilitarComponentes(){
 		this.disableAllComponents();
+		Window win =   (Window) this.mainComponent; 
+		win.setVisible(false);
 	}
 	
 	
