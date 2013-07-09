@@ -341,7 +341,10 @@ public abstract class Browser extends SimpleViewModel {
 
 	public HtmlBasedComponent getLabel(Object obj, Object[] datos) {
 		Label l = new Label();
-		l.setValue(obj.toString());
+		String valor = "";
+		if (obj != null){
+			l.setValue(obj.toString());
+		}
 		return l;
 	}
 
@@ -502,7 +505,7 @@ class GridRowRender implements RowRenderer {
 						Object.class, Object[].class);
 				comp = (HtmlBasedComponent) m.invoke(this.br, va, datosCel);
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 				comp = this.br.getLabel(va, datosCel);
 			}
 			String auxSt = comp.getStyle();
