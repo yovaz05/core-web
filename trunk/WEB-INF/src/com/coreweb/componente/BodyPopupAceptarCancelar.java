@@ -50,6 +50,9 @@ public class BodyPopupAceptarCancelar {
 	BodyPopupAceptarCancelar controlInicial;
 	boolean clickAceptar = false;
 
+	// este es el VM del control
+	BodyPopupAceptarCancelar controlVM;
+	
 
 	@Init(superclass = true)
 	public void initPopupAceptarCancelar(
@@ -59,8 +62,17 @@ public class BodyPopupAceptarCancelar {
 		                        
 		this.windowPopupAceptarCancelar = (Window) view;
 		this.controlInicial = (BodyPopupAceptarCancelar) control;
+		this.controlInicial.controlVM = this;
 		this.checkAC = checkAC;
 		//System.out.println("================================= check:" + this.checkAC);
+	}
+
+	public BodyPopupAceptarCancelar getControlVM() {
+		return controlVM;
+	}
+
+	public void setControlVM(BodyPopupAceptarCancelar controlVM) {
+		this.controlVM = controlVM;
 	}
 
 	@Command()
