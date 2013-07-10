@@ -148,6 +148,8 @@ public abstract class GenericViewModel extends Control {
 
 	public void disableComponents(AbstractComponent ac) {
 
+		//System.out.println("------------------------------- "+ac.getId()+"  "+ ac);
+
 		this.deshabilitado = true;
 		try {
 
@@ -209,6 +211,8 @@ public abstract class GenericViewModel extends Control {
 			}
 		}
 
+		
+		
 		List children = ac.getChildren();
 		if (children != null) {
 			for (int i = 0; i < children.size(); i++) {
@@ -241,6 +245,7 @@ public abstract class GenericViewModel extends Control {
 				this.tmpCmpDeshabilitadosOri.put(ac, pros);
 			}
 			// deshabilita el componente
+			//System.out.println("------------------------------- "+ac.getId()+"  "+ ac + " pr:"+pr+":"+valueDisabled);
 			Method mset = ac.getClass().getMethod("set" + pr, Boolean.TYPE);
 			mset.invoke(ac, valueDisabled);
 		}
