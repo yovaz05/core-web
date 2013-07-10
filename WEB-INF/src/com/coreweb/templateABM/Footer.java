@@ -63,10 +63,13 @@ public class Footer extends GenericViewModel {
         if ((b !=null) && (b.compareTo(Messagebox.Button.YES)==0)){        	
         	this.yesClick = true;
         	this.pagina.grabarDTOCorriente(true); // graba y sale
+        	
+        	this.pagina.getBody().afterSave();
 
         	//String texLabel = this.pagina.getTextoFormularioCorriente();
     		//this.setTextoFormularioCorriente(texLabel);
         	this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+        	
         }
 
     }
@@ -85,6 +88,7 @@ public class Footer extends GenericViewModel {
 
         	this.yesClick = true;
         	this.pagina.grabarDTOCorriente(true); // graba y refresca el DTO
+        	this.pagina.getBody().afterSave();
         }
     }
 
