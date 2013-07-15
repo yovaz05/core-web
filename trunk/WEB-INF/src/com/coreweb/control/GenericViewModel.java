@@ -36,6 +36,7 @@ import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Constraint;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Label;
@@ -50,6 +51,7 @@ import org.zkoss.zul.Rows;
 import org.zkoss.zul.SimpleConstraint;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Toolbarbutton;
+import org.zkoss.zul.Vbox;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.event.ZulEvents;
 import org.zkoss.zul.ext.Constrainted;
@@ -466,6 +468,35 @@ public abstract class GenericViewModel extends Control {
 		ctr.setMenuVisible(false);
 	}
 
+	
+	public void enmascarar(String texto) {
+		this.enmascarar(this.mainComponent, texto, 50);
+	}
+	
+	public void enmascarar(Component comp, String texto, int textoSize) {		
+		// Pone un texto en formato de mascara de agua
+		Vbox v = new Vbox();		
+		v.setHeight("100%");
+		v.setWidth("100%");
+		v.setPack("center");
+		v.setAlign("center");
+
+		Label l = new Label();
+		l.setValue(texto);
+		l.setStyle("font-weight:bold;font-size:"+textoSize+"pt");		
+					
+		Div mask = new Div();
+		mask.setZclass("z-modal-mask");
+		mask.setStyle("z-index: 2000; display: block; background:#ffcc99; opacity:0.2; filter:alpha(opacity=30); ");
+		
+		l.setParent(v);
+		v.setParent(mask);
+		
+		comp.getParent().appendChild(mask);	
+	}
+
+	
+	
 }
 
 class RefreshAfterRender implements EventListener {
