@@ -18,7 +18,7 @@
 					
 				<div id="bodyMask" visible="false" zclass="z-modal-mask"
 					style="z-index: 2000; display: block; background:#ffcc99; opacity:0.2; filter:alpha(opacity=30); ">
-					<vbox Height="100%" width="100%" pack="center" >
+					<vbox Height="100%" width="100%" pack="center" align="center" >
 						<label value="@load(Page.textoEnmascarar)" style="font-weight:bold;font-size:50pt" />
 					</vbox>
 				</div>

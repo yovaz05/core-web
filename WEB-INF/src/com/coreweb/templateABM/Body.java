@@ -35,6 +35,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zhtml.Div;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
+import org.zkoss.zk.ui.Path;
 
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.dto.Assembler;
@@ -143,15 +144,13 @@ public abstract class Body extends GenericViewModel {
 	
 
 	
-	public void desEnmascarar() {		
-		Div bodyMask = (Div)this.mainComponent.getParent().getFellow("bodyMask");
-		bodyMask.setVisible(false);
+	public void desEnmascarar() {	
+		this.getPagina().getBodyMask().setVisible(false);
 	}
 
 	
 	public void enmascarar() {		
-		Div bodyMask = (Div)this.mainComponent.getParent().getFellow("bodyMask");
-		bodyMask.setVisible(true);
+		this.getPagina().getBodyMask().setVisible(true);
 	}
 
 
