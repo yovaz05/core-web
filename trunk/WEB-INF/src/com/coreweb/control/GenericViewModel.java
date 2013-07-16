@@ -469,11 +469,8 @@ public abstract class GenericViewModel extends Control {
 	}
 
 	
-	public void enmascarar(String texto) {
-		this.enmascarar(this.mainComponent, texto, 50);
-	}
 	
-	public void enmascarar(Component comp, String texto, int textoSize) {		
+	public void enmascarar(Component comp, String texto, int textoSize) {	
 		// Pone un texto en formato de mascara de agua
 		Vbox v = new Vbox();		
 		v.setHeight("100%");

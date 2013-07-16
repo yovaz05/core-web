@@ -1,24 +1,33 @@
 <window id="windowABM" border="0" apply="org.zkoss.bind.BindComposer"
-		width="100%"
-		height="100%"
-		viewModel="@id('Page')
+	width="100%" height="100%"
+	viewModel="@id('Page')
 	@init('com.coreweb.templateABM.Page')">
 
 	<borderlayout height="100%">
-		<north border="0" height="30px"  collapsible="false">
+		<north border="0" height="30px" collapsible="false">
 			<div>
-				<include id="tool" mode="instant" src="/core/template/Toolbar.zul" pageVM="${Page}"/>
+				<include id="tool" mode="instant" src="/core/template/Toolbar.zul"
+					pageVM="${Page}" />
 			</div>
 		</north>
-		<center border="0" autoscroll="true"  style="overflow:auto;">
-			<!-- style="overflow:auto;"  -->
+		<center border="0" autoscroll="true" style="overflow:auto;">
+			<!-- style="overflow:auto;" -->
 			<div>
-				<include id="body" mode="instant" src="/core/template/BodyDefault.zul" pageVM="${Page}"/>
+				<include id="body" mode="instant" src="/core/template/BodyDefault.zul"
+					pageVM="${Page}" />
+					
+				<div id="bodyMask" visible="false" zclass="z-modal-mask"
+					style="z-index: 2000; display: block; background:#ffcc99; opacity:0.2; filter:alpha(opacity=30); ">
+					<vbox Height="100%" width="100%" pack="center" >
+						<label value="@load(Page.textoEnmascarar)" style="font-weight:bold;font-size:50pt" />
+					</vbox>
+				</div>
 			</div>
 		</center>
 		<south border="0" height="40px" collapsible="false">
 			<div>
-				<include id="footer" mode="instant" src="/core/template/Footer.zul" pageVM="${Page}"/>
+				<include id="footer" mode="instant" src="/core/template/Footer.zul"
+					pageVM="${Page}" />
 			</div>
 		</south>
 	</borderlayout>

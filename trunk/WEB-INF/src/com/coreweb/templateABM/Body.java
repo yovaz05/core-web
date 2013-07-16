@@ -32,6 +32,7 @@ import org.zkoss.bind.annotation.ExecutionParam;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zhtml.Div;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 
@@ -84,7 +85,7 @@ public abstract class Body extends GenericViewModel {
 	}
 
 	@AfterCompose(superclass = true)
-	public void afterComposeBodyxxx() {
+	public void afterComposeGenericBody() {
 	
 		this.addCamposObligotorios(this.mainComponent);
 		this.deshabilitarComponentes();
@@ -137,6 +138,34 @@ public abstract class Body extends GenericViewModel {
 		this.barraAuxiliar.add(arr);
 	}
 	
+	
+	//===================================================================
+	
+
+	
+	public void desEnmascarar() {		
+		Div bodyMask = (Div)this.mainComponent.getParent().getFellow("bodyMask");
+		bodyMask.setVisible(false);
+	}
+
+	
+	public void enmascarar() {		
+		Div bodyMask = (Div)this.mainComponent.getParent().getFellow("bodyMask");
+		bodyMask.setVisible(true);
+	}
+
+
+	public void setTextoEnmascarar(String textoEnmascarar) {
+		this.getPagina().setTextoEnmascarar(textoEnmascarar);
+	}
+	
+	public String getTextoEnmascarar() {
+		return this.getPagina().getTextoEnmascarar();
+	}
+	
+	//===================================================================
+	
+
 	// se verifica antes de hacer una grabación
 	public abstract boolean verificarAlGrabar();
 	
