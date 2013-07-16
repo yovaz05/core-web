@@ -31,6 +31,8 @@ public class Page extends GenericViewModel {
 	private Toolbar tool;
 	private Footer footer;
 	private String aliasABMx = "--AliasTemplateABM--";
+	
+	private String textoEnmascarar = "ANULADO";
 
 	@Init(superclass = true)
 	public void initPage() {
@@ -115,6 +117,15 @@ public class Page extends GenericViewModel {
 
 	public void setAliasABM(String aliasABM) {
 		this.setAliasFormularioCorriente(aliasABM);
+	}
+	
+	
+	public String getTextoEnmascarar() {
+		return textoEnmascarar;
+	}
+
+	public void setTextoEnmascarar(String textoEnmascarar) {
+		this.textoEnmascarar = textoEnmascarar;
 	}
 
 	public Body getBody() {
