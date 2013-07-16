@@ -16,6 +16,7 @@ import org.zkoss.bind.annotation.QueryParam;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Path;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Window;
 
@@ -31,6 +32,7 @@ public class Page extends GenericViewModel {
 	private Toolbar tool;
 	private Footer footer;
 	private String aliasABMx = "--AliasTemplateABM--";
+	private Div bodyMask;
 	
 	private String textoEnmascarar = "ANULADO";
 
@@ -58,7 +60,9 @@ public class Page extends GenericViewModel {
 			Include body = (Include) this.mainComponent.getFellow("body");
 			String oldUrl = body.getSrc();
 			body.setSrc(bodyUrl);
-			
+
+			this.bodyMask = (Div) this.mainComponent.getFellow("bodyMask");
+
 
 		} catch (Exception ex) {
 			System.out.println("error al incluir url del body:" + bodyUrl
@@ -150,6 +154,16 @@ public class Page extends GenericViewModel {
 
 	public void setFooter(Footer footer) {
 		this.footer = footer;
+	}
+
+	
+	
+	public Div getBodyMask() {
+		return bodyMask;
+	}
+
+	public void setBodyMask(Div bodyMask) {
+		this.bodyMask = bodyMask;
 	}
 
 	@Override
