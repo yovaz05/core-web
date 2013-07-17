@@ -1,14 +1,17 @@
 package com.coreweb.util;
 
+import com.coreweb.domain.Register;
+
 public class Ruc {
 
 	public boolean validarRuc(String ruc){
 		boolean out = false;		
+		Register rr = Register.getInstance();
 		try {
 			String[] valor = ruc.split("-");
 			if (Integer.parseInt(valor[1]) == this.calcularDigitoVerificador(valor[0])) {
 				out = true;
-			}				
+			}			
 		} catch (Exception e) {
 		}
 		return out;
