@@ -38,6 +38,7 @@ public class Config {
 	
 	// buscar elementos
 	public static int CUANTOS_BUSCAR_ELEMENTOS = 50;
+	public static int TAMANIO_MASCARA = 50;
 	
 	
 	static {
