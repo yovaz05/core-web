@@ -18,6 +18,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import com.coreweb.Config;
+import com.coreweb.IDCore;
 import com.coreweb.extras.browser.Browser;
 
 import java.io.*;
@@ -546,14 +547,14 @@ public class Register {
 	// este usa el buscar elemento
 	public List buscarElemento(Class clase, String[] atts, String[] values,
 			String[] tipos, List<String> where) throws Exception {
-		return buscarElemento(clase, atts, values, tipos, false,
-				Config.CUANTOS_BUSCAR_ELEMENTOS, where);
+		return buscarElemento(clase, atts, values, tipos, false, true,
+				Config.CUANTOS_BUSCAR_ELEMENTOS, true, where);
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values,
 			String[] tipos) throws Exception {
-		return buscarElemento(clase, atts, values, tipos, false,
-				Config.CUANTOS_BUSCAR_ELEMENTOS, new ArrayList());
+		return buscarElemento(clase, atts, values, tipos, false, true,
+				Config.CUANTOS_BUSCAR_ELEMENTOS, true, new ArrayList());
 	}
 
 	// este usa el browser
@@ -569,12 +570,12 @@ public class Register {
 			}
 		}
 
-		return buscarElemento(clase, atts, values, tipos, permiteFiltroVacio,
-				Config.CUANTOS_BUSCAR_ELEMENTOS, whereCl);
+		return buscarElemento(clase, atts, values, tipos, permiteFiltroVacio, true,
+				Config.CUANTOS_BUSCAR_ELEMENTOS, true, whereCl);
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values,
-			String[] tipos, boolean permiteFiltroVacio, int limite,
+			String[] tipos, boolean permiteFiltroVacio, boolean permiteLimite, int limite, boolean permiteLike,
 			List<String> whereCl) throws Exception {
 		List l = new ArrayList<Object[]>();
 		;
@@ -610,31 +611,41 @@ public class Register {
 			// va armando el select
 			select += at + " ,";
 
-			// para armar el where que vienen del filtro de los texbox
+			// para armar el where que vienen del filtro de los textbox
 			if (va.length() > 0) {
 				String ww = "";
 
-				if (tipos[i].compareTo(Browser.TIPO_NUMERICO) == 0) {
-					ww = at + " = " + va.toLowerCase();
-					ww = " cast("+at+" as string) like '%" + va.toLowerCase()+ "%' ";
+
+				if (tipos[i].compareTo(IDCore.TIPO_NUMERICO) == 0) {
+					if (permiteLike == true){
+						ww = " cast("+at+" as string) like '%" + va.toLowerCase()+ "%' ";
+					}else{
+						ww = at + " = " + va.toLowerCase();
+					}
 					
-				} else if (tipos[i].compareTo(Browser.TIPO_BOOL) == 0) {
-					ww = at + " = " + va.toLowerCase();
-					ww = " lower(str(" + at + ")) like '%" + va.toLowerCase()+ "%' ";
+				} else if (tipos[i].compareTo(IDCore.TIPO_BOOL) == 0) {
+					if (permiteLike == true){
+						ww = " lower(str(" + at + ")) like '%" + va.toLowerCase()+ "%' ";
+					}else{
+						ww = at + " = " + va.toLowerCase();
+					}
 
 				} else {
 					// por defecto es String
-					ww = " lower(" + at + ") like '%" + va.toLowerCase()
-							+ "%' ";
+					if (permiteLike == true){
+						ww = " lower(" + at + ") like '%" + va.toLowerCase()+ "%' ";
+					}else{
+						ww = " lower(" + at + ") = '" + va.toLowerCase()+ "' ";
+					}
 				}
+				
 				where += " " + ww + " and ";
 			}
 		}
 
 		select = "select " + select.substring(0, select.length() - 1);
-		where = "where " + where.substring(0, where.length() - 4); // quita el
-																	// ultimo
-																	// and
+		// quita el ultimo and
+		where = "where " + where.substring(0, where.length() - 4); 
 
 		String hql = select + " from " + clase.getName() + " c " + where
 				+ " order by " + atOrd + " asc";
@@ -643,16 +654,32 @@ public class Register {
 		
 		l = this.hql(hql);
 
-		if (l.size() > limite) {
-			throw new Exception("más de '" + Config.CUANTOS_BUSCAR_ELEMENTOS
+		if ((permiteLimite == true)&&(l.size() > limite)) {
+			throw new Exception("más de '" + limite
 					+ "' elementos (" + l.size() + ")...");
 		}
 
+		/*
 		if (l.size() == 0) {
 			throw new Exception("No se encontraron elementos ...");
 		}
+		*/
 
 		return l;
+	}
+	
+	
+	
+	public boolean existe(Class clase, String atributo, String tipo, Object valor) throws Exception{
+		boolean out = false;
+		
+		String[] atts = {atributo};
+		String[] values = {valor+""};
+		String[] tipos = {tipo};
+		
+		List l = buscarElemento(clase, atts, values, tipos, false, false, 0, false,  new ArrayList<String>());
+		
+		return (l.size() > 0);
 	}
 
 	public static void xmain(String[] args) {

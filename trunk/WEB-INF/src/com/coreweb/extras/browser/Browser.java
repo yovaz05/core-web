@@ -40,6 +40,7 @@ import org.zkoss.zul.Window;
 import org.zkoss.zul.impl.InputElement;
 
 import com.coreweb.Config;
+import com.coreweb.IDCore;
 import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.componente.BuscarElemento;
 import com.coreweb.control.SimpleViewModel;
@@ -67,11 +68,13 @@ public abstract class Browser extends SimpleViewModel {
 	public static String RADIOGROUP = "getRadiogroup";
 	public static String RADIO = "getRadio";
 	public static String LABEL_DATE = "getLabelDate";
-	
+
+	/*
 	public static String TIPO_STRING = "String";
 	public static String TIPO_NUMERICO = "Numerico";
 	public static String TIPO_BOOL = "Bool";
 	public static String TIPO_DATE = "Date";
+	*/
 	
 	// la info de olas columnas del browser
 	public abstract List<ColumnaBrowser> getColumnasBrowser();
@@ -120,7 +123,7 @@ public abstract class Browser extends SimpleViewModel {
 		ColumnaBrowser id = new ColumnaBrowser();
 		id.setTitulo("Id");
 		id.setCampo("id");
-		id.setTipo(Browser.TIPO_NUMERICO);
+		id.setTipo(IDCore.TIPO_NUMERICO);
 		
 		// Columnas del browser + la columnad del ID
 		this.columnas = this.getColumnasBrowser();
@@ -190,9 +193,9 @@ public abstract class Browser extends SimpleViewModel {
 
 			// el textbox del filtro
 			InputElement imputbox = new Textbox();
-			if (col.getTipo().compareTo(Browser.TIPO_NUMERICO)==0){
+			if (col.getTipo().compareTo(IDCore.TIPO_NUMERICO)==0){
 				imputbox = new Longbox();
-			}else if (col.getTipo().compareTo(Browser.TIPO_BOOL)==0){
+			}else if (col.getTipo().compareTo(IDCore.TIPO_BOOL)==0){
 				// restringe que se escriba T o F
 				imputbox.setConstraint(this.getCheck().getTrueFalse());
 				imputbox.setMaxlength(1);
