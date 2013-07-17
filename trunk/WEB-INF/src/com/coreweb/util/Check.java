@@ -11,7 +11,11 @@ import org.zkoss.zul.Constraint;
 import org.zkoss.zul.CustomConstraint;
 import org.zkoss.zul.SimpleConstraint;
 
+import com.coreweb.IDCore;
 import com.coreweb.control.GenericViewModel;
+import com.coreweb.domain.Domain;
+import com.coreweb.domain.IiD;
+import com.coreweb.domain.Register;
 
 public class Check {
 
@@ -30,14 +34,12 @@ public class Check {
 	public static String MENSAJE_EMAIL = "Debe Ingresar un correo valido";
 	public static String TRUE_FALSE = "Debe Ingresar \nT para Verdadero, o \nF para Falso ";
 
-	
 	private GenericViewModel vm = null;
-	
-	public Check(GenericViewModel vm){
+
+	public Check(GenericViewModel vm) {
 		this.vm = vm;
 	}
-	
-	
+
 	// No admite empty o null
 	public MiConstraint getNoVacio() {
 		return new MiConstraint(this.vm, MiConstraint.NO_EMPTY);
@@ -139,7 +141,6 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 	private Misc misc = new Misc();
 	private GenericViewModel vm = null;
 
-	
 	public MiConstraint(GenericViewModel vm, int constraint, Number value) {
 		super("");
 		this.vm = vm;
@@ -162,7 +163,7 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 			throws WrongValueException {
 		try {
 
-			if (this.vm.isDeshabilitado() == true){
+			if (this.vm.isDeshabilitado() == true) {
 				return;
 			}
 
@@ -177,14 +178,14 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 
 			Clients.showNotification(ex.getMessage(), "error", comp,
 					"end_center", 3000, true);
-			
+
 		}
 
 	}
 
 	public void MiValidate(Component comp, Object value)
 			throws WrongValueException {
-		
+
 		if (value == null) {
 			throw new WrongValueException(comp, Check.MENSAJE_NO_EMPTY);
 
@@ -233,22 +234,42 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 			// Check de String
 		} else if (value instanceof String) {
 			String s = (String) value;
-			if (this.constraint == this.NO_EMPTY &&  s.isEmpty()) {
+			if (this.constraint == this.NO_EMPTY && s.isEmpty()) {
 				throw new WrongValueException(comp, Check.MENSAJE_NO_EMPTY);
 			}
 			if (this.constraint == RUC) {
 				Ruc ruc = new Ruc();
+				// ver si es un ruc valido
 				if (ruc.validarRuc(s) == false) {
 					throw new WrongValueException(comp, Check.MENSAJE_RUC);
 				}
+				// ver que no sea un ruc repetido
+				try {
+					Class empresa = (Class) this.misc.ejecutarMetoto(this.vm,
+							"getRucEmpresa");
+					IiD id = (IiD) this.misc.ejecutarMetoto(this.vm,
+							"getIdEmpresa");
+					Register rr = Register.getInstance();
+					if (rr.existe(empresa, "ruc", IDCore.TIPO_STRING, value, id)) {
+						throw new WrongValueException(comp,
+								"El RUC '"+value+"' ya existe");
+					}
+
+				} catch (WrongValueException e) {
+					throw e;
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new WrongValueException(comp,
+							"Error en metodo getRucEmpresa");
+				}
+
 			}
 			if ((this.constraint == this.EMAIL)
 					&& (misc.checkEmail(s) == false)) {
 				throw new WrongValueException(comp, Check.MENSAJE_EMAIL);
 			}
 			if ((this.constraint == this.EMAILS)
-					&& ((misc.chequearMultipleCorreos(s.trim()
-							.split(";")) == false) || (((String) value)
+					&& ((misc.chequearMultipleCorreos(s.trim().split(";")) == false) || (((String) value)
 							.isEmpty()))) {
 				throw new WrongValueException(comp, Check.MENSAJE_EMAIL);
 			}

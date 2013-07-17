@@ -802,6 +802,18 @@ public class Misc {
 
 	}
 
+	// ejecuta el método de una clase sin parametros y retorna el resultado
+	public Object ejecutarMetoto(Object obj, String metodo) throws Exception {
+
+		Class[] noparams = { };
+		Method method = obj.getClass().getMethod(metodo, noparams);
+		method.setAccessible(true);
+		return method.invoke(obj, new Object[] {});
+
+	}
+
+	
+	
 	// hace un set
 	public void setValue(Object obj, String att, Object value) throws Exception {
 		Field fd = obj.getClass().getDeclaredField(att);
@@ -887,7 +899,7 @@ public class Misc {
 
 	}
 
-	public static void main(String[] args) {
+	public static void xxmain(String[] args) {
 		try {
 			Misc m = new Misc();
 			String s = m
@@ -898,4 +910,30 @@ public class Misc {
 		}
 	}
 
+	
+	public static void main(String[] args) {
+		try {
+			Misc m = new Misc();
+			B b = new B();
+			String mm = (String) m.ejecutarMetoto(b, "metodoA");
+			System.out.println("Paso ["+mm+"]");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+}
+
+
+
+class A {
+	
+	public String metodoA(){
+		return "Estoy en A";
+	}
+}
+
+class B extends A{
+	
 }

@@ -599,7 +599,7 @@ public class Register {
 		// estos son los wheres que fueron agregados por el usuario al crear el
 		// browser
 		for (int i = 0; i < whereCl.size(); i++) {
-			String w = whereCl.get(i);
+			String w = whereCl.get(i).trim();
 			where += w + " and ";
 		}
 
@@ -670,14 +670,17 @@ public class Register {
 	
 	
 	
-	public boolean existe(Class clase, String atributo, String tipo, Object valor) throws Exception{
+	public boolean existe(Class clase, String atributo, String tipo, Object valor, IiD id) throws Exception{
 		boolean out = false;
 		
 		String[] atts = {atributo};
 		String[] values = {valor+""};
 		String[] tipos = {tipo};
+		String where = "id != "+id.getId();
+		List<String> lw = new ArrayList<String>();
+		lw.add(where);
 		
-		List l = buscarElemento(clase, atts, values, tipos, false, false, 0, false,  new ArrayList<String>());
+		List l = buscarElemento(clase, atts, values, tipos, false, false, 0, false,  lw);
 		
 		return (l.size() > 0);
 	}
