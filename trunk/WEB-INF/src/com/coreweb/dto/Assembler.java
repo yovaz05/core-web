@@ -762,29 +762,43 @@ public abstract class Assembler {
 	// obtiene la entidad de un atributo
 	private String getEntidadAtributo(Object dom, String atributo)
 			throws NoSuchFieldException {
-		Field fd = dom.getClass().getDeclaredField(atributo);
+		Field fd = this.getField(dom.getClass(), atributo);
 		String entidad = fd.getType().getName();
 		return entidad;
 	}
 
-	// hace un get
-	private Object getValue(Object obj, String att) throws Exception {
-		Field fd = obj.getClass().getDeclaredField(att);
-		fd.setAccessible(true);
+	// hace un get de un atributo, si no puede prueba con la super clase (sólo una)
+	private  Object getValue(Object obj, String att) throws Exception {
+		Field fd = getField(obj.getClass(), att);
 		return fd.get(obj);
 	}
 
-	// hace un set
-	private void setValue(Object obj, String att, Object value)
+	private  Field getField(Class clase, String att) throws NoSuchFieldException, SecurityException  {
+		Field out = null;
+		try {
+			out = clase.getDeclaredField(att);
+			
+		} catch (Exception e) {
+			out = clase.getSuperclass().getDeclaredField(att);
+		}
+		out.setAccessible(true);
+		return out;
+	}
+
+	
+	
+	// hace un set de un atributo, si no puede prueba con la super clase (sólo una)
+	private  void setValue(Object obj, String att, Object value)
 			throws Exception {
-		Field fd = obj.getClass().getDeclaredField(att);
-		fd.setAccessible(true);
+		Field fd = getField(obj.getClass(), att);
 		fd.set(obj, value);
 	}
 
+
+	
 	// obtiene el tipo generico de una coleccion
 	private Class getTipoColeccion(Object obj, String att) throws Exception {
-		Field fd = obj.getClass().getDeclaredField(att);
+		Field fd = this.getField(obj.getClass(), att);
 		fd.setAccessible(true);
 		ParameterizedType tipoGenerico = (ParameterizedType) fd
 				.getGenericType();
@@ -798,5 +812,52 @@ public abstract class Assembler {
 		Object obj = ctor.newInstance();
 		return obj;
 	}
+	
+	
+	
+/*
+	public static void main(String[] args) {
+		try {
+			B b = new B();
+			
+			System.out.println(Assembler.getValue(b, "datoA"));
+			Assembler.setValue(b, "datoA", "ccc");
+			System.out.println(Assembler.getValue(b, "datoA"));
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	*/
 
 }
+
+/*
+class A {
+	private String datoA = "aa";
+
+	public String getDatoA() {
+		return datoA;
+	}
+
+	public void setDatoA(String datoA) {
+		this.datoA = datoA;
+	}
+	
+}
+
+class B extends A{
+	private String datoB = "bb";
+
+	public String getDatoB() {
+		return datoB;
+	}
+
+	public void setDatoB(String datoB) {
+		this.datoB = datoB;
+	}
+
+}
+
+*/
