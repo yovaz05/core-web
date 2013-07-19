@@ -773,22 +773,23 @@ public abstract class Assembler {
 		return fd.get(obj);
 	}
 
-	private  Field getField(Class clase, String att) throws NoSuchFieldException, SecurityException  {
+	private Field getField(Class clase, String att) {
+		System.out.println(clase.getName());
 		Field out = null;
-		try {
-			out = clase.getDeclaredField(att);
-			
-		} catch (Exception e) {
-			out = clase.getSuperclass().getDeclaredField(att);
+			try{
+				out = clase.getDeclaredField(att);
+				out.setAccessible(true);
+			} catch (NoSuchFieldException e) {
+				out = getField(clase.getSuperclass(), att);
+			}
+			return out;
 		}
-		out.setAccessible(true);
-		return out;
-	}
+
 
 	
 	
 	// hace un set de un atributo, si no puede prueba con la super clase (sólo una)
-	private  void setValue(Object obj, String att, Object value)
+	private void setValue(Object obj, String att, Object value)
 			throws Exception {
 		Field fd = getField(obj.getClass(), att);
 		fd.set(obj, value);
@@ -818,18 +819,18 @@ public abstract class Assembler {
 /*
 	public static void main(String[] args) {
 		try {
-			B b = new B();
+			C c = new C();
 			
-			System.out.println(Assembler.getValue(b, "datoA"));
-			Assembler.setValue(b, "datoA", "ccc");
-			System.out.println(Assembler.getValue(b, "datoA"));
+			System.out.println(Assembler.getValue(c, "datoA"));
+			Assembler.setValue(c, "datoA", "dd");
+			System.out.println(Assembler.getValue(c, "datoA"));
 			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	*/
+*/	
 
 }
 
@@ -860,4 +861,16 @@ class B extends A{
 
 }
 
+class C extends B{
+	private String datoC = "cc";
+
+	public String getDatoC() {
+		return datoC;
+	}
+
+	public void setDatoC(String datoC) {
+		this.datoC = datoC;
+	}
+
+}
 */
