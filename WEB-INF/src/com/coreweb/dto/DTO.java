@@ -30,7 +30,9 @@ public abstract class DTO  implements IiD , Comparable, Comparator{
 		return (this.id < 0);
 	}
 	
-	
+	public Class getDomainFromDTO(){
+		return null;
+	}
 	
 	
 	public boolean isEsNuevo() {
