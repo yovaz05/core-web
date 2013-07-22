@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
+import bsh.This;
+
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.IiD;
 import com.coreweb.domain.Register;
@@ -160,7 +162,7 @@ public abstract class Assembler {
 			throws Exception, NoSuchFieldException {
 		Object value = getValue(dom, atributo);
 		
-		System.out.println("Dom:" + dom + "" + dom.getClass().getName() +" atributo:" + atributo + " value" + value);
+		//System.out.println("Dom:" + dom + "" + dom.getClass().getName() +" atributo:" + atributo + " value" + value);
 
 		// ver si el objeto del dominio ya tiene el mismo valor seteado
 		if (value != null) {
@@ -467,7 +469,13 @@ public abstract class Assembler {
 			// si no esta en la BD pero hay que agregarlo, entonces primero lo
 			// creamos
 			if ((dAux == null) && (add == true)) {
-				dAux = (Domain) newInstance(tipoColeccion);
+								
+				try{
+					dAux = (Domain) newInstance(tipoColeccion);
+				}catch(InstantiationException ex){
+					DTO dAuxH = (DTO)mp;
+					dAux = (Domain) newInstance(dAuxH.getDomainFromDTO());
+				}				
 			}
 
 			if (add == true) {
@@ -774,7 +782,7 @@ public abstract class Assembler {
 	}
 
 	private Field getField(Class clase, String att) {
-		System.out.println(clase.getName());
+		//System.out.println(clase.getName());
 		Field out = null;
 			try{
 				out = clase.getDeclaredField(att);
