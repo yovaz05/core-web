@@ -1,5 +1,6 @@
 package com.coreweb.dto;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -502,7 +503,7 @@ public abstract class Assembler {
 
 							Class tipoColeccionAux = getTipoColeccion(dAux,
 									campo);
-
+							
 							// primero obtener las listas
 							Collection<Domain> listaDomAux = (Collection<Domain>) getValue(
 									dAux, campo);
@@ -777,8 +778,12 @@ public abstract class Assembler {
 
 	// hace un get de un atributo, si no puede prueba con la super clase (sólo una)
 	private  Object getValue(Object obj, String att) throws Exception {
-		Field fd = getField(obj.getClass(), att);
-		return fd.get(obj);
+		
+		Object v = new PropertyDescriptor(att, obj.getClass()).getReadMethod().invoke(obj);
+		return v;
+		
+		//Field fd = getField(obj.getClass(), att);
+		//return fd.get(obj);
 	}
 
 	private Field getField(Class clase, String att) {
@@ -799,8 +804,11 @@ public abstract class Assembler {
 	// hace un set de un atributo, si no puede prueba con la super clase (sólo una)
 	private void setValue(Object obj, String att, Object value)
 			throws Exception {
-		Field fd = getField(obj.getClass(), att);
-		fd.set(obj, value);
+		
+		new PropertyDescriptor(att, obj.getClass()).getWriteMethod().invoke(obj, value );
+
+		//Field fd = getField(obj.getClass(), att);
+		//fd.set(obj, value);
 	}
 
 

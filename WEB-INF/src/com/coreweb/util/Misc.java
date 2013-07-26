@@ -1,5 +1,6 @@
 package com.coreweb.util;
 
+import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -19,6 +20,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Messagebox;
 
@@ -913,6 +915,25 @@ public class Misc {
 	
 	public static void main(String[] args) {
 		try {
+			
+			B b2 = new B();
+			
+			//Object value3 = new PropertyDescriptor("name", B.class).getReadMethod().invoke(b2);
+			Object value4 = new PropertyDescriptor("name", B.class).getReadMethod().invoke(b2);
+			new PropertyDescriptor("name", B.class).getWriteMethod().invoke(b2,  "anda write" );
+			System.out.println(b2.getName());
+			value4 = new PropertyDescriptor("name", B.class).getReadMethod().invoke(b2);
+			System.out.println("---b2: "+value4);
+
+			if (true){
+				return;
+			}
+			B b1 = new B();
+			Object value1 = PropertyUtils.getProperty(b1, "name");
+			Object value2 = PropertyUtils.getProperty(b1, "nameA");
+			
+			System.out.println("---b1:"+value1+" - "+value2);
+			
 			Misc m = new Misc();
 			B b = new B();
 			String mm = (String) m.ejecutarMetoto(b, "metodoA");
@@ -929,11 +950,32 @@ public class Misc {
 
 class A {
 	
+
+	public void setNameA(String nameA) {
+		System.out.println("-- paso por set A");
+	}
+
+	public String getNameA(){
+		return "andoA";
+	}
+	
 	public String metodoA(){
 		return "Estoy en A";
 	}
 }
 
 class B extends A{
+	
+	String name = "pepe";
+	
+	public String getName(){
+		return name;
+	}
+
+	public void setName(String name) {
+		System.out.println("pasa:"+name+" - "+this.name+ this);
+		this.name = name;
+	}
+	
 	
 }
