@@ -768,15 +768,17 @@ public class Misc {
 		return false;
 	}
 
-	// Metodo que retorna el valor del Iva a partir de un valor gravado..
-	public double calcularIVA(double gravado, int porcentajeIva) {
-		return (gravado / (100 + porcentajeIva)) * porcentajeIva;
+	// Metodo que retorna el valor del Iva a partir de un valor iva incluido..
+	//  10 = calcularIVA(110,10)
+	public double calcularIVA(double ivaIncluido, int porcentajeIva) {
+		return (ivaIncluido / (100 + porcentajeIva)) * porcentajeIva;
 	}
 
 	// Metodo que retorna el valor Gravado sin Iva a partir de un valor Gravado
 	// iva incluido..
-	public double calcularGravado(double gravado, int porcentajeIva) {
-		return (gravado / (100 + porcentajeIva)) * 100;
+	//  100 = calcularIVA(110,10)
+	public double calcularGravado(double ivaIncluido, int porcentajeIva) {
+		return (ivaIncluido / (100 + porcentajeIva)) * 100;
 	}
 
 	// ejecuta el método de una clase
@@ -916,28 +918,12 @@ public class Misc {
 	public static void main(String[] args) {
 		try {
 			
-			B b2 = new B();
-			
-			//Object value3 = new PropertyDescriptor("name", B.class).getReadMethod().invoke(b2);
-			Object value4 = new PropertyDescriptor("name", B.class).getReadMethod().invoke(b2);
-			new PropertyDescriptor("name", B.class).getWriteMethod().invoke(b2,  "anda write" );
-			System.out.println(b2.getName());
-			value4 = new PropertyDescriptor("name", B.class).getReadMethod().invoke(b2);
-			System.out.println("---b2: "+value4);
-
-			if (true){
-				return;
-			}
-			B b1 = new B();
-			Object value1 = PropertyUtils.getProperty(b1, "name");
-			Object value2 = PropertyUtils.getProperty(b1, "nameA");
-			
-			System.out.println("---b1:"+value1+" - "+value2);
-			
 			Misc m = new Misc();
-			B b = new B();
-			String mm = (String) m.ejecutarMetoto(b, "metodoA");
-			System.out.println("Paso ["+mm+"]");
+			System.out.println(m.calcularIVA(150, 10));
+			System.out.println(m.calcularGravado(150, 10));
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
