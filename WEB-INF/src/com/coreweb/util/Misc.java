@@ -1,6 +1,5 @@
 package com.coreweb.util;
 
-import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -20,11 +19,10 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Random;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Messagebox;
 
-import com.coreweb.Config;
+
 
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
@@ -55,6 +53,7 @@ public class Misc {
 	public static String YYYY_MM_DD_HORA_MIN_SEG2 = "yyyy-MM-dd (H:m:s)";
 	public static String YYYY_MM_DD_HORA_MIN_SEG3 = "yyyy-MM-dd (HH:mm:ss)";
 	public static String YYYY_MM_DD_HORA_MIN_SEG_MIL = "yyyy-MM-dd_HH_mm_ss_S";
+	public static String D_MMMM_YYYY = "d 'de' MMMM 'del' yyyy";
 
 	public static String LABEL_BORDER = "border:1px solid; border-color:#54afcb; padding:2px";
 
