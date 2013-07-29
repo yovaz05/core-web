@@ -12,6 +12,7 @@
  		<property name="dbEstado" />
                <property name="key"/>
                 <property name="numero"/>
+                <property name="numeroHasta"/>
                 <property name="fecha"/>
                 <property name="descripcion"/>
                 	
