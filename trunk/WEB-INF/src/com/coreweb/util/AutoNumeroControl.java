@@ -14,6 +14,7 @@ public class AutoNumeroControl {
 	static Misc m = new Misc();
 	static long SIN_LIMITE = -1;
 	
+	
 	public synchronized static void setAutoNumero(String key, long ini, String descripcion) throws Exception {
 		setAutoNumero(key,  ini, SIN_LIMITE, descripcion);
 	}
@@ -48,6 +49,7 @@ public class AutoNumeroControl {
 			an = new AutoNumero();
 			an.setKey(key);
 			an.setNumero(out);
+			an.setNumeroHasta(SIN_LIMITE);
 			an.setDescripcion("auto generado");
 		}
 
