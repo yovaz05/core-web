@@ -833,7 +833,7 @@ public abstract class Assembler {
 		return obj;
 	}
 	
-	public static void main(String[] args) {
+	public static void xmain(String[] args) {
 		try {
 	
 		AgendaEventoDTO obj = new AgendaEventoDTO();
