@@ -11,6 +11,9 @@ import bsh.This;
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.IiD;
 import com.coreweb.domain.Register;
+import com.coreweb.extras.agenda.AgendaEventoDTO;
+import com.coreweb.extras.agenda.AgendaEventoDetalleDTO;
+import com.coreweb.util.Misc;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
 
@@ -777,7 +780,7 @@ public abstract class Assembler {
 	}
 
 	// hace un get de un atributo, si no puede prueba con la super clase (sólo una)
-	private  Object getValue(Object obj, String att) throws Exception {
+	private Object getValue(Object obj, String att) throws Exception {
 		
 		Object v = new PropertyDescriptor(att, obj.getClass()).getReadMethod().invoke(obj);
 		return v;
@@ -830,7 +833,23 @@ public abstract class Assembler {
 		return obj;
 	}
 	
+	public static void main(String[] args) {
+		try {
 	
+		AgendaEventoDTO obj = new AgendaEventoDTO();
+		String att = "agendaEventoDetalles";
+		
+		System.out.println("=======================================================");
+		System.out.println("Obj------> "+obj.getClass().getName()+"- Att------->"+att);
+		System.out.println("=======================================================");
+		Object v = new PropertyDescriptor(att, obj.getClass()).getReadMethod().invoke(obj);
+		System.out.println("Resultado---->"+v);
+		
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 /*
 	public static void main(String[] args) {
