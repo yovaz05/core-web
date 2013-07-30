@@ -27,10 +27,16 @@ import org.zkoss.zul.Messagebox;
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
 
+
+
+
+
+
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jme.Monto;
 
 public class Misc {
 
@@ -887,6 +893,44 @@ public class Misc {
 			System.out.println("[Misc] No existe:" + archivo);
 		}
 	}
+	
+	//Convierte un numero a su equivalente en Letras rango (0 a 999999999999)..
+	public String numberToLetter(Object numero){
+		String out = "";
+		
+		try {
+			if (numero instanceof Integer) {
+				out = Monto.aLetras(numero.toString());
+				
+			} else if (numero instanceof Long) {
+				out = Monto.aLetras(numero.toString());
+				
+			} else if (numero instanceof Double) {				
+				
+				DecimalFormat f = new DecimalFormat("##0.00");		
+				String valor = f.format(numero);
+				int index = valor.lastIndexOf(",");
+				String entero = valor.substring(0, index);
+				String decimal = valor.substring(index + 1);
+				
+				if (decimal.compareTo("00") != 0) {
+					out = Monto.aLetras(entero) + decimal + "/100";					
+				} else {
+					out = Monto.aLetras(entero);
+				}				
+				
+			} else if (numero instanceof String) {
+				out = Monto.aLetras((String) numero);
+				
+			} else {
+				throw new Exception("El tipo de dato no es un número");
+			}		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		return out;
+	}
+	
 
 	public static void Xmain(String[] args) {
 		double d = 10.1;
@@ -918,10 +962,10 @@ public class Misc {
 		try {
 			
 			Misc m = new Misc();
-			System.out.println(m.calcularIVA(150, 10));
-			System.out.println(m.calcularGravado(150, 10));
+			Double d = 999999999999.245;
 			
 			
+			System.out.println(m.numberToLetter(d));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
