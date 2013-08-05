@@ -2,6 +2,7 @@ package com.coreweb.componente;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.ExecutionParam;
 import org.zkoss.bind.annotation.Init;
+
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
@@ -25,6 +27,7 @@ import org.zkoss.zul.Row;
 import org.zkoss.zul.Rows;
 import org.zkoss.zul.Vlayout;
 import org.zkoss.zul.Window;
+import org.zkoss.zul.Caption;
 
 import com.coreweb.Archivo;
 import com.coreweb.util.Misc;
@@ -41,6 +44,7 @@ public class BodyPopupAceptarCancelar {
 	String widthColumnLabel = "100px";
 	
 	List<Pair> listaComponentes = new ArrayList<Pair>();
+	List<Component> listaToolBar = new ArrayList<Component>();
 	
 	VerificaAceptarCancelar checkAC = null;
 	
@@ -105,6 +109,11 @@ public class BodyPopupAceptarCancelar {
 		this.listaComponentes.add(p);
 	}
 	
+	public void addToolBarComponente(Component c) {
+		this.listaToolBar.add(c);
+	}
+	
+	
 	public void addLabel(String texto){
 		this.addComponente(texto,null);
 	}
@@ -153,6 +162,7 @@ public class BodyPopupAceptarCancelar {
 		Window window = (Window) Executions.createComponents(
 				Archivo.PopupAceptarCancelar, null, map);
 		
+		addToolBarComponents(window);
 		
 		Vlayout v = (Vlayout)window.getFellow("cuerpo");
 		
@@ -181,6 +191,7 @@ public class BodyPopupAceptarCancelar {
 		
 		Window window = (Window) Executions.createComponents(
 				Archivo.PopupAceptarCancelar, null, map);
+		addToolBarComponents(window);
 		Vlayout v = (Vlayout)window.getFellow("cuerpo");
 
 		
@@ -226,6 +237,13 @@ public class BodyPopupAceptarCancelar {
 	}
 
 	
+	private void addToolBarComponents(Window w){
+		Caption cap = (Caption) w.getFellow("captionPopup");
+		for (Iterator iterator = this.listaToolBar.iterator(); iterator.hasNext();) {
+			Component c = (Component) iterator.next();
+			cap.getChildren().add(c);
+		}
+	}
 	
 	
 	public boolean isClickAceptar(){

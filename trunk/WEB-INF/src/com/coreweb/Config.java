@@ -52,9 +52,15 @@ public class Config {
 		}
 		DIRECTORIO_WEB_REPORTES = DIRECTORIO_BASE_WEB + REPORTES;
 		DIRECTORIO_REAL_REPORTES = DIRECTORIO_BASE_REAL +  REPORTES;
-		
-	
 	}
 	
 
+	public static String DATO_SOLO_VIEW_MODEL = "dato";
+	public static String WINDOW_POPUP = "windowsPopUp";
+	public static String MODO_SOLO_VIEW_MODEL = "modo";
+	public static String MODO_DISABLE = "disable";
+	public static String MODO_NO_DISABLE = "si-editable";
+	public static String MODO_EDITABLE = "editar-si-tiene-permisos";
+	
+	
 }
