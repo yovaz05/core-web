@@ -1,56 +1,104 @@
 package com.coreweb.componente;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Vlayout;
 
+import com.coreweb.Config;
+import com.coreweb.control.DisableEnableComponent;
+import com.coreweb.control.GenericViewModel;
+import com.coreweb.control.SoloViewModel;
+
+
 public class WindowPopup {
 
+	//----- Window PopUp ------------------------
 	// empieza editable
-	public static int NUEVO = 1;
+	public static String NUEVO = "-NUEVO-";
 	// no editable
-	public static int SOLO_LECTURA = 2;
+	public static String SOLO_LECTURA = "-SOLOLECTURA-";
 	// si tiene permiso, habilita el boton de edicion
-	public static int EDITABLE = 3;
+	public static String EDITABLE = "-EDITABLE-";
 
-	// Habre sin el toolbar
-	public static int SIN_TOOLBAR = 4;
-	
-	
-	public final static String DATO_NAME = "dato";
+	// Habre sin el toolbar general (ojo, puede tener algo propio del formulario)
+	public static String SIN_TOOLBAR = "-SINTOOLBAR-";
+	//---------------------------------------------
+
 	
 	
 	private VerificaAceptarCancelar checkAC = null;
 	private Object dato = null;
 	private String titulo = "Titulo";
-	private int modo = 0;
+	private String modo = "";
 	private String width = "100px";
 	private String higth = "300px";
 	
 	private boolean clickAceptar = false;
 	
+	List<Component> listaToolBar = new ArrayList<Component>();
+	Label lmodo = new Label("-sin definir-");
+	Button bEdit = new Button("Editar");
+
 	
+	SoloViewModel vm;
+	
+	public SoloViewModel getVm() {
+		return vm;
+	}
+
+
+	public void setVm(SoloViewModel vm) {
+		this.vm = vm;
+	}
+
+
 	public void show(String zul) throws Exception{
 
-
+		String modoTxt = "--no definido--";
+		boolean bEditDisable = false;
+		boolean siBotonEdit = true;
+		
 		Vlayout vl = new Vlayout();
 
-		if (this.modo == SIN_TOOLBAR){
-			// no pone el tool bar
-		}else{
-			// hacer el toolbar
-			Button bEdit = new Button();
-			bEdit.setLabel("Edit");
-			// definir el listener
-			vl.getChildren().add(bEdit);
-		}
-		
-	
-		
 		Include inc = new Include();
 		inc.setSrc(zul);
+		
+		// Para tener una referencia del VM que tiene
+		inc.setDynamicProperty(Config.WINDOW_POPUP, this);
+		
+		// Solo lectura
+		if (this.modo.indexOf(SOLO_LECTURA)>=0){
+			inc.setDynamicProperty(Config.MODO_SOLO_VIEW_MODEL, Config.MODO_DISABLE);
+			modoTxt = "Solo lectura";
+			siBotonEdit = false;
+			bEditDisable = true;
+		}
+		// Es nuevo
+		if (this.modo.indexOf(NUEVO)>=0){
+			inc.setDynamicProperty(Config.MODO_SOLO_VIEW_MODEL, Config.MODO_NO_DISABLE);
+			modoTxt = "Editable";
+			siBotonEdit = false;
+			bEditDisable = true;
+		}
+		// Es editable
+		if (this.modo.indexOf(EDITABLE)>=0){
+			inc.setDynamicProperty(Config.MODO_SOLO_VIEW_MODEL, Config.MODO_EDITABLE);
+			modoTxt = "Solo lectura";
+			siBotonEdit = true;
+			bEditDisable = true;
+		}
+		
 		if (this.dato != null){
-			inc.setDynamicProperty(DATO_NAME, this.dato);
+			inc.setDynamicProperty(Config.DATO_SOLO_VIEW_MODEL, this.dato);
 		}
 		
 		
@@ -58,16 +106,39 @@ public class WindowPopup {
 		vl.getChildren().add(inc);
 		
 		BodyPopupAceptarCancelar b = new BodyPopupAceptarCancelar();
+
+		// Tool bar
+		if ((this.modo.indexOf(SIN_TOOLBAR)<0)&&(siBotonEdit==true)){
+			lmodo.setValue("("+modoTxt+") ");
+			b.addToolBarComponente(lmodo);
+			
+			bEdit.setDisabled(bEditDisable);
+			b.addToolBarComponente(bEdit);
+			bEdit.addEventListener(Events.ON_CLICK, new BotonEditarListener(this,lmodo));
+		}
+		
 		b.addComponente("vlayout", vl);
 		b.setWidthWindows(this.width);
 		b.setHighWindows(this.higth);
 		b.setCheckAC(this.getCheckAC());
-	
 
 		b.showPopupUnaColumna(this.titulo);
 		this.clickAceptar = b.isClickAceptar();
 	}	
 	
+	
+	public void permitirEditar(boolean value){
+		if (value == true){
+			this.bEdit.setDisabled(false);
+		}else{
+			this.bEdit.setDisabled(true);
+		}
+	}
+	
+	
+	public void addToolBarComponente(Component c) {
+		this.listaToolBar.add(c);
+	}
 	
 	public boolean isClickAceptar() {
 		return clickAceptar;
@@ -87,10 +158,10 @@ public class WindowPopup {
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	public int getModo() {
+	public String getModo() {
 		return modo;
 	}
-	public void setModo(int modo) {
+	public void setModo(String modo) {
 		this.modo = modo;
 	}
 
@@ -124,5 +195,34 @@ public class WindowPopup {
 		this.checkAC = checkAC;
 	}
 
+
+}
+
+class BotonEditarListener implements EventListener {
+
+	WindowPopup wpu;
+	Label lmodo;
+	// DisableEnableComponent disableEnableComponent = new DisableEnableComponent(new SoloViewModel());
+	
+	
+	public BotonEditarListener(WindowPopup wpu, Label lmodo){
+		this.wpu = wpu;
+		this.lmodo = lmodo;
+	}
+	
+	@Override
+	public void onEvent(Event arg0) throws Exception {
+		SoloViewModel vm = this.wpu.getVm();
+		if (vm != null){
+			vm.restoreAllDisabledComponents();
+			this.lmodo.setValue("(Editable) ");
+		}else{
+			// this.disableEnableComponent.restoreComponents(null);
+			throw new Exception("No está definido el SoloViewModel del WindowPopUp ["+this.wpu.getTitulo()+"]");
+		}
+	}
+	
 	
 }
+
+

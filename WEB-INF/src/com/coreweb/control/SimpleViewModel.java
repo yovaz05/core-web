@@ -15,18 +15,17 @@ public abstract class SimpleViewModel extends GenericViewModel {
 
 	
 	@Init(superclass = true)
-	public void initSimpleViewModel(@ContextParam(ContextType.EXECUTION) Execution execution){
+	public void initSimpleViewModel(@ContextParam(ContextType.EXECUTION) Execution execution){		
 		String aliasForm = (String) execution.getAttribute("aliasForm");
 		String labelF = this.getUs().formLabel(aliasForm);
 		this.setTextoFormularioCorriente(labelF);
-		this.setAliasFormularioCorriente(aliasForm);	
+		this.setAliasFormularioCorriente(aliasForm);
 	}
 	
+
 	@AfterCompose(superclass = true)
 	public void afterComposeSimpleViewModel(){
-		this.addCamposObligotorios(this.mainComponent);
-		
-		
+		this.addCamposObligotorios(this.mainComponent);	
 	}
 	
 	

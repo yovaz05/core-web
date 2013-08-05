@@ -123,7 +123,7 @@ public class CSV {
 	 */
 	private void detalle() throws Exception {
 		String[] ll;
-		double[] verificar; // ir guardando los totales
+		float[] verificar; // ir guardando los totales
 		int[] numericos; // si 0 NO numerico, si 1 ES numerico
 		String[] arrayTipos;
 
@@ -132,7 +132,7 @@ public class CSV {
 		String[] detalleCabecera = ll; // una copia de ll para no perder la
 										// cabecera detalle
 		arrayTipos = new String[ll.length];
-		verificar = new double[ll.length];
+		verificar = new float[ll.length];
 		numericos = new int[ll.length];
 
 		// busca los tipos de los campos del detalle
@@ -177,7 +177,7 @@ public class CSV {
 						if (ll[i].trim().compareTo("")==0){
 							ll[i] = "0";
 						}
-						double valor = Double.parseDouble(ll[i]);
+						float valor = parserNumero(ll[i]);
 						verificar[i] = verificar[i] + valor;
 					}
 				}
@@ -192,15 +192,17 @@ public class CSV {
 		for (int k = 0; k < ll.length; k++) {
 			String tipoVariable = arrayTipos[k];
 			if (tipoVariable.compareTo(CSV.NUMERICO) == 0) {
-				double numero = Double.parseDouble(ll[k]);
-				double numeroControl =  verificar[k];
-				double dife = numero - numeroControl;
+				float numero = parserNumero(ll[k]);
+				float numeroControl =  verificar[k];
+				float dife = numero - numeroControl;
 				
 				
 				if ( (dife * dife) > 0.00001  ) {
-					throw new Exception("Error en la suma de la columna: "
+					String txtEx = "Error en la suma de la columna: "
 							+ detalleCabecera[k] + ". Deberia ser "
-							+ verificar[k] + " y no " + numero);
+							+ verificar[k] + " y no " + numero;
+					System.out.println("** control deshabilitad: "+txtEx);					
+					//throw new Exception(txtEx);
 				}
 			}
 		}
@@ -246,12 +248,30 @@ public class CSV {
 			break;
 		case CSV.NUMERICO:
 			try {
+				out = parserNumero(valor);
+				valido = true;
+			} catch (Exception nfe) {
+					valido = false;
+			}
+			break;
+			/*
+		case CSV.NUMERICO:
+			try {
 				out = Double.parseDouble(valor);
 				valido = true;
 			} catch (NumberFormatException nfe) {
-				valido = false;
+				try {
+					String valor2 = valor.replace(',', '.');
+					System.out.println("valor:"+valor2+" - "+valor);
+					out = Double.parseDouble(valor2);
+					valido = true;
+				} catch (NumberFormatException nfe2) {
+					nfe2.printStackTrace();
+					valido = false;
+				}
 			}
 			break;
+			*/
 		default:
 			valido = false;
 			break;
@@ -304,9 +324,12 @@ public class CSV {
 	}
 
 	public double getDetalleDouble(String cadena) throws Exception {
-		double out = (double) this.getDetalle(cadena);
+		float outf = (float) this.getDetalle(cadena);
+		double out = outf + 0;
 		return out;
 	}
+
+
 
 	public void start() {
 		this.ite = this.contenidoDetalle.iterator();
@@ -377,6 +400,24 @@ public class CSV {
 
 	}
 
+	float parserNumero(String dato) throws Exception {
+		float out = 0;
+		try {
+			out = Float.parseFloat(dato);
+		} catch (Exception e) {
+			dato = dato.replace(',','.');
+			try {
+				out = Float.parseFloat(dato);
+			} catch (Exception e2) {
+				throw new Exception("No pudo parserar ["+dato+"]");
+			}
+		}
+		
+		
+		return out;
+	}
+	
+	
 	
 	private static void printLog(String dato){
 		if(debug == true){

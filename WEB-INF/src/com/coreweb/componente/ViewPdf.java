@@ -25,6 +25,7 @@ public class ViewPdf {
 	
 	private String anchoWindows = "800px";
 	private String altoWindows = "600px";
+	private String altoReporte = "550px";
 	
 	private Window w;
 	private DatosReporte reporte;
@@ -67,6 +68,7 @@ public class ViewPdf {
 		map.put("pdf", urlPdf);	
 		map.put("anchoWindows", this.getAnchoWindows());	
 		map.put("altoWindows", this.getAltoWindows());	
+		map.put("altoReporte", this.getAltoReporte());	
 		
 
 		
@@ -96,6 +98,14 @@ public class ViewPdf {
 	
 	//=========================== Cuando es viewModel ====================
 	
+	public String getAltoReporte() {
+		return altoReporte;
+	}
+
+	public void setAltoReporte(String altoReporte) {
+		this.altoReporte = altoReporte;
+	}
+
 	@Init(superclass = true)
 	public void initViewPdf(@ExecutionArgParam("reporte") DatosReporte reporte){
 		this.reporte = reporte;
