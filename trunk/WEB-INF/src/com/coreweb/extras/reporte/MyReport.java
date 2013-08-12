@@ -111,22 +111,31 @@ public class MyReport {
 			rep.addSummary(this.footer);
 
 			
+			
+			List<ColumnGroupBuilder> lGr = new ArrayList<ColumnGroupBuilder>();
+			
+			
 			for (Iterator iterator = cabecera.getColumnas().iterator(); iterator
 					.hasNext();) {
+				
 				DatosColumnas dc = (DatosColumnas) iterator.next();
 				TextColumnBuilder tx = dc.getColumnBuilder();
-				rep.addColumn(tx);
-				if (dc.isTotaliza() == true) {
-					rep.subtotalsAtSummary(sbt.sum(tx));
-				}
-
+				
 				if (dc.isAgrupar() == true) {
-					ColumnGroupBuilder grupo = grp.group(tx)
-							.setTitleWidth(30)
-							.setHeaderLayout(GroupHeaderLayout.TITLE_AND_VALUE).showColumnHeaderAndFooter();
-					rep.groupBy(grupo);
+					ColumnGroupBuilder grupo = grp.group(tx);
+							//.setTitleWidth(100)
+							//.setHeaderLayout(GroupHeaderLayout.TITLE_AND_VALUE).showColumnHeaderAndFooter();
+					lGr.add(grupo);
+				}else{
+					rep.addColumn(tx);
+					if (dc.isTotaliza() == true) {
+						rep.subtotalsAtSummary(sbt.sum(tx));
+					}
 				}
-
+			}
+			// los grupos
+			for (ColumnGroupBuilder gr : lGr) {
+				rep.groupBy(gr);
 			}
 			
 

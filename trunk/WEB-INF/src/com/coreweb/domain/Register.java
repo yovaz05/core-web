@@ -192,11 +192,22 @@ public class Register {
 		}
 	}
 
+	
 	public synchronized List getObjects(String entityName) throws Exception {
 		return getObjects(entityName, new Vector(), new Vector(), -1, -1);
 		// return getObject_Real(entityName, rest, orders, -1, -1);
 	}
 
+	public synchronized List getObjects(String entityName, String campo, Object value) throws Exception {
+		
+		Vector v = new Vector();
+		v.add(Restrictions.eq(campo, value));
+		
+		return getObjects(entityName, v, new Vector(), -1, -1);
+		// return getObject_Real(entityName, rest, orders, -1, -1);
+	}
+
+	
 	protected synchronized List getObjects(String entityName, Vector rest,
 			Vector orders) throws Exception {
 		return getObjects(entityName, rest, orders, -1, -1);

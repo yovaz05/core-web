@@ -42,6 +42,7 @@ public abstract class DatosReporte {
 		
 	
 	public static final PageType A4 = PageType.A4;
+	public static final PageType A5 = PageType.A5;
 	public static final PageType LEGAL = PageType.LEGAL;
 	public static final PageType OFICIO = PageType.FLSA;
 
@@ -86,7 +87,11 @@ public abstract class DatosReporte {
 	public void setA4(){
 		this.tipoPagina = A4;
 	}
-	
+
+	public void setA5(){
+		this.tipoPagina = A5;
+	}
+
 	public void setLegal(){
 		this.tipoPagina = LEGAL;
 	}

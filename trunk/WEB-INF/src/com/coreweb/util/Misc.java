@@ -606,13 +606,25 @@ public class Misc {
 
 	}
 
-	public int numeroRandom(int maximo) {
-		Random rand = new Random(System.currentTimeMillis());
-		int v = rand.nextInt(maximo);
+	private static long seed = System.currentTimeMillis();
+	private static Random rand = new Random(seed);
+	
+	synchronized public int numeroRandom(int maximo) {
+		int v = 0;
+		synchronized (rand){
+			v = rand.nextInt(maximo);
+		}
 		return v;
-
 	}
 
+	synchronized public String numeroRandomCero(int maximo) {
+		String l = maximo+"";
+		int v = numeroRandom(maximo);
+		String out = "0000000000"+v;
+		return out.substring(out.length()-l.length());
+	}
+
+	
 	public boolean containsOnlyNumbersAndPercent(String str) {
 
 		// It can't contain only numbers if it's null or empty...
@@ -963,6 +975,11 @@ public class Misc {
 		try {
 			
 			Misc m = new Misc();
+			
+			
+			System.out.println(m.numeroRandomCero(99999999));
+			System.out.println(m.numeroRandomCero(99999999));
+			
 			Double d = 999999999999.245;
 			
 			
