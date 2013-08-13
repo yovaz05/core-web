@@ -41,6 +41,7 @@ public class MyReport {
 	//JasperPdfExporterBuilder pdfExporter;
 	boolean landscape = false;
 	PageType tipoPagina = PageType.A4;
+	boolean putFooter = true;
 
 	String titulo;
 	String archivo;
@@ -106,7 +107,10 @@ public class MyReport {
 
 			rep.addTitle(this.body);
 
-			rep.pageFooter(Templates.footerComponent);
+			if(this.isPutFooter() == true){
+				rep.pageFooter(Templates.footerComponent);
+			}
+			
 			rep.setDataSource(createDataSource(cabecera.getColumnasDS(), datos));
 			rep.addSummary(this.footer);
 
@@ -200,6 +204,14 @@ public class MyReport {
 
 	public void setFormato(String exportPdf) {
 		tipoFormato = exportPdf;
+	}
+
+	public boolean isPutFooter() {
+		return putFooter;
+	}
+
+	public void setPutFooter(boolean putFooter) {
+		this.putFooter = putFooter;
 	}
 
 }
