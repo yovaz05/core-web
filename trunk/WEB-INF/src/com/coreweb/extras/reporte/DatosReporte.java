@@ -59,6 +59,7 @@ public abstract class DatosReporte {
 	private String directorio = "";
 	private String nombreArchivo = "";
 	private boolean apaisada = false;
+	private boolean putFoot = true;
 	private PageType tipoPagina = A4;
 	
 	private boolean borrarDespuesDeVer = true;
@@ -69,7 +70,15 @@ public abstract class DatosReporte {
 	public DatosReporte() {
 	}
 
+	public void putFoot(boolean b){
+		this.putFoot = b;
+	}
 	
+	
+	public boolean isPutFoot() {
+		return putFoot;
+	}
+
 	public void setTitulosColumnas(List<DatosColumnas> columnas ){
 		cr = new CabeceraReporte();
 		cr.setColumnas(columnas);
@@ -188,6 +197,7 @@ public abstract class DatosReporte {
 		String pathCompleto = this.getArchivoPathReal();
 
 		MyReport reporte = new MyReport(cr, body, footer, data, empresa, titulo, usuario, pathCompleto);
+		reporte.setPutFooter(this.isPutFoot());
 		reporte.setFormato(DatosReporte.EXPORT_PDF);
 		reporte.setLandscape(this.apaisada);
 		reporte.show(mostrar);
