@@ -1,8 +1,11 @@
 package com.coreweb.util;
 
-import com.coreweb.domain.IiD;
+import java.util.Comparator;
 
-public abstract class MyAuxObject implements IiD {
+import com.coreweb.domain.IiD;
+import com.coreweb.dto.DTO;
+
+public abstract class MyAuxObject implements IiD , Comparable, Comparator{
 	
 	
 	private static long ID_NUEVO  = -1;
@@ -56,4 +59,28 @@ public abstract class MyAuxObject implements IiD {
 		
 		return out;
 	}
+	
+	
+	@Override
+	public int compare(Object ob1, Object ob2) {
+		MyAuxObject o1 = (MyAuxObject) ob1;
+		MyAuxObject o2 = (MyAuxObject) ob2;
+		
+		int out = 0;
+		long idnuevo = -1;
+		long idO1 = o1.getId().longValue();
+		long idO2 = o2.getId().longValue();
+		
+		
+		if ((idO1 == idnuevo)&&(idO2 != idnuevo)) {
+			out = 1;
+		} else if ((idO1 != idnuevo)&&(idO2 == idnuevo)) {
+			out = -1;
+		}else{
+			out = (int) (idO1 - idO2);
+		}
+
+		return out;
+	}
+
 }
