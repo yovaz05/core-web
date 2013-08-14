@@ -34,7 +34,7 @@ public class BuscarElemento {
 	Object[] unDato;
 
 	Listbox listbox = new Listbox();
-	BodyPopupAceptarCancelar bpac = new BodyPopupAceptarCancelar();
+	BodyPopupAceptarCancelar bpac = null;
 	
 	public void show(String dato) throws Exception {
 		
@@ -130,7 +130,14 @@ public class BuscarElemento {
 			}
 		});
 
-		
+		this.showAgain();
+
+	}
+	
+
+	
+	public void showAgain(){
+		bpac = new BodyPopupAceptarCancelar();
 		listbox.addEventListener(Events.ON_DOUBLE_CLICK, new ListboxEventListener(bpac));
 		
 		bpac.addComponente("Buscar", listbox);
@@ -139,6 +146,8 @@ public class BuscarElemento {
 		bpac.showPopupUnaColumna(this.titulo);
 
 	}
+	
+	
 
 	protected void refreshModeloListbox() throws Exception {
 		
