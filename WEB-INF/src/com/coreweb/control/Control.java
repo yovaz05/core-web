@@ -479,7 +479,7 @@ public class Control {
 
 		if (this.getDtoUtil() == null) {
 			try {
-
+				
 				synchronized (Config.INIT_CLASE) {
 					Config.INIT_CLASE = Config.INIT_CLASE.replace("?", prefix);
 				}
