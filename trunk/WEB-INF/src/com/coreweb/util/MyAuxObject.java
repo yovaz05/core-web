@@ -44,5 +44,16 @@ public abstract class MyAuxObject implements IiD {
 		}
 		return b;
 	}
-
+	
+	public int compareTo(Object compareObject){
+		int out = -1;
+		MyAuxObject aux = (MyAuxObject)compareObject;
+	    if ((this.getId().longValue() == 0)&&(aux.getId().longValue() == 0)){
+		    out = this.toString().compareTo(compareObject.toString());
+	    }else{
+	    	out = (int)(this.getId().longValue() - aux.getId().longValue());
+	    }
+		
+		return out;
+	}
 }
