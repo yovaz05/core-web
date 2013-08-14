@@ -5,7 +5,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
-
 import bsh.This;
 
 import com.coreweb.domain.Domain;
@@ -44,7 +43,7 @@ public abstract class Assembler {
 
 	// *************************************************************************************
 	// *************************************************************************************
-	
+
 	public List<MyPair> listaSiNo() {
 		List<MyPair> lImpo = new ArrayList<MyPair>();
 
@@ -146,15 +145,15 @@ public abstract class Assembler {
 	// *************************************************************************************
 	public void myPairToDomain(DTO dto, Domain dom, String atributo)
 			throws Exception {
-		this.myPairToDomain(dto, dom,atributo, false);
-		
+		this.myPairToDomain(dto, dom, atributo, false);
+
 	}
-	
-	public void myPairToDomain(DTO dto, Domain dom, String atributo, boolean ignorarNuevo)
-			throws Exception {
+
+	public void myPairToDomain(DTO dto, Domain dom, String atributo,
+			boolean ignorarNuevo) throws Exception {
 
 		MyPair mp = (MyPair) getValue(dto, atributo);
-		if ((mp == null)||((mp.esNuevo()==true)&&(ignorarNuevo == true))) {
+		if ((mp == null) || ((mp.esNuevo() == true) && (ignorarNuevo == true))) {
 			// no tiene nada seteado, entonces retorna
 			return;
 		}
@@ -165,8 +164,9 @@ public abstract class Assembler {
 	protected void myPairToDomain(IiD mp, Domain dom, String atributo)
 			throws Exception, NoSuchFieldException {
 		Object value = getValue(dom, atributo);
-		
-		//System.out.println("Dom:" + dom + "" + dom.getClass().getName() +" atributo:" + atributo + " value" + value);
+
+		// System.out.println("Dom:" + dom + "" + dom.getClass().getName()
+		// +" atributo:" + atributo + " value" + value);
 
 		// ver si el objeto del dominio ya tiene el mismo valor seteado
 		if (value != null) {
@@ -263,18 +263,26 @@ public abstract class Assembler {
 		return mp;
 	}
 
+	public MyPair createMyPair(Domain dom, String campo) throws Exception {
+		MyPair mp = new MyPair();
+		mp.setId(dom.getId());
+
+		Object valor = getValue(dom, campo);
+		mp.setText(valor+"");
+
+		return mp;
+	}
 
 	public void myArrayToDomain(DTO dto, Domain dom, String atributo)
 			throws Exception {
 		myArrayToDomain(dto, dom, atributo, false);
 	}
-	
-	
-	public void myArrayToDomain(DTO dto, Domain dom, String atributo, boolean ignorarNuevo)
-			throws Exception {
+
+	public void myArrayToDomain(DTO dto, Domain dom, String atributo,
+			boolean ignorarNuevo) throws Exception {
 
 		MyArray mp = (MyArray) getValue(dto, atributo);
-		if ((mp == null)||( (mp.esNuevo()==true)&&(ignorarNuevo == true))) {
+		if ((mp == null) || ((mp.esNuevo() == true) && (ignorarNuevo == true))) {
 			// no tiene nada seteado, entonces retorna
 			return;
 		}
@@ -473,13 +481,13 @@ public abstract class Assembler {
 			// si no esta en la BD pero hay que agregarlo, entonces primero lo
 			// creamos
 			if ((dAux == null) && (add == true)) {
-								
-				try{
+
+				try {
 					dAux = (Domain) newInstance(tipoColeccion);
-				}catch(InstantiationException ex){
-					DTO dAuxH = (DTO)mp;
+				} catch (InstantiationException ex) {
+					DTO dAuxH = (DTO) mp;
 					dAux = (Domain) newInstance(dAuxH.getDomainFromDTO());
-				}				
+				}
 			}
 
 			if (add == true) {
@@ -506,7 +514,7 @@ public abstract class Assembler {
 
 							Class tipoColeccionAux = getTipoColeccion(dAux,
 									campo);
-							
+
 							// primero obtener las listas
 							Collection<Domain> listaDomAux = (Collection<Domain>) getValue(
 									dAux, campo);
@@ -535,7 +543,7 @@ public abstract class Assembler {
 									+ tipo + ") en " + tipoColeccion.getName()
 									+ " con id:" + mp.getId() + "");
 				}
-				
+
 				rr.saveObject(dAux);
 				mp.setId(dAux.getId());
 			}
@@ -697,14 +705,11 @@ public abstract class Assembler {
 
 	}
 
-	
-	
 	// **********************************************************************
 
 	// Para que un error en algun maping de atributos no haga que deje de
 	// funcionar otras partes...
-	public void utilDomainToListaMyPair(DTO dto, String atributo,
-			String entidad) {
+	public void utilDomainToListaMyPair(DTO dto, String atributo, String entidad) {
 		try {
 			this.domainToListaMyPair(dto, atributo, entidad);
 		} catch (Exception e) {
@@ -756,16 +761,13 @@ public abstract class Assembler {
 
 	}
 
-
-	
-	public DTO getDto(String entityName, IiD id) throws Exception{
+	public DTO getDto(String entityName, IiD id) throws Exception {
 		Register r = Register.getInstance();
-		Domain d =  r.getObject(entityName, id.getId());
+		Domain d = r.getObject(entityName, id.getId());
 		DTO dto = this.domainToDto(d);
 		return dto;
 	}
-	
-	
+
 	// *************************************************************************************
 	// *************************************************************************************
 	// *************************************************************************************
@@ -779,43 +781,42 @@ public abstract class Assembler {
 		return entidad;
 	}
 
-	// hace un get de un atributo, si no puede prueba con la super clase (sólo una)
+	// hace un get de un atributo, si no puede prueba con la super clase (sólo
+	// una)
 	private Object getValue(Object obj, String att) throws Exception {
-		
-		Object v = new PropertyDescriptor(att, obj.getClass()).getReadMethod().invoke(obj);
+
+		Object v = new PropertyDescriptor(att, obj.getClass()).getReadMethod()
+				.invoke(obj);
 		return v;
-		
-		//Field fd = getField(obj.getClass(), att);
-		//return fd.get(obj);
+
+		// Field fd = getField(obj.getClass(), att);
+		// return fd.get(obj);
 	}
 
 	private Field getField(Class clase, String att) {
-		//System.out.println(clase.getName());
+		// System.out.println(clase.getName());
 		Field out = null;
-			try{
-				out = clase.getDeclaredField(att);
-				out.setAccessible(true);
-			} catch (NoSuchFieldException e) {
-				out = getField(clase.getSuperclass(), att);
-			}
-			return out;
+		try {
+			out = clase.getDeclaredField(att);
+			out.setAccessible(true);
+		} catch (NoSuchFieldException e) {
+			out = getField(clase.getSuperclass(), att);
 		}
-
-
-	
-	
-	// hace un set de un atributo, si no puede prueba con la super clase (sólo una)
-	private void setValue(Object obj, String att, Object value)
-			throws Exception {
-		
-		new PropertyDescriptor(att, obj.getClass()).getWriteMethod().invoke(obj, value );
-
-		//Field fd = getField(obj.getClass(), att);
-		//fd.set(obj, value);
+		return out;
 	}
 
+	// hace un set de un atributo, si no puede prueba con la super clase (sólo
+	// una)
+	private void setValue(Object obj, String att, Object value)
+			throws Exception {
 
-	
+		new PropertyDescriptor(att, obj.getClass()).getWriteMethod().invoke(
+				obj, value);
+
+		// Field fd = getField(obj.getClass(), att);
+		// fd.set(obj, value);
+	}
+
 	// obtiene el tipo generico de una coleccion
 	private Class getTipoColeccion(Object obj, String att) throws Exception {
 		Field fd = this.getField(obj.getClass(), att);
@@ -832,80 +833,62 @@ public abstract class Assembler {
 		Object obj = ctor.newInstance();
 		return obj;
 	}
-	
+
 	public static void xmain(String[] args) {
 		try {
-	
-		AgendaEventoDTO obj = new AgendaEventoDTO();
-		String att = "agendaEventoDetalles";
-		
-		System.out.println("=======================================================");
-		System.out.println("Obj------> "+obj.getClass().getName()+"- Att------->"+att);
-		System.out.println("=======================================================");
-		Object v = new PropertyDescriptor(att, obj.getClass()).getReadMethod().invoke(obj);
-		System.out.println("Resultado---->"+v);
-		
-		
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-/*
-	public static void main(String[] args) {
-		try {
-			C c = new C();
-			
-			System.out.println(Assembler.getValue(c, "datoA"));
-			Assembler.setValue(c, "datoA", "dd");
-			System.out.println(Assembler.getValue(c, "datoA"));
-			
-			
+
+			AgendaEventoDTO obj = new AgendaEventoDTO();
+			String att = "agendaEventoDetalles";
+
+			System.out
+					.println("=======================================================");
+			System.out.println("Obj------> " + obj.getClass().getName()
+					+ "- Att------->" + att);
+			System.out
+					.println("=======================================================");
+			Object v = new PropertyDescriptor(att, obj.getClass())
+					.getReadMethod().invoke(obj);
+			System.out.println("Resultado---->" + v);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-*/	
+
+	/*
+	 * public static void main(String[] args) { try { C c = new C();
+	 * 
+	 * System.out.println(Assembler.getValue(c, "datoA")); Assembler.setValue(c,
+	 * "datoA", "dd"); System.out.println(Assembler.getValue(c, "datoA"));
+	 * 
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } }
+	 */
 
 }
 
 /*
-class A {
-	private String datoA = "aa";
-
-	public String getDatoA() {
-		return datoA;
-	}
-
-	public void setDatoA(String datoA) {
-		this.datoA = datoA;
-	}
-	
-}
-
-class B extends A{
-	private String datoB = "bb";
-
-	public String getDatoB() {
-		return datoB;
-	}
-
-	public void setDatoB(String datoB) {
-		this.datoB = datoB;
-	}
-
-}
-
-class C extends B{
-	private String datoC = "cc";
-
-	public String getDatoC() {
-		return datoC;
-	}
-
-	public void setDatoC(String datoC) {
-		this.datoC = datoC;
-	}
-
-}
-*/
+ * class A { private String datoA = "aa";
+ * 
+ * public String getDatoA() { return datoA; }
+ * 
+ * public void setDatoA(String datoA) { this.datoA = datoA; }
+ * 
+ * }
+ * 
+ * class B extends A{ private String datoB = "bb";
+ * 
+ * public String getDatoB() { return datoB; }
+ * 
+ * public void setDatoB(String datoB) { this.datoB = datoB; }
+ * 
+ * }
+ * 
+ * class C extends B{ private String datoC = "cc";
+ * 
+ * public String getDatoC() { return datoC; }
+ * 
+ * public void setDatoC(String datoC) { this.datoC = datoC; }
+ * 
+ * }
+ */
