@@ -107,6 +107,15 @@ public abstract class GenericViewModel extends Control {
 
 	}
 
+	public void readonlyAllComponents(AbstractComponent cmp){
+		this.disableEnableComponent.disableComponents(cmp);
+	}
+
+	public void restoreAllReadonlyComponents(AbstractComponent cmp) {
+		this.disableEnableComponent.restoreComponents(cmp);
+	}
+
+	
 	public void readonlyAllComponents() {
 		this.deshabilitado = true;
 		this.disableEnableComponent.disableComponents((AbstractComponent) this.mainComponent);
