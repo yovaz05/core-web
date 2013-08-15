@@ -10,6 +10,8 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
 
+import com.coreweb.Config;
+import com.coreweb.IDCore;
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
@@ -167,7 +169,8 @@ public class BuscarElemento {
 	private List<Object[]> getModelo() throws Exception{
 		Register rr = Register.getInstance();
 		List<Object[]> datos = new ArrayList<Object[]>();
-		datos = (List<Object[]>) rr.buscarElemento(clase,atributos, valores, tipos, where);
+//		datos = (List<Object[]>) rr.buscarElemento(clase,atributos, valores, tipos, where);
+		datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores, tipos, false, true, Config.CUANTOS_BUSCAR_ELEMENTOS, false, where);
 		return datos;
 	}
 	
@@ -305,7 +308,15 @@ public class BuscarElemento {
 	}
 
 	public void setTipos(String[] tipos) {
-		this.tipos = tipos;
+		// agrego el ID para todos los casos
+		this.tipos = new String[tipos.length + 1];
+
+		this.tipos[0] = IDCore.TIPO_NUMERICO;
+
+		for (int i = 1; i < this.tipos.length; i++) {
+			this.tipos[i] = tipos[i - 1];
+		}
+		
 	}
 
 	

@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Query;
@@ -463,6 +464,7 @@ public class Register {
 	}
 
 	public List hql(String query, Object[] param) throws Exception {
+	
 		List list = new ArrayList<Domain>();
 		Session session = null;
 		try {
@@ -476,7 +478,6 @@ public class Register {
 			}
 			list = q.list();
 			session.getTransaction().commit();
-
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -614,11 +615,15 @@ public class Register {
 			where += w + " and ";
 		}
 
+		boolean like = permiteLike;
 		int cnt = atts.length;
 		for (int i = 0; i < cnt; i++) {
 			String at = "c." + atts[i];
 			String va = values[i].trim();
 
+			int siLike = va.indexOf("%");
+			permiteLike = like || (siLike >=0) ;
+			
 			// va armando el select
 			select += at + " ,";
 
@@ -676,6 +681,8 @@ public class Register {
 		}
 		*/
 
+		
+		
 		return l;
 	}
 	
