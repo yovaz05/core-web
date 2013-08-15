@@ -623,6 +623,7 @@ public class Register {
 
 			int siLike = va.indexOf("%");
 			permiteLike = like || (siLike >=0) ;
+			String strLike = this.likeStr(va, siLike >=0);
 			
 			// va armando el select
 			select += at + " ,";
@@ -634,22 +635,23 @@ public class Register {
 
 				if (tipos[i].compareTo(IDCore.TIPO_NUMERICO) == 0) {
 					if (permiteLike == true){
-						ww = " cast("+at+" as string) like '%" + va.toLowerCase()+ "%' ";
+						ww = " cast("+at+" as string) like "+strLike; // '%" + va.toLowerCase()+ "%' ";
 					}else{
 						ww = at + " = " + va.toLowerCase();
 					}
 					
 				} else if (tipos[i].compareTo(IDCore.TIPO_BOOL) == 0) {
 					if (permiteLike == true){
-						ww = " lower(str(" + at + ")) like '%" + va.toLowerCase()+ "%' ";
+					//	ww = " lower(str(" + at + ")) like  "+strLike; // '%" + va.toLowerCase()+ "%' ";
 					}else{
-						ww = at + " = " + va.toLowerCase();
+					//	ww = at + " = " + va.toLowerCase();
 					}
+					ww = " lower(str(" + at + ")) like  "+strLike; // '%" + va.toLowerCase()+ "%' ";
 
 				} else {
 					// por defecto es String
 					if (permiteLike == true){
-						ww = " lower(" + at + ") like '%" + va.toLowerCase()+ "%' ";
+						ww = " lower(" + at + ") like  "+strLike; // '%" + va.toLowerCase()+ "%' ";
 					}else{
 						ww = " lower(" + at + ") = '" + va.toLowerCase()+ "' ";
 					}
@@ -686,7 +688,15 @@ public class Register {
 		return l;
 	}
 	
-	
+	private String likeStr(String va, boolean siPorce){
+		String out ="";
+		if (siPorce == true){
+			out = "'" + va.toLowerCase()+ "'";
+		}else{
+			out = "'%" + va.toLowerCase()+ "%'";
+		}
+		return out;
+	}
 	
 	public boolean existe(Class clase, String atributo, String tipo, Object valor, IiD id) throws Exception{
 		boolean out = false;
