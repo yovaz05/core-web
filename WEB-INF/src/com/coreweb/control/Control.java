@@ -506,6 +506,11 @@ public class Control {
 		Object atributo = s.getAttribute(arg);
 		return atributo;
 	}
+	
+	public void setAtributoSession(String key, Object value){
+		Session s = Sessions.getCurrent();
+		s.setAttribute(key, value);		
+	}
 
 	public static void main(String[] args) {
 		String a = "";
