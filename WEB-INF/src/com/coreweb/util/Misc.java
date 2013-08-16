@@ -1,7 +1,9 @@
 package com.coreweb.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
@@ -16,21 +18,16 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Messagebox;
 
-
-
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
-
-
-
-
-
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -61,7 +58,7 @@ public class Misc {
 	public static String YYYY_MM_DD_HORA_MIN_SEG_MIL = "yyyy-MM-dd_HH_mm_ss_S";
 	public static String D_MMMM_YYYY = "d 'de' MMMM 'del' yyyy";
 	public static String DD_MM_YYYY = "dd-MM-yyyy";
-	
+
 	public static String LABEL_BORDER = "border:1px solid; border-color:#54afcb; padding:2px";
 
 	public static String getDir() {
@@ -282,6 +279,21 @@ public class Misc {
 		double diff = d1 - d2;
 		return ((diff * diff) < 0.00001);
 	}
+	
+	public boolean esIgual(double[] d1, double[]d2){
+		boolean out = true;
+		try {
+			for (int i = 0; i < d1.length; i++) {
+				double v1 = d1[i];
+				double v2 = d2[i];
+				out = out && this.esIgual(v1, v2);
+			}
+		} catch (Exception e) {
+			out = false;
+		}		
+		return out;
+	}
+	
 
 	public double redondeo(double d) {
 		double d2 = Math.rint(d * 1000) / 1000;
@@ -410,6 +422,17 @@ public class Misc {
 				out.close();
 		}
 
+	}
+
+	public void agregarStringToArchivo(String fileName, String data) {
+		try {
+			BufferedWriter out = new BufferedWriter(new FileWriter(fileName,
+					true));
+			out.write(data);
+			out.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -608,23 +631,22 @@ public class Misc {
 
 	private static long seed = System.currentTimeMillis();
 	private static Random rand = new Random(seed);
-	
+
 	synchronized public int numeroRandom(int maximo) {
 		int v = 0;
-		synchronized (rand){
+		synchronized (rand) {
 			v = rand.nextInt(maximo);
 		}
 		return v;
 	}
 
 	synchronized public String numeroRandomCero(int maximo) {
-		String l = maximo+"";
+		String l = maximo + "";
 		int v = numeroRandom(maximo);
-		String out = "0000000000"+v;
-		return out.substring(out.length()-l.length());
+		String out = "0000000000" + v;
+		return out.substring(out.length() - l.length());
 	}
 
-	
 	public boolean containsOnlyNumbersAndPercent(String str) {
 
 		// It can't contain only numbers if it's null or empty...
@@ -787,14 +809,14 @@ public class Misc {
 	}
 
 	// Metodo que retorna el valor del Iva a partir de un valor iva incluido..
-	//  10 = calcularIVA(110,10)
+	// 10 = calcularIVA(110,10)
 	public double calcularIVA(double ivaIncluido, int porcentajeIva) {
 		return (ivaIncluido / (100 + porcentajeIva)) * porcentajeIva;
 	}
 
 	// Metodo que retorna el valor Gravado sin Iva a partir de un valor Gravado
 	// iva incluido..
-	//  100 = calcularIVA(110,10)
+	// 100 = calcularIVA(110,10)
 	public double calcularGravado(double ivaIncluido, int porcentajeIva) {
 		return (ivaIncluido / (100 + porcentajeIva)) * 100;
 	}
@@ -827,15 +849,13 @@ public class Misc {
 	// ejecuta el método de una clase sin parametros y retorna el resultado
 	public Object ejecutarMetoto(Object obj, String metodo) throws Exception {
 
-		Class[] noparams = { };
+		Class[] noparams = {};
 		Method method = obj.getClass().getMethod(metodo, noparams);
 		method.setAccessible(true);
 		return method.invoke(obj, new Object[] {});
 
 	}
 
-	
-	
 	// hace un set
 	public void setValue(Object obj, String att, Object value) throws Exception {
 		Field fd = obj.getClass().getDeclaredField(att);
@@ -906,44 +926,62 @@ public class Misc {
 			System.out.println("[Misc] No existe:" + archivo);
 		}
 	}
-	
-	//Convierte un numero a su equivalente en Letras rango (0 a 999999999999)..
-	public String numberToLetter(Object numero){
+
+	// Convierte un numero a su equivalente en Letras rango (0 a 999999999999)..
+	public String numberToLetter(Object numero) {
 		String out = "";
-		
+
 		try {
 			if (numero instanceof Integer) {
 				out = Monto.aLetras(numero.toString());
-				
+
 			} else if (numero instanceof Long) {
 				out = Monto.aLetras(numero.toString());
-				
-			} else if (numero instanceof Double) {				
-				
-				DecimalFormat f = new DecimalFormat("##0.00");		
+
+			} else if (numero instanceof Double) {
+
+				DecimalFormat f = new DecimalFormat("##0.00");
 				String valor = f.format(numero);
 				int index = valor.lastIndexOf(",");
 				String entero = valor.substring(0, index);
 				String decimal = valor.substring(index + 1);
-				
+
 				if (decimal.compareTo("00") != 0) {
-					out = Monto.aLetras(entero) + decimal + "/100";					
+					out = Monto.aLetras(entero) + decimal + "/100";
 				} else {
 					out = Monto.aLetras(entero);
-				}				
-				
+				}
+
 			} else if (numero instanceof String) {
 				out = Monto.aLetras((String) numero);
-				
+
 			} else {
 				throw new Exception("El tipo de dato no es un número");
-			}		
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 		return out;
 	}
-	
+
+	private String tab = "     ";
+
+	public String textoLog(String d) {
+		String out = "";
+		out += this.dateHoyToString() + "  " + d + "\n";
+		return out;
+	}
+
+	public String textoLog(List<String> ls) {
+		String out = "";
+		out += this.dateHoyToString() + "\n";
+		for (Iterator iterator = ls.iterator(); iterator.hasNext();) {
+			String d = (String) iterator.next();
+			out += tab + d + "\n";
+		}
+		out += "----------------------------------------------\n";
+		return out;
+	}
 
 	public static void Xmain(String[] args) {
 		double d = 10.1;
@@ -970,59 +1008,52 @@ public class Misc {
 		}
 	}
 
-	
 	public static void main(String[] args) {
 		try {
-			
+
 			Misc m = new Misc();
-			
-			
+
 			System.out.println(m.numeroRandomCero(99999999));
 			System.out.println(m.numeroRandomCero(99999999));
-			
+
 			Double d = 999999999999.245;
-			
-			
+
 			System.out.println(m.numberToLetter(d));
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 }
 
-
-
 class A {
-	
 
 	public void setNameA(String nameA) {
 		System.out.println("-- paso por set A");
 	}
 
-	public String getNameA(){
+	public String getNameA() {
 		return "andoA";
 	}
-	
-	public String metodoA(){
+
+	public String metodoA() {
 		return "Estoy en A";
 	}
 }
 
-class B extends A{
-	
+class B extends A {
+
 	String name = "pepe";
-	
-	public String getName(){
+
+	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
-		System.out.println("pasa:"+name+" - "+this.name+ this);
+		System.out.println("pasa:" + name + " - " + this.name + this);
 		this.name = name;
 	}
-	
-	
+
 }
