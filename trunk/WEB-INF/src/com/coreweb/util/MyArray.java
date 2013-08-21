@@ -34,6 +34,9 @@ public class MyArray extends MyAuxObject {
 
 
 	public String toString() {
+		if (this.esNuevo() == true){
+			return " ";
+		}
 		String out = "";
 		if (this.pos1 != POS_VACIO) {
 			out = out + this.pos1 + " - ";

@@ -30,7 +30,11 @@ public class MyPair extends MyAuxObject {
 	}
 	
 	public String toString(){
-		return this.text + " ("+this.getId()+")";
+		String out = this.text + " ("+this.getId()+")";
+		if (this.esNuevo() == true ){
+			out = " ";
+		}
+		return out;
 	}
 	
 
