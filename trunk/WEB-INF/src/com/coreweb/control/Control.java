@@ -23,6 +23,7 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.ext.Disable;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
@@ -469,6 +470,11 @@ public class Control {
 		return false;
 	}
 
+	public void mensajePopupTemporal(String mensaje){
+		Clients.showNotification(mensaje, null, null, null, 3000);
+	}
+
+	
 	public boolean esGrupo(String grupo) {
 		boolean out = false;
 		out = this.getUs().esGrupo(grupo);
