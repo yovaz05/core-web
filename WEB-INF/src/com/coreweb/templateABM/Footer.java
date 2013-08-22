@@ -48,9 +48,17 @@ public class Footer extends GenericViewModel {
 		return this.getPagina().getAliasFormularioCorriente();
 	}
 
+
+	
 	
 	@Command
     public void doTask () {
+		this.doTask("Grabar los cambios y salir?");
+    	
+    }
+
+	
+    public void doTask (String mensaje) {
 		this.yesClick = false;
     	
     	if ( this.pagina.getBody().verificarAlGrabar() == false){
@@ -58,7 +66,7 @@ public class Footer extends GenericViewModel {
     		return;
     	}
 
-        Button b = Messagebox.show("Grabar los cambios y salir?", "Grabar y Salir", new Messagebox.Button[]{
+        Button b = Messagebox.show(mensaje, "Grabar y Salir", new Messagebox.Button[]{
                 Messagebox.Button.YES, Messagebox.Button.NO }, Messagebox.QUESTION, null);
         if ((b !=null) && (b.compareTo(Messagebox.Button.YES)==0)){        	
         	this.yesClick = true;
@@ -69,6 +77,7 @@ public class Footer extends GenericViewModel {
         	//String texLabel = this.pagina.getTextoFormularioCorriente();
     		//this.setTextoFormularioCorriente(texLabel);
         	this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+        	this.mensajePopupTemporal("Grabado con éxito !!");
         	
         }
 
@@ -89,6 +98,7 @@ public class Footer extends GenericViewModel {
         	this.yesClick = true;
         	this.pagina.grabarDTOCorriente(true); // graba y refresca el DTO
         	this.pagina.getBody().afterSave();
+        	this.mensajePopupTemporal("Grabado con éxito !!");
         }
     }
 

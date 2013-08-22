@@ -128,9 +128,15 @@ public abstract class Body extends GenericViewModel {
 		return null;
 	}
 	
+
+
 	// este método debe redefinir la clase que herera 
 	public void afterSave(){
 		
+	}
+
+	public void grabarSalir(String mensaje){
+		this.getPagina().getFooter().doTask(mensaje);
 	}
 	
 	public void addComponenteToBarraAuxiliar(Component c, String command, Map<String, Object> args){
