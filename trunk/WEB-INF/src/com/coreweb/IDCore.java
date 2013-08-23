@@ -15,5 +15,9 @@ public class IDCore {
 	public static String TIPO_NUMERICO = "Numerico";
 	public static String TIPO_BOOL = "Bool";
 	public static String TIPO_DATE = "Date";
+	
+	public static String IMAGEN_OK = "/core/images/accept_.png";
+	public static String IMAGEN_CANCEL = "/core/images/delete_.png";
+	public static String IMAGEN_CHECK = "/core/images/tick.png";
 
 }

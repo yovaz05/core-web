@@ -168,6 +168,11 @@ public abstract class Body extends GenericViewModel {
 		return this.getPagina().getTextoEnmascarar();
 	}
 	
+	public void setEstadoABMConsulta(){
+		this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+		BindUtils.postGlobalCommand(null, null, "deshabilitarComponentes", null);
+	}
+	
 	//===================================================================
 	
 
