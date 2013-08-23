@@ -70,12 +70,11 @@ public abstract class Browser extends SimpleViewModel {
 	public static String LABEL_DATE = "getLabelDate";
 
 	/*
-	public static String TIPO_STRING = "String";
-	public static String TIPO_NUMERICO = "Numerico";
-	public static String TIPO_BOOL = "Bool";
-	public static String TIPO_DATE = "Date";
-	*/
-	
+	 * public static String TIPO_STRING = "String"; public static String
+	 * TIPO_NUMERICO = "Numerico"; public static String TIPO_BOOL = "Bool";
+	 * public static String TIPO_DATE = "Date";
+	 */
+
 	// la info de olas columnas del browser
 	public abstract List<ColumnaBrowser> getColumnasBrowser();
 
@@ -97,16 +96,15 @@ public abstract class Browser extends SimpleViewModel {
 
 	// estos datos se inicializan con el metodo cargarColumnas()
 	List<ColumnaBrowser> columnas; // la informacion de las columnas
-	
+
 	// usados por el Register para armar el HQL
-	//private String[] nombres; // nombre de la columna
+	// private String[] nombres; // nombre de la columna
 	private String[] atributos; // atributo de la clase
 	private String[] valores;
 	private String[] tipos; // los tipos de los campos
 	private String[] wheres;
 
-
-	private Object[] selectedItem = {-1};
+	private Object[] selectedItem = { -1 };
 	private Row selectedRow = new Row();
 	private Row selectedRowPrevio = new Row();
 	private String styleSepectedRowOriginal = "";
@@ -118,30 +116,28 @@ public abstract class Browser extends SimpleViewModel {
 	private void cargarColumnas() {
 		this.clase = this.getEntidadPrincipal();
 
-		
 		// una ColumnaBrowser para el ID
 		ColumnaBrowser id = new ColumnaBrowser();
 		id.setTitulo("Id");
 		id.setCampo("id");
 		id.setTipo(IDCore.TIPO_NUMERICO);
-		
+
 		// Columnas del browser + la columnad del ID
 		this.columnas = this.getColumnasBrowser();
-		this.columnas.add(0,id);
-		
-		
-		int numeroColumnas = this.columnas.size(); // por el id 
+		this.columnas.add(0, id);
+
+		int numeroColumnas = this.columnas.size(); // por el id
 		// usados por el Register para armar HQL
 		this.atributos = new String[numeroColumnas];
 		this.valores = new String[numeroColumnas];
-		//this.nombres = new String[numeroColumnas];
+		// this.nombres = new String[numeroColumnas];
 		this.wheres = new String[numeroColumnas];
 		this.tipos = new String[numeroColumnas];
 
 		for (int i = 0; i < numeroColumnas; i++) {
-			ColumnaBrowser col = this.columnas.get(i); 
-			
-			//nombres[i] = col.getTitulo();
+			ColumnaBrowser col = this.columnas.get(i);
+
+			// nombres[i] = col.getTitulo();
 			atributos[i] = col.getCampo();
 			valores[i] = "";
 			wheres[i] = col.getWhere();
@@ -166,8 +162,6 @@ public abstract class Browser extends SimpleViewModel {
 		// Los filtros para recuperar los valores
 		List<InputElement> listFiltros = new ArrayList<InputElement>();
 
-
-		
 		// la cebecera de la las columnas
 		Columns lcol = new Columns();
 		lcol.setMenupopup("auto");
@@ -181,41 +175,37 @@ public abstract class Browser extends SimpleViewModel {
 		lcol.getChildren().add(cRG);
 
 		for (int i = 0; i < this.columnas.size(); i++) {
-			
+
 			ColumnaBrowser col = this.columnas.get(i);
-			
+
 			Column c = new Column();
-			c.setSort("auto("+i+")");
+			c.setSort("auto(" + i + ")");
 			c.setLabel(col.getTitulo());
 			c.setVisible(col.isVisible());
 			c.setWidth(col.getWidthColumna());
-			
 
 			// el textbox del filtro
 			InputElement imputbox = new Textbox();
-			if (col.getTipo().compareTo(IDCore.TIPO_NUMERICO)==0){
+			if (col.getTipo().compareTo(IDCore.TIPO_NUMERICO) == 0) {
 				imputbox = new Longbox();
-			}else if (col.getTipo().compareTo(IDCore.TIPO_BOOL)==0){
+			} else if (col.getTipo().compareTo(IDCore.TIPO_BOOL) == 0) {
 				// restringe que se escriba T o F
 				imputbox.setConstraint(this.getCheck().getTrueFalse());
 				imputbox.setMaxlength(1);
 			}
 			// se setea despues, por que puede cambiar según el tipo
-			imputbox.setWidth(col.getWidthComponente()); 
-			
-			
-			
+			imputbox.setWidth(col.getWidthComponente());
+
 			listFiltros.add(imputbox);
 
 			FiltroBrowserEvento ev = new FiltroBrowserEvento(this, listFiltros);
-			imputbox.addEventListener("onOK", ev);			
-			
+			imputbox.addEventListener("onOK", ev);
+
 			Vlayout vl = new Vlayout();
 			vl.appendChild(imputbox);
-			
+
 			c.appendChild(vl);
 
-			
 			lcol.getChildren().add(c);
 
 			if (i == 0) {
@@ -259,12 +249,10 @@ public abstract class Browser extends SimpleViewModel {
 	private List<Object[]> getModelo() throws Exception {
 		Register rr = Register.getInstance();
 		List<Object[]> datos = new ArrayList<Object[]>();
-		try {
-			datos = (List<Object[]>) rr.buscarElemento(clase, atributos,
-					valores, wheres, tipos, true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
+		datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores,
+				wheres, tipos, true);
+
 		return datos;
 	}
 
@@ -339,8 +327,6 @@ public abstract class Browser extends SimpleViewModel {
 		this.checkVisible = checkVisible;
 	}
 
-	
-	
 	// *********************************************************
 	// Lista de componentes
 
@@ -355,7 +341,7 @@ public abstract class Browser extends SimpleViewModel {
 	public HtmlBasedComponent getLabel(Object obj, Object[] datos) {
 		Label l = new Label();
 		String valor = "";
-		if (obj != null){
+		if (obj != null) {
 			l.setValue(obj.toString());
 		}
 		return l;
@@ -370,7 +356,6 @@ public abstract class Browser extends SimpleViewModel {
 		return t;
 	}
 
-	
 	public HtmlBasedComponent getTextbox(Object obj, Object[] datos) {
 		Textbox t = new Textbox();
 		t.setReadonly(true);
@@ -383,11 +368,10 @@ public abstract class Browser extends SimpleViewModel {
 		t.setFormat("###,###,###");
 		t.setStyle("text-align: right");
 		t.setReadonly(true);
-		t.setValue((long)obj);
+		t.setValue((long) obj);
 		return t;
 	}
 
-	
 	public HtmlBasedComponent getCheckbox(Object obj, Object[] datos) {
 		Checkbox ck = new Checkbox();
 		ck.setChecked((boolean) obj);
@@ -397,7 +381,7 @@ public abstract class Browser extends SimpleViewModel {
 
 	public HtmlBasedComponent getRadiogroup(Object obj, Object[] datos) {
 		Radiogroup rg = new Radiogroup();
-		Radio r = (Radio)getRadio(obj, datos); 
+		Radio r = (Radio) getRadio(obj, datos);
 		r.setRadiogroup(rg);
 		rg.appendChild(r);
 		return rg;
@@ -409,19 +393,18 @@ public abstract class Browser extends SimpleViewModel {
 		r.setDisabled(true);
 		return r;
 	}
-	
+
 	public HtmlBasedComponent getLabelDate(Object obj, Object[] datos) {
 		Label l = new Label();
-		System.out.println("  obj:"+obj+"   "+m.YYYY_MM_DD_HORA_MIN_SEG2+":"+this.m.dateToString((Date)obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
-		l.setValue(this.m.dateToString((Date)obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
+		System.out.println("  obj:" + obj + "   " + m.YYYY_MM_DD_HORA_MIN_SEG2
+				+ ":"
+				+ this.m.dateToString((Date) obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
+		l.setValue(this.m.dateToString((Date) obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
 		return l;
 	}
 
-	
 	// *********************************************************
 
-	
-	
 }
 
 class FiltroBrowserEvento implements EventListener {
@@ -442,17 +425,17 @@ class FiltroBrowserEvento implements EventListener {
 		for (int i = 0; i < listTx.size(); i++) {
 			InputElement tx = (InputElement) listTx.get(i);
 			Object valor = tx.getRawValue();
-			if (valor == null){
+			if (valor == null) {
 				valor = "";
 			}
-			valores[i] = (valor+"").trim();
+			valores[i] = (valor + "").trim();
 		}
 		this.be.setValores(valores);
 		this.be.refreshModeloGrid();
 
 	}
 
-//	@Override
+	// @Override
 	public void xonEvent(Event ev) throws Exception {
 		// TODO Auto-generated method stub
 
@@ -465,10 +448,7 @@ class FiltroBrowserEvento implements EventListener {
 		this.be.refreshModeloGrid();
 
 	}
-	
 
-
-	
 }
 
 class GridRowRender implements RowRenderer {
@@ -485,8 +465,9 @@ class GridRowRender implements RowRenderer {
 	public void render(Row row, Object data, int arg2) throws Exception {
 		// TODO Auto-generated method stub
 		row.setValue(data);
-		row.addEventListener( Events.ON_CLICK, new RowEventListener(this.br));
-		row.addEventListener(Events.ON_DOUBLE_CLICK, new RowEventListener(this.br));
+		row.addEventListener(Events.ON_CLICK, new RowEventListener(this.br));
+		row.addEventListener(Events.ON_DOUBLE_CLICK, new RowEventListener(
+				this.br));
 
 		// en las columnas esta la info de configuración
 		List<ColumnaBrowser> columnas = this.br.getColumnasBrowser();
@@ -519,14 +500,14 @@ class GridRowRender implements RowRenderer {
 						Object.class, Object[].class);
 				comp = (HtmlBasedComponent) m.invoke(this.br, va, datosCel);
 			} catch (Exception e) {
-				//e.printStackTrace();
+				// e.printStackTrace();
 				comp = this.br.getLabel(va, datosCel);
 			}
 			String auxSt = comp.getStyle();
-			comp.setStyle(auxSt+";"+col.getEstilo());
+			comp.setStyle(auxSt + ";" + col.getEstilo());
 			comp.setWidth(col.getWidthComponente());
 			comp.setParent(cel);
-			
+
 		}
 
 	}
@@ -543,7 +524,7 @@ class RowEventListener implements EventListener {
 
 	@Override
 	public void onEvent(Event arg0) throws Exception {
-		if (arg0.getName().compareTo(Events.ON_DOUBLE_CLICK)==0){
+		if (arg0.getName().compareTo(Events.ON_DOUBLE_CLICK) == 0) {
 			this.br.getBpac().getControlVM().aceptar();
 			return;
 		}
@@ -563,14 +544,7 @@ class RowEventListener implements EventListener {
 		Radio ra = (Radio) rClick.getChildren().get(0);
 		ra.setChecked(true);
 		ra.setFocus(true);
-		
-		
-		
+
 	}
 
 }
-
-
-
-
-
