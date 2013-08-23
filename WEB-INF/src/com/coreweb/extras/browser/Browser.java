@@ -23,6 +23,7 @@ import org.zkoss.zul.Column;
 import org.zkoss.zul.Columns;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Hlayout;
+import org.zkoss.zul.Image;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
@@ -401,6 +402,27 @@ public abstract class Browser extends SimpleViewModel {
 				+ this.m.dateToString((Date) obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
 		l.setValue(this.m.dateToString((Date) obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
 		return l;
+	}
+	
+	public HtmlBasedComponent getImagenOKCancel(Object obj, Object[] datos) {
+		Image img = new Image();
+		if ((boolean) obj == true) {
+			img.setSrc(IDCore.IMAGEN_OK);
+		} else {
+			img.setSrc(IDCore.IMAGEN_CANCEL);
+		}
+		return img;
+	}
+
+	
+	public HtmlBasedComponent getImagenCheck(Object obj, Object[] datos) {
+		Image img = new Image();
+		if ((boolean) obj == true) {
+			img.setSrc(IDCore.IMAGEN_CHECK);
+		} else {
+			img.setVisible(false);
+		}
+		return img;
 	}
 
 	// *********************************************************
