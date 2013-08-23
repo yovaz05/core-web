@@ -126,7 +126,11 @@ public class BuscarElemento {
 
 				for (int i = 0; i < row.length; i++) {
 					Object va = row[i];
-					new Listcell(va.toString()).setParent(listItem);
+					String d = "";
+					if (va != null){
+						d = va.toString();
+					}
+					new Listcell(d).setParent(listItem);
 				}
 
 			}
