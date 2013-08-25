@@ -1,21 +1,21 @@
 <zk>
 	<window id="Footer" viewModel="@id('footer') @init('com.coreweb.templateABM.Footer')"
-		apply="org.zkoss.bind.BindComposer"
-		position="center,bottom">
+		apply="org.zkoss.bind.BindComposer"  zclass="z-window-popup"  border="0"
+		position="center,top">
 
-		<toolbar id="foo" sclass="vista" height="40px" align="center">
+		<toolbar id="foo"  height="35px" align="center">
 			<button id="btnAccept" label="Grabar y Salir" 
-				tooltiptext="Aceptar" image="/core/images/accept.png" width="125px" 
+				tooltiptext="Aceptar" image="/core/images/accept.png" width="130px" 
 				onClick="@command('doTask')
 				@global-command(footer.yesClick?'deshabilitarComponentes':'')"
 				/>
 			<button id="btnGrabar"  label="Grabar"
-				tooltiptext="Grabar" image="/core/images/guardar.png" width="125px"
+				tooltiptext="Grabar" image="/core/images/guardar.png" width="130px"
 				onClick="@command('save') 
 			    @global-command(footer.yesClick?'refreshComponentes':'')" 
 				/>
 			<button id="btnCancel"  label="Salir" 
-				tooltiptext="Cancelar" image="/core/images/cancel.png" width="125px"
+				tooltiptext="Cancelar" image="/core/images/cancel.png" width="130px"
 				onClick="@command('discard')
 				@global-command(footer.yesClick?'deshabilitarComponentes':'')"
 				/>

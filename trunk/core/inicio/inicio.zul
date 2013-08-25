@@ -3,6 +3,9 @@
 <zk>
 	<style>
 
+		body { padding: 0 0; background-color: #EBEBEB; /* 0 padding
+			on top and bottom and 0 padding on right and left */ }
+
 		.hightlight { color: #1469AB; font-weight: bold; }
 
 		.error {
@@ -38,12 +41,11 @@
 
 
 
-	<window id="templateInicio" border="normal" width="1024px"
-		position="center" mode="overlapped" height="100%"
-		apply="org.zkoss.bind.BindComposer" title=""
-		viewModel="@id('vm')
+	<window id="templateInicio" width="1024px" position="center"
+		mode="overlapped" height="100%" apply="org.zkoss.bind.BindComposer"
+		title="" viewModel="@id('vm')
 		@init('com.coreweb.login.ControlInicio')"
-		contentStyle="overflow:auto" zclass="z-window-popup">
+		contentStyle="overflow:auto" zclass="z-window-popup" border="normal">
 
 		<!-- contentStyle="overflow:auto" -->
 
@@ -64,37 +66,38 @@
 
 			<!-- =================== NORTE ===================================== -->
 
-			<north border="0" collapsible="false" height="24px"
-				style="background-color: #3FC6D2 ;">
-				<hlayout valign="middle" >
-						<hbox width="3px" align="center" height="24px" />
-						<hbox width="250px" align="center" height="24px">
-							<label id="nombreFormulario" value=" " multiline="false"
-								maxlength="26" style="font-size:12pt;font-weight:bold" />
-						</hbox>
-						<hbox width="750px" align="center" height="24px">
-							<include id="menu" src="@load(vm.menu)" />
-						</hbox>
+			<north border="0" collapsible="false" height="30px"
+				style="background-color: #B5B4B4 ;">
+				<hlayout valign="middle">
+					<hbox width="3px" align="center" height="30px" />
+					<hbox width="250px" align="center" height="30px">
+						<label id="nombreFormulario" value=" " multiline="false"
+							maxlength="26" style="font-size:12pt;font-weight:bold" />
+					</hbox>
+					<hbox width="750px" align="center" height="30px">
+						<include id="menu" src="@load(vm.menu)" />
+					</hbox>
 				</hlayout>
 			</north>
 
 			<!-- ==================== SUR ==================================== -->
-			<south border="0" style="background: #3FC6D2" height="24px">
-				<hlayout>
-
-					<hbox width="100px" align="center">
+			<south border="0" style="background: #B5B4B4" height="30px">
+				<hlayout valign="middle">
+					<hbox width="1px" align="center" height="30px" />
+					
+					<hbox width="100px" align="center" height="30px" pack="start">
 						<include id="menuSistema" src="@load(vm.menuSistema)" />
 					</hbox>
-
-					<hbox width="300px" align="center">
-
-						<menubar id="menubarFoot1" width="100%" >
+					
+					<hbox  width="150px" align="center" height="30px" pack="sart">
+						<menubar id="menubarFoot1" width="100%">
 							<menuitem label="@load(vm.us.nombre)" onClick="@command('informacionUsuario')"
 								image="/core/images/user1.png" />
 						</menubar>
 					</hbox>
 
-					<hbox width="600px" align="center" pack="end">
+
+					<hbox width="740px" align="center" pack="end" height="30px">
 
 						<menubar id="menubarFoot2" width="100%">
 
