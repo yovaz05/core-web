@@ -108,10 +108,12 @@
 	<component>
 		<component-name>menubar</component-name>
 		<extends>menubar</extends>
+		<!-- 
 		<property>
 			<property-name>style</property-name>
-			<property-value>background: #3FC6D2; border-color: #3FC6D2</property-value>
+			<property-value>background: #3FC6D2;</property-value>
 		</property>
+		 -->
 		<property>
 			<property-name>autodrop</property-name>
 			<property-value>false</property-value>

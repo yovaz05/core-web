@@ -1,14 +1,9 @@
-
-
-
 <zk>
 	<window id="ToolbarABM"
 		viewModel="@id('Toolbar') @init('com.coreweb.templateABM.Toolbar')"
-		apply="org.zkoss.bind.BindComposer">
+		apply="org.zkoss.bind.BindComposer" zclass="z-window-popup"  border="0">
 
-		<toolbar id="tb" align="start" height="25px">
-			<hlayout>
-				<hbox width="300px" align="center">
+				<hbox width="300px" align="start">
 
 					<toolbarbutton image="/core/images/add.png"
 						tooltiptext="Agregar"
@@ -48,8 +43,7 @@
 					<hlayout> <label value="aca1" /> <label value="aca2" /> <label value="aca3" 
 					/> <label value="aca4" /> <label value="aca5" /> </hlayout> </hbox> -->
 
-			</hlayout>
-		</toolbar>
+	
 
 
 	</window>

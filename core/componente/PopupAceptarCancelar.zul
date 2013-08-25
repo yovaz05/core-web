@@ -16,9 +16,9 @@
 				<hlayout>
 
 					<button id="btnAccept" label="Aceptar" tooltiptext="Aceptar"
-						image="/core/images/accept.png" width="100px" onClick="@command('aceptar')" />
+						image="/core/images/accept.png" width="120px" onClick="@command('aceptar')" />
 					<button id="btnCancel" label="Cancelar" tooltiptext="Cancelar"
-						image="/core/images/cancel.png" width="100px" onClick="@command('cancelar')" />
+						image="/core/images/cancel.png" width="120px" onClick="@command('cancelar')" />
 				</hlayout>
 			</toolbar>
 		</south>
