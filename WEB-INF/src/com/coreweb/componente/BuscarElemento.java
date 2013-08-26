@@ -314,7 +314,7 @@ public class BuscarElemento {
 		// agrego el ID para todos los casos
 		this.tipos = new String[tipos.length + 1];
 
-		this.tipos[0] = IDCore.TIPO_NUMERICO;
+		this.tipos[0] = Config.TIPO_NUMERICO;
 
 		for (int i = 1; i < this.tipos.length; i++) {
 			this.tipos[i] = tipos[i - 1];

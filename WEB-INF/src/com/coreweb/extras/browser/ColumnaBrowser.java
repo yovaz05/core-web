@@ -1,14 +1,12 @@
 package com.coreweb.extras.browser;
 
-import org.zkoss.zul.Textbox;
-
-import com.coreweb.IDCore;
+import com.coreweb.Config;
 
 public class ColumnaBrowser {
 
 	private String titulo = "titulo";
 	private String campo = "campo";
-	private String tipo = IDCore.TIPO_STRING;
+	private String tipo = Config.TIPO_STRING;
 	private String estilo = "";
 	private String where = "";
 	private String widthColumna = "";
@@ -25,13 +23,13 @@ public class ColumnaBrowser {
 	
 	protected String getWhereSQL(){
 		String out ="";
-		if (this.getWhere().compareTo(IDCore.TIPO_STRING)==0){
+		if (this.getWhere().compareTo(Config.TIPO_STRING)==0){
 			out = " lower( xxAtr ) like '%xxVa%' ";
 			
-		}else if (this.getWhere().compareTo(IDCore.TIPO_BOOL)==0){
+		}else if (this.getWhere().compareTo(Config.TIPO_BOOL)==0){
 			out = " xxAtr = xxVa ";
 			
-		}else if (this.getWhere().compareTo(IDCore.TIPO_NUMERICO)==0){
+		}else if (this.getWhere().compareTo(Config.TIPO_NUMERICO)==0){
 			out = " xxAtr = xxVa ";
 		}
 		

@@ -121,7 +121,7 @@ public abstract class Browser extends SimpleViewModel {
 		ColumnaBrowser id = new ColumnaBrowser();
 		id.setTitulo("Id");
 		id.setCampo("id");
-		id.setTipo(IDCore.TIPO_NUMERICO);
+		id.setTipo(Config.TIPO_NUMERICO);
 
 		// Columnas del browser + la columnad del ID
 		this.columnas = this.getColumnasBrowser();
@@ -187,9 +187,9 @@ public abstract class Browser extends SimpleViewModel {
 
 			// el textbox del filtro
 			InputElement imputbox = new Textbox();
-			if (col.getTipo().compareTo(IDCore.TIPO_NUMERICO) == 0) {
+			if (col.getTipo().compareTo(Config.TIPO_NUMERICO) == 0) {
 				imputbox = new Longbox();
-			} else if (col.getTipo().compareTo(IDCore.TIPO_BOOL) == 0) {
+			} else if (col.getTipo().compareTo(Config.TIPO_BOOL) == 0) {
 				// restringe que se escriba T o F
 				imputbox.setConstraint(this.getCheck().getTrueFalse());
 				imputbox.setMaxlength(1);
@@ -407,9 +407,9 @@ public abstract class Browser extends SimpleViewModel {
 	public HtmlBasedComponent getImagenOKCancel(Object obj, Object[] datos) {
 		Image img = new Image();
 		if ((boolean) obj == true) {
-			img.setSrc(IDCore.IMAGEN_OK);
+			img.setSrc(Config.IMAGEN_OK);
 		} else {
-			img.setSrc(IDCore.IMAGEN_CANCEL);
+			img.setSrc(Config.IMAGEN_CANCEL);
 		}
 		return img;
 	}
@@ -418,7 +418,7 @@ public abstract class Browser extends SimpleViewModel {
 	public HtmlBasedComponent getImagenCheck(Object obj, Object[] datos) {
 		Image img = new Image();
 		if ((boolean) obj == true) {
-			img.setSrc(IDCore.IMAGEN_CHECK);
+			img.setSrc(Config.IMAGEN_CHECK);
 		} else {
 			img.setVisible(false);
 		}
