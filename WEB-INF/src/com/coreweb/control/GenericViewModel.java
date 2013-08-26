@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.hamcrest.core.IsInstanceOf;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
@@ -104,7 +105,7 @@ public abstract class GenericViewModel extends Control {
 
 	@AfterCompose(superclass = true)
 	public void afterComposeGenericViewModel() {
-
+		this.addCamposObligotorios(this.mainComponent);
 	}
 
 	public void readonlyAllComponents(AbstractComponent cmp){
