@@ -633,14 +633,14 @@ public class Register {
 				String ww = "";
 
 
-				if (tipos[i].compareTo(IDCore.TIPO_NUMERICO) == 0) {
+				if (tipos[i].compareTo(Config.TIPO_NUMERICO) == 0) {
 					if (permiteLike == true){
 						ww = " cast("+at+" as string) like "+strLike; // '%" + va.toLowerCase()+ "%' ";
 					}else{
 						ww = at + " = " + va.toLowerCase();
 					}
 					
-				} else if (tipos[i].compareTo(IDCore.TIPO_BOOL) == 0) {
+				} else if (tipos[i].compareTo(Config.TIPO_BOOL) == 0) {
 					if (permiteLike == true){
 					//	ww = " lower(str(" + at + ")) like  "+strLike; // '%" + va.toLowerCase()+ "%' ";
 					}else{

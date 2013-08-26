@@ -11,9 +11,8 @@ import org.zkoss.zul.Constraint;
 import org.zkoss.zul.CustomConstraint;
 import org.zkoss.zul.SimpleConstraint;
 
-import com.coreweb.IDCore;
+import com.coreweb.Config;
 import com.coreweb.control.GenericViewModel;
-import com.coreweb.domain.Domain;
 import com.coreweb.domain.IiD;
 import com.coreweb.domain.Register;
 
@@ -250,7 +249,7 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 					IiD id = (IiD) this.misc.ejecutarMetoto(this.vm,
 							"getIdEmpresa");
 					Register rr = Register.getInstance();
-					if (rr.existe(empresa, "ruc", IDCore.TIPO_STRING, value, id)) {
+					if (rr.existe(empresa, "ruc", Config.TIPO_STRING, value, id)) {
 						throw new WrongValueException(comp,
 								"El RUC '"+value+"' ya existe");
 					}
