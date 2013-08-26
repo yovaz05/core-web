@@ -1,5 +1,5 @@
 <window border="normal"  apply="org.zkoss.bind.BindComposer"
-	 sizable="true" closable="true" maximizable="true" zclass="z-window-modal"
+	 sizable="true" closable="true" maximizable="true" 
 	viewModel="@id('vmAC') @init('com.coreweb.componente.ViewPdf')" title="${arg.titulo}"
 	onClose="@command('cerrarViewPdf')" width="${arg.anchoWindows}"  height="${arg.altoWindows}"
 	>
