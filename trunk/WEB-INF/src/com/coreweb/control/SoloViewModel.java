@@ -49,7 +49,6 @@ public class SoloViewModel extends GenericViewModel {
 			// ver los permisos de este usuario
 			wpu.permitirEditar(true);
 		}
-		this.addCamposObligotorios(this.mainComponent);	
 	}
 	
 	
