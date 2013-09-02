@@ -23,6 +23,8 @@ public class BuscarElemento {
 	Assembler assembler;
 	String[] atributos;
 	String[] nombresColumnas;
+	String[] ancho;
+	boolean anchoAsignado = false;
 	String[] valores;
 	String[] tipos = null;
 	String titulo = "Buscar ...";
@@ -60,7 +62,7 @@ public class BuscarElemento {
 		}
 		
 		
-		
+	
 
 		this.listbox.setEmptyMessage(this.msgVacia);
 
@@ -104,6 +106,11 @@ public class BuscarElemento {
 			String colName = nombresColumnas[i];
 			Listheader lhc = new Listheader();
 			lhc.setLabel(colName);
+			if (this.anchoAsignado == true){
+				lhc.setWidth(this.ancho[i]);
+			}
+			
+			
 			lh.getChildren().add(lhc);
 
 			if (i==0){
@@ -141,6 +148,10 @@ public class BuscarElemento {
 	
 
 	
+
+
+
+
 	public void showAgain(){
 		bpac = new BodyPopupAceptarCancelar();
 		listbox.addEventListener(Events.ON_DOUBLE_CLICK, new ListboxEventListener(bpac));
@@ -154,6 +165,8 @@ public class BuscarElemento {
 	
 	
 
+	
+	
 	protected void refreshModeloListbox() throws Exception {
 		
 		List<Object[]> datos = new ArrayList<Object[]>();
@@ -220,6 +233,20 @@ public class BuscarElemento {
 		}
 
 	}
+	
+	
+	public void setAnchoColumnas(String[] ancho){
+		this.anchoAsignado = true;
+		this.ancho = new String[ancho.length + 1];
+
+		this.ancho[0] = "50px";
+
+		for (int i = 1; i < this.ancho.length; i++) {
+			this.ancho[i] = ancho[i - 1];
+		}
+		
+	}
+
 
 	public boolean isClickAceptar(){
 		return ((this.unDatoAceptar == true)||((this.getSelectedItem() != null) && (this.bpac.clickAceptar)));
