@@ -70,8 +70,9 @@ public class BodyPopupAceptarCancelar {
 		this.controlInicial.controlVM = this;
 		this.checkAC = checkAC;
 		//System.out.println("================================= check:" + this.checkAC);
-		
+		System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"+this.controlInicial.getHighWindows());
 		this.setTenerBotonAceptar(this.controlInicial.isTenerBotonAceptar());
+		this.setHighWindows(this.controlInicial.getHighWindows());
 	}
 
 	public BodyPopupAceptarCancelar getControlVM() {
