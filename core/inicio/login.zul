@@ -27,7 +27,7 @@
 				font-style: italic;
 				}
 			</style>
-			<hlayout>
+			<hlayout  sclass="z-valign-middle">
 				<image src="/logo.png" width="150px" />
 				<vlayout>
 					<grid sclass="loginGrid">
@@ -38,12 +38,12 @@
 						<rows>
 							<row>
 								Usuario :
-								<textbox id="name" width="120px" value="@bind(crt.user)"
+								<textbox id="name" width="110px" value="@bind(crt.user)"
 									c:onFocus="this.select()" />
 							</row>
 							<row>
 								Clave :
-								<textbox id="pwd" width="120px" type="password" value="@bind(crt.pass)"
+								<textbox id="pwd" width="110px" type="password" value="@bind(crt.pass)"
 									c:onFocus="this.select()" />
 							</row>
 						</rows>

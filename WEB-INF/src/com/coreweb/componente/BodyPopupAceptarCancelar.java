@@ -45,7 +45,8 @@ public class BodyPopupAceptarCancelar {
 	
 	List<Pair> listaComponentes = new ArrayList<Pair>();
 	List<Component> listaToolBar = new ArrayList<Component>();
-	
+
+	boolean tenerBotonAceptar = true;
 	VerificaAceptarCancelar checkAC = null;
 	
 	Misc m = new Misc();
@@ -69,6 +70,8 @@ public class BodyPopupAceptarCancelar {
 		this.controlInicial.controlVM = this;
 		this.checkAC = checkAC;
 		//System.out.println("================================= check:" + this.checkAC);
+		
+		this.setTenerBotonAceptar(this.controlInicial.isTenerBotonAceptar());
 	}
 
 	public BodyPopupAceptarCancelar getControlVM() {
@@ -280,6 +283,14 @@ public class BodyPopupAceptarCancelar {
 
 	public void setHighWindows(String highWindows) {
 		this.heightWindows = highWindows;
+	}
+
+	public boolean isTenerBotonAceptar() {
+		return tenerBotonAceptar;
+	}
+
+	public void setTenerBotonAceptar(boolean tenerBotonAceptar) {
+		this.tenerBotonAceptar = tenerBotonAceptar;
 	}
 	
 	

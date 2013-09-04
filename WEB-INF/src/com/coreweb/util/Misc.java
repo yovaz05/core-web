@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Messagebox;
 
 //import com.yhaguy.Configuracion;
@@ -997,6 +998,24 @@ public class Misc {
 
 	}
 
+	
+	public void mensajePopupTemporal(String mensaje){
+		this.mensajePopupTemporal(mensaje, 3000);
+	}
+
+	public void mensajePopupTemporal(String mensaje, int time){
+		Clients.showNotification(mensaje, null, null, null, time);
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void xxmain(String[] args) {
 		try {
 			Misc m = new Misc();

@@ -18,21 +18,20 @@ import org.zkoss.zul.Window;
 import com.coreweb.Config;
 import com.coreweb.control.GenericViewModel;
 
-
-
 public class Footer extends GenericViewModel {
-	
+
 	private Page pagina;
 	private boolean yesClick = true;
-	
+
 	public Page getPagina() {
 		return pagina;
 	}
+
 	public void setPagina(Page pagina) {
 		this.pagina = pagina;
-	}	
-	
-	@Init(superclass=true)
+	}
+
+	@Init(superclass = true)
 	public void initFooter(@ExecutionParam("pageVM") Object pageVM) {
 		Page page = (Page) pageVM;
 		this.setPagina(page);
@@ -48,112 +47,117 @@ public class Footer extends GenericViewModel {
 		return this.getPagina().getAliasFormularioCorriente();
 	}
 
-
-	
-	
 	@Command
-    public void doTask () {
+	public void doTask() {
 		this.doTask("Grabar los cambios y salir?");
-    	
-    }
 
-	
-    public void doTask (String mensaje) {
+	}
+
+	public void doTask(String mensaje) {
 		this.yesClick = false;
-    	
-    	if ( this.pagina.getBody().verificarAlGrabar() == false){
-    		this.mensajeError(this.pagina.getBody().textoErrorVerificarGrabar());
-    		return;
-    	}
 
-        Button b = Messagebox.show(mensaje, "Grabar y Salir", new Messagebox.Button[]{
-                Messagebox.Button.YES, Messagebox.Button.NO }, Messagebox.QUESTION, null);
-        if ((b !=null) && (b.compareTo(Messagebox.Button.YES)==0)){        	
-        	this.yesClick = true;
-        	this.pagina.grabarDTOCorriente(true); // graba y sale
-        	
-        	this.pagina.getBody().afterSave();
+		if (this.pagina.getBody().verificarAlGrabar() == false) {
+			this.mensajeError(this.pagina.getBody().textoErrorVerificarGrabar());
+			return;
+		}
 
-        	//String texLabel = this.pagina.getTextoFormularioCorriente();
-    		//this.setTextoFormularioCorriente(texLabel);
-        	this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
-        	this.mensajePopupTemporal("Grabado con éxito !!");
-        	
-        }
+		Button b = Messagebox.show(mensaje, "Grabar y Salir",
+				new Messagebox.Button[] { Messagebox.Button.YES,
+						Messagebox.Button.NO }, Messagebox.QUESTION, null);
+		if ((b != null) && (b.compareTo(Messagebox.Button.YES) == 0)) {
+			try {
+				this.pagina.grabarDTOCorriente(true); // graba y sale
+				this.pagina.getBody().afterSave();
 
-    }
-	
+				this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+				this.yesClick = true;
+				this.mensajePopupTemporal("Información grabada!!", 1000);
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.mensajeError("Error grabando la información\n"
+						+ e.getMessage());
+
+			}
+
+		}
+
+	}
+
 	@Command
-    public void save () {
-    	if ( this.pagina.getBody().verificarAlGrabar() == false){
-    		this.mensajeError(this.pagina.getBody().textoErrorVerificarGrabar());
-    		return;
-    	}
+	public void save() {
+		if (this.pagina.getBody().verificarAlGrabar() == false) {
+			this.mensajeError(this.pagina.getBody().textoErrorVerificarGrabar());
+			return;
+		}
 
-    	this.yesClick = false;
-        Button b = Messagebox.show("Grabar los cambios?", "Grabar", new Messagebox.Button[]{
-                Messagebox.Button.YES, Messagebox.Button.NO }, Messagebox.QUESTION, null);
-        if ((b !=null) && (b.compareTo(Messagebox.Button.YES)==0)){
+		this.yesClick = false;
+		Button b = Messagebox.show("Grabar los cambios?", "Grabar",
+				new Messagebox.Button[] { Messagebox.Button.YES,
+						Messagebox.Button.NO }, Messagebox.QUESTION, null);
+		if ((b != null) && (b.compareTo(Messagebox.Button.YES) == 0)) {
 
-        	this.yesClick = true;
-        	this.pagina.grabarDTOCorriente(true); // graba y refresca el DTO
-        	this.pagina.getBody().afterSave();
-        	this.mensajePopupTemporal("Grabado con éxito !!");
-        }
-    }
+			try {
+				this.pagina.grabarDTOCorriente(true); // graba y refresca el DTO
+				this.pagina.getBody().afterSave();
+				this.yesClick = true;
+				this.mensajePopupTemporal("Información grabada!!", 1000);
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.mensajeError("Error grabando la información\n"
+						+ e.getMessage());
+			}
+		}
+	}
 
-	
-	
 	@Command
 	@NotifyChange("*")
-    public void discard () throws Exception {
+	public void discard() throws Exception {
 		this.yesClick = false;
-        Button b = Messagebox.show("Está seguro que quiere cancelar la operación?\n Perderá los cambios desde la última vez que grabó.", "Cancelar", new Messagebox.Button[]{
-                Messagebox.Button.YES, Messagebox.Button.NO }, Messagebox.QUESTION, null);
-        if ((b !=null) && (b.compareTo(Messagebox.Button.YES)==0)){
-        	this.yesClick = true;
+		Button b = Messagebox
+				.show("Está seguro que quiere cancelar la operación?\n Perderá los cambios desde la última vez que grabó.",
+						"Cancelar", new Messagebox.Button[] {
+								Messagebox.Button.YES, Messagebox.Button.NO },
+						Messagebox.QUESTION, null);
+		if ((b != null) && (b.compareTo(Messagebox.Button.YES) == 0)) {
+			this.yesClick = true;
 
-        	this.pagina.refreshDTOCorriente();
-        	        	
-        	//String texLabel = this.pagina.getTextoFormularioCorriente();
-    		//this.setTextoFormularioCorriente(texLabel);
-        	this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+			this.pagina.refreshDTOCorriente();
 
-        }        
-    }
-	
+			// String texLabel = this.pagina.getTextoFormularioCorriente();
+			// this.setTextoFormularioCorriente(texLabel);
+			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+
+		}
+	}
 
 	@GlobalCommand
 	@NotifyChange("*")
-	public void habilitarComponentes(){
+	public void habilitarComponentes() {
 		this.restoreAllDisabledComponents();
-		Window win =   (Window) this.mainComponent; 
+		Window win = (Window) this.mainComponent;
 		win.setVisible(true);
 	}
-	
 
 	@GlobalCommand
 	@NotifyChange("*")
-	public void deshabilitarComponentes(){
+	public void deshabilitarComponentes() {
 		this.disableAllComponents();
-		Window win =   (Window) this.mainComponent; 
+		Window win = (Window) this.mainComponent;
 		win.setVisible(false);
 	}
-	
-	
+
 	public boolean isYesClick() {
 		return yesClick;
 	}
+
 	public void setYesClick(boolean yesClick) {
 		this.yesClick = yesClick;
 	}
+
 	@Override
 	public boolean getCondicionComponenteSiempreHabilitado() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
-	
-	
 
 }

@@ -5,11 +5,14 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
+
+import sun.security.jca.GetInstance.Instance;
 import bsh.This;
 
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.IiD;
 import com.coreweb.domain.Register;
+import com.coreweb.domain.Tipo;
 import com.coreweb.extras.agenda.AgendaEventoDTO;
 import com.coreweb.extras.agenda.AgendaEventoDetalleDTO;
 import com.coreweb.util.Misc;
@@ -242,14 +245,19 @@ public abstract class Assembler {
 			// no tiene nada seteado, entonces termina
 			return;
 		}
-		MyArray mp = new MyArray();
-		mp.setId(dato.getId());
+		MyArray ma = new MyArray();
+		ma.setId(dato.getId());
 		for (int i = 0; i < campos.length; i++) {
 			String campo = campos[i];
 			Object valor = getValue(dato, campo);
-			setValue(mp, "pos" + (i + 1), valor);
+			
+			if (valor instanceof Domain ){
+				valor = this.createMyPair((Domain)valor, "descripcion");
+			}
+			
+			setValue(ma, "pos" + (i + 1), valor);
 		}
-		setValue(dto, atributo, mp);
+		setValue(dto, atributo, ma);
 	}
 
 	public MyArray createMyArray(Domain dom, String[] campos) throws Exception {
@@ -703,6 +711,23 @@ public abstract class Assembler {
 		}
 		return out;
 
+	}
+	// *********************************************************************
+	// Tipo Tipo
+	
+	public List<MyPair> getTipo(String tipoTipo) throws Exception{
+		List<MyPair> lis = new ArrayList<MyPair>();
+		String hql = "from Tipo t where t.tipoTipo.descripcion = '"+tipoTipo+"'";
+		Register rr = Register.getInstance();
+		List l = rr.hql(hql);
+		for (Iterator iterator = l.iterator(); iterator.hasNext();) {
+			Tipo dom = (Tipo) iterator.next();
+			MyPair mp = this.pasaDomainToMyPair(dom);
+			lis.add(mp);
+		}
+		
+		return lis;
+		
 	}
 
 	// **********************************************************************

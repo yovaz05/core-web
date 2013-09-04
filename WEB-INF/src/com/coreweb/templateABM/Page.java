@@ -24,21 +24,19 @@ import com.coreweb.Config;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.dto.DTO;
 
-
-
 public class Page extends GenericViewModel {
-	
+
 	private Body body;
 	private Toolbar tool;
 	private Footer footer;
 	private String aliasABMx = "--AliasTemplateABM--";
 	private Div bodyMask;
-	
+
 	private String textoEnmascarar = "ANULADO";
 
 	@Init(superclass = true)
 	public void initPage() {
-		
+
 	}
 
 	@AfterCompose(superclass = true)
@@ -51,7 +49,6 @@ public class Page extends GenericViewModel {
 				bodyUrl = (String) execution.getAttribute("body");
 				aliasForm = (String) execution.getAttribute("aliasForm");
 			}
-			
 
 			String labelF = this.getUs().formLabel(aliasForm);
 			this.setTextoFormularioCorriente(labelF);
@@ -63,7 +60,6 @@ public class Page extends GenericViewModel {
 
 			this.bodyMask = (Div) this.mainComponent.getFellow("bodyMask");
 
-
 		} catch (Exception ex) {
 			System.out.println("error al incluir url del body:" + bodyUrl
 					+ "\n exception:" + ex.getMessage());
@@ -71,17 +67,18 @@ public class Page extends GenericViewModel {
 		}
 	}
 
-	public void grabarDTOCorriente(boolean refreshDTO) {
-		DTO dtoCC = this.body.getDTOCorriente();
-		try {
+	public void grabarDTOCorriente(boolean refreshDTO) throws Exception {
+		
+		if (this.body.isGrabadoAlternativo() == true){
+			this.body.metodoGrabadoAlternativo();
+		}else{
+			DTO dtoCC = this.body.getDTOCorriente();
 			dtoCC = this.saveDTO(dtoCC, refreshDTO);
-			if (refreshDTO == true){
+			if (refreshDTO == true) {
 				this.body.setDTOCorriente(dtoCC);
 			}
-		} catch (Exception e) {
-			System.out.println("Error grabando DTO: "+e.getMessage());
-			e.printStackTrace();
 		}
+		
 	}
 
 	public void borrarDTOCorriente() {
@@ -90,40 +87,39 @@ public class Page extends GenericViewModel {
 			this.deleteDTO(dtoCC);
 			this.getBody().setDTOCorriente(this.getBody().nuevoDTO());
 		} catch (Exception e) {
-			System.out.println("Error borrando DTO: "+e.getMessage());
+			System.out.println("Error borrando DTO: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
-	public DTO getDTOCorriente(){
+	public DTO getDTOCorriente() {
 		return this.body.getDTOCorriente();
 	}
-	
-	public void refreshDTOCorriente() throws Exception{
+
+	public void refreshDTOCorriente() throws Exception {
 		DTO dtoAux;
-		if (this.getDTOCorriente().esNuevo() == true){
+		if (this.getDTOCorriente().esNuevo() == true) {
 			dtoAux = this.getBody().nuevoDTO();
-		}else{
-	    	long id = this.getDTOCorriente().getId();
-	    	String entidad = this.getBody().getEntidadPrincipal();
-	    	dtoAux = this.getDTOById(entidad, id+"");
+		} else {
+			long id = this.getDTOCorriente().getId();
+			String entidad = this.getBody().getEntidadPrincipal();
+			dtoAux = this.getDTOById(entidad, id + "");
 		}
-    	this.getBody().setDTOCorriente(dtoAux);
+		this.getBody().setDTOCorriente(dtoAux);
 
 	}
-	
+
 	public String getAliasFormularioCorriente() {
-		if (this.getBody() == null){
+		if (this.getBody() == null) {
 			return Config.ALIAS_HABILITADO_SI_O_SI;
 		}
-		return  super.getAliasFormularioCorriente();// this.aliasABM;
+		return super.getAliasFormularioCorriente();// this.aliasABM;
 	}
 
 	public void setAliasABM(String aliasABM) {
 		this.setAliasFormularioCorriente(aliasABM);
 	}
-	
-	
+
 	public String getTextoEnmascarar() {
 		return textoEnmascarar;
 	}
@@ -156,8 +152,6 @@ public class Page extends GenericViewModel {
 		this.footer = footer;
 	}
 
-	
-	
 	public Div getBodyMask() {
 		return bodyMask;
 	}
@@ -172,5 +166,4 @@ public class Page extends GenericViewModel {
 		return true;
 	}
 
-	
 }

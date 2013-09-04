@@ -471,9 +471,12 @@ public class Control {
 	}
 
 	public void mensajePopupTemporal(String mensaje){
-		Clients.showNotification(mensaje, null, null, null, 3000);
+		this.m.mensajePopupTemporal(mensaje);
 	}
 
+	public void mensajePopupTemporal(String mensaje, int time){
+		this.m.mensajePopupTemporal(mensaje, time);
+	}
 	
 	public boolean esGrupo(String grupo) {
 		boolean out = false;

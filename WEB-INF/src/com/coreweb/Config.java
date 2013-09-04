@@ -55,7 +55,8 @@ public class Config {
 	}
 	
 
-	public static String DATO_SOLO_VIEW_MODEL = "dato";
+	public static final String DATO_SOLO_VIEW_MODEL = "dato";
+
 	public static String WINDOW_POPUP = "windowsPopUp";
 	public static String MODO_SOLO_VIEW_MODEL = "modo";
 	public static String MODO_DISABLE = "disable";

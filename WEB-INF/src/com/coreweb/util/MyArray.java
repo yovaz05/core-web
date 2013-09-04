@@ -30,7 +30,11 @@ public class MyArray extends MyAuxObject {
 	}
 	
 
-
+	public Object clone() {
+		Object clone = null;
+		clone = super.clone();
+		return clone;
+	}
 
 
 	public String toString() {

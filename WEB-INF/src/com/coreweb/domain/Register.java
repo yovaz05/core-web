@@ -43,8 +43,7 @@ public class Register {
 	/***** Hibernate functions ******/
 	/********************************/
 
-	public void dropAllTables() {
-		try {
+	public void dropAllTables() throws Exception {
 
 			Random rand = new Random(System.currentTimeMillis());
 			int v = 1000 + rand.nextInt(8999);
@@ -60,9 +59,9 @@ public class Register {
 			if (codigo.compareTo(linea) != 0) {
 				System.out.println("Código erroneo....");
 				System.out
-						.println("Base de Datos NO BORRADA, presione [ENTER] para continuar");
+						.println("Base de Datos NO BORRADA, presione [ENTER] para salir");
 				linea = br.readLine();
-				return;
+				throw new Exception("Error de carga de código");
 			} else {
 				System.out
 						.print("Confirma que desea borrar la Base de datos ? [Y/N] : ");
@@ -71,7 +70,7 @@ public class Register {
 					System.out
 							.println("Base de Datos NO BORRADA, presione [ENTER] para continuar");
 					linea = br.readLine();
-					return;
+					throw new Exception("No se confirmó el borrado");
 				}
 			}
 
@@ -80,9 +79,6 @@ public class Register {
 			cfg.setProperty("hibernate.hbm2ddl.auto", "create");
 			HibernateUtil.forceRebuildSessionFactory(cfg);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 	}
 
