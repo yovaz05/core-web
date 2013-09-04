@@ -5,7 +5,7 @@ import java.util.Comparator;
 import com.coreweb.domain.IiD;
 import com.coreweb.dto.DTO;
 
-public abstract class MyAuxObject implements IiD, Comparable, Comparator {
+public abstract class MyAuxObject implements IiD, Comparable, Comparator, Cloneable {
 
 	private static long ID_NUEVO = -1;
 
@@ -28,6 +28,16 @@ public abstract class MyAuxObject implements IiD, Comparable, Comparator {
 		return ID_NUEVO;
 	}
 
+	public Object clone() {
+		Object clone = null;
+		try {
+			clone = super.clone();
+		} catch (CloneNotSupportedException e) {
+			// No debería ocurrir
+		}
+		return clone;
+	}
+	
 	@Override
 	public boolean esNuevo() {
 		// TODO Auto-generated method stub

@@ -274,7 +274,15 @@ public abstract class GenericViewModel extends Control {
 		comp.getParent().appendChild(mask);	
 	}
 
-	
+	// para poner una imagen los iconoss de la tilde y el contra mano
+	public String getImgSiNo(boolean b){
+		String out = Config.IMAGEN_CANCEL;
+		if (b == true){
+			out = Config.IMAGEN_OK;
+		}
+		return out;
+	}
+
 	
 }
 

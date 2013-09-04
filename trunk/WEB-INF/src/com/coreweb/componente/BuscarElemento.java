@@ -15,6 +15,7 @@ import com.coreweb.domain.Domain;
 import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
+import com.coreweb.util.Misc;
 import com.coreweb.util.MyArray;
 
 public class BuscarElemento {
@@ -32,6 +33,8 @@ public class BuscarElemento {
 	String msgVacia = "Ingrese un criterio de filtro...";
 	List<String> where = new ArrayList<String>();
 
+	Misc m = new Misc();
+	
 	// para los casos que sea uno solo
 	boolean unDatoAceptar = false;
 	Object[] unDato;
@@ -56,6 +59,7 @@ public class BuscarElemento {
 			if (datos.size() == 1){
 				this.unDatoAceptar = true;
 				this.unDato = datos.get(0);
+				this.m.mensajePopupTemporal("Un registro encontrado", 1000);
 				return;
 			}
 		} catch (Exception e) {
@@ -186,7 +190,7 @@ public class BuscarElemento {
 		Register rr = Register.getInstance();
 		List<Object[]> datos = new ArrayList<Object[]>();
 //		datos = (List<Object[]>) rr.buscarElemento(clase,atributos, valores, tipos, where);
-		datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores, tipos, false, true, Config.CUANTOS_BUSCAR_ELEMENTOS, false, where);
+		datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores, tipos, false, true, Config.CUANTOS_BUSCAR_ELEMENTOS, true, where);
 		return datos;
 	}
 	

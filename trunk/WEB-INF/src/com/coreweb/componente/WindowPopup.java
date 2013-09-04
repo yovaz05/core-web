@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -66,6 +67,7 @@ public class WindowPopup {
 		String modoTxt = "--no definido--";
 		boolean bEditDisable = false;
 		boolean siBotonEdit = true;
+		boolean siBotonAceptar = true;
 		
 		Vlayout vl = new Vlayout();
 
@@ -80,6 +82,7 @@ public class WindowPopup {
 			inc.setDynamicProperty(Config.MODO_SOLO_VIEW_MODEL, Config.MODO_DISABLE);
 			modoTxt = "Solo lectura";
 			siBotonEdit = false;
+			siBotonAceptar = false;
 			bEditDisable = true;
 		}
 		// Es nuevo
@@ -87,6 +90,7 @@ public class WindowPopup {
 			inc.setDynamicProperty(Config.MODO_SOLO_VIEW_MODEL, Config.MODO_NO_DISABLE);
 			modoTxt = "Editable";
 			siBotonEdit = false;
+			siBotonAceptar = true;
 			bEditDisable = true;
 		}
 		// Es editable
@@ -94,6 +98,7 @@ public class WindowPopup {
 			inc.setDynamicProperty(Config.MODO_SOLO_VIEW_MODEL, Config.MODO_EDITABLE);
 			modoTxt = "Solo lectura";
 			siBotonEdit = true;
+			siBotonAceptar = false;
 			bEditDisable = true;
 		}
 		
@@ -106,6 +111,7 @@ public class WindowPopup {
 		vl.getChildren().add(inc);
 		
 		BodyPopupAceptarCancelar b = new BodyPopupAceptarCancelar();
+		b.setTenerBotonAceptar(siBotonAceptar);
 
 		// Tool bar
 		if ((this.modo.indexOf(SIN_TOOLBAR)<0)&&(siBotonEdit==true)){
@@ -114,7 +120,7 @@ public class WindowPopup {
 			
 			bEdit.setDisabled(bEditDisable);
 			b.addToolBarComponente(bEdit);
-			bEdit.addEventListener(Events.ON_CLICK, new BotonEditarListener(this,lmodo));
+			bEdit.addEventListener(Events.ON_CLICK, new BotonEditarListener(this,lmodo, b));
 		}
 		
 		b.addComponente("vlayout", vl);
@@ -202,12 +208,14 @@ class BotonEditarListener implements EventListener {
 
 	WindowPopup wpu;
 	Label lmodo;
+	BodyPopupAceptarCancelar b;
 	// DisableEnableComponent disableEnableComponent = new DisableEnableComponent(new SoloViewModel());
 	
 	
-	public BotonEditarListener(WindowPopup wpu, Label lmodo){
+	public BotonEditarListener(WindowPopup wpu, Label lmodo, BodyPopupAceptarCancelar b){
 		this.wpu = wpu;
 		this.lmodo = lmodo;
+		this.b = b;
 	}
 	
 	@Override
@@ -216,6 +224,8 @@ class BotonEditarListener implements EventListener {
 		if (vm != null){
 			vm.restoreAllDisabledComponents();
 			this.lmodo.setValue("(Editable) ");
+			b.setTenerBotonAceptar(true);
+			BindUtils.postNotifyChange(null, null, this, "*");
 		}else{
 			// this.disableEnableComponent.restoreComponents(null);
 			throw new Exception("No está definido el SoloViewModel del WindowPopUp ["+this.wpu.getTitulo()+"]");

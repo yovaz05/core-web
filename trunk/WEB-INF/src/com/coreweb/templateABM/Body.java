@@ -148,8 +148,27 @@ public abstract class Body extends GenericViewModel {
 	
 	//===================================================================
 	
+	// Metodo alternativo de grabado del Body
+	private boolean grabadoAlternativo = false;
+	
+	public boolean isGrabadoAlternativo() {
+		return grabadoAlternativo;
+	}
+
+	public void setGrabadoAlternativo(boolean grabadoAlternativo) {
+		this.grabadoAlternativo = grabadoAlternativo;
+	}
+
+	public void metodoGrabadoAlternativo() throws Exception {
+		throw new Exception("Falta implementar el 'metodoGrabadoAlternativo'");
+	}
+	
+	
+	//===================================================================
+	
 
 	
+
 	public void desEnmascarar() {	
 		this.getPagina().getBodyMask().setVisible(false);
 	}
