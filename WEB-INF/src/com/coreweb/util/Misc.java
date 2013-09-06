@@ -45,7 +45,7 @@ public class Misc {
 	private static String TEXTO_ROJO = "font-weight: bold; color:Red; text-align: right";
 	private static String TEXTO_NARANJA = "font-weight: bold; color:Orange; text-align: right";
 	private static String TEXTO_VERDE = "font-weight: bold; color:DarkGreen; text-align: right";
-	private static String TEXTO_AZUL = "color: #003390; text-align: right";
+	private static String TEXTO_NORMAL = "text-align: right";
 	private static String LABEL_AZUL = "color:#003390; font-size:14px; text-align: center";
 	private static String LABEL_ROJO = "color:red; font-size:14px; text-align: center";
 	private static String BACKGROUND_NARANJA = "background:#f6d197";
@@ -90,7 +90,7 @@ public class Misc {
 	public String colorVariacion(double actual, double nuevo) {
 		double d = nuevo - actual;
 		double porc = d / actual * 100;
-		String color = TEXTO_AZUL;
+		String color = TEXTO_NORMAL;
 
 		if (porc >= 10) {
 			color = TEXTO_ROJO;
