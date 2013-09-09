@@ -89,7 +89,8 @@ public class BuscarElemento {
 
 			FiltroBuscarElementoEvento ev = new FiltroBuscarElementoEvento(
 					this, listFiltros);
-			ahcT.addEventListener("onOK", ev);
+			ahcT.addEventListener(Events.ON_OK, ev);
+			ahcT.addEventListener(Events.ON_DOUBLE_CLICK, ev);
 			
 			if (i == 0){
 				ahcT.setDisabled(true);

@@ -27,9 +27,9 @@
 				font-style: italic;
 				}
 			</style>
-			<hlayout  sclass="z-valign-middle">
+			<hbox  sclass="z-valign-middle" style="background-color: white;" width="480px" >
 				<image src="/logo.png" width="150px" />
-				<vlayout>
+				<vbox align="center" width="210px">					
 					<grid sclass="loginGrid">
 						<columns>
 							<column width="70px" />
@@ -51,8 +51,8 @@
 					<button label="Ingresar" onClick="@command('loginOk')"
 						width="100px" />
 					<label id="mesg" value="@load(crt.msg)"  style="color: red;font-style: italic;"/>
-				</vlayout>
-			</hlayout>
+				</vbox>
+			</hbox>
 			<script><![CDATA[
 	
 function loginFaild() { //Shake the window
