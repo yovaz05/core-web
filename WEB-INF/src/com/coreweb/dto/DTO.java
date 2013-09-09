@@ -75,6 +75,11 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	public void setReadonly() {
 		this.dbEstado = DBEstado.DB_READONLY;
 	}
+	
+	public void setDeleted() {
+		this.dbEstado = DBEstado.DB_DELETE;
+	}
+	
 
 	public List<String> getColumnNames() {
 

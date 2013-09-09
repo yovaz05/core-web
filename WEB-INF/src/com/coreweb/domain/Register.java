@@ -602,7 +602,8 @@ public class Register {
 
 		String atOrd = "c." + atts[0];
 		String select = " ";
-		String where = " 1 = 1 and ";
+//		String where = " 1 = 1 and ";
+		String where = " c.dbEstado != 'D' and ";
 
 		// estos son los wheres que fueron agregados por el usuario al crear el
 		// browser
