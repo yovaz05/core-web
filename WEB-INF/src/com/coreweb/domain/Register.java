@@ -697,7 +697,9 @@ public class Register {
 	
 	public boolean existe(Class clase, String atributo, String tipo, Object valor, IiD id) throws Exception{
 		boolean out = false;
-		
+		if ((valor == null) ||( (valor+"").trim().length() == 0) ){
+			return false;
+		}
 		String[] atts = {atributo};
 		String[] values = {valor+""};
 		String[] tipos = {tipo};
