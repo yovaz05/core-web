@@ -104,6 +104,7 @@ public abstract class Browser extends SimpleViewModel {
 	private String[] valores;
 	private String[] tipos; // los tipos de los campos
 	private String[] wheres;
+	private String join = "";
 
 	private Object[] selectedItem = { -1 };
 	private Row selectedRow = new Row();
@@ -252,7 +253,7 @@ public abstract class Browser extends SimpleViewModel {
 		List<Object[]> datos = new ArrayList<Object[]>();
 
 		datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores,
-				wheres, tipos, true);
+				wheres, tipos, true, this.join);
 
 		return datos;
 	}
@@ -328,6 +329,11 @@ public abstract class Browser extends SimpleViewModel {
 		this.checkVisible = checkVisible;
 	}
 
+	public void addJoin(String join){
+		this.join = join;
+	}
+	
+	
 	// *********************************************************
 	// Lista de componentes
 

@@ -45,40 +45,38 @@ public class Register {
 
 	public void dropAllTables() throws Exception {
 
-			Random rand = new Random(System.currentTimeMillis());
-			int v = 1000 + rand.nextInt(8999);
-			String codigo = (" " + v).trim();
+		Random rand = new Random(System.currentTimeMillis());
+		int v = 1000 + rand.nextInt(8999);
+		String codigo = (" " + v).trim();
 
-			InputStreamReader isr = new InputStreamReader(System.in);
-			BufferedReader br = new BufferedReader(isr);
+		InputStreamReader isr = new InputStreamReader(System.in);
+		BufferedReader br = new BufferedReader(isr);
 
+		System.out.println("NOTA: Está apunto de borrar toda la base de datos");
+		System.out.print("Ingrese el código  [" + codigo + "] : ");
+		String linea = br.readLine();
+		if (codigo.compareTo(linea) != 0) {
+			System.out.println("Código erroneo....");
 			System.out
-					.println("NOTA: Está apunto de borrar toda la base de datos");
-			System.out.print("Ingrese el código  [" + codigo + "] : ");
-			String linea = br.readLine();
-			if (codigo.compareTo(linea) != 0) {
-				System.out.println("Código erroneo....");
+					.println("Base de Datos NO BORRADA, presione [ENTER] para salir");
+			linea = br.readLine();
+			throw new Exception("Error de carga de código");
+		} else {
+			System.out
+					.print("Confirma que desea borrar la Base de datos ? [Y/N] : ");
+			linea = br.readLine();
+			if (linea.compareTo("Y") != 0) {
 				System.out
-						.println("Base de Datos NO BORRADA, presione [ENTER] para salir");
+						.println("Base de Datos NO BORRADA, presione [ENTER] para continuar");
 				linea = br.readLine();
-				throw new Exception("Error de carga de código");
-			} else {
-				System.out
-						.print("Confirma que desea borrar la Base de datos ? [Y/N] : ");
-				linea = br.readLine();
-				if (linea.compareTo("Y") != 0) {
-					System.out
-							.println("Base de Datos NO BORRADA, presione [ENTER] para continuar");
-					linea = br.readLine();
-					throw new Exception("No se confirmó el borrado");
-				}
+				throw new Exception("No se confirmó el borrado");
 			}
+		}
 
-			System.out.println(".... borrando Base de datos ...");
-			Configuration cfg = HibernateUtil.getConfiguration();
-			cfg.setProperty("hibernate.hbm2ddl.auto", "create");
-			HibernateUtil.forceRebuildSessionFactory(cfg);
-
+		System.out.println(".... borrando Base de datos ...");
+		Configuration cfg = HibernateUtil.getConfiguration();
+		cfg.setProperty("hibernate.hbm2ddl.auto", "create");
+		HibernateUtil.forceRebuildSessionFactory(cfg);
 
 	}
 
@@ -189,22 +187,21 @@ public class Register {
 		}
 	}
 
-	
 	public synchronized List getObjects(String entityName) throws Exception {
 		return getObjects(entityName, new Vector(), new Vector(), -1, -1);
 		// return getObject_Real(entityName, rest, orders, -1, -1);
 	}
 
-	public synchronized List getObjects(String entityName, String campo, Object value) throws Exception {
-		
+	public synchronized List getObjects(String entityName, String campo,
+			Object value) throws Exception {
+
 		Vector v = new Vector();
 		v.add(Restrictions.eq(campo, value));
-		
+
 		return getObjects(entityName, v, new Vector(), -1, -1);
 		// return getObject_Real(entityName, rest, orders, -1, -1);
 	}
 
-	
 	protected synchronized List getObjects(String entityName, Vector rest,
 			Vector orders) throws Exception {
 		return getObjects(entityName, rest, orders, -1, -1);
@@ -460,7 +457,7 @@ public class Register {
 	}
 
 	public List hql(String query, Object[] param) throws Exception {
-	
+
 		List list = new ArrayList<Domain>();
 		Session session = null;
 		try {
@@ -554,20 +551,20 @@ public class Register {
 
 	// este usa el buscar elemento
 	public List buscarElemento(Class clase, String[] atts, String[] values,
-			String[] tipos, List<String> where) throws Exception {
+			String[] tipos, List<String> where, String join) throws Exception {
 		return buscarElemento(clase, atts, values, tipos, false, true,
-				Config.CUANTOS_BUSCAR_ELEMENTOS, true, where);
+				Config.CUANTOS_BUSCAR_ELEMENTOS, true, where, join);
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values,
 			String[] tipos) throws Exception {
 		return buscarElemento(clase, atts, values, tipos, false, true,
-				Config.CUANTOS_BUSCAR_ELEMENTOS, true, new ArrayList());
+				Config.CUANTOS_BUSCAR_ELEMENTOS, true, new ArrayList(), "");
 	}
 
 	// este usa el browser
 	public List buscarElemento(Class clase, String[] atts, String[] values,
-			String[] wheres, String[] tipos, boolean permiteFiltroVacio)
+			String[] wheres, String[] tipos, boolean permiteFiltroVacio, String join)
 			throws Exception {
 		// armar la lista de wheres
 		List<String> whereCl = new ArrayList();
@@ -578,13 +575,14 @@ public class Register {
 			}
 		}
 
-		return buscarElemento(clase, atts, values, tipos, permiteFiltroVacio, true,
-				Config.CUANTOS_BUSCAR_ELEMENTOS, true, whereCl);
+		return buscarElemento(clase, atts, values, tipos, permiteFiltroVacio,
+				true, Config.CUANTOS_BUSCAR_ELEMENTOS, true, whereCl, join);
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values,
-			String[] tipos, boolean permiteFiltroVacio, boolean permiteLimite, int limite, boolean permiteLike,
-			List<String> whereCl) throws Exception {
+			String[] tipos, boolean permiteFiltroVacio, boolean permiteLimite,
+			int limite, boolean permiteLike, List<String> whereCl, String join)
+			throws Exception {
 		List l = new ArrayList<Object[]>();
 		;
 
@@ -602,7 +600,7 @@ public class Register {
 
 		String atOrd = "c." + atts[0];
 		String select = " ";
-//		String where = " 1 = 1 and ";
+		// String where = " 1 = 1 and ";
 		String where = " c.dbEstado != 'D' and ";
 
 		// estos son los wheres que fueron agregados por el usuario al crear el
@@ -619,9 +617,9 @@ public class Register {
 			String va = values[i].trim();
 
 			int siLike = va.indexOf("%");
-			permiteLike = like || (siLike >=0) ;
-			String strLike = this.likeStr(va, siLike >=0);
-			
+			permiteLike = like || (siLike >= 0);
+			String strLike = this.likeStr(va, siLike >= 0);
+
 			// va armando el select
 			select += at + " ,";
 
@@ -629,86 +627,91 @@ public class Register {
 			if (va.length() > 0) {
 				String ww = "";
 
-
 				if (tipos[i].compareTo(Config.TIPO_NUMERICO) == 0) {
-					if (permiteLike == true){
-						ww = " cast("+at+" as string) like "+strLike; // '%" + va.toLowerCase()+ "%' ";
-					}else{
+					if (permiteLike == true) {
+						ww = " cast(" + at + " as string) like " + strLike; // '%"
+																			// +
+																			// va.toLowerCase()+
+																			// "%' ";
+					} else {
 						ww = at + " = " + va.toLowerCase();
 					}
-					
+
 				} else if (tipos[i].compareTo(Config.TIPO_BOOL) == 0) {
-					if (permiteLike == true){
-					//	ww = " lower(str(" + at + ")) like  "+strLike; // '%" + va.toLowerCase()+ "%' ";
-					}else{
-					//	ww = at + " = " + va.toLowerCase();
+					if (permiteLike == true) {
+						// ww = " lower(str(" + at + ")) like  "+strLike; // '%"
+						// + va.toLowerCase()+ "%' ";
+					} else {
+						// ww = at + " = " + va.toLowerCase();
 					}
-					ww = " lower(str(" + at + ")) like  "+strLike; // '%" + va.toLowerCase()+ "%' ";
+					ww = " lower(str(" + at + ")) like  " + strLike; // '%" +
+																		// va.toLowerCase()+
+																		// "%' ";
 
 				} else {
 					// por defecto es String
-					if (permiteLike == true){
-						ww = " lower(" + at + ") like  "+strLike; // '%" + va.toLowerCase()+ "%' ";
-					}else{
-						ww = " lower(" + at + ") = '" + va.toLowerCase()+ "' ";
+					if (permiteLike == true) {
+						ww = " lower(" + at + ") like  " + strLike; // '%" +
+																	// va.toLowerCase()+
+																	// "%' ";
+					} else {
+						ww = " lower(" + at + ") = '" + va.toLowerCase() + "' ";
 					}
 				}
-				
+
 				where += " " + ww + " and ";
 			}
 		}
 
 		select = "select " + select.substring(0, select.length() - 1);
 		// quita el ultimo and
-		where = "where " + where.substring(0, where.length() - 4); 
+		where = "where " + where.substring(0, where.length() - 4);
 
-		String hql = select + " from " + clase.getName() + " c " + where
-				+ " order by " + atOrd + " asc";
+		String hql = select + " from " + clase.getName() + " c " + join + " "
+				+ where + " order by " + atOrd + " asc";
 		System.out.println("\n\n\n" + hql + "\n\n\n");
-		
-		
+
 		l = this.hql(hql);
 
-		if ((permiteLimite == true)&&(l.size() > limite)) {
-			throw new Exception("más de '" + limite
-					+ "' elementos (" + l.size() + ")...");
+		if ((permiteLimite == true) && (l.size() > limite)) {
+			throw new Exception("más de '" + limite + "' elementos ("
+					+ l.size() + ")...");
 		}
 
 		/*
-		if (l.size() == 0) {
-			throw new Exception("No se encontraron elementos ...");
-		}
-		*/
+		 * if (l.size() == 0) { throw new
+		 * Exception("No se encontraron elementos ..."); }
+		 */
 
-		
-		
 		return l;
 	}
-	
-	private String likeStr(String va, boolean siPorce){
-		String out ="";
-		if (siPorce == true){
-			out = "'" + va.toLowerCase()+ "'";
-		}else{
-			out = "'%" + va.toLowerCase()+ "%'";
+
+	private String likeStr(String va, boolean siPorce) {
+		String out = "";
+		if (siPorce == true) {
+			out = "'" + va.toLowerCase() + "'";
+		} else {
+			out = "'%" + va.toLowerCase() + "%'";
 		}
 		return out;
 	}
-	
-	public boolean existe(Class clase, String atributo, String tipo, Object valor, IiD id) throws Exception{
+
+	public boolean existe(Class clase, String atributo, String tipo,
+			Object valor, IiD id) throws Exception {
 		boolean out = false;
-		if ((valor == null) ||( (valor+"").trim().length() == 0) ){
+		if ((valor == null) || ((valor + "").trim().length() == 0)) {
 			return false;
 		}
-		String[] atts = {atributo};
-		String[] values = {valor+""};
-		String[] tipos = {tipo};
-		String where = "id != "+id.getId();
+		String[] atts = { atributo };
+		String[] values = { valor + "" };
+		String[] tipos = { tipo };
+		String where = "id != " + id.getId();
 		List<String> lw = new ArrayList<String>();
 		lw.add(where);
-		
-		List l = buscarElemento(clase, atts, values, tipos, false, false, 0, false,  lw);
-		
+
+		List l = buscarElemento(clase, atts, values, tipos, false, false, 0,
+				false, lw, "");
+
 		return (l.size() > 0);
 	}
 
