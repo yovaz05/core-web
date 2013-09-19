@@ -42,13 +42,13 @@ public class Misc {
 	private String correosIncorrectos = "";
 	private static String dir;
 
-	private static String TEXTO_ROJO = "font-weight: bold; color:Red; text-align: right";
-	private static String TEXTO_NARANJA = "font-weight: bold; color:Orange; text-align: right";
-	private static String TEXTO_VERDE = "font-weight: bold; color:DarkGreen; text-align: right";
-	private static String TEXTO_NORMAL = "text-align: right";
-	private static String LABEL_AZUL = "color:#003390; font-size:14px; text-align: center";
-	private static String LABEL_ROJO = "color:red; font-size:14px; text-align: center";
-	private static String BACKGROUND_NARANJA = "background:#f6d197";
+	public static String TEXTO_ROJO = "font-weight: bold; color:Red; text-align: right";
+	public static String TEXTO_NARANJA = "font-weight: bold; color:Orange; text-align: right";
+	public static String TEXTO_VERDE = "font-weight: bold; color:DarkGreen; text-align: right";
+	public static String TEXTO_NORMAL = "text-align: right";
+	public static String LABEL_AZUL = "color:#003390; font-size:14px; text-align: center";
+	public static String LABEL_ROJO = "color:red; font-size:14px; text-align: center";
+	public static String BACKGROUND_NARANJA = "background:#f6d197";
 	public static String COLOR_ROJO = "color:red";
 	public static String SIMBOLO_ASTERISCO = "(*)";
 
