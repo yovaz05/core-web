@@ -666,6 +666,10 @@ public class Register {
 		select = "select " + select.substring(0, select.length() - 1);
 		// quita el ultimo and
 		where = "where " + where.substring(0, where.length() - 4);
+		
+		if (join.trim().length() > 0){
+			join = "join c."+join.trim();
+		}
 
 		String hql = select + " from " + clase.getName() + " c " + join + " "
 				+ where + " order by " + atOrd + " asc";
