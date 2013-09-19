@@ -28,35 +28,35 @@ public class BuscarElemento {
 	boolean anchoAsignado = false;
 	String[] valores;
 	String[] tipos = null;
+	String join = "";
 	String titulo = "Buscar ...";
 	String width = "400px";
 	String msgVacia = "Ingrese un criterio de filtro...";
 	List<String> where = new ArrayList<String>();
 
 	Misc m = new Misc();
-	
+
 	// para los casos que sea uno solo
 	boolean unDatoAceptar = false;
 	Object[] unDato;
 
 	Listbox listbox = new Listbox();
 	BodyPopupAceptarCancelar bpac = null;
-	
+
 	public void show(String dato) throws Exception {
-		
+
 		// carga los tipos, por defecto String
-		if (this.tipos == null){
+		if (this.tipos == null) {
 			this.tipos = new String[this.atributos.length];
 			for (int i = 0; i < this.atributos.length; i++) {
 				this.tipos[i] = ""; // toma por defecto String
-			}			
+			}
 		}
-		
-		
+
 		try {
 			valores[1] = dato.trim(); // en el 0 está el ID
 			List<Object[]> datos = this.getModelo();
-			if (datos.size() == 1){
+			if (datos.size() == 1) {
 				this.unDatoAceptar = true;
 				this.unDato = datos.get(0);
 				this.m.mensajePopupTemporal("Un registro encontrado", 1000);
@@ -64,9 +64,6 @@ public class BuscarElemento {
 			}
 		} catch (Exception e) {
 		}
-		
-		
-	
 
 		this.listbox.setEmptyMessage(this.msgVacia);
 
@@ -91,16 +88,16 @@ public class BuscarElemento {
 					this, listFiltros);
 			ahcT.addEventListener(Events.ON_OK, ev);
 			ahcT.addEventListener(Events.ON_DOUBLE_CLICK, ev);
-			
-			if (i == 0){
+
+			if (i == 0) {
 				ahcT.setDisabled(true);
 			}
-			if (i == 1){
+			if (i == 1) {
 				ahcT.setValue(valores[1]); // el dato que viene como parámetro
 				ahcT.setFocus(true);
 				ahcT.focus();
 			}
-		
+
 		}
 
 		// Los headers
@@ -111,21 +108,20 @@ public class BuscarElemento {
 			String colName = nombresColumnas[i];
 			Listheader lhc = new Listheader();
 			lhc.setLabel(colName);
-			if (this.anchoAsignado == true){
+			if (this.anchoAsignado == true) {
 				lhc.setWidth(this.ancho[i]);
 			}
-			
-			
+
 			lh.getChildren().add(lhc);
 
-			if (i==0){
+			if (i == 0) {
 				// es el ID
 				lhc.setWidth("100px");
 			}
 		}
 
 		this.refreshModeloListbox();
-		
+
 		listbox.setItemRenderer(new ListitemRenderer() {
 
 			@Override
@@ -138,7 +134,7 @@ public class BuscarElemento {
 				for (int i = 0; i < row.length; i++) {
 					Object va = row[i];
 					String d = "";
-					if (va != null){
+					if (va != null) {
 						d = va.toString();
 					}
 					new Listcell(d).setParent(listItem);
@@ -150,30 +146,21 @@ public class BuscarElemento {
 		this.showAgain();
 
 	}
-	
 
-	
-
-
-
-
-	public void showAgain(){
+	public void showAgain() {
 		bpac = new BodyPopupAceptarCancelar();
-		listbox.addEventListener(Events.ON_DOUBLE_CLICK, new ListboxEventListener(bpac));
-		
+		listbox.addEventListener(Events.ON_DOUBLE_CLICK,
+				new ListboxEventListener(bpac));
+
 		bpac.addComponente("Buscar", listbox);
 		bpac.setWidthWindows(this.width);
 		bpac.setHighWindows("400px");
 		bpac.showPopupUnaColumna(this.titulo);
 
 	}
-	
-	
 
-	
-	
 	protected void refreshModeloListbox() throws Exception {
-		
+
 		List<Object[]> datos = new ArrayList<Object[]>();
 		String msg = this.msgVacia;
 		try {
@@ -181,20 +168,21 @@ public class BuscarElemento {
 		} catch (Exception e) {
 			msg = e.getMessage();
 		}
-		
+
 		this.listbox.setEmptyMessage(msg);
 		this.listbox.setModel(new ListModelList(datos));
 	}
-	
-	
-	private List<Object[]> getModelo() throws Exception{
+
+	private List<Object[]> getModelo() throws Exception {
 		Register rr = Register.getInstance();
 		List<Object[]> datos = new ArrayList<Object[]>();
-//		datos = (List<Object[]>) rr.buscarElemento(clase,atributos, valores, tipos, where);
-		datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores, tipos, false, true, Config.CUANTOS_BUSCAR_ELEMENTOS, true, where);
+		// datos = (List<Object[]>) rr.buscarElemento(clase,atributos, valores,
+		// tipos, where);
+		datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores,
+				tipos, false, true, Config.CUANTOS_BUSCAR_ELEMENTOS, true,
+				where, this.join);
 		return datos;
 	}
-	
 
 	public Class getClase() {
 		return clase;
@@ -238,9 +226,8 @@ public class BuscarElemento {
 		}
 
 	}
-	
-	
-	public void setAnchoColumnas(String[] ancho){
+
+	public void setAnchoColumnas(String[] ancho) {
 		this.anchoAsignado = true;
 		this.ancho = new String[ancho.length + 1];
 
@@ -249,55 +236,52 @@ public class BuscarElemento {
 		for (int i = 1; i < this.ancho.length; i++) {
 			this.ancho[i] = ancho[i - 1];
 		}
-		
+
 	}
 
-
-	public boolean isClickAceptar(){
-		return ((this.unDatoAceptar == true)||((this.getSelectedItem() != null) && (this.bpac.clickAceptar)));
+	public boolean isClickAceptar() {
+		return ((this.unDatoAceptar == true) || ((this.getSelectedItem() != null) && (this.bpac.clickAceptar)));
 	}
-	
-	public MyArray getSelectedItem(){
+
+	public MyArray getSelectedItem() {
 		// para el caso que es un solo elemento
-		if (this.unDatoAceptar == true){
+		if (this.unDatoAceptar == true) {
 			MyArray ma = new MyArray(this.unDato);
 			return ma;
 		}
-		
+
 		Listitem li = this.listbox.getSelectedItem();
-		if (li == null){
+		if (li == null) {
 			return null;
 		}
-		Object[] dato = (Object[])li.getValue();
-		MyArray  ma = new MyArray(dato);
+		Object[] dato = (Object[]) li.getValue();
+		MyArray ma = new MyArray(dato);
 		return ma;
 	}
-	
 
-	public DTO getSelectedItemDTO() throws Exception{
+	public DTO getSelectedItemDTO() throws Exception {
 		// para el caso que es un solo elemento
-		if (this.unDatoAceptar == true){
-			long id = (long)this.unDato[0];
+		if (this.unDatoAceptar == true) {
+			long id = (long) this.unDato[0];
 			return this.getDto(id);
 		}
-		
+
 		Listitem li = this.listbox.getSelectedItem();
-		if (li == null){
+		if (li == null) {
 			return null;
 		}
-		Object[] dato = (Object[])li.getValue();
-		long id = (long)dato[0];
+		Object[] dato = (Object[]) li.getValue();
+		long id = (long) dato[0];
 		return this.getDto(id);
 	}
 
 	private DTO getDto(long id) throws Exception {
-		Register rr =  Register.getInstance();
+		Register rr = Register.getInstance();
 		Domain dom = rr.getObject(this.clase.getName(), id);
 		DTO dto = this.assembler.domainToDto(dom);
-		return dto;		
+		return dto;
 	}
-	
-	
+
 	public String getTitulo() {
 		return titulo;
 	}
@@ -334,8 +318,12 @@ public class BuscarElemento {
 		this.assembler = assembler;
 	}
 
-	public void addWhere(String w){
+	public void addWhere(String w) {
 		this.where.add(w);
+	}
+
+	public void addJoin(String join) {
+		this.join = join;
 	}
 
 	public String[] getTipos() {
@@ -351,10 +339,9 @@ public class BuscarElemento {
 		for (int i = 1; i < this.tipos.length; i++) {
 			this.tipos[i] = tipos[i - 1];
 		}
-		
+
 	}
 
-	
 }
 
 class FiltroBuscarElementoEvento implements EventListener {
@@ -370,7 +357,7 @@ class FiltroBuscarElementoEvento implements EventListener {
 	@Override
 	public void onEvent(Event ev) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 		String[] valores = new String[listTx.size()];
 		for (int i = 0; i < listTx.size(); i++) {
 			Textbox tx = (Textbox) listTx.get(i);
@@ -383,20 +370,17 @@ class FiltroBuscarElementoEvento implements EventListener {
 
 }
 
-
 class ListboxEventListener implements EventListener {
 
 	BodyPopupAceptarCancelar bpac;
-	
-	public ListboxEventListener(BodyPopupAceptarCancelar bpac){
+
+	public ListboxEventListener(BodyPopupAceptarCancelar bpac) {
 		this.bpac = bpac;
 	}
-	
+
 	@Override
 	public void onEvent(Event arg0) throws Exception {
 		this.bpac.getControlVM().aceptar();
 	}
-	
+
 }
-
-
