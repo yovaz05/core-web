@@ -44,6 +44,15 @@ public abstract class Assembler {
 		return out;
 	}
 
+	
+	public DTO getDTObyId(String entityName, Long idObjeto) throws Exception {
+		Register register = Register.getInstance();
+		Domain dom = register.getObject(entityName, idObjeto);
+		DTO dto = this.domainToDto(dom);
+		return dto;
+	}
+	
+	
 	// *************************************************************************************
 	// *************************************************************************************
 

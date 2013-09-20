@@ -61,6 +61,24 @@ public class Footer extends GenericViewModel {
 			return;
 		}
 
+		if (this.mensajeSiNo(mensaje)== true){
+			try {
+				this.pagina.grabarDTOCorriente(true); // graba y sale
+				this.pagina.getBody().afterSave();
+
+				this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+				this.yesClick = true;
+				this.mensajePopupTemporal("Información grabada!!", 1000);
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.mensajeError("Error grabando la información\n"
+						+ e.getMessage());
+
+			}
+		}
+		
+		/*
+		
 		Button b = Messagebox.show(mensaje, "Grabar y Salir",
 				new Messagebox.Button[] { Messagebox.Button.YES,
 						Messagebox.Button.NO }, Messagebox.QUESTION, null);
@@ -80,6 +98,7 @@ public class Footer extends GenericViewModel {
 			}
 
 		}
+		*/
 
 	}
 
@@ -91,6 +110,21 @@ public class Footer extends GenericViewModel {
 		}
 
 		this.yesClick = false;
+		
+		if ( this.mensajeSiNo("Grabar los cambios?")== true){
+			try {
+				this.pagina.grabarDTOCorriente(true); // graba y refresca el DTO
+				this.pagina.getBody().afterSave();
+				this.yesClick = true;
+				this.mensajePopupTemporal("Información grabada!!", 1000);
+			} catch (Exception e) {
+				e.printStackTrace();
+				this.mensajeError("Error grabando la información\n"
+						+ e.getMessage());
+			}
+		}
+		
+		/*
 		Button b = Messagebox.show("Grabar los cambios?", "Grabar",
 				new Messagebox.Button[] { Messagebox.Button.YES,
 						Messagebox.Button.NO }, Messagebox.QUESTION, null);
@@ -107,12 +141,25 @@ public class Footer extends GenericViewModel {
 						+ e.getMessage());
 			}
 		}
+		*/
 	}
 
 	@Command
 	@NotifyChange("*")
 	public void discard() throws Exception {
 		this.yesClick = false;
+		
+		if ( this.mensajeSiNo("Está seguro que quiere cancelar la operación?\n Perderá los cambios desde la última vez que grabó.")==true){
+			this.yesClick = true;
+
+			this.pagina.refreshDTOCorriente();
+
+			// String texLabel = this.pagina.getTextoFormularioCorriente();
+			// this.setTextoFormularioCorriente(texLabel);
+			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+		}
+		
+		/*
 		Button b = Messagebox
 				.show("Está seguro que quiere cancelar la operación?\n Perderá los cambios desde la última vez que grabó.",
 						"Cancelar", new Messagebox.Button[] {
@@ -128,6 +175,7 @@ public class Footer extends GenericViewModel {
 			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
 
 		}
+		*/
 	}
 
 	@GlobalCommand
