@@ -1,5 +1,8 @@
 package com.coreweb.dto;
 
+import com.coreweb.domain.Domain;
+import com.coreweb.domain.Register;
+
 public abstract class AssemblerCoreUtil extends Assembler {
 	
 	public static UtilCoreDTO getDTOUtilCore(AssemblerCoreUtil as) {
@@ -19,4 +22,10 @@ public abstract class AssemblerCoreUtil extends Assembler {
 		dto.setHabilitado(this.listaSiNo());
 	}
 
+	
+	@Override
+	public DTO getDTObyId(String entityName, Long idObjeto) throws Exception {
+		return this.getDTOUtilCore(this);
+	}
+	
 }

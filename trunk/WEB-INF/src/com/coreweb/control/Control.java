@@ -288,10 +288,14 @@ public class Control {
 	}
 	
 	public DTO getDTOById(String entityName, Long idObjeto, Assembler ass) throws Exception {
+		
+		return ass.getDTObyId(entityName, idObjeto);
+		/*
 		Register register = Register.getInstance();
 		Domain dom = register.getObject(entityName, idObjeto);
 		DTO dto = ass.domainToDto(dom);
 		return dto;
+		*/
 	}
 	
 	
