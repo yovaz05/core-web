@@ -44,12 +44,13 @@ import com.coreweb.Config;
 import com.coreweb.IDCore;
 import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.componente.BuscarElemento;
+import com.coreweb.componente.VerificaAceptarCancelar;
 import com.coreweb.control.SimpleViewModel;
 import com.coreweb.domain.Register;
 import com.coreweb.util.Check;
 import com.coreweb.util.MyArray;
 
-public abstract class Browser extends SimpleViewModel {
+public abstract class Browser extends SimpleViewModel implements VerificaAceptarCancelar {
 
 	@Init(superclass = true)
 	public void initBrowser() {
@@ -106,7 +107,9 @@ public abstract class Browser extends SimpleViewModel {
 	private String[] wheres;
 	private String join = "";
 
-	private Object[] selectedItem = { -1 };
+	public static Object[] NO_SELECTED_ITEM = {-1};
+	
+	private Object[] selectedItem = NO_SELECTED_ITEM;
 	private Row selectedRow = new Row();
 	private Row selectedRowPrevio = new Row();
 	private String styleSepectedRowOriginal = "";
@@ -222,6 +225,7 @@ public abstract class Browser extends SimpleViewModel {
 		this.grid.setRowRenderer(new GridRowRender(this, rg));
 
 		this.rg.getChildren().add(this.grid);
+		bpac.setCheckAC(this);
 		bpac.addComponente("Buscar", this.rg);
 		bpac.setWidthWindows(this.getWidthWindows());
 		bpac.setHighWindows(this.getHigthWindows());
@@ -433,6 +437,34 @@ public abstract class Browser extends SimpleViewModel {
 
 	// *********************************************************
 
+	@Override
+	public boolean verificarAceptar() {
+		boolean out = false;
+		out = this.selectedItem != NO_SELECTED_ITEM;
+		return out;
+	}
+
+	@Override
+	public String textoVerificarAceptar() {
+		// TODO Auto-generated method stub
+		return "Debe seleccionar un item o hacer click en [Cancelar] para continuar";
+	}
+
+	@Override
+	public boolean verificarCancelar() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public String textoVerificarCancelar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	// =============================================================
+	
+	
+	
 }
 
 class FiltroBrowserEvento implements EventListener {
@@ -576,3 +608,5 @@ class RowEventListener implements EventListener {
 	}
 
 }
+
+
