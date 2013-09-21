@@ -39,17 +39,4 @@ public class MyPair extends MyAuxObject {
 		return clone;
 	}
 
-	/*
-	String pos1 = "";
-
-	public String getPos1() {
-		System.out.println("==================getPost1:" + this.pos1);
-		return pos1;
-	}
-
-	public void setPos1(String pos1) {
-		System.out.println("==================setPost1:" + pos1);
-		this.pos1 = pos1;
-	}
-*/
 }
