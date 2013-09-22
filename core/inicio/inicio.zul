@@ -44,7 +44,7 @@
 
 
 	<window id="templateInicio" width="1024px" position="center"
-		mode="overlapped" height="100%" apply="org.zkoss.bind.BindComposer"
+		mode="overlapped" height="680px" apply="org.zkoss.bind.BindComposer"
 		title="" viewModel="@id('vm')
 		@init('com.coreweb.login.ControlInicio')"
 		contentStyle="overflow:auto" zclass="z-window-popup" border="normal">
