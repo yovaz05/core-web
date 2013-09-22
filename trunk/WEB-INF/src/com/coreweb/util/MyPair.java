@@ -33,9 +33,9 @@ public class MyPair extends MyAuxObject {
 		return out;
 	}
 
-	public Object clone() {
+	public Object xclone() {
 		Object clone = null;
-		clone = super.clone();
+		clone = super.xclone();
 		return clone;
 	}
 

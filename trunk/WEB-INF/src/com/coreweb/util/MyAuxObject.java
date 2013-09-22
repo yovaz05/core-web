@@ -5,7 +5,7 @@ import java.util.Comparator;
 import com.coreweb.domain.IiD;
 import com.coreweb.dto.DTO;
 
-public abstract class MyAuxObject implements IiD, Comparable, Comparator, Cloneable {
+public abstract class MyAuxObject implements IiD, Comparable, Comparator{ //, Cloneable {
 
 	private static long ID_NUEVO = -1;
 
@@ -28,15 +28,6 @@ public abstract class MyAuxObject implements IiD, Comparable, Comparator, Clonea
 		return ID_NUEVO;
 	}
 
-	public Object clone() {
-		Object clone = null;
-		try {
-			clone = super.clone();
-		} catch (CloneNotSupportedException e) {
-			// No debería ocurrir
-		}
-		return clone;
-	}
 	
 	@Override
 	public boolean esNuevo() {
@@ -88,8 +79,26 @@ public abstract class MyAuxObject implements IiD, Comparable, Comparator, Clonea
 		return out;
 	}
 
-	public int hashCode() {
+	public int xhashCode() throws Exception {
+		/*
+		 * Cómo el hash era el ID, entonces planchaba los objetos que tenian el mismo id
+		 * por ejemplo, id 4 para el maypair de RubroCliente y id 4 para el de TipoCliente
+		 */
+		if (1 == 1){
+			throw new Exception("No debería usarse este método xhashCode "+this);
+		}
 		return this.getId().intValue();
+		
+	}
+
+	public Object xclone() {
+		Object clone = null;
+		try {
+			clone = super.clone();
+		} catch (CloneNotSupportedException e) {
+			// No debería ocurrir
+		}
+		return clone;
 	}
 
 	
@@ -103,6 +112,7 @@ public abstract class MyAuxObject implements IiD, Comparable, Comparator, Clonea
 	 * no se que pasa :(
 	 */
 
+	
 	
 	/*
 

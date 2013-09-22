@@ -17,6 +17,10 @@ echo .....
 rm -r ../work/*
 rm -r ../logs/*
 rm -r ../temp/*
+
+# mata todos los procesos apache-tomcat
+kill `ps -ef | grep apache-tomcat | grep -v grep | awk '{print $2}'`
+
 echo .... waiting...
 sleep 2
 ./startup.sh
