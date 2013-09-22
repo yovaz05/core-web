@@ -30,9 +30,9 @@ public class MyArray extends MyAuxObject {
 	}
 	
 
-	public Object clone() {
+	public Object xclone() {
 		Object clone = null;
-		clone = super.clone();
+		clone = super.xclone();
 		return clone;
 	}
 
