@@ -20,7 +20,7 @@
 
 		.mydb-readonly { background: #D3D3D3; border: 1px }
 
-		.colorBarra {background-color: #B5B4B4 ;}
+		.colorBarra {background-color: #B5B4B4 ; border-color: #B5B4B4 ;}
 
 }
 	</style>
@@ -91,7 +91,7 @@
 						<include id="menuSistema" src="@load(vm.menuSistema)" />
 					</hbox>
 					
-					<hbox  width="150px" align="center" height="30px" pack="sart">
+					<hbox  width="150px" align="center" height="30px" pack="start" >
 						<menubar id="menubarFoot1" width="100%" sclass="colorBarra">
 							<menuitem label="@load(vm.us.nombre)" onClick="@command('informacionUsuario')"
 								image="/core/images/user1.png" sclass="colorBarra" />
