@@ -44,15 +44,13 @@ public abstract class Assembler {
 		return out;
 	}
 
-	
 	public DTO getDTObyId(String entityName, Long idObjeto) throws Exception {
 		Register register = Register.getInstance();
 		Domain dom = register.getObject(entityName, idObjeto);
 		DTO dto = this.domainToDto(dom);
 		return dto;
 	}
-	
-	
+
 	// *************************************************************************************
 	// *************************************************************************************
 
@@ -259,11 +257,11 @@ public abstract class Assembler {
 		for (int i = 0; i < campos.length; i++) {
 			String campo = campos[i];
 			Object valor = getValue(dato, campo);
-			
-			if (valor instanceof Domain ){
-				valor = this.createMyPair((Domain)valor, "descripcion");
+
+			if (valor instanceof Domain) {
+				valor = this.createMyPair((Domain) valor, "descripcion");
 			}
-			
+
 			setValue(ma, "pos" + (i + 1), valor);
 		}
 		setValue(dto, atributo, ma);
@@ -285,7 +283,7 @@ public abstract class Assembler {
 		mp.setId(dom.getId());
 
 		Object valor = getValue(dom, campo);
-		mp.setText(valor+"");
+		mp.setText(valor + "");
 
 		return mp;
 	}
@@ -721,12 +719,14 @@ public abstract class Assembler {
 		return out;
 
 	}
+
 	// *********************************************************************
 	// Tipo Tipo
-	
-	public List<MyPair> getTipo(String tipoTipo) throws Exception{
+
+	public List<MyPair> getTipo(String tipoTipo) throws Exception {
 		List<MyPair> lis = new ArrayList<MyPair>();
-		String hql = "from Tipo t where t.tipoTipo.descripcion = '"+tipoTipo+"'";
+		String hql = "from Tipo t where t.tipoTipo.descripcion = '" + tipoTipo
+				+ "'";
 		Register rr = Register.getInstance();
 		List l = rr.hql(hql);
 		for (Iterator iterator = l.iterator(); iterator.hasNext();) {
@@ -734,9 +734,18 @@ public abstract class Assembler {
 			MyPair mp = this.pasaDomainToMyPair(dom);
 			lis.add(mp);
 		}
-		
 		return lis;
-		
+	}
+
+	public MyPair getTipo(String tipoTipo, long id) throws Exception {
+		MyPair out = new MyPair();
+		String hql = "from Tipo t where t.tipoTipo.descripcion = '" + tipoTipo
+				+ "'  and t.id = "+id;
+		Register rr = Register.getInstance();
+		List l = rr.hql(hql);
+		Tipo dom = (Tipo) l.get(0);
+		out = this.pasaDomainToMyPair(dom);
+		return out;
 	}
 
 	// **********************************************************************
@@ -867,6 +876,45 @@ public abstract class Assembler {
 		Object obj = ctor.newInstance();
 		return obj;
 	}
+
+	/*
+	 * ********************** TIPO
+	 * *******************************************************
+	 * ******************
+	 * *****************************************************************
+	 */
+
+	public MyPair tipoToMyPair(Tipo tipo) {
+		MyPair aux = new MyPair();
+		aux.setId(tipo.getId());
+		aux.setText(tipo.getDescripcion());
+		return aux;
+	}
+
+	public List<MyPair> listaTiposToListaMyPair(List<Tipo> tipos) {
+		List<MyPair> out = new ArrayList<MyPair>();
+		for (Tipo t : tipos) {
+			MyPair m = new MyPair();
+			m.setId(t.getId());
+			m.setText(t.getDescripcion());
+			out.add(m);
+		}
+		return out;
+	}
+
+	public List<MyArray> listaTiposToListaMyArray(List<Tipo> tipos) {
+		List<MyArray> out = new ArrayList<MyArray>();
+		for (Tipo t : tipos) {
+			MyArray m = new MyArray();
+			m.setId(t.getId());
+			m.setPos1(t.getDescripcion());
+			m.setPos2(t.getSigla());
+			out.add(m);
+		}
+		return out;
+	}
+
+	/**********************************************/
 
 	public static void xmain(String[] args) {
 		try {
