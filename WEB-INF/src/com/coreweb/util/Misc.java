@@ -23,12 +23,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Messagebox;
 
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
+
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -1007,7 +1009,9 @@ public class Misc {
 		Clients.showNotification(mensaje, null, null, null, time);
 	}
 
-	
+	public void mensajePopupTemporal(String mensaje, String tipo, Component posicion){
+		Clients.showNotification(mensaje, tipo, posicion, null, 2000);
+	}
 	
 	
 	
