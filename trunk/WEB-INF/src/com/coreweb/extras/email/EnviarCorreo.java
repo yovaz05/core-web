@@ -1,6 +1,7 @@
 package com.coreweb.extras.email;
 
 
+import java.security.GeneralSecurityException;
 import java.util.Properties;  
 
 import javax.activation.DataHandler;
@@ -15,28 +16,29 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;  
 import javax.mail.internet.MimeMultipart;
+
+
   
   
 public class EnviarCorreo{  
   
-    private static final String SMTP_HOST_NAME = "mail.yhaguyrepuestos.com.py";  
+    private static final String SMTP_HOST_NAME = "smtp.gmail.com";  
     private static final String SMTP_PORT = "587";  
-    private static final String emailFromAddress = "sergioa@yhaguyrepuestos.com.py";
-    private static final String emailFromPasswrd = "sergio0985";
+    private static final String emailFromAddress = "yhaguyrepuestos@gmail.com";
+    private static final String emailFromPasswrd = "yrmkt1970";
     private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";  
    
     
     public void sendSSLMessage(String recipients[], String[] recipientsCC,String[] recipientsCCO, String subject,  
-            String message, String from, String fileName, String path) throws MessagingException {  
-        boolean debug = true;         
+            String message, String from, String fileName, String path) throws Exception {  
+        boolean debug = false;         
         Properties props = new Properties();  
-        props.put("mail.smtp.host", SMTP_HOST_NAME);  
-        props.put("mail.smtp.auth", "true");  
-        props.put("mail.debug", "true");  
-        props.put("mail.smtp.port", SMTP_PORT);  
-        //props.put("mail.smtp.socketFactory.port", SMTP_PORT);  
-        //props.put("mail.smtp.socketFactory.class", SSL_FACTORY);  
-        //props.put("mail.smtp.socketFactory.fallback", "false"); 
+
+   
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", SMTP_HOST_NAME);
+		props.put("mail.smtp.port", SMTP_PORT);
   
         Session session = Session.getDefaultInstance(props,  
                 new javax.mail.Authenticator() {  
@@ -47,17 +49,20 @@ public class EnviarCorreo{
                 });  
   
         session.setDebug(debug);  
-        
-        BodyPart adjunto = new MimeBodyPart();
-    	adjunto.setDataHandler(new DataHandler(new FileDataSource(path)));
-    	adjunto.setFileName(fileName);
-    	
+
     	BodyPart mensaje = new MimeBodyPart();
     	mensaje.setText(message);
     	
     	MimeMultipart multiParte = new MimeMultipart();
     	multiParte.addBodyPart(mensaje);
-    	multiParte.addBodyPart(adjunto);
+
+        if (path != null){
+            BodyPart adjunto = new MimeBodyPart();
+        	adjunto.setDataHandler(new DataHandler(new FileDataSource(path)));
+        	adjunto.setFileName(fileName);
+        	multiParte.addBodyPart(adjunto);
+        }
+    	
   
         Message msg = new MimeMessage(session);
         //aqui cambiar la cuenta, para que reciba como parametro..provisoriamente usa esta cuenta
@@ -99,5 +104,27 @@ public class EnviarCorreo{
         Transport.send(msg);
         
     }
+    
+    
+    public static void main(String[] args) {
+		try {
+			
+			EnviarCorreo co = new EnviarCorreo();
+			String[] recipients = {"daniel.omar.romero@gmail.com"};
+			String[] recipientsCC = {""};
+			String[] recipientsCCO = {""};
+			String subject = "asunto";
+			String message = "mensaje";
+			String from = emailFromAddress;
+			String fileName = null;
+			String path = null;
+			
+			co.sendSSLMessage(recipients, recipientsCC, recipientsCCO, subject, message, from, fileName, path);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 } 
