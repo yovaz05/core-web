@@ -885,6 +885,9 @@ public abstract class Assembler {
 	 */
 
 	public MyPair tipoToMyPair(Tipo tipo) {
+		if (tipo == null){
+			return null;
+		}
 		MyPair aux = new MyPair();
 		aux.setId(tipo.getId());
 		aux.setText(tipo.getDescripcion());
