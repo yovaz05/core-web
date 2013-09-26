@@ -794,7 +794,7 @@ public abstract class Assembler {
 		}
 
 		listaDTOtoListaDomain(listIiD, listDom, new String[] { "descripcion" },
-				true, true, MY_PAIR, null, class1);
+				true, true, MY_PAIR, null, class1, null);
 
 	}
 
@@ -830,7 +830,7 @@ public abstract class Assembler {
 		}
 
 		listaDTOtoListaDomain(listIiD, listDom, campos, true, true, MY_ARRAY,
-				null, class1);
+				null, class1, null);
 
 	}
 
