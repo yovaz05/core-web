@@ -25,6 +25,7 @@ public abstract class Assembler {
 	public static int MY_PAIR = 1;
 	public static int MY_ARRAY = 2;
 	public static int ASSEMBLER = 3;
+	public static int MY_PAIR_TIPO = 4;
 
 	private List<Domain> subModel = new ArrayList<Domain>();
 
@@ -448,13 +449,13 @@ public abstract class Assembler {
 		Collection<IiD> listIiD = (Collection<IiD>) getValue(dto, atributo);
 
 		listaDTOtoListaDomain(listIiD, listaDom, campos, add, delete, tipo,
-				ass, tipoColeccion);
+				ass, tipoColeccion, null);
 
 	}
 
 	protected void listaDTOtoListaDomain(Collection<IiD> listIiD,
 			Collection<Domain> listaDom, String[] campos, boolean add,
-			boolean delete, int tipo, Assembler ass, Class tipoColeccion)
+			boolean delete, int tipo, Assembler ass, Class tipoColeccion, TipoTipo tipoTipo)
 			throws Exception {
 
 		Register rr = Register.getInstance();
@@ -514,7 +515,14 @@ public abstract class Assembler {
 					String campo = campos[0];
 					setValue(dAux, campo, vAux);
 
-				} else if (tipo == MY_ARRAY) {
+				}else if (tipo == MY_PAIR_TIPO) {
+					// MyPair
+					Object vAux = getValue(mp, "text");
+					String campo = campos[0];
+					setValue(dAux, campo, vAux);
+					setValue(dAux, "tipoTipo", tipoTipo);
+
+				}else if (tipo == MY_ARRAY) {
 					// MyArray
 					for (int i = 0; i < campos.length; i++) {
 						Object vAux = getValue(mp, "pos" + (i + 1));
@@ -538,7 +546,7 @@ public abstract class Assembler {
 
 							listaDTOtoListaDomain(listIiDAux, listaDomAux,
 									new String[] { "descripcion" }, add,
-									delete, MY_PAIR, null, tipoColeccionAux);
+									delete, MY_PAIR, null, tipoColeccionAux, null);
 
 						} else {
 							// Tipo primitivo (String, long, int... )
@@ -741,7 +749,7 @@ public abstract class Assembler {
 	public MyPair getTipo(String tipoTipo, long id) throws Exception {
 		MyPair out = new MyPair();
 		String hql = "from Tipo t where t.tipoTipo.descripcion = '" + tipoTipo
-				+ "'  and t.id = "+id;
+				+ "'  and t.id = " + id;
 		Register rr = Register.getInstance();
 		List l = rr.hql(hql);
 		Tipo dom = (Tipo) l.get(0);
@@ -793,8 +801,12 @@ public abstract class Assembler {
 	public void listaMyPairToListaDomainTipo(List<MyPair> list, String tipoTipo)
 			throws Exception {
 		Register rr = Register.getInstance();
+
+		String hqltt = "Select tt from TipoTipo tt where tt.descripcion = ?";
+		TipoTipo tt = (TipoTipo)rr.hqlToObject(hqltt, tipoTipo);
 		
-		String hql = "Select t from Tipo t where t.tipoTipo.descripcion = '"+tipoTipo+"'";
+		String hql = "Select t from Tipo t where t.tipoTipo.descripcion = '"
+				+ tipoTipo + "'";
 		List<Domain> listDom = rr.hql(hql);
 		List<IiD> listIiD = new ArrayList<IiD>();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
@@ -803,12 +815,10 @@ public abstract class Assembler {
 		}
 
 		listaDTOtoListaDomain(listIiD, listDom, new String[] { "descripcion" },
-				true, true, MY_PAIR, null, Tipo.class);
+				true, true, MY_PAIR_TIPO, null, Tipo.class, tt);
 
 	}
-	
-	
-	
+
 	public void listaMyArrayToListaDomain(List<MyArray> list, Class class1,
 			String[] campos) throws Exception {
 		Register rr = Register.getInstance();
@@ -905,7 +915,7 @@ public abstract class Assembler {
 	 */
 
 	public MyPair tipoToMyPair(Tipo tipo) {
-		if (tipo == null){
+		if (tipo == null) {
 			return null;
 		}
 		MyPair aux = new MyPair();
