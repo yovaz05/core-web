@@ -13,6 +13,7 @@ import com.coreweb.domain.Domain;
 import com.coreweb.domain.IiD;
 import com.coreweb.domain.Register;
 import com.coreweb.domain.Tipo;
+import com.coreweb.domain.TipoTipo;
 import com.coreweb.extras.agenda.AgendaEventoDTO;
 import com.coreweb.extras.agenda.AgendaEventoDetalleDTO;
 import com.coreweb.util.Misc;
@@ -789,6 +790,25 @@ public abstract class Assembler {
 
 	}
 
+	public void listaMyPairToListaDomainTipo(List<MyPair> list, String tipoTipo)
+			throws Exception {
+		Register rr = Register.getInstance();
+		
+		String hql = "Select t from Tipo t where t.tipoTipo.descripcion = '"+tipoTipo+"'";
+		List<Domain> listDom = rr.hql(hql);
+		List<IiD> listIiD = new ArrayList<IiD>();
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			MyPair mp = (MyPair) iterator.next();
+			listIiD.add(mp);
+		}
+
+		listaDTOtoListaDomain(listIiD, listDom, new String[] { "descripcion" },
+				true, true, MY_PAIR, null, Tipo.class);
+
+	}
+	
+	
+	
 	public void listaMyArrayToListaDomain(List<MyArray> list, Class class1,
 			String[] campos) throws Exception {
 		Register rr = Register.getInstance();
