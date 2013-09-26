@@ -279,7 +279,7 @@ public class Control {
 		register.deleteObject(don);
 	}
 
-	public DTO getDTOById(String entityName, String idObjeto) throws Exception {
+	public DTO getDTOById(String entityName, String idObjeto) throws Exception {	
 		return getDTOById(entityName, Long.parseLong(idObjeto), this.getAss());
 	}
 
