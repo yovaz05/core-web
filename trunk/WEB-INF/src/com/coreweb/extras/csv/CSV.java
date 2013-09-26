@@ -201,7 +201,7 @@ public class CSV {
 					String txtEx = "Error en la suma de la columna: "
 							+ detalleCabecera[k] + ". Deberia ser "
 							+ verificar[k] + " y no " + numero;
-					//dr System.out.println("** control deshabilitad: "+txtEx);					
+					System.out.println("** control deshabilitad: "+txtEx);					
 					throw new Exception(txtEx);
 				}
 			}

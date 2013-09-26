@@ -23,7 +23,7 @@ import com.coreweb.modulo.AssemblerModulo;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
 
-public class AssemblerUsuario extends AssemblerCoreUtil {
+public class AssemblerUsuario extends Assembler {
 
 	/*
 	 * listUsrArr: lista que contiene todos los usuarios usrArr: MyArray que
