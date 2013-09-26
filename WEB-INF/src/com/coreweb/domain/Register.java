@@ -16,6 +16,7 @@ import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.coreweb.Config;
@@ -272,9 +273,35 @@ public class Register {
 		}
 	}
 
-	protected int getSizeObjects(String entityName, Vector rect)
-			throws Exception {
-		return getObjects(entityName, rect, new Vector()).size();
+
+	protected int getSizeObjects(String entityName, Vector rest) throws Exception {
+
+		Session session = null;
+
+		try {
+
+			session = getSession();
+			session.beginTransaction();
+			Criteria cri = session.createCriteria(entityName);
+			cri.setProjection(Projections.rowCount());
+
+			if (rest != null) {
+				for (int i = 0; i < rest.size(); i++) {
+					Criterion r = (Criterion) rest.elementAt(i);
+					cri.add(r);
+				}
+			}
+
+			// String resultado = cri.uniqueResult().toString();
+			// return Integer.parseInt(resultado);
+			return Integer.parseInt(cri.uniqueResult().toString());
+
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			closeSession(session);
+		}
+
 	}
 
 	protected int getCountPage(String entityName, Vector rest, int pageSize)
@@ -564,8 +591,8 @@ public class Register {
 
 	// este usa el browser
 	public List buscarElemento(Class clase, String[] atts, String[] values,
-			String[] wheres, String[] tipos, boolean permiteFiltroVacio, String join)
-			throws Exception {
+			String[] wheres, String[] tipos, boolean permiteFiltroVacio,
+			String join) throws Exception {
 		// armar la lista de wheres
 		List<String> whereCl = new ArrayList();
 		for (int i = 0; i < wheres.length; i++) {
@@ -666,9 +693,9 @@ public class Register {
 		select = "select " + select.substring(0, select.length() - 1);
 		// quita el ultimo and
 		where = "where " + where.substring(0, where.length() - 4);
-		
-		if (join.trim().length() > 0){
-			join = "join c."+join.trim();
+
+		if (join.trim().length() > 0) {
+			join = "join c." + join.trim();
 		}
 
 		String hql = select + " from " + clase.getName() + " c " + join + " "
