@@ -467,7 +467,14 @@ public class Register {
 	}
 
 	public Object hqlToObject(String query) throws Exception {
-		return hqlToObject(query, new Object[] { });
+		Object out = null;
+		List l = this.hql(query, new Object[] { });
+		if (l.size() == 1) {
+			out = l.get(0);
+		}else{
+			throw new Exception("Más de un objeto ("+l.size()+") para el query \n"+query);
+		}
+		return out;
 	}
 
 	public Object hqlToObject(String query, Object o) throws Exception {
