@@ -29,7 +29,7 @@ public class Check {
 	public static String MENSAJE_MENOR_A = "El valor debe ser menor a ";
 	public static String MENSAJE_MAYOR_IGUAL_A = "El valor debe ser mayor o igual a ";
 	public static String MENSAJE_MENOR_IGUAL_A = "El valor debe ser menor o igual a ";
-	public static String MENSAJE_RUC = "Debe Ingresar un Ruc valido\nEl RUC debe tener el guión ej: 9999999-9";
+	public static String MENSAJE_RUC = "Ruc no valido\nEl formato es 9999999-9";
 	public static String MENSAJE_EMAIL = "Debe Ingresar un correo valido";
 	public static String TRUE_FALSE = "Debe Ingresar \nT para Verdadero, o \nF para Falso ";
 
