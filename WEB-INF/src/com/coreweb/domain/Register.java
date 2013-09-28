@@ -466,11 +466,17 @@ public class Register {
 		return list;
 	}
 
+	public Object hqlToObject(String query) throws Exception {
+		return hqlToObject(query, new Object[] { });
+	}
+
 	public Object hqlToObject(String query, Object o) throws Exception {
 		Object out = null;
 		List l = this.hql(query, new Object[] { o });
-		if (l.size() > 0) {
+		if (l.size() == 1) {
 			out = l.get(0);
+		}else{
+			throw new Exception("Más de un objeto ("+l.size()+") para el query \n"+query);
 		}
 		return out;
 	}
@@ -736,7 +742,7 @@ public class Register {
 		String[] atts = { atributo };
 		String[] values = { valor + "" };
 		String[] tipos = { tipo };
-		String where = "id != " + id.getId();
+		String where = "c.id != " + id.getId();
 		List<String> lw = new ArrayList<String>();
 		lw.add(where);
 
@@ -745,6 +751,25 @@ public class Register {
 
 		return (l.size() > 0);
 	}
+	
+	
+	public Tipo getTipoPorSigla(String sigla) throws Exception{
+		String queryTipo = "select t from Tipo t where t.sigla='"+sigla+"'";
+		Tipo out = (Tipo)this.hqlToObject(queryTipo);
+		return out;
+	}
+
+	//retorna la lista de tipos segun el id tipoTipo..
+	public List<Tipo> getTipos(String tipoTipoDescripcion) throws Exception{
+		List<Tipo> list = null;
+		String query = "select t from Tipo t where t.tipoTipo.descripcion = '" + tipoTipoDescripcion+"'";
+		list = this.hql(query);
+		return list;
+	}
+
+	
+	
+	
 
 	public static void xmain(String[] args) {
 		try {
