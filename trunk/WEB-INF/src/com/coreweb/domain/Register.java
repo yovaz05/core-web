@@ -153,6 +153,21 @@ public class Register {
 			closeSession(session);
 		}
 	}
+		
+	public synchronized Object getObject(String entityName, String campo,
+			Object value) throws Exception {
+
+		Vector v = new Vector();
+		v.add(Restrictions.eq(campo, value));
+
+		List l = getObjects(entityName, v, new Vector(), -1, -1);
+		if (l.size() == 1){
+			return l.get(0);
+		}
+		return null;
+	}
+
+	
 
 	public synchronized void deleteObject(String entityName, long id)
 			throws Exception {

@@ -1,49 +1,49 @@
 <zk>
 	<window id="ToolbarABM"
 		viewModel="@id('Toolbar') @init('com.coreweb.templateABM.Toolbar')"
-		apply="org.zkoss.bind.BindComposer" zclass="z-window-popup"  border="0">
+		apply="org.zkoss.bind.BindComposer" zclass="z-window-popup" border="0">
 
-				<hbox width="300px" align="start">
+		<hbox width="300px" align="start">
 
-					<toolbarbutton image="/core/images/add.png"
-						tooltiptext="Agregar"
-						onClick="@command('agregarItem')
+			<toolbarbutton image="/core/images/add.png"
+				tooltiptext="Agregar"
+				onClick="@command('agregarItem')
 				@global-command('habilitarComponentes')"
-						disabled="@load(Toolbar.agregarDeshabilitado)" />
+				disabled="@load(Toolbar.agregarDeshabilitado)" />
 
-					<toolbarbutton image="/core/images/edit.png"
-						tooltiptext="Editar"
-						onClick="@command('editarItem')
+			<toolbarbutton image="/core/images/edit.png"
+				tooltiptext="Editar"
+				onClick="@command('editarItem')
 				@global-command('habilitarComponentes')"
-						disabled="@load(Toolbar.editarDeshabilitado)" />
+				disabled="@load(Toolbar.editarDeshabilitado)" />
 
-					<toolbarbutton image="/core/images/delete.png"
-						tooltiptext="Eliminar"
-						onClick="@command('eliminarItem')
+			<toolbarbutton image="/core/images/delete.png"
+				tooltiptext="Eliminar"
+				onClick="@command('eliminarItem')
 			    @global-command('refreshComponentes')"
-						disabled="@load(Toolbar.eliminarDeshabilitado)" />
+				disabled="@load(Toolbar.eliminarDeshabilitado)" />
 
-					<toolbarbutton image="/core/images/find.png"
-						tooltiptext="Buscar"
-						onClick="@command('buscarItem')
+			<toolbarbutton image="/core/images/find.png"
+				tooltiptext="Buscar"
+				onClick="@command('buscarItem')
 				@global-command('refreshComponentes')"
-						disabled="@load(Toolbar.buscarDeshabilitado)" />
+				disabled="@load(Toolbar.buscarDeshabilitado)" />
 
-					<!-- <toolbarbutton image="/core/images/find.png" tooltiptext="Buscar" 
-						onClick="@command('buscarItemBr') @global-command('refreshComponentes')" 
-						disabled="@load(Toolbar.buscarDeshabilitado)" /> -->
+			<!-- <toolbarbutton image="/core/images/find.png" tooltiptext="Buscar" 
+				onClick="@command('buscarItemBr') @global-command('refreshComponentes')" 
+				disabled="@load(Toolbar.buscarDeshabilitado)" /> -->
 
-					<label id="idObjeto" value="@load(Toolbar.idObjeto)" />
+			<label id="idObjeto" value="@load(Toolbar.idObjeto)" />
 
-					<label id="abmModo" value="@load(Toolbar.estadoABM)"
-						multiline="false" style="font-size:12pt;font-weight:bold" />
-				</hbox>
+			<label id="abmModo" value="@load(Toolbar.estadoABM)" multiline="false"
+				style="font-size:12pt;font-weight:bold" />
+		</hbox>
 
-				<!-- <hbox id="AuxToolbarABM" width="700px" align="center" pack="end"> 
-					<hlayout> <label value="aca1" /> <label value="aca2" /> <label value="aca3" 
-					/> <label value="aca4" /> <label value="aca5" /> </hlayout> </hbox> -->
+		<!-- <hbox id="AuxToolbarABM" width="700px" align="center" pack="end"> 
+			<hlayout> <label value="aca1" /> <label value="aca2" /> <label value="aca3" 
+			/> <label value="aca4" /> <label value="aca5" /> </hlayout> </hbox> -->
 
-	
+
 
 
 	</window>
