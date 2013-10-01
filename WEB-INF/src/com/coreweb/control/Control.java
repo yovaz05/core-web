@@ -274,9 +274,14 @@ public class Control {
 	}
 
 	protected void deleteDTO(DTO dto) throws Exception {
+		/*
 		Domain don = ass.dtoToDomain(dto);
 		Register register = Register.getInstance();
 		register.deleteObject(don);
+		*/
+		dto.setDeleted();
+		this.saveDTO(dto, false);
+		
 	}
 
 	public DTO getDTOById(String entityName, String idObjeto) throws Exception {	
