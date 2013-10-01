@@ -242,6 +242,8 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 				if (ruc.validarRuc(s) == false) {
 					throw new WrongValueException(comp, Check.MENSAJE_RUC);
 				}
+				
+				/*
 				// ver que no sea un ruc repetido
 				try {
 					Class empresa = (Class) this.misc.ejecutarMetoto(this.vm,
@@ -261,6 +263,7 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 					throw new WrongValueException(comp,
 							"Error en metodo getRucEmpresa");
 				}
+				*/
 
 			}
 			if ((this.constraint == this.EMAIL)
