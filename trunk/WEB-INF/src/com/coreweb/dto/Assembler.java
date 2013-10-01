@@ -530,7 +530,7 @@ public abstract class Assembler {
 					String descr = campos[0];
 					String sigla = campos[1];
 					setValue(dAux, descr, vAux1);
-					setValue(dAux, sigla, vAux1);
+					setValue(dAux, sigla, vAux2);
 					setValue(dAux, "tipoTipo", tipoTipo);
 
 				}else if (tipo == MY_ARRAY) {
