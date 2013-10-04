@@ -99,11 +99,28 @@ public class Register {
 		return session;
 	}
 
-	public void saveObjects(List<Domain> ld) throws Exception {
-		for (Iterator iterator = ld.iterator(); iterator.hasNext();) {
-			Domain d = (Domain) iterator.next();
-			this.saveObject(d);
+	public synchronized void saveObjects(List<Domain> ld) throws Exception {
+		
+		Session session = null;
+
+		try {
+			session = getSession();
+			session.beginTransaction();
+			
+			for (Iterator iterator = ld.iterator(); iterator.hasNext();) {
+				Domain d = (Domain) iterator.next();
+				saveObjectDomain(d, session);
+			}
+			
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			throw e;
+		} finally {
+			closeSession(session);
 		}
+
+		
 	}
 
 	public synchronized void saveObject(Domain o) throws Exception {
@@ -112,17 +129,10 @@ public class Register {
 
 		try {
 			session = getSession();
-
 			session.beginTransaction();
-
-			if (o.esNuevo() == true) {
-				session.save(o);
-			} else {
-				session.merge(o);
-				// session.saveOrUpdate(o);
-				// session.update(o);
-			}
-
+			
+			saveObjectDomain(o, session);
+			
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			throw e;
@@ -131,7 +141,20 @@ public class Register {
 		}
 
 	}
+	
 
+	// este es el que realmente graba
+	private void saveObjectDomain(Domain o, Session session) throws Exception{
+			if (o.esNuevo() == true) {
+				session.save(o);
+			} else {
+				session.merge(o);
+				// session.saveOrUpdate(o);
+				// session.update(o);
+			}
+	}
+
+	
 	public synchronized Domain getObject(String entityName, long id)
 			throws Exception {
 
@@ -834,5 +857,7 @@ public class Register {
 		}
 
 	}
+	
+	
 
 }
