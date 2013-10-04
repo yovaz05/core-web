@@ -106,6 +106,8 @@ public abstract class Assembler {
 			dom = rr.getObject(classDomain.getName(), dto.getId());
 		}
 		dom.setDbEstado(dto.getDbEstado());
+		dom.setModificado(dto.getModificado());
+		dom.setUsuarioMod(dto.getUsuarioMod());
 		return dom;
 	}
 
@@ -125,6 +127,8 @@ public abstract class Assembler {
 		DTO dto = (DTO) newInstance(classDTO);
 		dto.setId(id);
 		dto.setDbEstado(dom.getDbEstado());
+		dto.setModificado(dom.getModificado());
+		dto.setUsuarioMod(dom.getUsuarioMod());
 		return dto;
 	}
 

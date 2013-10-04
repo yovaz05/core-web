@@ -3,4 +3,6 @@
 	<generator class="increment" />
 </id>
 <property name="dbEstado" />
+<property name="modificado" />
+<property name="usuarioMod" />
 

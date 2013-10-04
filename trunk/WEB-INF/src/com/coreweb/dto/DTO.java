@@ -4,6 +4,7 @@ import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import com.coreweb.domain.IiD;
@@ -15,6 +16,11 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 
 	private char dbEstado = DBEstado.DB_EDITABLE;
 
+	private Date modificado = null;
+
+	private String usuarioMod = "popu";
+
+	
 	public Misc misc = new Misc();
 
 	private boolean checked = false; // agregar en todos los DTO
@@ -40,6 +46,14 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 		throw new Exception("Intentando modificar si es nuevo un DTO");
 	}
 
+	public String getUsuarioMod() {
+		return usuarioMod;
+	}
+
+	public void setUsuarioMod(String usuarioMod) {
+		this.usuarioMod = usuarioMod;
+	}
+
 	public boolean isChecked() {
 		return checked;
 	}
@@ -58,6 +72,16 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	
+	
+	public Date getModificado() {
+		return modificado;
+	}
+
+	public void setModificado(Date modificado) {
+		this.modificado = modificado;
 	}
 
 	public char getDbEstado() {

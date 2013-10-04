@@ -140,8 +140,8 @@ public class HibernateUtil {
 			rr.dropAllTables();
 
 			Ping p = new Ping();
-			p.setEcho("echo-" + System.currentTimeMillis());
-			rr.saveObject(p);
+			p.setEcho("clearDB-" + System.currentTimeMillis());
+			//rr.saveObject(p);
 
 		} catch (Exception e) {
 			e.printStackTrace();
