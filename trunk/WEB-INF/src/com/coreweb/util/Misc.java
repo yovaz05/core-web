@@ -13,6 +13,8 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -32,6 +34,11 @@ import org.zkoss.zul.Messagebox;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
 
 
+
+
+
+
+
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -40,8 +47,7 @@ import net.sf.jme.Monto;
 
 public class Misc {
 
-	private static long idUnique = 0;
-	private String correosIncorrectos = "";
+	private static long idUnique = 0;	
 	private static String dir;
 
 	public static String TEXTO_ROJO = "font-weight: bold; color:Red; text-align: right";
@@ -70,14 +76,6 @@ public class Misc {
 
 	public static void setDir(String dir) {
 		Misc.dir = dir;
-	}
-
-	public String getCorreosIncorrectos() {
-		return correosIncorrectos;
-	}
-
-	public void setCorreosIncorrectos(String correosIncorrectos) {
-		this.correosIncorrectos = correosIncorrectos;
 	}
 
 	public static synchronized long getIdUnique() {
@@ -453,21 +451,29 @@ public class Misc {
 		return out;
 	}
 
-	public boolean chequearMultipleCorreos(String[] correos) {
+	/**
+	 * Recibe un array de direcciones de correo y retorna un 
+	 * array de tipo Object[0]: booleano si son correctos o no los mails y
+	 * Object[1]: el String con los correos incorrectos
+	 * */
+	public Object[] chequearMultipleCorreos(String[] correos) {
 
-		boolean mailCorrecto = true;
+		String correosIncorrectos = "";
+		
+		boolean out = true;
 		String validador = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-		if (correos[0].isEmpty() == false) {
+		
+		if (correos[0].trim().length() > 0) {
 			for (int i = 0; i < correos.length; i++) {
 				boolean check = correos[i].matches(validador);
 				if (check == false) {
-					mailCorrecto = false;
-					this.correosIncorrectos = correosIncorrectos + " , "
-							+ correos[i];
+					out = false;
+					correosIncorrectos = correosIncorrectos + " \n - "	+ correos[i];
 				}
 			}
 		}
-		return mailCorrecto;
+		
+		return new Object[]{out, correosIncorrectos};
 	}
 
 	public String encriptar(String cadena) {
@@ -985,6 +991,38 @@ public class Misc {
 		out += "----------------------------------------------\n";
 		return out;
 	}
+	
+	
+	//Recibe una lista de arrays de string y retorna una sola concatenada..
+	public String[] concatenarArraysDeString(List<String[]> arrays){
+		List<String> list = new ArrayList<String>();
+		for (String[] string : arrays) {
+			list.addAll(Arrays.asList(string));
+		}
+		return list.toArray(new String[list.size()]);		
+	}
+	
+	//Recibe de 1 a 5 arrays de string y retorna una sola concatenada..
+	public String[] concatenarArraysDeString(String[] array1, String[] array2, String[] array3, String[] array4, String[] array5){
+		List<String[]> arrays = new ArrayList<String[]>();
+		if (array1 != null) {
+			arrays.add(array1);
+		}
+		if (array2 != null) {
+			arrays.add(array2);
+		}
+		if (array3 != null) {
+			arrays.add(array3);
+		}
+		if (array4 != null) {
+			arrays.add(array4);
+		}
+		if (array5 != null) {
+			arrays.add(array5);
+		}
+		return this.concatenarArraysDeString(arrays);
+	}
+	
 
 	public static void Xmain(String[] args) {
 		double d = 10.1;
