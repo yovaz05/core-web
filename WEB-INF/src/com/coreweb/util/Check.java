@@ -11,10 +11,7 @@ import org.zkoss.zul.Constraint;
 import org.zkoss.zul.CustomConstraint;
 import org.zkoss.zul.SimpleConstraint;
 
-import com.coreweb.Config;
 import com.coreweb.control.GenericViewModel;
-import com.coreweb.domain.IiD;
-import com.coreweb.domain.Register;
 
 public class Check {
 
@@ -30,7 +27,8 @@ public class Check {
 	public static String MENSAJE_MAYOR_IGUAL_A = "El valor debe ser mayor o igual a ";
 	public static String MENSAJE_MENOR_IGUAL_A = "El valor debe ser menor o igual a ";
 	public static String MENSAJE_RUC = "Ruc no valido\nEl formato es 9999999-9";
-	public static String MENSAJE_EMAIL = "Debe Ingresar un correo valido";
+	public static String MENSAJE_EMAIL = "Debe Ingresar un correo válido";
+	public static String MENSAJE_EMAILS = "Los sgtes correos son inválidos: \n";
 	public static String TRUE_FALSE = "Debe Ingresar \nT para Verdadero, o \nF para Falso ";
 
 	private GenericViewModel vm = null;
@@ -270,11 +268,14 @@ class MiConstraint extends SimpleConstraint implements Constraint,
 					&& (misc.checkEmail(s) == false)) {
 				throw new WrongValueException(comp, Check.MENSAJE_EMAIL);
 			}
-			if ((this.constraint == this.EMAILS)
-					&& ((misc.chequearMultipleCorreos(s.trim().split(";")) == false) || (((String) value)
-							.isEmpty()))) {
-				throw new WrongValueException(comp, Check.MENSAJE_EMAIL);
+			if (this.constraint == this.EMAILS) {
+				boolean mailsOk = (boolean) misc.chequearMultipleCorreos(s.trim().split(";"))[0];
+				String mailsMsg = (String) misc.chequearMultipleCorreos(s.trim().split(";"))[1];
+				if ((mailsOk == false) && (s.trim().length() == 0)) {
+					throw new WrongValueException(comp, Check.MENSAJE_EMAILS + mailsMsg);
+				}
 			}
+			
 			if ((this.constraint == this.TRUE_FALSE)
 					&& (misc.checkTrueFalse(s) == false)) {
 				throw new WrongValueException(comp, Check.TRUE_FALSE);
