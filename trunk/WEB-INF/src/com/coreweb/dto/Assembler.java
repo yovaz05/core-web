@@ -6,9 +6,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
-import sun.security.jca.GetInstance.Instance;
-import bsh.This;
+import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.Sessions;
 
+
+import com.coreweb.Config;
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.IiD;
 import com.coreweb.domain.Register;
@@ -16,6 +18,7 @@ import com.coreweb.domain.Tipo;
 import com.coreweb.domain.TipoTipo;
 import com.coreweb.extras.agenda.AgendaEventoDTO;
 import com.coreweb.extras.agenda.AgendaEventoDetalleDTO;
+import com.coreweb.login.LoginUsuarioDTO;
 import com.coreweb.util.Misc;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
@@ -28,12 +31,27 @@ public abstract class Assembler {
 	public static int MY_PAIR_TIPO = 4;
 	public static int MY_ARRAY_TIPO = 5;
 
+	private String login = this.getClass().getName();
+	
 	private List<Domain> subModel = new ArrayList<Domain>();
 
 	public abstract Domain dtoToDomain(DTO dto) throws Exception;
 
 	public abstract DTO domainToDto(Domain domain) throws Exception;
 
+	
+	public Assembler(){
+		try{
+			Session s = Sessions.getCurrent();
+			String login = ((LoginUsuarioDTO) s.getAttribute(Config.USUARIO)).getLogin();
+			this.setLogin(login);
+		}catch(Exception ex){
+			this.setLogin("err:"+this.getClass().getName());
+		}
+	}
+	
+	
+	
 	public List<DTO> domainToDtoLista(List<Domain> list) throws Exception {
 
 		List<DTO> out = new ArrayList<DTO>();
@@ -54,8 +72,21 @@ public abstract class Assembler {
 		return dto;
 	}
 
+	
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+
+	
+	
 	// *************************************************************************************
 	// *************************************************************************************
+
 
 	public List<MyPair> listaSiNo() {
 		List<MyPair> lImpo = new ArrayList<MyPair>();
@@ -200,7 +231,7 @@ public abstract class Assembler {
 		Domain d = rr.getObject(entidad, mp.getId());
 		setValue(dom, atributo, d);
 
-		rr.saveObject(dom);
+		rr.saveObject(dom, this.getLogin());
 		mp.setId(d.getId());
 	}
 
@@ -326,7 +357,7 @@ public abstract class Assembler {
 		Domain d = rr.getObject(entidad, mp.getId());
 		setValue(dom, atributo, d);
 
-		rr.saveObject(dom);
+		rr.saveObject(dom, this.getLogin());
 		mp.setId(d.getId());
 	}
 
@@ -412,7 +443,7 @@ public abstract class Assembler {
 		Domain dd = null;
 		if ((mp.esNuevo() == true) || (siActualiza == true)) {
 			dd = ass.dtoToDomain(mp);
-			rr.saveObject(dd);
+			rr.saveObject(dd, this.getLogin());
 			mp.setId(dd.getId());
 		} else {
 			String entidad = getEntidadAtributo(dom, atributo);
@@ -420,7 +451,7 @@ public abstract class Assembler {
 		}
 
 		setValue(dom, atributo, dd);
-		rr.saveObject(dom);
+		rr.saveObject(dom, this.getLogin());
 		dto.setId(dom.getId());
 	}
 
@@ -583,7 +614,7 @@ public abstract class Assembler {
 									+ " con id:" + mp.getId() + "");
 				}
 
-				rr.saveObject(dAux);
+				rr.saveObject(dAux, this.getLogin());
 				mp.setId(dAux.getId());
 			}
 

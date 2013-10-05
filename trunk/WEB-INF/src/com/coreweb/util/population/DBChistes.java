@@ -40,7 +40,7 @@ public class DBChistes {
 					if (chiste.trim().length() < 255){
 						Tecorei te = new Tecorei();
 						te.setTexto(chiste.trim());
-						rr.saveObject(te);
+						rr.saveObject(te, "chiste");
 						System.out.println((++i)+") " + chiste);
 					}
 					chiste = "";

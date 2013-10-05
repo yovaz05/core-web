@@ -1,6 +1,7 @@
 package com.coreweb.domain;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -99,19 +100,19 @@ public class Register {
 		return session;
 	}
 
-	public synchronized void saveObjects(List<Domain> ld) throws Exception {
-		
+	public synchronized void saveObjects(List<Domain> ld, String user) throws Exception {
+
 		Session session = null;
 
 		try {
 			session = getSession();
 			session.beginTransaction();
-			
+
 			for (Iterator iterator = ld.iterator(); iterator.hasNext();) {
 				Domain d = (Domain) iterator.next();
-				saveObjectDomain(d, session);
+				saveObjectDomain(d, session, user);
 			}
-			
+
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
@@ -120,19 +121,18 @@ public class Register {
 			closeSession(session);
 		}
 
-		
 	}
 
-	public synchronized void saveObject(Domain o) throws Exception {
+	public synchronized void saveObject(Domain o, String user) throws Exception {
 
 		Session session = null;
 
 		try {
 			session = getSession();
 			session.beginTransaction();
-			
-			saveObjectDomain(o, session);
-			
+
+			saveObjectDomain(o, session, user);
+
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			throw e;
@@ -141,20 +141,22 @@ public class Register {
 		}
 
 	}
-	
 
 	// este es el que realmente graba
-	private void saveObjectDomain(Domain o, Session session) throws Exception{
-			if (o.esNuevo() == true) {
-				session.save(o);
-			} else {
-				session.merge(o);
-				// session.saveOrUpdate(o);
-				// session.update(o);
-			}
+	private void saveObjectDomain(Domain o, Session session, String user) throws Exception {
+		
+		o.setModificado(new Date());
+		o.setUsuarioMod(user);
+
+		if (o.esNuevo() == true) {
+			session.save(o);
+		} else {
+			session.merge(o);
+			// session.saveOrUpdate(o);
+			// session.update(o);
+		}
 	}
 
-	
 	public synchronized Domain getObject(String entityName, long id)
 			throws Exception {
 
@@ -176,7 +178,7 @@ public class Register {
 			closeSession(session);
 		}
 	}
-		
+
 	public synchronized Object getObject(String entityName, String campo,
 			Object value) throws Exception {
 
@@ -184,13 +186,11 @@ public class Register {
 		v.add(Restrictions.eq(campo, value));
 
 		List l = getObjects(entityName, v, new Vector(), -1, -1);
-		if (l.size() == 1){
+		if (l.size() == 1) {
 			return l.get(0);
 		}
 		return null;
 	}
-
-	
 
 	public synchronized void deleteObject(String entityName, long id)
 			throws Exception {
@@ -311,8 +311,8 @@ public class Register {
 		}
 	}
 
-
-	protected int getSizeObjects(String entityName, Vector rest) throws Exception {
+	protected int getSizeObjects(String entityName, Vector rest)
+			throws Exception {
 
 		Session session = null;
 
@@ -506,11 +506,12 @@ public class Register {
 
 	public Object hqlToObject(String query) throws Exception {
 		Object out = null;
-		List l = this.hql(query, new Object[] { });
+		List l = this.hql(query, new Object[] {});
 		if (l.size() == 1) {
 			out = l.get(0);
-		}else{
-			throw new Exception("Más de un objeto ("+l.size()+") para el query \n"+query);
+		} else {
+			throw new Exception("Más de un objeto (" + l.size()
+					+ ") para el query \n" + query);
 		}
 		return out;
 	}
@@ -520,8 +521,9 @@ public class Register {
 		List l = this.hql(query, new Object[] { o });
 		if (l.size() == 1) {
 			out = l.get(0);
-		}else{
-			throw new Exception("Más de un objeto ("+l.size()+") para el query \n"+query);
+		} else {
+			throw new Exception("Más de un objeto (" + l.size()
+					+ ") para el query \n" + query);
 		}
 		return out;
 	}
@@ -796,25 +798,21 @@ public class Register {
 
 		return (l.size() > 0);
 	}
-	
-	
-	public Tipo getTipoPorSigla(String sigla) throws Exception{
-		String queryTipo = "select t from Tipo t where t.sigla='"+sigla+"'";
-		Tipo out = (Tipo)this.hqlToObject(queryTipo);
+
+	public Tipo getTipoPorSigla(String sigla) throws Exception {
+		String queryTipo = "select t from Tipo t where t.sigla='" + sigla + "'";
+		Tipo out = (Tipo) this.hqlToObject(queryTipo);
 		return out;
 	}
 
-	//retorna la lista de tipos segun el id tipoTipo..
-	public List<Tipo> getTipos(String tipoTipoDescripcion) throws Exception{
+	// retorna la lista de tipos segun el id tipoTipo..
+	public List<Tipo> getTipos(String tipoTipoDescripcion) throws Exception {
 		List<Tipo> list = null;
-		String query = "select t from Tipo t where t.tipoTipo.descripcion = '" + tipoTipoDescripcion+"'";
+		String query = "select t from Tipo t where t.tipoTipo.descripcion = '"
+				+ tipoTipoDescripcion + "'";
 		list = this.hql(query);
 		return list;
 	}
-
-	
-	
-	
 
 	public static void xmain(String[] args) {
 		try {
@@ -857,7 +855,5 @@ public class Register {
 		}
 
 	}
-	
-	
 
 }

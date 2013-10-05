@@ -88,7 +88,7 @@ public class AssemblerUsuario extends Assembler {
 			usrDom.setPerfiles(setPerf);
 			allUsuarios.add(usrDom);
 		}
-		rr.saveObjects(allUsuarios);
+		rr.saveObjects(allUsuarios, this.getLogin());
 
 		// controlar usuarios
 		List<Usuario> usuariosDom = rr.getAllUsuarios();
@@ -141,7 +141,7 @@ public class AssemblerUsuario extends Assembler {
 				allPermisos.add(permDom);
 			}
 			perDom.setPermisos(setPerm);
-			rr.saveObject(perDom);
+			rr.saveObject(perDom, this.getLogin());
 			allPerfiles.add(perDom);
 		}
 
@@ -188,7 +188,7 @@ public class AssemblerUsuario extends Assembler {
 							}
 						}
 					}
-					rr.saveObject(usr);
+					rr.saveObject(usr, this.getLogin());
 				}
 				// verificar si esto es necesario
 				Set<Permiso> permisos = perfilD.getPermisos();
