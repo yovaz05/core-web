@@ -61,7 +61,7 @@ public class ControlAgendaEvento extends GenericViewModel {
 		a.setFecha(new Date());
 		a.setTipo(tipo);
 		a.setKey(clave);
-		rr.saveObject(a);
+		rr.saveObject(a, this.getLogin());
 		return a;
 	}
 
@@ -187,7 +187,9 @@ public class ControlAgendaEvento extends GenericViewModel {
 		return this.getDto() != null;
 	}
 
+	
 
+	/*
 	private String getLogin(){
 		String out = "Juan - PoPu";
 		try {
@@ -200,5 +202,6 @@ public class ControlAgendaEvento extends GenericViewModel {
 		}
 		return out;
 	}
+	*/
 	
 }

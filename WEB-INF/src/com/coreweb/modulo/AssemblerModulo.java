@@ -146,9 +146,9 @@ public class AssemblerModulo extends Assembler{
 			allModulos.add(modDom);
 		}
 
-		rr.saveObjects(allOperaciones);
-		rr.saveObjects(allFormularios);
-		rr.saveObjects(allModulos);
+		rr.saveObjects(allOperaciones, this.getLogin());
+		rr.saveObjects(allFormularios, this.getLogin());
+		rr.saveObjects(allModulos, this.getLogin());
 
 		if (false) {
 			Ping ping = new Ping();

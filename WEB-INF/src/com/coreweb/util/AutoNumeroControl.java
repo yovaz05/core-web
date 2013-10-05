@@ -2,6 +2,7 @@ package com.coreweb.util;
 
 import java.util.Date;
 
+import com.coreweb.Config;
 import com.coreweb.domain.AutoNumero;
 import com.coreweb.domain.Register;
 
@@ -64,7 +65,7 @@ public class AutoNumeroControl {
 		if (provisorio == false){
 			an.setNumero(out);
 			an.setFecha(new Date());
-			r.saveObject(an);
+			r.saveObject(an, Config.USER_SYSTEMA);
 		}
 
 		return out;

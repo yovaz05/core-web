@@ -7,6 +7,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
 
+import com.coreweb.Config;
 import com.coreweb.IDCore;
 import com.coreweb.domain.*;
 import com.coreweb.util.Misc;
@@ -21,6 +22,7 @@ public class DBMenuUserParser {
 	private static String dfv = "defaultValue";
 	private static String split = ";";
 
+	
 	private Properties prop = null;
 
 	private Misc misc = new Misc();
@@ -49,7 +51,7 @@ public class DBMenuUserParser {
 				parseFormulario(modulo, m_);
 
 				if (grabar == true) {
-					rr.saveObject(modulo);
+					rr.saveObject(modulo, Config.USER_SYSTEMA);
 				}
 			}
 		}// modulo
@@ -244,7 +246,7 @@ public class DBMenuUserParser {
 			String pn = p + pi;
 			perfil = getPerfil(pn);
 			if ((perfil != null) && (grabar == true)) {
-				rr.saveObject(perfil);
+				rr.saveObject(perfil, Config.USER_SYSTEMA);
 			}
 		}
 
@@ -264,7 +266,7 @@ public class DBMenuUserParser {
 			String un = u + ui;
 			usuario = getUsuario(un);
 			if ((usuario != null) && (grabar == true)) {
-				rr.saveObject(usuario);
+				rr.saveObject(usuario, Config.USER_SYSTEMA);
 			}
 		}
 
@@ -361,7 +363,7 @@ public class DBMenuUserParser {
 			String k = (String) keys.nextElement();
 			Permiso permiso = this.getPermisoFormatoNuevo(k.trim());
 			if ((permiso != null) && (grabar == true)) {
-				rr.saveObject(permiso);
+				rr.saveObject(permiso, Config.USER_SYSTEMA);
 			}
 		}
 	}

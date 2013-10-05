@@ -155,7 +155,15 @@ public class Control {
 
 	// ================================================
 
-
+	// Login del usuario 
+	public String getLogin(){
+		try {
+			return this.getUs().getLogin();
+		} catch (Exception e) {
+		}
+		return this.getClass().getName();
+	}
+	
 	// hacer un salto de pagina
 	public void saltoDePagina(String url, String param, Object value) {
 		Hashtable<String, Object> h = new Hashtable<String, Object>();
@@ -264,9 +272,10 @@ public class Control {
 	/***********************************************************************/
 
 	protected DTO saveDTO(DTO dto, boolean refreshDTO) throws Exception {
+		String login = this.getUs().getLogin();
 		Domain don = ass.dtoToDomain(dto);
 		Register register = Register.getInstance();
-		register.saveObject(don);
+		register.saveObject(don, login);
 		if (refreshDTO == true) {
 			dto = ass.domainToDto(don);
 		}
