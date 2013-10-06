@@ -1,4 +1,4 @@
-<zk>
+
 	<window id="Footer"
 		viewModel="@id('footer') @init('com.coreweb.templateABM.Footer')"
 		apply="org.zkoss.bind.BindComposer" zclass="z-window-popup" border="0"
@@ -28,5 +28,3 @@
 			</toolbar>
 
 	</window>
-
-</zk>

@@ -34,7 +34,10 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	}
 
 	public String getUltimaModificacion() {
-		String out = "["
+		if (this.esNuevo() == true){
+			return "--nuevo--";
+		}
+		String out = ""
 				+ this.getUsuarioMod()
 				+ ", "
 				+ this.misc.dateToString(this.modificado,

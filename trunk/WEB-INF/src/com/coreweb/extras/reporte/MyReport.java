@@ -163,10 +163,12 @@ public class MyReport {
 				.getConstructor(String[].class);
 		dataSource = contructor.newInstance((Object) titles);
 
-		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
-			Object[] objects = (Object[]) iterator.next();
+		for (int i = 0; i < data.size(); i++) {
+			System.out.println("-------------------- "+i);
+			Object[] objects = (Object[]) data.get(i);
 			dataSource.add(objects);
 		}
+		
 
 		return dataSource;
 
