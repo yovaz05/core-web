@@ -3,8 +3,7 @@
 <zk>
 	<style>
 
-		body { padding: 0 0; background-color: #EBEBEB; /* 0 padding
-			on top and bottom and 0 padding on right and left */ }
+		body { padding: 0 0; background-color: #EBEBEB; }
 
 		.hightlight { color: #1469AB; font-weight: bold; }
 
@@ -40,6 +39,14 @@
 
 	</script>
 
+
+<html>
+<![CDATA[
+<p style="text-align: right;">
+[<a href="JavaScript:window.close()">cerrar</a>]
+</p>
+]]>
+</html>
 
 
 

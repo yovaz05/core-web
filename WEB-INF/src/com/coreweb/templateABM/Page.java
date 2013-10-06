@@ -80,6 +80,10 @@ public class Page extends GenericViewModel {
 		}
 		
 	}
+	
+	public DTO getDto(){
+		return this.getDTOCorriente();
+	}
 
 	public void borrarDTOCorriente() {
 		DTO dtoCC = this.body.getDTOCorriente();

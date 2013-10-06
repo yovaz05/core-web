@@ -17,6 +17,7 @@ import org.zkoss.zul.Window;
 
 import com.coreweb.Config;
 import com.coreweb.control.GenericViewModel;
+import com.coreweb.dto.DTO;
 
 public class Footer extends GenericViewModel {
 
@@ -43,107 +44,54 @@ public class Footer extends GenericViewModel {
 		this.deshabilitarComponentes();
 	}
 
+
+	
 	public String getAliasFormularioCorriente() {
 		return this.getPagina().getAliasFormularioCorriente();
 	}
 
 	@Command
 	public void doTask() {
-		this.doTask("Grabar los cambios y salir?");
-
-	}
-
-	public void doTask(String mensaje) {
-		this.yesClick = false;
-
-		if (this.pagina.getBody().verificarAlGrabar() == false) {
-			this.mensajeError(this.pagina.getBody().textoErrorVerificarGrabar());
-			return;
-		}
-
-		if (this.mensajeSiNo(mensaje)== true){
-			try {
-				this.pagina.grabarDTOCorriente(true); // graba y sale
-				this.pagina.getBody().afterSave();
-
-				this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
-				this.yesClick = true;
-				this.mensajePopupTemporal("Información grabada!!", 1000);
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.mensajeError("Error grabando la información\n"
-						+ e.getMessage());
-
-			}
-		}
+		boolean siGrabo = this.saveDato(true, "Grabar los cambios y salir?");
 		
-		/*
-		
-		Button b = Messagebox.show(mensaje, "Grabar y Salir",
-				new Messagebox.Button[] { Messagebox.Button.YES,
-						Messagebox.Button.NO }, Messagebox.QUESTION, null);
-		if ((b != null) && (b.compareTo(Messagebox.Button.YES) == 0)) {
-			try {
-				this.pagina.grabarDTOCorriente(true); // graba y sale
-				this.pagina.getBody().afterSave();
-
-				this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
-				this.yesClick = true;
-				this.mensajePopupTemporal("Información grabada!!", 1000);
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.mensajeError("Error grabando la información\n"
-						+ e.getMessage());
-
-			}
-
+		if (siGrabo == true){
+			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
 		}
-		*/
-
 	}
 
 	@Command
-	public void save() {
+	public void save(){
+		this.saveDato(false, "");
+	}
+	
+	public boolean saveDato(boolean siPregunta, String texto) {
+		
 		if (this.pagina.getBody().verificarAlGrabar() == false) {
 			this.mensajeError(this.pagina.getBody().textoErrorVerificarGrabar());
-			return;
+			return false;
 		}
 
+		boolean out = false;
 		this.yesClick = false;
-		
-		if ( this.mensajeSiNo("Grabar los cambios?")== true){
-			try {
-				this.pagina.grabarDTOCorriente(true); // graba y refresca el DTO
-				this.pagina.getBody().afterSave();
-				this.yesClick = true;
-				this.mensajePopupTemporal("Información grabada!!", 1000);
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.mensajeError("Error grabando la información\n"
-						+ e.getMessage());
-			}
-		}
-		
-		/*
-		Button b = Messagebox.show("Grabar los cambios?", "Grabar",
-				new Messagebox.Button[] { Messagebox.Button.YES,
-						Messagebox.Button.NO }, Messagebox.QUESTION, null);
-		if ((b != null) && (b.compareTo(Messagebox.Button.YES) == 0)) {
 
+		if ((siPregunta==false)||( this.mensajeSiNo(texto)== true)){			
 			try {
 				this.pagina.grabarDTOCorriente(true); // graba y refresca el DTO
 				this.pagina.getBody().afterSave();
 				this.yesClick = true;
 				this.mensajePopupTemporal("Información grabada!!", 1000);
+				out = true;
 			} catch (Exception e) {
 				e.printStackTrace();
 				this.mensajeError("Error grabando la información\n"
 						+ e.getMessage());
+				out = false;
 			}
 		}
-		*/
+		return out;
 	}
 
+	
 	@Command
 	@NotifyChange("*")
 	public void discard() throws Exception {
