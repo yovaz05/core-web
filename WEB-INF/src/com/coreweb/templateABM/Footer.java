@@ -1,5 +1,6 @@
 package com.coreweb.templateABM;
 
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionParam;
@@ -140,6 +141,7 @@ public class Footer extends GenericViewModel {
 		this.disableAllComponents();
 		Window win = (Window) this.mainComponent;
 		win.setVisible(false);
+		BindUtils.postGlobalCommand(null, null, "refreshComponentes", null);
 	}
 
 	public boolean isYesClick() {
