@@ -16,11 +16,10 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 
 	private char dbEstado = DBEstado.DB_EDITABLE;
 
-	private Date modificado = null;
+	private Date modificado = new Date();
 
-	private String usuarioMod = "popu";
+	private String usuarioMod = "new";
 
-	
 	public Misc misc = new Misc();
 
 	private boolean checked = false; // agregar en todos los DTO
@@ -32,6 +31,15 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	//
 	public boolean esNuevo() {
 		return (this.id < 0);
+	}
+
+	public String getUltimaModificacion() {
+		String out = "["
+				+ this.getUsuarioMod()
+				+ ", "
+				+ this.misc.dateToString(this.modificado,
+						Misc.D_MMMM_YYYY2) ;
+		return out;
 	}
 
 	public Class getDomainFromDTO() {
@@ -74,8 +82,6 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 		this.id = id;
 	}
 
-	
-	
 	public Date getModificado() {
 		return modificado;
 	}
@@ -99,11 +105,10 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	public void setReadonly() {
 		this.dbEstado = DBEstado.DB_READONLY;
 	}
-	
+
 	public void setDeleted() {
 		this.dbEstado = DBEstado.DB_DELETE;
 	}
-	
 
 	public List<String> getColumnNames() {
 

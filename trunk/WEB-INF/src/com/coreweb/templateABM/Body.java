@@ -135,9 +135,12 @@ public abstract class Body extends GenericViewModel {
 		
 	}
 
+	/*
 	public void grabarSalir(String mensaje){
-		this.getPagina().getFooter().doTask(mensaje);
+	// cambio el método doTask, por eso comenté esta parte
+		//this.getPagina().getFooter().doTask(mensaje);
 	}
+	*/
 	
 	public void addComponenteToBarraAuxiliar(Component c, String command, Map<String, Object> args){
 		
