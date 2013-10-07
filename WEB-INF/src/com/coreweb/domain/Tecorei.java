@@ -3,7 +3,7 @@ package com.coreweb.domain;
 public class Tecorei extends Domain {
 
 	String texto = "uuuuuuuuu nada.....";
-	
+
 	
 	public String getTexto() {
 		return texto;
