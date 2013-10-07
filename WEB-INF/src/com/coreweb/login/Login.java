@@ -28,8 +28,8 @@ import com.coreweb.dto.Assembler;
 
 public class Login extends Control{
 	
-	String user = "juan";
-	String pass = "juansa";
+	String user = "";
+	String pass = "";
 	String msg = "";
 	
 	public Login(Assembler ass) throws RemoteException {
@@ -81,7 +81,7 @@ public class Login extends Control{
 				this.m.ejecutarMetoto(Config.INIT_CLASE, Config.INIT_AFTER_LOGIN);
 			} catch (Exception e) {				
 				uDto.setLogeado(false);
-				System.out.println("Error: Metodo afterLogin\n "+"   InitClase:"+Config.INIT_CLASE+"\n   metodo:"+ Config.INIT_AFTER_LOGIN);
+				System.out.println("Error: Metodo afterLogin\n "+"   InitClase:"+Config.INIT_CLASE+"\n    metodo:"+ Config.INIT_AFTER_LOGIN);
 				this.msg = "Configuración incorrecta";
 				Clients.evalJavaScript("loginFaild()");
 				return;
