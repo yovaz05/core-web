@@ -79,8 +79,12 @@ public class Login extends Control{
 
 			try {
 				this.m.ejecutarMetoto(Config.INIT_CLASE, Config.INIT_AFTER_LOGIN);
-			} catch (Exception e) {
-				System.out.println("Error: Metodo afterLogin: "+Config.INIT_AFTER_LOGIN+ " no está implementado");
+			} catch (Exception e) {				
+				uDto.setLogeado(false);
+				System.out.println("Error: Metodo afterLogin\n "+"   InitClase:"+Config.INIT_CLASE+"\n   metodo:"+ Config.INIT_AFTER_LOGIN);
+				this.msg = "Configuración incorrecta";
+				Clients.evalJavaScript("loginFaild()");
+				return;
 			}
 			
 			Include incS = (Include) compTool.getFellow("menuSistema");

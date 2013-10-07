@@ -12,6 +12,7 @@
 		&hibernate-domain; 
 
                 <property name="texto"/>
+
         </class>
 
 </hibernate-mapping>
