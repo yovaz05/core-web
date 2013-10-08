@@ -104,16 +104,16 @@ public class HibernateUtil {
 		int v = 0;
 		boolean ok = false;
 
+
 		while (ok == false) {
 			try {
 				if (session.isOpen() == false) {
 					// session = session.getSessionFactory().openSession();
 					session = sessionFactory.openSession();
 				}
+				
 
-				Criteria cri = session
-						.createCriteria(Ping.class
-								.getName());
+				Criteria cri = session.createCriteria(Ping.class.getName());
 				Order r = (Order) Order.asc("echo");
 				cri.addOrder(r);
 

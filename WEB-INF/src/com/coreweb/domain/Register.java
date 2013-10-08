@@ -14,6 +14,7 @@ import org.hibernate.FetchMode;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
@@ -100,7 +101,8 @@ public class Register {
 		return session;
 	}
 
-	public synchronized void saveObjects(List<Domain> ld, String user) throws Exception {
+	public synchronized void saveObjects(List<Domain> ld, String user)
+			throws Exception {
 
 		Session session = null;
 
@@ -126,15 +128,19 @@ public class Register {
 	public synchronized void saveObject(Domain o, String user) throws Exception {
 
 		Session session = null;
-
+		Transaction tx = null;
 		try {
 			session = getSession();
-			session.beginTransaction();
+			tx = session.beginTransaction();
 
 			saveObjectDomain(o, session, user);
 
-			session.getTransaction().commit();
+			tx.commit();
+			// session.getTransaction().commit();
 		} catch (Exception e) {
+			if (tx != null) {
+				tx.rollback();
+			}
 			throw e;
 		} finally {
 			closeSession(session);
@@ -143,8 +149,9 @@ public class Register {
 	}
 
 	// este es el que realmente graba
-	private void saveObjectDomain(Domain o, Session session, String user) throws Exception {
-		
+	private void saveObjectDomain(Domain o, Session session, String user)
+			throws Exception {
+
 		o.setModificado(new Date());
 		o.setUsuarioMod(user);
 
