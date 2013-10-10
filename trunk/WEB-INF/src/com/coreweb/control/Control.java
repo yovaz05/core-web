@@ -477,15 +477,7 @@ public class Control {
 	}
 
 	public boolean mensajeSiNo(String texto) {
-
-		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Confirmar",
-				new Messagebox.Button[] { Messagebox.Button.YES,
-						Messagebox.Button.NO }, Messagebox.QUESTION, null);
-
-		if ((b != null) && (b.compareTo(Messagebox.Button.YES)) == 0) {
-			return true;
-		}
-		return false;
+		return this.m.mensajeSiNo(texto);
 	}
 
 	public void mensajePopupTemporal(String mensaje){
