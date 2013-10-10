@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.util.Clients;
@@ -1039,6 +1041,27 @@ public class Misc {
 
 	}
 
+	
+	public byte[] serializar(Serializable o) {
+		return SerializationUtils.serialize(o);
+	}
+
+	public Object deSerializar(byte[] bs){
+		return SerializationUtils.deserialize(bs);
+	}
+	
+	public boolean siDirty(Serializable o2, byte[] bs1){
+		boolean out = true;
+		byte[] bs2 = this.serializar(o2);
+		if (bs1.length == bs2.length){
+			out = false;
+			for (int i = 0; ((!out) && (i < bs2.length)); i++) {
+				out = out || (bs1[i] != bs2[i]);
+			}
+		}
+		return out;
+	}
+	
 	
 	public void mensajePopupTemporal(String mensaje){
 		this.mensajePopupTemporal(mensaje, 3000);

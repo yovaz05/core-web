@@ -1,6 +1,8 @@
 package com.coreweb.domain;
 
-public interface IiD {
+import java.io.Serializable;
+
+public interface IiD extends Serializable {
 	
 
 	public Long getId();

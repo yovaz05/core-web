@@ -75,7 +75,7 @@ public class Page extends GenericViewModel {
 			DTO dtoCC = this.body.getDTOCorriente();
 			dtoCC = this.saveDTO(dtoCC, refreshDTO);
 			if (refreshDTO == true) {
-				this.body.setDTOCorriente(dtoCC);
+				this.body.setDTOCorrienteDirty(dtoCC);
 			}
 		}
 		
@@ -89,7 +89,7 @@ public class Page extends GenericViewModel {
 		DTO dtoCC = this.body.getDTOCorriente();
 		try {
 			this.deleteDTO(dtoCC);
-			this.getBody().setDTOCorriente(this.getBody().nuevoDTO());
+			this.getBody().setDTOCorrienteDirty(this.getBody().nuevoDTO());
 		} catch (Exception e) {
 			System.out.println("Error borrando DTO: " + e.getMessage());
 			e.printStackTrace();
@@ -109,7 +109,7 @@ public class Page extends GenericViewModel {
 			String entidad = this.getBody().getEntidadPrincipal();
 			dtoAux = this.getDTOById(entidad, id + "");
 		}
-		this.getBody().setDTOCorriente(dtoAux);
+		this.getBody().setDTOCorrienteDirty(dtoAux);
 
 	}
 

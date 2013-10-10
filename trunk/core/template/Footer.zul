@@ -4,17 +4,21 @@
 		apply="org.zkoss.bind.BindComposer" zclass="z-window-popup" border="0"
 		position="center,top">
 			<toolbar id="foo" height="35px" align="center">
+			
+			<!-- 
 				<button id="btnAccept" label="Grabar y Salir" tooltiptext="Aceptar"
 					image="/core/images/accept.png" width="130px"
 					onClick="@command('doTask')
 				@global-command(footer.yesClick?'deshabilitarComponentes':'')" />
-				
+			 -->
+			 
+			 	
 				<button id="btnGrabar" label="Grabar" tooltiptext="Grabar"
 					image="/core/images/guardar.png" width="130px"
 					onClick="@command('save') 
 			    @global-command(footer.yesClick?'refreshComponentes':'')" />
 			    
-				<button id="btnCancel" label="Salir" tooltiptext="Cancelar"
+				<button id="btnCancel" label="Salir" tooltiptext="Salir"
 					image="/core/images/cancel.png" width="130px"
 					onClick="@command('discard')
 				@global-command(footer.yesClick?'deshabilitarComponentes':'')" />

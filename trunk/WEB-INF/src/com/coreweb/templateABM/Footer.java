@@ -45,8 +45,6 @@ public class Footer extends GenericViewModel {
 		this.deshabilitarComponentes();
 	}
 
-
-	
 	public String getAliasFormularioCorriente() {
 		return this.getPagina().getAliasFormularioCorriente();
 	}
@@ -54,28 +52,28 @@ public class Footer extends GenericViewModel {
 	@Command
 	public void doTask() {
 		boolean siGrabo = this.saveDato(true, "Grabar los cambios y salir?");
-		
-		if (siGrabo == true){
+
+		if (siGrabo == true) {
 			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
 		}
 	}
 
 	@Command
-	public void save(){
+	public void save() {
 		this.saveDato(false, "");
+		this.yesClick = false;
 	}
-	
+
 	public boolean saveDato(boolean siPregunta, String texto) {
-		
+
+		boolean out = false;
+
 		if (this.pagina.getBody().verificarAlGrabar() == false) {
 			this.mensajeError(this.pagina.getBody().textoErrorVerificarGrabar());
 			return false;
 		}
 
-		boolean out = false;
-		this.yesClick = false;
-
-		if ((siPregunta==false)||( this.mensajeSiNo(texto)== true)){			
+		if ((siPregunta == false) || (this.mensajeSiNo(texto) == true)) {
 			try {
 				this.pagina.grabarDTOCorriente(true); // graba y refresca el DTO
 				this.pagina.getBody().afterSave();
@@ -92,29 +90,30 @@ public class Footer extends GenericViewModel {
 		return out;
 	}
 
-	
 	@Command
 	@NotifyChange("*")
 	public void discard() throws Exception {
 		this.yesClick = false;
-		
-		if ( this.mensajeSiNo("Está seguro que quiere cancelar la operación?\n Perderá los cambios desde la última vez que grabó.")==true){
+		boolean siDirty = this.getPagina().getBody().siDirtyDTO();
+
+		// no hay cambios
+		if (siDirty == false) {
 			this.yesClick = true;
-
-			this.pagina.refreshDTOCorriente();
-
-			// String texLabel = this.pagina.getTextoFormularioCorriente();
-			// this.setTextoFormularioCorriente(texLabel);
 			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+			return;
 		}
-		
+
+		this.yesClick = true;
+		boolean grabar = this.mensajeSiNo("Grabar los cambios antes de salir?");
+		if (grabar == true) {
+			this.saveDato(false, "");
+		}else{
+			this.pagina.refreshDTOCorriente();
+		}
+		this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+
 		/*
-		Button b = Messagebox
-				.show("Está seguro que quiere cancelar la operación?\n Perderá los cambios desde la última vez que grabó.",
-						"Cancelar", new Messagebox.Button[] {
-								Messagebox.Button.YES, Messagebox.Button.NO },
-						Messagebox.QUESTION, null);
-		if ((b != null) && (b.compareTo(Messagebox.Button.YES) == 0)) {
+		if (this.mensajeSiNo("Está seguro que quiere cancelar la operación?\n Perderá los cambios desde la última vez que grabó.") == true) {
 			this.yesClick = true;
 
 			this.pagina.refreshDTOCorriente();
@@ -122,7 +121,6 @@ public class Footer extends GenericViewModel {
 			// String texLabel = this.pagina.getTextoFormularioCorriente();
 			// this.setTextoFormularioCorriente(texLabel);
 			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
-
 		}
 		*/
 	}
