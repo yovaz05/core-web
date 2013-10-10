@@ -76,7 +76,7 @@ public abstract class Body extends GenericViewModel {
 			try{
 				System.out.println("[ToDO] probar lo de recuperar un objeto por el id:"+idObjeto);
 				DTO dtoAux = this.getDTOById(this.getEntidadPrincipal(), idObjeto);
-				this.setDTOCorriente(dtoAux);
+				this.setDTOCorrienteDirty(dtoAux);
 			}catch(Exception ex){
 				System.out.println("Error recuperando DTO: "+ex.getMessage());
 				ex.printStackTrace();
@@ -196,7 +196,20 @@ public abstract class Body extends GenericViewModel {
 	}
 	
 	//===================================================================
+	// Para saber si hubo cambios en el DTO 
+
+	byte[] dtoSerializado = {};
+
+	public void setDTOCorrienteDirty(DTO dto){
+		this.dtoSerializado = this.m.serializar(dto);
+		this.setDTOCorriente(dto);
+	}
 	
+	public boolean siDirtyDTO(){
+		return this.m.siDirty(this.getDTOCorriente(), this.dtoSerializado);
+	}
+	
+	//===================================================================
 
 	// se verifica antes de hacer una grabación
 	public abstract boolean verificarAlGrabar();

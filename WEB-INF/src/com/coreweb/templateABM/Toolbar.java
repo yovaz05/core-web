@@ -150,7 +150,7 @@ public class Toolbar extends GenericViewModel {
 		this.setEstadoABM(MODO_AGREGAR);
 
 		DTO dtoAux = this.getPagina().getBody().nuevoDTO();
-		this.getPagina().getBody().setDTOCorriente(dtoAux);
+		this.getPagina().getBody().setDTOCorrienteDirty(dtoAux);
 
 	}
 
@@ -222,7 +222,7 @@ public class Toolbar extends GenericViewModel {
 				Assembler as = this.getPagina().getBody().getAss();
 				DTO dto = as.getDto(this.getPagina().getBody()
 						.getEntidadPrincipal(), m);
-				this.getPagina().getBody().setDTOCorriente(dto);
+				this.getPagina().getBody().setDTOCorrienteDirty(dto);
 				
 			}
 		}

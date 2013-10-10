@@ -51,7 +51,7 @@ public class Finder extends GenericViewModel {
 	@Command
 	public void doTask() {
 		if (this.selectedDTO != null) {
-			this.body.setDTOCorriente(this.selectedDTO);
+			this.body.setDTOCorrienteDirty(this.selectedDTO);
 			this.windowFinder.detach();
 		}
 	}

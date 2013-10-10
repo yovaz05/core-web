@@ -20,7 +20,7 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 
 	private String usuarioMod = "new";
 
-	public Misc misc = new Misc();
+	transient public Misc misc = new Misc();
 
 	private boolean checked = false; // agregar en todos los DTO
 
