@@ -29,6 +29,7 @@ public class BuscarElemento {
 	String[] valores;
 	String[] tipos = null;
 	String join = "";
+	String orden = "";
 	String titulo = "Buscar ...";
 	String width = "400px";
 	String msgVacia = "Ingrese un criterio de filtro...";
@@ -180,7 +181,7 @@ public class BuscarElemento {
 		// tipos, where);
 		datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores,
 				tipos, false, true, Config.CUANTOS_BUSCAR_ELEMENTOS, true,
-				where, this.join);
+				where, this.join, this.orden);
 		return datos;
 	}
 
@@ -324,6 +325,10 @@ public class BuscarElemento {
 
 	public void addJoin(String join) {
 		this.join = join;
+	}
+
+	public void addOrden(String orden) {
+		this.orden = orden;
 	}
 
 	public String[] getTipos() {

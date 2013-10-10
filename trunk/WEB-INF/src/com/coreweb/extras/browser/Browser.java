@@ -106,6 +106,7 @@ public abstract class Browser extends SimpleViewModel implements VerificaAceptar
 	private String[] tipos; // los tipos de los campos
 	private String[] wheres;
 	private String join = "";
+	private String attOrden = "";
 
 	public static Object[] NO_SELECTED_ITEM = {-1};
 	
@@ -257,7 +258,7 @@ public abstract class Browser extends SimpleViewModel implements VerificaAceptar
 		List<Object[]> datos = new ArrayList<Object[]>();
 
 		datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores,
-				wheres, tipos, true, this.join);
+				wheres, tipos, true, this.join, this.attOrden);
 
 		return datos;
 	}
@@ -337,6 +338,9 @@ public abstract class Browser extends SimpleViewModel implements VerificaAceptar
 		this.join = join;
 	}
 	
+	public void addOrden(String orden){
+		this.attOrden = orden;
+	}
 	
 	// *********************************************************
 	// Lista de componentes
