@@ -52,6 +52,7 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	public boolean isEsNuevo() {
 		return this.esNuevo();
 	}
+	
 
 	public void setEsNuevo(boolean esNuevo) throws Exception {
 		throw new Exception("Intentando modificar si es nuevo un DTO");
@@ -178,6 +179,12 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 		return clone;
 	}
 
+	public String getTextOrden(){
+		return this.misc.ceros(this.getId()+"", 8);
+	}
+
+	
+	
 	/*
 	 * public Comparator<DTO> COMPARATOR = new Comparator<DTO>() { // This is
 	 * where the sorting happens. public int compare(DTO o1, DTO o2) { int out =

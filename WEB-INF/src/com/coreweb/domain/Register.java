@@ -638,21 +638,21 @@ public class Register {
 
 	// este usa el buscar elemento
 	public List buscarElemento(Class clase, String[] atts, String[] values,
-			String[] tipos, List<String> where, String join) throws Exception {
+			String[] tipos, List<String> where, String join, String attOrden) throws Exception {
 		return buscarElemento(clase, atts, values, tipos, false, true,
-				Config.CUANTOS_BUSCAR_ELEMENTOS, true, where, join);
+				Config.CUANTOS_BUSCAR_ELEMENTOS, true, where, join, attOrden);
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values,
-			String[] tipos) throws Exception {
+			String[] tipos, String attOrden) throws Exception {
 		return buscarElemento(clase, atts, values, tipos, false, true,
-				Config.CUANTOS_BUSCAR_ELEMENTOS, true, new ArrayList(), "");
+				Config.CUANTOS_BUSCAR_ELEMENTOS, true, new ArrayList(), "", attOrden);
 	}
 
 	// este usa el browser
 	public List buscarElemento(Class clase, String[] atts, String[] values,
 			String[] wheres, String[] tipos, boolean permiteFiltroVacio,
-			String join) throws Exception {
+			String join, String attOrden) throws Exception {
 		// armar la lista de wheres
 		List<String> whereCl = new ArrayList();
 		for (int i = 0; i < wheres.length; i++) {
@@ -663,12 +663,12 @@ public class Register {
 		}
 
 		return buscarElemento(clase, atts, values, tipos, permiteFiltroVacio,
-				true, Config.CUANTOS_BUSCAR_ELEMENTOS, true, whereCl, join);
+				true, Config.CUANTOS_BUSCAR_ELEMENTOS, true, whereCl, join, attOrden);
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values,
 			String[] tipos, boolean permiteFiltroVacio, boolean permiteLimite,
-			int limite, boolean permiteLike, List<String> whereCl, String join)
+			int limite, boolean permiteLike, List<String> whereCl, String join, String attOrden)
 			throws Exception {
 		List l = new ArrayList<Object[]>();
 		;
@@ -685,7 +685,7 @@ public class Register {
 			}
 		}
 
-		String atOrd = "c." + atts[0];
+	
 		String select = " ";
 		// String where = " 1 = 1 and ";
 		String where = " c.dbEstado != 'D' and ";
@@ -758,8 +758,16 @@ public class Register {
 			join = "join c." + join.trim();
 		}
 
+		
+		String orden = "";
+		if ((attOrden!= null) && (attOrden.trim().length() > 0)){
+			orden = " order by " + attOrden + " asc " ;
+		}
+		
+		
+		
 		String hql = select + " from " + clase.getName() + " c " + join + " "
-				+ where + " order by " + atOrd + " asc";
+				+ where + orden;
 		System.out.println("\n\n\n" + hql + "\n\n\n");
 
 		l = this.hql(hql);
@@ -801,7 +809,7 @@ public class Register {
 		lw.add(where);
 
 		List l = buscarElemento(clase, atts, values, tipos, false, false, 0,
-				false, lw, "");
+				false, lw, "", "");
 
 		return (l.size() > 0);
 	}

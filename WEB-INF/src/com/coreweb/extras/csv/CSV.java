@@ -196,11 +196,11 @@ public class CSV {
 				float numeroControl =  verificar[k];
 				float dife = numero - numeroControl;
 				
-				
-				if ( (dife * dife) > 0.00001  ) {
+				float dd = (dife * dife);
+				if ( dd > 0.00001  ) {
 					String txtEx = "Error en la suma de la columna: "
 							+ detalleCabecera[k] + ". Deberia ser "
-							+ verificar[k] + " y no " + numero;
+							+ verificar[k] + " y no " + numero + ". Diferencia:"+dd;
 					System.out.println("** control deshabilitad: "+txtEx);					
 					throw new Exception(txtEx);
 				}
