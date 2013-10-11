@@ -105,9 +105,7 @@ public class ControlAgendaEvento extends GenericViewModel {
 		detaDto.setLink(link);
 		
 		ageDto.getAgendaEventoDetalles().add(detaDto);
-		this.saveDTO(ageDto, false);
-		
-		
+		this.saveDTO(ageDto);
 	}
 
 	
@@ -152,7 +150,7 @@ public class ControlAgendaEvento extends GenericViewModel {
 			aDto.setTexto(texto.getValue());
 			
 			this.dto.getAgendaEventoDetalles().add(aDto);
-			this.saveDTO(this.dto, true);
+			this.saveDTO(this.dto);
 		}
 		
 	}

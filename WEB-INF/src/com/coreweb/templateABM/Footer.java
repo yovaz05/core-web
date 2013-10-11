@@ -50,21 +50,14 @@ public class Footer extends GenericViewModel {
 	}
 
 	@Command
-	public void doTask() {
-		boolean siGrabo = this.saveDato(true, "Grabar los cambios y salir?");
-
-		if (siGrabo == true) {
-			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
-		}
-	}
-
-	@Command
 	public void save() {
-		this.saveDato(false, "");
-		this.yesClick = false;
+		// no es necesario un NotifyChange porque desde el zul se invoca el
+		// globalCommand refreshComponents
+		this.saveDato();
+		this.yesClick = true;
 	}
 
-	public boolean saveDato(boolean siPregunta, String texto) {
+	private boolean saveDato() {
 
 		boolean out = false;
 
@@ -73,56 +66,54 @@ public class Footer extends GenericViewModel {
 			return false;
 		}
 
-		if ((siPregunta == false) || (this.mensajeSiNo(texto) == true)) {
-			try {
-				this.pagina.grabarDTOCorriente(true); // graba y refresca el DTO
-				this.pagina.getBody().afterSave();
-				this.yesClick = true;
-				this.mensajePopupTemporal("Información grabada!!", 1000);
-				out = true;
-			} catch (Exception e) {
-				e.printStackTrace();
-				this.mensajeError("Error grabando la información\n"
-						+ e.getMessage());
-				out = false;
-			}
+		try {
+			this.pagina.grabarDTOCorriente(); // graba
+			this.pagina.getBody().afterSave();
+			this.mensajePopupTemporal("Información grabada!!", 1000);
+			out = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.mensajeError("Error grabando la información\n"
+					+ e.getMessage());
+			out = false;
 		}
+
 		return out;
 	}
 
 	@Command
-	@NotifyChange("*")
 	public void discard() throws Exception {
+		// no es necesario un NotifyChange porque desde el zul se invoca el
+		// globalCommand deshabilitarComponentes
 		this.yesClick = false;
 		boolean siDirty = this.getPagina().getBody().siDirtyDTO();
 
-		// no hay cambios
+		// no hay cambios, sale nomas
 		if (siDirty == false) {
 			this.yesClick = true;
 			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
 			return;
 		}
 
-		this.yesClick = true;
-		boolean grabar = this.mensajeSiNo("Grabar los cambios antes de salir?");
-		if (grabar == true) {
-			this.saveDato(false, "");
-		}else{
+		// preguntar que hacer con los cambios
+		int click = this
+				.mensajeSiNoCancelar("Grabar los cambios antes de salir?");
+
+		if (click == Config.BOTON_CANCEL) {
+			// vuelve a la pantalla
+			this.yesClick = false;
+			return;
+		}
+		if (click == Config.BOTON_YES) {
+			this.saveDato();
+		}
+		if (click == Config.BOTON_NO) {
+			this.m.mensajePopupTemporalWarning("Información NO grabada!!", 1000);
 			this.pagina.refreshDTOCorriente();
 		}
+
 		this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
-
-		/*
-		if (this.mensajeSiNo("Está seguro que quiere cancelar la operación?\n Perderá los cambios desde la última vez que grabó.") == true) {
-			this.yesClick = true;
-
-			this.pagina.refreshDTOCorriente();
-
-			// String texLabel = this.pagina.getTextoFormularioCorriente();
-			// this.setTextoFormularioCorriente(texLabel);
-			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
-		}
-		*/
+		this.yesClick = true;
 	}
 
 	@GlobalCommand

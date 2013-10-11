@@ -67,16 +67,13 @@ public class Page extends GenericViewModel {
 		}
 	}
 
-	public void grabarDTOCorriente(boolean refreshDTO) throws Exception {
-		
+	public void grabarDTOCorriente() throws Exception {
 		if (this.body.isGrabadoAlternativo() == true){
 			this.body.metodoGrabadoAlternativo();
 		}else{
 			DTO dtoCC = this.body.getDTOCorriente();
-			dtoCC = this.saveDTO(dtoCC, refreshDTO);
-			if (refreshDTO == true) {
-				this.body.setDTOCorrienteDirty(dtoCC);
-			}
+			dtoCC = this.saveDTO(dtoCC);
+			this.body.setDTOCorrienteDirty(dtoCC);
 		}
 		
 	}
