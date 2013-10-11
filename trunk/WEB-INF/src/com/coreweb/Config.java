@@ -27,6 +27,11 @@ public class Config {
 	public static String GRUPO_IMPORTACION = "Importacion";
 	
 	
+	// botones
+	public static int BOTON_YES = 0;
+	public static int BOTON_NO = 1;
+	public static int BOTON_CANCEL = 2;
+	
 	// Para acceder a los archivos por la Web o por el disco
 	public static String DIRECTORIO_BASE_WEB = "";
 	public static String DIRECTORIO_BASE_REAL = "";
@@ -72,4 +77,8 @@ public class Config {
 	public static String IMAGEN_OK = "/core/images/accept_.png";
 	public static String IMAGEN_CANCEL = "/core/images/delete_.png";
 	public static String IMAGEN_CHECK = "/core/images/tick.png";
+	
+	
+	
+	
 }

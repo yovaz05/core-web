@@ -6,7 +6,7 @@
 			<hbox width="300px" align="start">
 
 				<toolbarbutton image="/core/images/add.png"
-					tooltiptext="Agregar"
+					tooltiptext="Crear"
 					onClick="@command('agregarItem')
 				@global-command('habilitarComponentes')"
 					disabled="@load(Toolbar.agregarDeshabilitado)" />
@@ -17,12 +17,13 @@
 				@global-command('habilitarComponentes')"
 					disabled="@load(Toolbar.editarDeshabilitado)" />
 
+<!-- 
 				<toolbarbutton image="/core/images/delete.png"
 					tooltiptext="Eliminar"
 					onClick="@command('eliminarItem')
 			    @global-command('refreshComponentes')"
 					disabled="@load(Toolbar.eliminarDeshabilitado)" />
-
+ -->
 				<toolbarbutton image="/core/images/find.png"
 					tooltiptext="Buscar"
 					onClick="@command('buscarItem')

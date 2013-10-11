@@ -54,7 +54,6 @@ public class Control {
 	private static UtilCoreDTO dtoUtil = null; // = new
 												// AssemblerUtil().getDTOUtil();
 
-
 	private Component main;
 	private Hashtable<String, String> hashFilterValue = new Hashtable<String, String>();
 	// private ControlAgendaEvento ctrAgenda = new ControlAgendaEvento();
@@ -155,15 +154,15 @@ public class Control {
 
 	// ================================================
 
-	// Login del usuario 
-	public String getLogin(){
+	// Login del usuario
+	public String getLogin() {
 		try {
 			return this.getUs().getLogin();
 		} catch (Exception e) {
 		}
 		return this.getClass().getName();
 	}
-	
+
 	// hacer un salto de pagina
 	public void saltoDePagina(String url, String param, Object value) {
 		Hashtable<String, Object> h = new Hashtable<String, Object>();
@@ -215,7 +214,6 @@ public class Control {
 			Menuitem item = (Menuitem) main.getFellow("carita", true);
 			if (b == true) {
 				item.setImage(Archivo.caritaFeliz);
-		
 
 			} else {
 				item.setImage(Archivo.caritaEnojada);
@@ -271,48 +269,48 @@ public class Control {
 
 	/***********************************************************************/
 
-	protected DTO saveDTO(DTO dto, boolean refreshDTO) throws Exception {
+	protected DTO saveDTO(DTO dto) throws Exception {
 		String login = this.getUs().getLogin();
 		Domain don = ass.dtoToDomain(dto);
 		Register register = Register.getInstance();
 		register.saveObject(don, login);
-		if (refreshDTO == true) {
-			dto = ass.domainToDto(don);
-		}
+		dto = ass.domainToDto(don);
 		return dto;
 	}
 
 	protected void deleteDTO(DTO dto) throws Exception {
 		/*
-		Domain don = ass.dtoToDomain(dto);
-		Register register = Register.getInstance();
-		register.deleteObject(don);
-		*/
+		 * Domain don = ass.dtoToDomain(dto); Register register =
+		 * Register.getInstance(); register.deleteObject(don);
+		 */
+		if (1 == 1) {
+			throw new Exception("Control.deleteDTO: "
+					+ this.getClass().getName());
+		}
 		dto.setDeleted();
-		this.saveDTO(dto, false);
-		
+		this.saveDTO(dto);
+
 	}
 
-	public DTO getDTOById(String entityName, String idObjeto) throws Exception {	
+	public DTO getDTOById(String entityName, String idObjeto) throws Exception {
 		return getDTOById(entityName, Long.parseLong(idObjeto), this.getAss());
 	}
 
 	public DTO getDTOById(String entityName, Long idObjeto) throws Exception {
 		return getDTOById(entityName, idObjeto, this.getAss());
 	}
-	
-	public DTO getDTOById(String entityName, Long idObjeto, Assembler ass) throws Exception {
-		
+
+	public DTO getDTOById(String entityName, Long idObjeto, Assembler ass)
+			throws Exception {
+
 		return ass.getDTObyId(entityName, idObjeto);
 		/*
-		Register register = Register.getInstance();
-		Domain dom = register.getObject(entityName, idObjeto);
-		DTO dto = ass.domainToDto(dom);
-		return dto;
-		*/
+		 * Register register = Register.getInstance(); Domain dom =
+		 * register.getObject(entityName, idObjeto); DTO dto =
+		 * ass.domainToDto(dom); return dto;
+		 */
 	}
-	
-	
+
 	public List<DTO> getAllDTOs(String entityName) throws Exception {
 		return getAllDTOs(entityName, this.ass);
 	}
@@ -480,14 +478,18 @@ public class Control {
 		return this.m.mensajeSiNo(texto);
 	}
 
-	public void mensajePopupTemporal(String mensaje){
+	public int mensajeSiNoCancelar(String texto) {
+		return this.m.mensajeSiNoCancelar(texto);
+	}
+
+	public void mensajePopupTemporal(String mensaje) {
 		this.m.mensajePopupTemporal(mensaje);
 	}
 
-	public void mensajePopupTemporal(String mensaje, int time){
+	public void mensajePopupTemporal(String mensaje, int time) {
 		this.m.mensajePopupTemporal(mensaje, time);
 	}
-	
+
 	public boolean esGrupo(String grupo) {
 		boolean out = false;
 		out = this.getUs().esGrupo(grupo);
@@ -498,7 +500,7 @@ public class Control {
 
 		if (this.getDtoUtil() == null) {
 			try {
-				
+
 				synchronized (Config.INIT_CLASE) {
 					Config.INIT_CLASE = Config.INIT_CLASE.replace("?", prefix);
 				}
@@ -525,10 +527,10 @@ public class Control {
 		Object atributo = s.getAttribute(arg);
 		return atributo;
 	}
-	
-	public void setAtributoSession(String key, Object value){
+
+	public void setAtributoSession(String key, Object value) {
 		Session s = Sessions.getCurrent();
-		s.setAttribute(key, value);		
+		s.setAttribute(key, value);
 	}
 
 	public static void main(String[] args) {

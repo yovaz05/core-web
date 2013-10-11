@@ -32,6 +32,8 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Messagebox;
 
+import com.coreweb.Config;
+
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
 
@@ -820,6 +822,25 @@ public class Misc {
 		return false;
 	}
 
+	
+	
+	public int mensajeSiNoCancelar(String texto) {
+		int out = Config.BOTON_CANCEL;
+		
+		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Confirmar",
+				new Messagebox.Button[] { Messagebox.Button.YES,
+						Messagebox.Button.NO, Messagebox.Button.CANCEL }, Messagebox.QUESTION, null);
+
+		if ((b != null) && (b.compareTo(Messagebox.Button.YES)) == 0) {
+			out = Config.BOTON_YES;
+		}
+		if ((b != null) && (b.compareTo(Messagebox.Button.NO)) == 0) {
+			out = Config.BOTON_NO;
+		}
+		return out;
+	}
+
+	
 	// Metodo que retorna el valor del Iva a partir de un valor iva incluido..
 	// 10 = calcularIVA(110,10)
 	public double calcularIVA(double ivaIncluido, int porcentajeIva) {
@@ -1069,6 +1090,10 @@ public class Misc {
 
 	public void mensajePopupTemporal(String mensaje, int time){
 		Clients.showNotification(mensaje, null, null, null, time);
+	}
+
+	public void mensajePopupTemporalWarning(String mensaje, int time){
+		Clients.showNotification(mensaje, "warning", null, null, time);
 	}
 
 	public void mensajePopupTemporal(String mensaje, String tipo, Component posicion){
