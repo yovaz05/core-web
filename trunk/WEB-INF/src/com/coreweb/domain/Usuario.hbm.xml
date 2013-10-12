@@ -25,7 +25,14 @@
 			<many-to-many column="idPerfil" class="com.coreweb.domain.Perfil" />
 		</set>
 
-
+		<set name="usuarioPropiedades" table="UsuarioPropiedad" inverse="false" lazy="false"
+			fetch="join" cascade="all" >
+			<key>
+				<column name="idUsuario" not-null="false" />
+			</key>
+			<one-to-many class="com.coreweb.domain.UsuarioPropiedad" />
+		</set>
+		
 	</class>
 
 </hibernate-mapping>

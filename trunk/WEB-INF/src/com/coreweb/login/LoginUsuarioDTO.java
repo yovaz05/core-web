@@ -135,6 +135,69 @@ public class LoginUsuarioDTO extends DTO {
 	}
 
 	
+	// definiciones
+	private Hashtable<String, List<String>> usuarioPropiedades = new Hashtable<String, List<String>>();
+	
+	public void addPropiedad(String key, String valor){
+		List<String> l = this.usuarioPropiedades.get(key);
+		if (l == null){
+			l = new ArrayList<String>();
+			this.usuarioPropiedades.put(key, l);
+		}
+		l.add(valor);
+	}
+	
+
+    /**
+     * Retorna una propiedad. Se supone que sólo hay una propiedad para esta clave.
+     * Si la propiedad no existe, lanza una excepción.
+     * @param key
+     * @return
+     */
+	public String getPropiedad(String key) throws Exception{
+		String out = "";
+		try {
+			List<String> l = this.usuarioPropiedades.get(key);
+			if (l.size() != 1){
+				throw new Exception ("No existe la propiedad \""+key+"\" o hay más de un valor definido para ella. Cantidad ("+l.size()+")");
+			}else{
+				out = l.get(0);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return out;
+	}
+	
+	/**
+	 * Retorna la lista de propiedades para una clave dada.
+	 * Si no encuentra la propiedad, retormna la lista vacía.
+	 * @param key
+	 * @return
+	 */
+	public List<String> getPropiedades(String key){
+		List<String> l = this.usuarioPropiedades.get(key);
+		if (l == null){
+			l = new ArrayList<String>();
+		}
+		return l;
+	}
+	
+	/**
+	 * Busca la propiedad y hace el parcer a double.
+	 * Lanza una exepción si no puede hacer el parser.
+	 * @param key
+	 * @return
+	 * @throws Exception
+	 */
+	public double getPropiedadDouble(String key) throws Exception {
+		double out = 0.0;
+		String pro = this.getPropiedad(key);
+		out = Double.parseDouble(pro);			
+		return out;
+	}
+
+	
 }
 
 

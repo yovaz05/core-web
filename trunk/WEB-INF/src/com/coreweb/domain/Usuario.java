@@ -11,8 +11,9 @@ public class Usuario extends Domain {
 	private String login;
 	private String clave;
 	private Set<Perfil> perfiles = new HashSet<Perfil>();
+	private Set<UsuarioPropiedad> usuarioPropiedades = new HashSet<UsuarioPropiedad>();
 	
-	Misc m = new Misc();
+
 
 	public Usuario(){
 		
@@ -56,6 +57,18 @@ public class Usuario extends Domain {
 
 	public void setPerfiles(Set<Perfil> perfiles) {
 		this.perfiles = perfiles;
+	}
+
+
+
+
+	public Set<UsuarioPropiedad> getUsuarioPropiedades() {
+		return usuarioPropiedades;
+	}
+
+
+	public void setUsuarioPropiedades(Set<UsuarioPropiedad> usuarioPropiedades) {
+		this.usuarioPropiedades = usuarioPropiedades;
 	}
 
 

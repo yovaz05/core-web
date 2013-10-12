@@ -17,6 +17,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -291,7 +292,6 @@ public class Register {
 			session.beginTransaction();
 			Criteria cri = session.createCriteria(entityName);
 			cri.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-
 			for (int i = 0; i < rest.size(); i++) {
 				Criterion r = (Criterion) rest.elementAt(i);
 				cri.add(r);
@@ -451,6 +451,16 @@ public class Register {
 		List l = getObjects(com.coreweb.domain.Operacion.class.getName(),
 				new Vector(), new Vector());
 		return l;
+	}
+
+	public void deleteAllObjects(String entityName, String att, String valor) throws Exception {
+		Vector vr = new Vector();
+		vr.add(Restrictions.eq(att, valor).ignoreCase());
+		
+		List<Domain> l = getObjects(entityName, vr, new Vector());
+		for (int i = 0; i < l.size(); i++) {
+			this.deleteObject(l.get(i));
+		}
 	}
 
 	public void deleteAllObjects(String entityName) throws Exception {

@@ -25,6 +25,7 @@
 <mapping resource="com/coreweb/domain/Ping.hbm.xml" />
 <mapping resource="com/coreweb/domain/Tecorei.hbm.xml" />
 <mapping resource="com/coreweb/domain/Usuario.hbm.xml" />
+<mapping resource="com/coreweb/domain/UsuarioPropiedad.hbm.xml" />
 <mapping resource="com/coreweb/domain/Perfil.hbm.xml" />
 <mapping resource="com/coreweb/domain/Permiso.hbm.xml" />
 <mapping resource="com/coreweb/domain/Formulario.hbm.xml" />

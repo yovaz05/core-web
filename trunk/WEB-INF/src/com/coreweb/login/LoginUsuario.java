@@ -29,6 +29,15 @@ public class LoginUsuario {
 			String[] nombrePerfiles = new String[u.getPerfiles().size()];
 			String[] nombrePerfilesDesc = new String[u.getPerfiles().size()];
 
+			
+			// recorre las propiedades 
+			Iterator<UsuarioPropiedad> iteProp = u.getUsuarioPropiedades().iterator();
+			while(iteProp.hasNext()){
+				UsuarioPropiedad up = iteProp.next();
+				lu.addPropiedad(up.getClave().getDescripcion(), up.getValor());
+			}
+			
+			
 			// recorre los perfiles
 			Iterator<Perfil> iteP = u.getPerfiles().iterator();
 			while (iteP.hasNext()) {
@@ -60,6 +69,7 @@ public class LoginUsuario {
 			}		
 			lu.setPerfiles(nombrePerfiles);
 			lu.setPerfilesDescripcion(nombrePerfilesDesc);
+			
 			
 			// recorre los formularios para registrar todos los alias
 			List<Formulario> lf = rr.getAllFormulario();

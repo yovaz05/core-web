@@ -3,9 +3,14 @@ package com.coreweb.util.population;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
+
+import org.hibernate.EntityNameResolver;
 
 import com.coreweb.Config;
 import com.coreweb.IDCore;
@@ -16,12 +21,14 @@ public class DBMenuUserParser {
 
 	//private static String fileS = "./yhaguy/WEB-INF/menu_config.ini";
 	//private static String fileD = "./WEB-INF/menu_config.ini";
-	private static String file = "" ; //fileD;
-	private static Class idClass = null;
-
+	private String file = "" ; //fileD;
+	private Class idClass = null;
+	private String userIni = "";
+	private String[] usuarioPropiedades = {};
+	
+	
 	private static String dfv = "defaultValue";
 	private static String split = ";";
-
 	
 	private Properties prop = null;
 
@@ -32,9 +39,11 @@ public class DBMenuUserParser {
 	private Register rr = Register.getInstance();
 
 	
-	public DBMenuUserParser(String fileIni, Class idClass){
+	public DBMenuUserParser(String fileIni, Class idClass, String userIni, String[] usuarioPropiedades){
 		this.file = fileIni;
 		this.idClass = idClass;
+		this.userIni = userIni;
+		this.usuarioPropiedades = usuarioPropiedades;
 	}
 	
 	private void cargaMenu(boolean grabar) throws Exception {
@@ -289,8 +298,11 @@ public class DBMenuUserParser {
 	private void deleteDatos() throws Exception {
 
 		rr.deleteAllObjects(Usuario.class.getName());
-		rr.deleteAllObjects(Perfil.class.getName());
+		rr.deleteAllObjects(UsuarioPropiedad.class.getName());
+		rr.deleteAllObjects(Tipo.class.getName(), "sigla", Config.TIPO_USUARIO_PROPIEDAD_SIGLA);
+		rr.deleteAllObjects(TipoTipo.class.getName(), "descripcion", Config.TIPO_TIPO_USUARIO_PROPIEDAD);
 
+		rr.deleteAllObjects(Perfil.class.getName());
 		rr.deleteAllObjects(Modulo.class.getName());
 
 	}
@@ -312,6 +324,7 @@ public class DBMenuUserParser {
 		this.misc.testIdInAlias(this.aliasTipo, this.idClass);
 		System.out.println("\n======================= fin =================");
 		
+		this.cargaUsuarioPropiedades();
 		
 	}
 
@@ -368,20 +381,75 @@ public class DBMenuUserParser {
 		}
 	}
 	
-
 	
-
-	
-/*
-	public static void main(String[] args) {
-		try {
-			DBMenuUserParser d = new DBMenuUserParser();
-			
-			d.cargaMenusPerfilesUsuarios();
-
-		} catch (Exception e) {
-			e.printStackTrace();
+    /**
+     * Carga las propiedadesd de los usuarios
+     * @throws Exception
+     */
+	private void cargaUsuarioPropiedades() throws Exception {
+		
+		if (this.usuarioPropiedades.length == 0){
+			return;
 		}
+		
+		Properties upFile = new Properties();
+		//prop.load(new FileInputStream(file));
+		upFile.load(new InputStreamReader (new FileInputStream (this.userIni), "utf-8"));
+		
+		// cargar las propiedades como tipo
+		List<Tipo> lup = new ArrayList<Tipo>();
+		
+		TipoTipo tipoUPro = new TipoTipo();
+		tipoUPro.setDescripcion(Config.TIPO_TIPO_USUARIO_PROPIEDAD);
+		rr.saveObject(tipoUPro, "SYS");
+		
+		for (int i = 0; i < this.usuarioPropiedades.length; i++) {
+			String pN = this.usuarioPropiedades[i];
+			Tipo propTipo = new Tipo();
+			propTipo.setDescripcion(pN);
+			propTipo.setTipoTipo(tipoUPro);
+			propTipo.setSigla(Config.TIPO_USUARIO_PROPIEDAD_SIGLA);
+			
+			rr.saveObject(propTipo, "SYS");
+			lup.add(propTipo);
+		}
+		
+		List<Domain> lDoman = new ArrayList<Domain>();
+		
+		// buscar todos los usuarios
+		List<Usuario> lu = rr.hql("from Usuario");
+		
+		// para cada usuario, recorrer la lista de propiedades y cargar
+		for (Iterator iterator = lu.iterator(); iterator.hasNext();) {
+			Usuario u = (Usuario) iterator.next();
+			
+			String login = u.getLogin();
+			
+			
+			// recorro todas las propiedades y las asigno a los los usuarios
+			for (Iterator iterator2 = lup.iterator(); iterator2.hasNext();) {
+				Tipo propTipo = (Tipo) iterator2.next();
+				
+				String pN = propTipo.getDescripcion();
+				
+				String key = login+"_"+pN;
+				
+				String valor = upFile.getProperty(key);
+				
+				if (valor != null){
+					UsuarioPropiedad up = new UsuarioPropiedad();
+					up.setClave(propTipo);
+					up.setValor(valor);
+					u.getUsuarioPropiedades().add(up);
+				}
+			}
+
+			rr.saveObject(u, "SYS");
+			
+			
+		}
+		
 	}
-*/
+	
+
 }

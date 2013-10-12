@@ -37,6 +37,7 @@ import org.zkoss.zul.Textbox;
 
 import com.coreweb.Archivo;
 import com.coreweb.Config;
+import com.coreweb.UsuarioPropiedad;
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
@@ -61,6 +62,7 @@ public class Control {
 
 	private LoginUsuarioDTO us = new LoginUsuarioDTO();
 
+
 	private static String empresa = "Definir empresa";
 
 	private static String aliasFormularioCorrienteTXT = "--AliasFormularioNoDefinido--";
@@ -84,7 +86,6 @@ public class Control {
 
 	@Init(superclass = true)
 	public void initControl() throws Exception {
-		// System.out.println("[ToDo] control de session de usuario ==========");
 
 		Session s = Sessions.getCurrent();
 		this.us = (LoginUsuarioDTO) s.getAttribute(Config.USUARIO);
@@ -104,6 +105,7 @@ public class Control {
 			return;
 		}
 		s.setAttribute(Config.LOGIN, this.us.getLogin());
+		
 		this.preInit();
 		this.poneCarita(this.us.isLogeado());
 	}
@@ -532,6 +534,7 @@ public class Control {
 		Session s = Sessions.getCurrent();
 		s.setAttribute(key, value);
 	}
+
 
 	public static void main(String[] args) {
 		String a = "";

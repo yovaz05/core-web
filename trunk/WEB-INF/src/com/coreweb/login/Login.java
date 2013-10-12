@@ -60,6 +60,7 @@ public class Login extends Control{
 		
 		LoginUsuario lu = new LoginUsuario();
 		LoginUsuarioDTO uDto = lu.log(this.user, this.pass);
+		
 
 		s.setAttribute(Config.LOGEADO, uDto.isLogeado());
 		s.setAttribute(Config.USUARIO, uDto);

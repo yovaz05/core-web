@@ -26,6 +26,9 @@ public class Config {
 	public static String GRUPO_AUDITORIA = "Auditoria";
 	public static String GRUPO_IMPORTACION = "Importacion";
 	
+	// propiedad de usuario
+	public static String TIPO_TIPO_USUARIO_PROPIEDAD = "Propiedad de Usuario";
+	public static String TIPO_USUARIO_PROPIEDAD_SIGLA = "User-Prop";
 	
 	// botones
 	public static int BOTON_YES = 0;

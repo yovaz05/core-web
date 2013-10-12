@@ -22,5 +22,14 @@ public class UtilCoreDTO extends DTO {
 	public void setHabilitado(List<MyPair> habilitado) {
 		this.habilitado = habilitado;
 	}
+	
+	
+	// ==== Para el manejo de propiedades del usuario
+	
+	public String getPropiedad(String key){
+		String out = "";
+		
+		return out;
+	}
 
 }
