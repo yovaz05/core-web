@@ -99,6 +99,7 @@ public abstract class GenericViewModel extends Control {
 	@Init(superclass = true)
 	public void initGenericViewModel(
 			@ContextParam(ContextType.VIEW) Component view) {
+
 		this.mainComponent = view;
 
 	}
