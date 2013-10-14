@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
+import org.hamcrest.core.IsInstanceOf;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 
@@ -243,7 +244,7 @@ public abstract class Assembler {
 	public void domainToMyPair(Domain dom, DTO dto, String atributo,
 			String campo) throws Exception {
 
-		domainToMyPair(dom, dto, atributo, new String[] { campo });
+		domainToMyPair(dom, dto, atributo, new String[] { campo } );
 	}
 
 	public void domainToMyPair(Domain dom, DTO dto, String atributo,
@@ -254,6 +255,14 @@ public abstract class Assembler {
 			// no tiene nada seteado, entonces termina
 			return;
 		}
+		
+		String sigla = "";
+		if (dato instanceof Tipo) {
+			Tipo t = (Tipo)  dato;
+			sigla = t.getSigla();
+		}
+		
+		
 		String texto = "";
 		int cnt = campos.length;
 		for (int i = 0; i < cnt; i++) {
@@ -265,6 +274,7 @@ public abstract class Assembler {
 		MyPair mp = new MyPair();
 		mp.setId(dato.getId());
 		mp.setText(texto);
+		mp.setSigla(sigla);
 
 		setValue(dto, atributo, mp);
 	}
@@ -986,6 +996,7 @@ public abstract class Assembler {
 		MyPair aux = new MyPair();
 		aux.setId(tipo.getId());
 		aux.setText(tipo.getDescripcion());
+		aux.setSigla(tipo.getSigla());
 		return aux;
 	}
 
@@ -1006,6 +1017,7 @@ public abstract class Assembler {
 			MyPair m = new MyPair();
 			m.setId(t.getId());
 			m.setText(t.getDescripcion());
+			m.setSigla(t.getSigla());
 			out.add(m);
 		}
 		return out;

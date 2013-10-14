@@ -8,6 +8,7 @@ public class MyPair extends MyAuxObject {
 
 	// private Long id = new Long(-1);
 	private String text = " ";
+	private String sigla = "";
 
 	public MyPair() {
 	}
@@ -23,6 +24,15 @@ public class MyPair extends MyAuxObject {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	
+	public String getSigla() {
+		return sigla;
+	}
+
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
 
 	public String toString() {
