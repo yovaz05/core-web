@@ -68,8 +68,6 @@ public class Footer extends GenericViewModel {
 
 		try {
 			this.pagina.grabarDTOCorriente(); // graba
-			this.pagina.getBody().afterSave();
-			this.pagina.getBody().setDTOCorrienteDirty();
 
 			this.mensajePopupTemporal("Información grabada!!", 1000);
 			out = true;
