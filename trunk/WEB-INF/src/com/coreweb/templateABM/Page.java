@@ -73,6 +73,7 @@ public class Page extends GenericViewModel {
 		}else{
 			DTO dtoCC = this.body.getDTOCorriente();
 			dtoCC = this.saveDTO(dtoCC);
+			this.body.afterSave();
 			this.body.setDTOCorrienteDirty(dtoCC);
 		}
 		
