@@ -7,7 +7,7 @@
 	que el sistema ha sido reiniciado.
 	</div>
 	<div>
-    Para volver al sistema haga click <a href="/index.zul" label="aquí"/>
+    Para volver al sistema haga click <a href="/sistema.zul" label="aquí"/>
     </div>
 	</vbox>
 </window>
