@@ -204,6 +204,11 @@ public abstract class Body extends GenericViewModel {
 		this.setDTOCorriente(dto);
 		this.dtoSerializado = this.m.serializar(dto);
 	}
+
+	public void setDTOCorrienteDirty(){
+		this.setDTOCorrienteDirty(this.getDTOCorriente());
+	}
+	
 	
 	public boolean siDirtyDTO(){
 		return this.m.siDirty(this.getDTOCorriente(), this.dtoSerializado);
