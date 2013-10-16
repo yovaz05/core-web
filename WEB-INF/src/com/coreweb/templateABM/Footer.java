@@ -90,8 +90,8 @@ public class Footer extends GenericViewModel {
 
 		// no hay cambios, sale nomas
 		if (siDirty == false) {
-			this.yesClick = true;
 			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+			this.yesClick = true;
 			return;
 		}
 
@@ -105,15 +105,23 @@ public class Footer extends GenericViewModel {
 			return;
 		}
 		if (click == Config.BOTON_YES) {
-			this.saveDato();
+			// por que puede que NO haya podido grabar, entonces vuelve
+			if ( this.saveDato() == true ){
+				this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+				this.yesClick = true;				
+			}else{
+				// como no pudo grabar, entonces vuelve a la página donde estaba.
+				this.yesClick = false;
+				return;
+			}
 		}
 		if (click == Config.BOTON_NO) {
 			this.m.mensajePopupTemporalWarning("Información NO grabada!!", 1000);
 			this.pagina.refreshDTOCorriente();
+			this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
+			this.yesClick = true;
 		}
 
-		this.getPagina().getTool().setEstadoABM(Toolbar.MODO_NADA);
-		this.yesClick = true;
 	}
 
 	@GlobalCommand
