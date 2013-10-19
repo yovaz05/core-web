@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.lang.SerializationUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.util.Clients;
@@ -36,6 +37,7 @@ import com.coreweb.Config;
 
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
+
 
 
 
@@ -244,6 +246,15 @@ public class Misc {
 		dateCal.setTime(new Date());
 		return dateCal.getTime();
 	}
+	
+	
+	/**
+	 * Agrega dias a una fecha dada..
+	 * */
+	public Date agregarDias(Date fecha, int dias){		
+		return DateUtils.addDays(fecha, dias);
+	}
+	
 
 	/**
 	 * Obtiene los n ultimos caracteres de un string
@@ -1123,12 +1134,7 @@ public class Misc {
 
 			Misc m = new Misc();
 
-			System.out.println(m.numeroRandomCero(99999999));
-			System.out.println(m.numeroRandomCero(99999999));
-
-			Double d = 999999999999.245;
-
-			System.out.println(m.numberToLetter(d));
+			System.out.println(m.agregarDias(new Date(), 6).toString());
 
 		} catch (Exception e) {
 			e.printStackTrace();
