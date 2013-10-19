@@ -830,6 +830,13 @@ public class Register {
 		return out;
 	}
 
+	public Tipo getTipoPorDescripcion(String descripcion) throws Exception {
+		String queryTipo = "select t from Tipo t where t.descripcion='" + descripcion + "'";
+		Tipo out = (Tipo) this.hqlToObject(queryTipo);
+		return out;
+	}
+
+	
 	// retorna la lista de tipos segun el id tipoTipo..
 	public List<Tipo> getTipos(String tipoTipoDescripcion) throws Exception {
 		List<Tipo> list = null;
