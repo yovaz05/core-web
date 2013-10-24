@@ -805,15 +805,17 @@ public class Register {
 		return out;
 	}
 
+	
 	public boolean existe(Class clase, String atributo, String tipo,
 			Object valor, IiD id) throws Exception {
+		return 	existe(clase, new String[]{atributo}, new String[]{tipo},
+				new String[]{ (valor+"") } , id);
+ 	}
+
+	
+	public boolean existe(Class clase, String[] atts, String[] tipos,
+			String[] values, IiD  id) throws Exception {
 		boolean out = false;
-		if ((valor == null) || ((valor + "").trim().length() == 0)) {
-			return false;
-		}
-		String[] atts = { atributo };
-		String[] values = { valor + "" };
-		String[] tipos = { tipo };
 		String where = "c.id != " + id.getId();
 		List<String> lw = new ArrayList<String>();
 		lw.add(where);
