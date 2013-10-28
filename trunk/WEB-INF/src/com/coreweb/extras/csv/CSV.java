@@ -202,7 +202,7 @@ public class CSV {
 							+ detalleCabecera[k] + ". Deberia ser "
 							+ verificar[k] + " y no " + numero + ". Diferencia:"+dd;
 					System.out.println("** control deshabilitad: "+txtEx);					
-					throw new Exception(txtEx);
+					//dr throw new Exception(txtEx);
 				}
 			}
 		}

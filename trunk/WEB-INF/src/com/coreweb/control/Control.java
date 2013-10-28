@@ -60,7 +60,7 @@ public class Control {
 	// private ControlAgendaEvento ctrAgenda = new ControlAgendaEvento();
 	private Assembler ass;
 
-	private LoginUsuarioDTO us = new LoginUsuarioDTO();
+	private LoginUsuarioDTO us = null; // new LoginUsuarioDTO();
 
 
 	private static String empresa = "Definir empresa";
@@ -157,12 +157,14 @@ public class Control {
 	// ================================================
 
 	// Login del usuario
-	public String getLogin() {
+	public String getLoginNombre() {
 		try {
 			return this.getUs().getLogin();
 		} catch (Exception e) {
+			Session s = Sessions.getCurrent();
+			this.us = (LoginUsuarioDTO) s.getAttribute(Config.USUARIO);
+			return this.us.getLogin();
 		}
-		return this.getClass().getName();
 	}
 
 	// hacer un salto de pagina
@@ -272,7 +274,7 @@ public class Control {
 	/***********************************************************************/
 
 	protected DTO saveDTO(DTO dto) throws Exception {
-		String login = this.getUs().getLogin();
+		String login = getLoginNombre();
 		Domain don = ass.dtoToDomain(dto);
 		Register register = Register.getInstance();
 		register.saveObject(don, login);
