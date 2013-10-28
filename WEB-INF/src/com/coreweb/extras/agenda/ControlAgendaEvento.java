@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.ExecutionParam;
@@ -61,7 +62,7 @@ public class ControlAgendaEvento extends GenericViewModel {
 		a.setFecha(new Date());
 		a.setTipo(tipo);
 		a.setKey(clave);
-		rr.saveObject(a, this.getLogin());
+		rr.saveObject(a, this.getLoginNombre());
 		return a;
 	}
 
@@ -100,7 +101,7 @@ public class ControlAgendaEvento extends GenericViewModel {
 		
 		AgendaEventoDetalleDTO detaDto = new AgendaEventoDetalleDTO();
 		detaDto.setFecha(new Date());
-		detaDto.setUsuario(getLogin()); // login del control
+		detaDto.setUsuario(getLoginNombre()); // login del control
 		detaDto.setTexto(texto);
 		detaDto.setLink(link);
 		
@@ -117,14 +118,19 @@ public class ControlAgendaEvento extends GenericViewModel {
 
 
 	@Init(superclass = true)
-	public void init(
+	public void initControlAgendaEvento(
 			@ExecutionArgParam("titulo") String titulo,
 			@ExecutionArgParam("agendaEventoDto") AgendaEventoDTO agendaEventoDto) {
 		this.titulo = titulo;
 		this.dto = agendaEventoDto;
 		this.setAss(assAge);
 	}
-
+/*
+	@AfterCompose(superclass = true)
+	public void afterComposeControlAgendaEvento(){
+		
+	}
+*/	
 	@Command
 	@NotifyChange("*")
 	public void agregarEvento() throws Exception {
@@ -146,7 +152,7 @@ public class ControlAgendaEvento extends GenericViewModel {
 			
 			AgendaEventoDetalleDTO aDto = new AgendaEventoDetalleDTO();
 			aDto.setFecha(new Date());
-			aDto.setUsuario(getLogin());
+			aDto.setUsuario(getLoginNombre());
 			aDto.setTexto(texto.getValue());
 			
 			this.dto.getAgendaEventoDetalles().add(aDto);

@@ -7,7 +7,7 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Execution;
 
 /**
- * Para ser usada en ventanas que no pertenecen a un template, por ejemplo, VindowsPopup
+ * Para ser usada en ventanas que no pertenecen a un template, por ejemplo, WindowsPopup
  *
  */
 
