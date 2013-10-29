@@ -62,7 +62,6 @@ public class Control {
 
 	private LoginUsuarioDTO us = null; // new LoginUsuarioDTO();
 
-
 	private static String empresa = "Definir empresa";
 
 	private static String aliasFormularioCorrienteTXT = "--AliasFormularioNoDefinido--";
@@ -105,7 +104,7 @@ public class Control {
 			return;
 		}
 		s.setAttribute(Config.LOGIN, this.us.getLogin());
-		
+
 		this.preInit();
 		this.poneCarita(this.us.isLogeado());
 	}
@@ -159,11 +158,16 @@ public class Control {
 	// Login del usuario
 	public String getLoginNombre() {
 		try {
-			return this.getUs().getLogin();
+
+			try {
+				return this.getUs().getLogin();
+			} catch (Exception e) {
+				Session s = Sessions.getCurrent();
+				this.us = (LoginUsuarioDTO) s.getAttribute(Config.USUARIO);
+				return this.us.getLogin();
+			}
 		} catch (Exception e) {
-			Session s = Sessions.getCurrent();
-			this.us = (LoginUsuarioDTO) s.getAttribute(Config.USUARIO);
-			return this.us.getLogin();
+			return "NS";
 		}
 	}
 
@@ -536,7 +540,6 @@ public class Control {
 		Session s = Sessions.getCurrent();
 		s.setAttribute(key, value);
 	}
-
 
 	public static void main(String[] args) {
 		String a = "";
