@@ -198,6 +198,7 @@ public class BodyPopupAceptarCancelar {
 		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("soloBotonCerrar", this.isSoloBotonCerrar());
 		map.put("control", this);
 		map.put("titulo", titulo);
 		map.put("checkAC", this.checkAC);
