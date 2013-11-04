@@ -49,6 +49,8 @@ public class BodyPopupAceptarCancelar {
 	boolean tenerBotonAceptar = true;
 	VerificaAceptarCancelar checkAC = null;
 	
+	boolean soloBotonCerrar = false;
+	
 	Misc m = new Misc();
 	
 	// para saber si se hizo click
@@ -63,14 +65,14 @@ public class BodyPopupAceptarCancelar {
 	public void initPopupAceptarCancelar(
 			@ContextParam(ContextType.VIEW) Component view,
 			@ExecutionArgParam("control") Object control, 
+			@ExecutionArgParam("soloBotonCerrar") boolean soloBotonCerrar, 
 			@ExecutionArgParam("checkAC") VerificaAceptarCancelar checkAC) {
 		                        
 		this.windowPopupAceptarCancelar = (Window) view;
 		this.controlInicial = (BodyPopupAceptarCancelar) control;
 		this.controlInicial.controlVM = this;
 		this.checkAC = checkAC;
-		//System.out.println("================================= check:" + this.checkAC);
-		System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"+this.controlInicial.getHighWindows());
+		this.soloBotonCerrar = soloBotonCerrar;
 		this.setTenerBotonAceptar(this.controlInicial.isTenerBotonAceptar());
 		this.setHighWindows(this.controlInicial.getHighWindows());
 	}
@@ -90,11 +92,19 @@ public class BodyPopupAceptarCancelar {
 			this.m.mensajeError(this.checkAC.textoVerificarAceptar());
 			return;
 		}
-		
-		
+				
 		this.controlInicial.clickAceptar = true;
 		this.windowPopupAceptarCancelar.detach();
 	}
+	
+	
+	@Command()
+	public void cerrar() {
+		this.controlInicial.clickAceptar = false;
+		this.windowPopupAceptarCancelar.detach();
+	}
+
+	
 
 	@Command()
 	public void cancelar() {
@@ -159,6 +169,7 @@ public class BodyPopupAceptarCancelar {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		map.put("soloBotonCerrar", this.isSoloBotonCerrar());
 		map.put("control", this);
 		map.put("titulo", titulo);
 		map.put("checkAC", this.checkAC);
@@ -292,6 +303,14 @@ public class BodyPopupAceptarCancelar {
 
 	public void setTenerBotonAceptar(boolean tenerBotonAceptar) {
 		this.tenerBotonAceptar = tenerBotonAceptar;
+	}
+
+	public boolean isSoloBotonCerrar() {
+		return soloBotonCerrar;
+	}
+
+	public void setSoloBotonCerrar() {
+		this.soloBotonCerrar = true;
 	}
 	
 	

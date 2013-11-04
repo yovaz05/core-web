@@ -15,9 +15,16 @@
 			<toolbar align="center">
 				<hlayout>
 					<button id="btnAccept" label="Aceptar" tooltiptext="Aceptar" disabled="@load(!vmAC.tenerBotonAceptar)"
-						image="/core/images/accept.png" width="120px" onClick="@command('aceptar')" />
+						image="/core/images/accept.png" width="120px" onClick="@command('aceptar')" 
+						visible="@load(!vmAC.soloBotonCerrar)" />
 					<button id="btnCancel" label="Cancelar" tooltiptext="Cancelar"
-						image="/core/images/cancel.png" width="120px" onClick="@command('cancelar')" />
+						image="/core/images/cancel.png" width="120px" onClick="@command('cancelar')" 
+						visible="@load(!vmAC.soloBotonCerrar)" />
+
+					<button id="btnCerrar" label="Cerrar" tooltiptext="Cerrar"
+						image="/core/images/accept.png" width="120px" onClick="@command('cerrar')" 
+						visible="@load(vmAC.soloBotonCerrar)" />
+						
 				</hlayout>
 			</toolbar>
 		</south>
