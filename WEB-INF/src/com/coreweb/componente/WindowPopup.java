@@ -34,7 +34,7 @@ public class WindowPopup {
 	public static String SIN_TOOLBAR = "-SINTOOLBAR-";
 	//---------------------------------------------
 
-	
+	private boolean soloBotonCerrar = false;
 	
 	private VerificaAceptarCancelar checkAC = null;
 	private Object dato = null;
@@ -127,7 +127,10 @@ public class WindowPopup {
 		b.setWidthWindows(this.width);
 		b.setHighWindows(this.higth);
 		b.setCheckAC(this.getCheckAC());
-
+		if (this.soloBotonCerrar == true){
+			b.setSoloBotonCerrar();
+		}
+		
 		b.showPopupUnaColumna(this.titulo);
 		this.clickAceptar = b.isClickAceptar();
 	}	
@@ -141,6 +144,9 @@ public class WindowPopup {
 		}
 	}
 	
+	public void setSoloBotonCerrar(){
+		this.soloBotonCerrar = true;
+	}
 	
 	public void addToolBarComponente(Component c) {
 		this.listaToolBar.add(c);
