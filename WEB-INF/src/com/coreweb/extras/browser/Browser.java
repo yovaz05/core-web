@@ -562,9 +562,11 @@ class GridRowRender implements RowRenderer {
 				// invoca a la operación
 				Method m = this.br.getClass().getMethod(col.getComponente(),
 						Object.class, Object[].class);
+				
+				
 				comp = (HtmlBasedComponent) m.invoke(this.br, va, datosCel);
 			} catch (Exception e) {
-				// e.printStackTrace();
+				System.out.println("Error metodo componente ["+col.getComponente()+"]:"+e.getCause().getMessage());
 				comp = this.br.getLabel(va, datosCel);
 			}
 			String auxSt = comp.getStyle();
