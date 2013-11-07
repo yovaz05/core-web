@@ -32,6 +32,7 @@ public class BuscarElemento {
 	String orden = "";
 	String titulo = "Buscar ...";
 	String width = "400px";
+	String height = "400px";
 	String msgVacia = "Ingrese un criterio de filtro...";
 	List<String> where = new ArrayList<String>();
 
@@ -155,7 +156,7 @@ public class BuscarElemento {
 
 		bpac.addComponente("Buscar", listbox);
 		bpac.setWidthWindows(this.width);
-		bpac.setHighWindows("400px");
+		bpac.setHighWindows(this.height);
 		bpac.showPopupUnaColumna(this.titulo);
 
 	}
@@ -311,6 +312,14 @@ public class BuscarElemento {
 		this.width = width;
 	}
 
+	public String getHeight() {
+		return height;
+	}
+
+	public void setHeight(String height) {
+		this.height = height;
+	}
+
 	public Assembler getAssembler() {
 		return assembler;
 	}
@@ -347,6 +356,7 @@ public class BuscarElemento {
 
 	}
 
+	
 }
 
 class FiltroBuscarElementoEvento implements EventListener {
