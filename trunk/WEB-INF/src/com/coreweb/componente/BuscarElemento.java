@@ -151,16 +151,44 @@ public class BuscarElemento {
 
 	public void showAgain() {
 		bpac = new BodyPopupAceptarCancelar();
-		listbox.addEventListener(Events.ON_DOUBLE_CLICK,
-				new ListboxEventListener(bpac));
-
-		bpac.addComponente("Buscar", listbox);
-		bpac.setWidthWindows(this.width);
-		bpac.setHighWindows(this.height);
+		ListboxEventListener ev = new ListboxEventListener(bpac);
+		listbox.addEventListener(Events.ON_DOUBLE_CLICK, ev	);
+		listbox.addEventListener(Events.ON_OK, ev	);
+		
+		// hace los calculos para que quede el scroll del listbox y no del windows
+		this.setAnchoAlto(bpac, listbox, this.width, this.height);
+		
+		// Para centrar el listbox
+		Hbox hb = new Hbox();
+		hb.setWidth(bpac.getWidthWindows());
+		hb.setPack("center");
+		hb.setAlign("start");
+		hb.getChildren().add(listbox);
+		/*
+		Hlayout hl = new Hlayout();
+		hl.setWidth(bpac.getWidthWindows());
+		hl.setValign("middle");
+		hl.getChildren().add(listbox);
+		*/
+		bpac.addComponente("Buscar", hb);
 		bpac.showPopupUnaColumna(this.titulo);
 
 	}
 
+	private void setAnchoAlto(BodyPopupAceptarCancelar bpac, Listbox listbox, String w, String h){
+		int ancho = Integer.parseInt(w.substring(0,w.length()-2));
+		int alto =  Integer.parseInt(h.substring(0,h.length()-2));
+		
+		listbox.setWidth(w);
+		listbox.setHeight(h);
+		bpac.setWidthWindows((ancho+30)+"px");
+		bpac.setHighWindows((alto+100)+"px");
+		
+		
+	}
+	
+	
+	
 	protected void refreshModeloListbox() throws Exception {
 
 		List<Object[]> datos = new ArrayList<Object[]>();
@@ -173,6 +201,10 @@ public class BuscarElemento {
 
 		this.listbox.setEmptyMessage(msg);
 		this.listbox.setModel(new ListModelList(datos));
+		this.listbox.setFocus(true);
+		if (datos.size() > 0){
+			this.listbox.setSelectedIndex(0);
+		}
 	}
 
 	private List<Object[]> getModelo() throws Exception {
