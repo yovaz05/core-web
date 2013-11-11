@@ -247,6 +247,12 @@ public class Misc {
 		return dateCal.getTime();
 	}
 	
+	public long dateResta(Date d1, Date d2){
+		long out = 0;
+		long diff = d2.getTime() - d1.getTime();
+		out = diff / (24 * 60 * 60 * 1000);
+		return out;
+	}
 	
 	/**
 	 * Agrega dias a una fecha dada..

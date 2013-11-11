@@ -33,7 +33,7 @@ public class BuscarElemento {
 	String titulo = "Buscar ...";
 	String width = "400px";
 	String height = "400px";
-	String msgVacia = "Ingrese un criterio de filtro...";
+	String msgVacia = "Ingrese un criterio de filtro ...";
 	List<String> where = new ArrayList<String>();
 
 	Misc m = new Misc();
@@ -46,6 +46,17 @@ public class BuscarElemento {
 	BodyPopupAceptarCancelar bpac = null;
 
 	public void show(String dato) throws Exception {
+		this.show(dato, 0);  
+	}
+
+	/**
+	 * @param dato : el string con la información para filtrar
+	 * @param posFiltro : la posición del arreglo donde hay que filtrar. 0 (cero) es la primer posición.
+	 * @throws Exception
+	 */
+	public void show(String dato, int posFiltro) throws Exception {
+		
+		posFiltro += 1;	// en el 0 está el ID
 
 		// carga los tipos, por defecto String
 		if (this.tipos == null) {
@@ -56,7 +67,7 @@ public class BuscarElemento {
 		}
 
 		try {
-			valores[1] = dato.trim(); // en el 0 está el ID
+			valores[posFiltro] = dato.trim(); 
 			List<Object[]> datos = this.getModelo();
 			if (datos.size() == 1) {
 				this.unDatoAceptar = true;
@@ -65,6 +76,7 @@ public class BuscarElemento {
 				return;
 			}
 		} catch (Exception e) {
+			//e.printStackTrace();	
 		}
 
 		this.listbox.setEmptyMessage(this.msgVacia);
@@ -94,8 +106,8 @@ public class BuscarElemento {
 			if (i == 0) {
 				ahcT.setDisabled(true);
 			}
-			if (i == 1) {
-				ahcT.setValue(valores[1]); // el dato que viene como parámetro
+			if (i == posFiltro) {
+				ahcT.setValue(valores[posFiltro]); // el dato que viene como parámetro
 				ahcT.setFocus(true);
 				ahcT.focus();
 			}
@@ -195,10 +207,12 @@ public class BuscarElemento {
 		String msg = this.msgVacia;
 		try {
 			datos = this.getModelo();
+			msg = "Elementos encotrados: "+datos.size()+" - "+msg;
+
 		} catch (Exception e) {
 			msg = e.getMessage();
 		}
-
+		
 		this.listbox.setEmptyMessage(msg);
 		this.listbox.setModel(new ListModelList(datos));
 		this.listbox.setFocus(true);
