@@ -21,7 +21,7 @@ public class SoloViewModel extends GenericViewModel {
 
 	
 	@Init(superclass = true)
-	public void initSoloViewModel(){		
+	public void initSoloViewModel(){	
 	}
 	
 
@@ -40,8 +40,10 @@ public class SoloViewModel extends GenericViewModel {
 		
 		if (modo.compareTo(Config.MODO_DISABLE)==0){
 			this.readonlyAllComponents();
+			this.setDeshabilitado(true);
 			
 		}else if (modo.compareTo(Config.MODO_NO_DISABLE)==0){
+			this.setDeshabilitado(false);
 			// nada, ya viene editable
 			
 		}else if (modo.compareTo(Config.MODO_EDITABLE)==0){

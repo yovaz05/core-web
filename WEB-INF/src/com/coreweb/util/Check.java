@@ -95,6 +95,7 @@ public class Check {
 
 	// Valida el digito verificador del ruc
 	public MiConstraint getRuc() {
+		System.out.println("--------------------- RUC");
 		return new MiConstraint(this.vm, MiConstraint.RUC);
 	}
 
