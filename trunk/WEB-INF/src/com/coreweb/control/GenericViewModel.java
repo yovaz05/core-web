@@ -139,7 +139,10 @@ public abstract class GenericViewModel extends Control {
 		this.disableEnableComponent.restoreComponents((AbstractComponent) this.mainComponent);
 	}
 
-
+	public void setDeshabilitado(boolean deshabilitado){
+		this.deshabilitado = deshabilitado;
+	}
+	
 	public boolean isDeshabilitado() {
 		return deshabilitado;
 	}

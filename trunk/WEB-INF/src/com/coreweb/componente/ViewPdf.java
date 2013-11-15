@@ -25,7 +25,7 @@ public class ViewPdf {
 	
 	private String anchoWindows = "800px";
 	private String altoWindows = "600px";
-	private String altoReporte = "550px";
+	private String altoReporte = "700px";
 	
 	private Window w;
 	private DatosReporte reporte;

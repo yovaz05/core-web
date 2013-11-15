@@ -20,6 +20,7 @@ public abstract class SimpleViewModel extends GenericViewModel {
 		String labelF = this.getUs().formLabel(aliasForm);
 		this.setTextoFormularioCorriente(labelF);
 		this.setAliasFormularioCorriente(aliasForm);
+		this.setDeshabilitado(false);
 	}
 	
 
