@@ -33,6 +33,8 @@ import org.zkoss.zk.ui.util.Clients;
 import com.coreweb.Config;
 import com.coreweb.control.Control;
 import com.coreweb.dto.Assembler;
+import com.coreweb.extras.alerta.Alertas;
+import com.coreweb.extras.alerta.ControlAlertas;
 import com.coreweb.extras.carita.Carita;
 import com.coreweb.util.Misc;
 
@@ -183,6 +185,16 @@ public class ControlInicio extends Control {
 	public void setMenuVisible(boolean menuVisible) {
 		this.menuVisible = menuVisible;
 	}
+	
+	
+	// alertas
+	ControlAlertas alertaControl = new ControlAlertas();
+	
+	@Command
+	public void mostrarAlertas() {
+		this.alertaControl.mostrarAlertas();
+	}
+	
 
 
 }
