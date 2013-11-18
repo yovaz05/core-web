@@ -1,0 +1,48 @@
+<window apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('com.coreweb.extras.alerta.ControlAlertas')">
+
+	<!-- ================================== LISTADO DETALLES ============================== -->
+	<div id="alertas">
+		<listbox height="500px" model="@load(vm.alertas)"
+			selectedItem="@bind(vm.selectedAlerta)"
+			emptyMessage="@bind(vm.mensaje)">
+			<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
+			<listhead>
+				<listheader style="text-align:center" width="100px">
+					<vlayout>
+						<label value="Fecha creación:" />
+					</vlayout>
+				</listheader>
+				<listheader style="text-align:center" width="100px">
+					<vlayout>
+						<label value="Nivel:" />
+					</vlayout>
+				</listheader>
+				<listheader style="text-align:center" width="300px">
+					<vlayout>
+						<label value="Descripción" />
+					</vlayout>
+				</listheader>
+				<listheader style="text-align:center" width="200px">
+					<vlayout>
+						<label value="Observación" />
+					</vlayout>
+				</listheader>
+			</listhead>
+			<template name="model">
+				<listitem>
+					<listcell label="@load(each.fechaCreacion)"
+						style="color:black" />
+					<listcell label="@load(each.nivel.text)"
+						style="color:black" />
+					<listcell label="@load(each.descripcion)"
+						style="color:black" />
+					<listcell>
+						<textbox value="@load(each.observacion)"
+							inplace="true" />
+					</listcell>
+				</listitem>
+			</template>
+		</listbox>
+	</div>
+</window>

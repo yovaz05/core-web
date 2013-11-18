@@ -40,4 +40,7 @@
 
 <!-- AutoNumerico -->
 <mapping resource="com/coreweb/domain/AutoNumero.hbm.xml" />
+
+<!-- Alerta -->
+<mapping resource="com/coreweb/domain/Alerta.hbm.xml" />
 		

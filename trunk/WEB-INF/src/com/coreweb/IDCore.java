@@ -8,4 +8,5 @@ public class IDCore {
 	public static String O_EDITAR = "Editar";
 	public static String O_ELIMINAR = "Eliminar";
 	public static String O_BUSCAR = "Buscar";
+	public static String F_MIS_ALERTAS = "MisAlertas";
 }

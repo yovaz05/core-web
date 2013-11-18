@@ -18,6 +18,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -453,10 +454,11 @@ public class Register {
 		return l;
 	}
 
-	public void deleteAllObjects(String entityName, String att, String valor) throws Exception {
+	public void deleteAllObjects(String entityName, String att, String valor)
+			throws Exception {
 		Vector vr = new Vector();
 		vr.add(Restrictions.eq(att, valor).ignoreCase());
-		
+
 		List<Domain> l = getObjects(entityName, vr, new Vector());
 		for (int i = 0; i < l.size(); i++) {
 			this.deleteObject(l.get(i));
@@ -648,7 +650,8 @@ public class Register {
 
 	// este usa el buscar elemento
 	public List buscarElemento(Class clase, String[] atts, String[] values,
-			String[] tipos, List<String> where, String join, String attOrden) throws Exception {
+			String[] tipos, List<String> where, String join, String attOrden)
+			throws Exception {
 		return buscarElemento(clase, atts, values, tipos, false, true,
 				Config.CUANTOS_BUSCAR_ELEMENTOS, true, where, join, attOrden);
 	}
@@ -656,7 +659,8 @@ public class Register {
 	public List buscarElemento(Class clase, String[] atts, String[] values,
 			String[] tipos, String attOrden) throws Exception {
 		return buscarElemento(clase, atts, values, tipos, false, true,
-				Config.CUANTOS_BUSCAR_ELEMENTOS, true, new ArrayList(), "", attOrden);
+				Config.CUANTOS_BUSCAR_ELEMENTOS, true, new ArrayList(), "",
+				attOrden);
 	}
 
 	// este usa el browser
@@ -673,13 +677,14 @@ public class Register {
 		}
 
 		return buscarElemento(clase, atts, values, tipos, permiteFiltroVacio,
-				true, Config.CUANTOS_BUSCAR_ELEMENTOS, true, whereCl, join, attOrden);
+				true, Config.CUANTOS_BUSCAR_ELEMENTOS, true, whereCl, join,
+				attOrden);
 	}
 
 	public List buscarElemento(Class clase, String[] atts, String[] values,
 			String[] tipos, boolean permiteFiltroVacio, boolean permiteLimite,
-			int limite, boolean permiteLike, List<String> whereCl, String join, String attOrden)
-			throws Exception {
+			int limite, boolean permiteLike, List<String> whereCl, String join,
+			String attOrden) throws Exception {
 		List l = new ArrayList<Object[]>();
 		;
 
@@ -695,7 +700,6 @@ public class Register {
 			}
 		}
 
-	
 		String select = " ";
 		// String where = " 1 = 1 and ";
 		String where = " c.dbEstado != 'D' and ";
@@ -768,14 +772,11 @@ public class Register {
 			join = "join c." + join.trim();
 		}
 
-		
 		String orden = "";
-		if ((attOrden!= null) && (attOrden.trim().length() > 0)){
-			orden = " order by " + attOrden + " asc " ;
+		if ((attOrden != null) && (attOrden.trim().length() > 0)) {
+			orden = " order by " + attOrden + " asc ";
 		}
-		
-		
-		
+
 		String hql = select + " from " + clase.getName() + " c " + join + " "
 				+ where + orden;
 		System.out.println("\n\n\n" + hql + "\n\n\n");
@@ -805,16 +806,14 @@ public class Register {
 		return out;
 	}
 
-	
 	public boolean existe(Class clase, String atributo, String tipo,
 			Object valor, IiD id) throws Exception {
-		return 	existe(clase, new String[]{atributo}, new String[]{tipo},
-				new String[]{ (valor+"") } , id);
- 	}
+		return existe(clase, new String[] { atributo }, new String[] { tipo },
+				new String[] { (valor + "") }, id);
+	}
 
-	
 	public boolean existe(Class clase, String[] atts, String[] tipos,
-			String[] values, IiD  id) throws Exception {
+			String[] values, IiD id) throws Exception {
 		boolean out = false;
 		String where = "c.id != " + id.getId();
 		List<String> lw = new ArrayList<String>();
@@ -833,18 +832,41 @@ public class Register {
 	}
 
 	public Tipo getTipoPorDescripcion(String descripcion) throws Exception {
-		String queryTipo = "select t from Tipo t where t.descripcion='" + descripcion + "'";
+		String queryTipo = "select t from Tipo t where t.descripcion='"
+				+ descripcion + "'";
 		Tipo out = (Tipo) this.hqlToObject(queryTipo);
 		return out;
 	}
 
-	
 	// retorna la lista de tipos segun el id tipoTipo..
 	public List<Tipo> getTipos(String tipoTipoDescripcion) throws Exception {
 		List<Tipo> list = null;
 		String query = "select t from Tipo t where t.tipoTipo.descripcion = '"
 				+ tipoTipoDescripcion + "'";
 		list = this.hql(query);
+		return list;
+	}
+
+	// retorna una alerta segun su id
+	public Alerta getAlerta(long id) throws Exception {
+		List<Alerta> list = null;
+		String query = "select a from Alerta a where a.id = " + id;
+		list = this.hql(query);
+		return (Alerta) list.get(0);
+	}
+
+	// retorna todas las alertas
+	public List<Alerta> getAllAlertas(int desde, int hasta, String usuario)
+			throws Exception {
+		List<Alerta> list = null;
+		/*String query = " select a from Alerta a where lower( a.destino ) like  '%"
+				+ usuario.toLowerCase()
+				+ "%' order by a.fechaCreacion desc ";*/
+		Vector v = new Vector();
+		v.add(Restrictions.like("destino", usuario, MatchMode.ANYWHERE));
+		Vector v2 = new Vector();
+		v2.add(Order.desc("fechaCreacion"));
+		list = this.getObjects(Alerta.class.getName(), v, v2);
 		return list;
 	}
 
