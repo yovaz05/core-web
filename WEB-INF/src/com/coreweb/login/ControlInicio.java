@@ -184,7 +184,7 @@ public class ControlInicio extends Control {
 		this.menuVisible = menuVisible;
 	}
 
-	
+
 }
 
 

@@ -126,6 +126,6 @@ public class Login extends Control{
 		this.msg = msg;
 	}
 
-	
+
 	
 }
