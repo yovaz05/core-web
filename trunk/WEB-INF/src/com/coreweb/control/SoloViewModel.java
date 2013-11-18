@@ -17,7 +17,7 @@ import com.coreweb.componente.WindowPopup;
  * Como diferencia con el SimpleViewmodel, en este caso NO se actualiza el Texto del alias del formulario
  */
 
-public class SoloViewModel extends GenericViewModel {
+public abstract class SoloViewModel extends GenericViewModel {
 
 	
 	@Init(superclass = true)

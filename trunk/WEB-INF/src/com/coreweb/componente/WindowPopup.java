@@ -12,6 +12,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Include;
+import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Vlayout;
 
 import com.coreweb.Config;
@@ -131,9 +132,13 @@ public class WindowPopup {
 			b.setSoloBotonCerrar();
 		}
 		
+		
 		b.showPopupUnaColumna(this.titulo);
 		this.clickAceptar = b.isClickAceptar();
 	}	
+	
+	
+
 	
 	
 	public void permitirEditar(boolean value){

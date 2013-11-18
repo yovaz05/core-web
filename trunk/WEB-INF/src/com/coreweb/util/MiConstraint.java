@@ -58,6 +58,7 @@ public class MiConstraint extends SimpleConstraint implements Constraint,
 	public void validate(Component comp, Object value)
 			throws WrongValueException {
 		try {
+			System.out.println("============= deshabilitado:"+this.vm.isDeshabilitado()+" ["+value+"]"+comp);
 			if (this.vm.isDeshabilitado() == true) {
 				return;
 			}
@@ -193,6 +194,9 @@ public class MiConstraint extends SimpleConstraint implements Constraint,
 				}
 			}
 		}
+		
+		System.out.println("------- constrant ok");
+		
 	}
 
 	public void showCustomError(Component comp, WrongValueException ex) {

@@ -42,12 +42,14 @@ public class MyConverter implements Converter {
 	
 	@Override
 	public Object coerceToBean(Object arg0, Component arg1, BindContext arg2) {
+		System.out.println("==================== coerceToBean");
 		// TODO Auto-generated method stub
 		return coerceTo(arg0, arg1);
 	}
 
 	@Override
 	public Object coerceToUi(Object arg0, Component arg1, BindContext arg2) {
+		System.out.println("==================== coerceToUi");
 		// TODO Auto-generated method stub
 		//return coerceTo(arg0, arg1);
 		return arg0;
@@ -55,7 +57,8 @@ public class MyConverter implements Converter {
 
 
 	public Object coerceTo(Object val, Component comp){
-		
+		System.out.println("==================== coerceTo:"+val+"    tipo: 	"+this.tipoFormato);
+				
 		Object out = null;
 		
 		if (this.tipoFormato == FORMAT_FACTURA_PY) {
