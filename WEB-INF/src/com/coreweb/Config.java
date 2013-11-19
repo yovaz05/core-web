@@ -82,6 +82,8 @@ public class Config {
 	public static String IMAGEN_CANCEL = "/core/images/delete_.png";
 	public static String IMAGEN_CHECK = "/core/images/tick.png";
 	
+	public static String ALERTAS_ZUL = "/core/misc/alertas.zul";
+	
 	
 	
 	

@@ -866,7 +866,7 @@ public class Register {
 		v.add(Restrictions.like("destino", usuario, MatchMode.ANYWHERE));
 		Vector v2 = new Vector();
 		v2.add(Order.desc("fechaCreacion"));
-		list = this.getObjects(Alerta.class.getName(), v, v2);
+		list = this.getObjects(Alerta.class.getName(), v, v2, desde, hasta);
 		return list;
 	}
 

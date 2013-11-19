@@ -3,46 +3,67 @@
 
 	<!-- ================================== LISTADO DETALLES ============================== -->
 	<div id="alertas">
-		<listbox height="500px" model="@load(vm.alertas)"
-			selectedItem="@bind(vm.selectedAlerta)"
-			emptyMessage="@bind(vm.mensaje)">
-			<custom-attributes org.zkoss.zul.listbox.autoSort="true" />
-			<listhead>
-				<listheader style="text-align:center" width="100px">
-					<vlayout>
-						<label value="Fecha creación:" />
-					</vlayout>
-				</listheader>
-				<listheader style="text-align:center" width="100px">
-					<vlayout>
-						<label value="Nivel:" />
-					</vlayout>
-				</listheader>
-				<listheader style="text-align:center" width="300px">
-					<vlayout>
-						<label value="Descripción" />
-					</vlayout>
-				</listheader>
-				<listheader style="text-align:center" width="200px">
-					<vlayout>
-						<label value="Observación" />
-					</vlayout>
-				</listheader>
-			</listhead>
-			<template name="model">
-				<listitem>
-					<listcell label="@load(each.fechaCreacion)"
-						style="color:black" />
-					<listcell label="@load(each.nivel.text)"
-						style="color:black" />
-					<listcell label="@load(each.descripcion)"
-						style="color:black" />
-					<listcell>
-						<textbox value="@load(each.observacion)"
-							inplace="true" />
-					</listcell>
-				</listitem>
-			</template>
-		</listbox>
+		<vlayout>
+			<hbox pack="center" width="100%">
+				<toolbarbutton label="Anterior" dir="reverse"
+					image="/core/images/nav_izquierda.png" onClick="@command('prev')" />
+				<toolbarbutton label="Siguiente"
+					image="/core/images/nav_derecha.png" onClick="@command('next')" />
+			</hbox>
+			<listbox height="500px" model="@load(vm.alertas)"
+				selectedItem="@bind(vm.selectedAlerta)"
+				emptyMessage="@bind(vm.mensaje)">
+				<custom-attributes
+					org.zkoss.zul.listbox.autoSort="true" />
+				<listhead>
+					<listheader style="text-align:center"
+						width="100px">
+						<vlayout>
+							<label value="Fecha creación:" />
+						</vlayout>
+					</listheader>
+					<listheader style="text-align:center"
+						width="200px">
+						<vlayout>
+							<label value="Nivel:" />
+						</vlayout>
+					</listheader>
+					<listheader style="text-align:center"
+						width="200px">
+						<vlayout>
+							<label value="Descripción" />
+						</vlayout>
+					</listheader>
+					<listheader style="text-align:center"
+						width="200px">
+						<vlayout>
+							<label value="Observación" />
+						</vlayout>
+					</listheader>
+					<listheader style="text-align:center"
+						width="100px">
+						<vlayout>
+							<label value="Cancelada" />
+						</vlayout>
+					</listheader>
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell label="@load(each.fechaCreacion)"
+							style="color:black" />
+						<listcell label="@load(each.nivel.text)"
+							style="color:black" />
+						<listcell label="@load(each.descripcion)"
+							style="color:black" />
+						<listcell>
+							<textbox value="@load(each.observacion)"
+								inplace="true" />
+						</listcell>
+						<listcell label="@load(each.cancelada)"
+							style="color:black" />
+					</listitem>
+				</template>
+			</listbox>
+		</vlayout>
 	</div>
 </window>

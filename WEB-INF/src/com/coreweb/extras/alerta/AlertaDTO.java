@@ -13,6 +13,7 @@ public class AlertaDTO extends DTO {
 	String destino = "";
 	String descripcion = "";
 	String observacion = "";
+	boolean cancelada;
 	MyPair nivel = new MyPair();
 	MyPair tipo = new MyPair();
 
@@ -62,6 +63,14 @@ public class AlertaDTO extends DTO {
 
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
+	}
+
+	public boolean isCancelada() {
+		return cancelada;
+	}
+
+	public void setCancelada(boolean cancelada) {
+		this.cancelada = cancelada;
 	}
 
 	public MyPair getNivel() {

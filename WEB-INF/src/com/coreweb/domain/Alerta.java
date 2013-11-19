@@ -10,6 +10,7 @@ public class Alerta extends Domain {
 	String destino = "";
 	String descripcion = "";
 	String observacion = "";
+	boolean cancelada = false;
 	Tipo nivel;
 	Tipo tipo;
 
@@ -59,6 +60,14 @@ public class Alerta extends Domain {
 
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
+	}
+
+	public boolean isCancelada() {
+		return cancelada;
+	}
+
+	public void setCancelada(boolean cancelada) {
+		this.cancelada = cancelada;
 	}
 
 	public Tipo getNivel() {
