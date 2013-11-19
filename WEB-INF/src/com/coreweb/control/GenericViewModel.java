@@ -30,6 +30,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.ext.Disable;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zk.ui.util.Template;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Button;
@@ -39,6 +40,7 @@ import org.zkoss.zul.Constraint;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Grid;
+import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
@@ -50,14 +52,17 @@ import org.zkoss.zul.Row;
 import org.zkoss.zul.RowRenderer;
 import org.zkoss.zul.Rows;
 import org.zkoss.zul.SimpleConstraint;
+import org.zkoss.zul.Space;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Vbox;
+import org.zkoss.zul.Vlayout;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.event.ZulEvents;
 import org.zkoss.zul.ext.Constrainted;
 
 import com.coreweb.Config;
+import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.dto.Assembler;
 import com.coreweb.login.ControlInicio;
 import com.coreweb.util.Check;
@@ -286,7 +291,40 @@ public abstract class GenericViewModel extends Control {
 		}
 		return out;
 	}
+	
 
+	/**
+	 * Retorna un String que es el motivo de anulacion..
+	 * Retorna vacio en caso de que se dio click en Cancelar..
+	 * */
+	public String getMotivoAnulacion(){
+		
+		Hbox hb = new Hbox();
+		hb.setPack("center");
+		hb.setWidth("100%");
+		
+		Vlayout vl = new Vlayout();
+		vl.setParent(hb);
+		
+		Div dv = new Div();
+		dv.setHeight("5px");
+		dv.setParent(vl);
+		
+		Textbox tx = new Textbox();
+		tx.setRows(5);
+		tx.setWidth("380px");
+		tx.setPlaceholder("Especifique el Motivo de Anulación..");
+		tx.setParent(vl);
+		
+		BodyPopupAceptarCancelar b = new BodyPopupAceptarCancelar();	
+		b.addComponente("", hb);
+		b.setHighWindows("200px");
+		b.showPopupUnaColumna("");
+		if (b.isClickAceptar()) {
+			return tx.getValue();
+		}		
+		return "";
+	}
 	
 }
 
