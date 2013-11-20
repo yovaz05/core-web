@@ -2,7 +2,11 @@ package com.coreweb.extras.alerta;
 
 import java.util.Date;
 
+import org.zkoss.bind.annotation.DependsOn;
+
+import com.coreweb.Config;
 import com.coreweb.dto.DTO;
+import com.coreweb.util.Misc;
 import com.coreweb.util.MyPair;
 
 public class AlertaDTO extends DTO {
@@ -16,7 +20,49 @@ public class AlertaDTO extends DTO {
 	boolean cancelada;
 	MyPair nivel = new MyPair();
 	MyPair tipo = new MyPair();
+	
+	@DependsOn("nivel")
+	public String getNivelAlerta() {
+		String out = "";
+		if (this.nivel.getText().compareTo(Config.ALERTA_NIVEL_INFORMATIVO) == 0) {
+			out = Config.ICONO_EXCLAMACION_YELLOW_16X16;
+		}
+		if (this.nivel.getText().compareTo(Config.ALERTA_NIVEL_ERROR) == 0) {
+			out = Config.ICONO_EXCLAMACION_16X16;
+		}
+		return out;
+	}
+	
+	@DependsOn("nivel")
+	public String getMensajeNivel() {
+		return this.nivel.getText();
+	}
+	
+	@DependsOn("cancelada")
+	public String getEstadoAlerta() {
+		String out = "";
+		if (this.cancelada == false) {
+			out = Config.ICONO_ANULAR_16X16;
+		}
+		if (this.cancelada == true) {
+			out = Config.ICONO_ACEPTAR_16X16;
+		}
+		return out;
+	}
 
+	@DependsOn("cancelada")
+	public String getMensajeEstado() {
+		return "";
+	}
+
+	public String getFechaCreacionStr(){
+		return this.misc.dateToString(this.fechaCreacion, Misc.YYYY_MM_DD_HORA_MIN_SEG2);
+	}
+	
+	public String getFechaCancelacionStr(){
+		return this.misc.dateToString(this.fechaCancelacion, Misc.YYYY_MM_DD_HORA_MIN_SEG2);
+	}
+	
 	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}

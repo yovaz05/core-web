@@ -81,9 +81,17 @@ public class Config {
 	public static String IMAGEN_OK = "/core/images/accept_.png";
 	public static String IMAGEN_CANCEL = "/core/images/delete_.png";
 	public static String IMAGEN_CHECK = "/core/images/tick.png";
+
+	// alertas
+	public static String ICONO_ACEPTAR_16X16 = "/core/images/accept_.png";
+	public static String ICONO_ANULAR_16X16 = "/core/images/delete_.png";
+	public static String ICONO_EXCLAMACION_16X16 = "/core/images/exclamation.png";
+	public static String ICONO_EXCLAMACION_YELLOW_16X16 = "/core/images/exclamation_yellow.png";
 	
 	public static String ALERTAS_ZUL = "/core/misc/alertas.zul";
 	
+	public static String ALERTA_NIVEL_INFORMATIVO = "Alerta informativa";
+	public static String ALERTA_NIVEL_ERROR = "Alerta error";
 	
 	
 	
