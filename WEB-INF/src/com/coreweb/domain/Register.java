@@ -856,17 +856,15 @@ public class Register {
 	}
 
 	// retorna todas las alertas
-	public List<Alerta> getAllAlertas(int desde, int hasta, String usuario)
+	public List<Alerta> getAllAlertas(int desde, int cantidad, String usuario)
 			throws Exception {
 		List<Alerta> list = null;
-		/*String query = " select a from Alerta a where lower( a.destino ) like  '%"
-				+ usuario.toLowerCase()
-				+ "%' order by a.fechaCreacion desc ";*/
 		Vector v = new Vector();
 		v.add(Restrictions.like("destino", usuario, MatchMode.ANYWHERE));
 		Vector v2 = new Vector();
+		v2.add(Order.desc("cancelada"));
 		v2.add(Order.desc("fechaCreacion"));
-		list = this.getObjects(Alerta.class.getName(), v, v2, desde, hasta);
+		list = this.getObjects(Alerta.class.getName(), v, v2, desde, cantidad);
 		return list;
 	}
 

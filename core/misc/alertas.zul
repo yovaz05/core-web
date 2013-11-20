@@ -16,18 +16,25 @@
 				<custom-attributes
 					org.zkoss.zul.listbox.autoSort="true" />
 				<listhead>
+				<listheader style="text-align:center"
+						width="50px">
+						<vlayout>
+							<label value="Nivel:" />
+						</vlayout>
+					</listheader>
 					<listheader style="text-align:center"
-						width="100px">
+						width="150px">
 						<vlayout>
 							<label value="Fecha creación:" />
 						</vlayout>
 					</listheader>
 					<listheader style="text-align:center"
-						width="200px">
+						width="100px">
 						<vlayout>
-							<label value="Nivel:" />
+							<label value="Creador:" />
 						</vlayout>
 					</listheader>
+					
 					<listheader style="text-align:center"
 						width="200px">
 						<vlayout>
@@ -41,26 +48,39 @@
 						</vlayout>
 					</listheader>
 					<listheader style="text-align:center"
-						width="100px">
+						width="150px">
 						<vlayout>
-							<label value="Cancelada" />
+							<label value="Fecha cancelación" />
+						</vlayout>
+					</listheader>
+					<listheader style="text-align:center"
+						width="50px">
+						<vlayout>
+							<label value="Estado" />
 						</vlayout>
 					</listheader>
 				</listhead>
 				<template name="model">
 					<listitem>
-						<listcell label="@load(each.fechaCreacion)"
+						<listcell>
+							<image src="@load(each.nivelAlerta)"
+								tooltiptext="@load(each.mensajeNivel)" />
+						</listcell>
+						<listcell label="@load(each.fechaCreacionStr)"
 							style="color:black" />
-						<listcell label="@load(each.nivel.text)"
+						<listcell label="@load(each.creador)"
 							style="color:black" />
 						<listcell label="@load(each.descripcion)"
 							style="color:black" />
-						<listcell>
-							<textbox value="@load(each.observacion)"
-								inplace="true" />
-						</listcell>
-						<listcell label="@load(each.cancelada)"
+						<listcell label="@load(each.observacion)"
 							style="color:black" />
+						<listcell label="@load(each.fechaCancelacionStr)"
+							style="color:black" />
+						<listcell>
+							<image src="@load(each.estadoAlerta)"
+								tooltiptext="@load(each.mensajeEstado)" 
+								onClick="@command('cancelarAlerta')"/>
+						</listcell>
 					</listitem>
 				</template>
 			</listbox>

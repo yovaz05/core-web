@@ -69,8 +69,8 @@ public class ControlAlertas extends SoloViewModel {
 
 	@Init(superclass = true)
 	public void initControlAlertas() {
-		this.desde = 0;
-		this.hasta = 19;
+		//this.desde = 0;
+		//this.cantidad = 20;
 		this.alertas = this.cargarAlertas();
 		// Clients.showNotification(this.alertas.size()+" - "+this.cargarAlertas().size());
 		// BindUtils.postNotifyChange(null, null, this, "alertas");
@@ -91,7 +91,7 @@ public class ControlAlertas extends SoloViewModel {
 			w = new WindowPopup();
 			w.setModo(WindowPopup.NUEVO);
 			w.setTitulo("Mis Alertas");
-			w.setWidth("820px");
+			w.setWidth("920px");
 			w.setHigth("520px");
 			w.show(Config.ALERTAS_ZUL);
 		} catch (Exception e) {
@@ -100,8 +100,8 @@ public class ControlAlertas extends SoloViewModel {
 
 	}
 
-	public static int desde;
-	public static int hasta;
+	public int desde = 0;
+	public int cantidad = 20;
 
 	public List<AlertaDTO> cargarAlertas() {
 		List<AlertaDTO> alertas = new ArrayList<AlertaDTO>();
@@ -111,7 +111,7 @@ public class ControlAlertas extends SoloViewModel {
 			// this.desde = 0;
 			// this.hasta = 50;
 			//System.out.println("entro a cargar: "+this.desde+" - "+this.hasta);
-			List<Alerta> alertasDom = rr.getAllAlertas(desde, hasta,
+			List<Alerta> alertasDom = rr.getAllAlertas(desde, cantidad,
 					this.getLoginNombre());
 			for (Alerta alerta : alertasDom) {
 				AlertaDTO alertaDto = new AlertaDTO();
@@ -128,8 +128,6 @@ public class ControlAlertas extends SoloViewModel {
 	@NotifyChange("alertas")
 	public void next() {
 		this.desde += 20;
-		this.hasta += 20;
-		//System.out.println("entro a next: "+this.desde+" - "+this.hasta);
 		this.alertas = this.cargarAlertas();
 
 	}
@@ -139,10 +137,23 @@ public class ControlAlertas extends SoloViewModel {
 	public void prev() {
 		if(this.desde != 0){
 			this.desde -= 20;
-			this.hasta -= 20;
-			//System.out.println("entro a prev: "+this.desde+" - "+this.hasta);
 			this.alertas = this.cargarAlertas();
 		}
+	}
+	
+	// que parametros deberia recibir
+	public void crearAlerta(String creador, MyPair nivel, MyPair tipo, String descripcion, String destino){
+		
+	}
+	
+	@Command
+	@NotifyChange("*")
+	public void cancelarAlerta(){
+		String obsv = this.getMotivoAnulacion();
+		if (obsv.length() != 0){
+			this.selectedAlerta.setCancelada(true);
+			this.selectedAlerta.setObservacion(obsv);
+		}	
 	}
 
 }
