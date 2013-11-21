@@ -110,7 +110,7 @@
 
 						<menubar id="menubarFoot2" width="100%" sclass="colorBarra">
 
-							<menuitem id="alertas" label="Mis alertas" onClick="@command('mostrarAlertas')"
+							<menuitem id="alertas" label="@load(vm.misAlertas)" onClick="@command('mostrarAlertas')"
 								image="/core/images/exclamation.png" sclass="colorBarra" />
 							<menuitem id="carita" label="click me" onClick="@command('mostrarCarita')"
 								image="/core/images/face-angry.png" sclass="colorBarra" />

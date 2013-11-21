@@ -56,6 +56,8 @@ public class AssemblerAlerta extends Assembler {
 			for (Alerta alerta : alertas) {
 				System.out.println("alerta" + alerta.getDestino());
 			}
+			int cant = rr.getCantidadAlertasNoCanceladas("juan");
+			System.out.println("Cantidad de alertas no canceladas: "+cant);
 
 
 		} catch (Exception e) {
