@@ -69,8 +69,8 @@ public class ControlAlertas extends SoloViewModel {
 
 	@Init(superclass = true)
 	public void initControlAlertas() {
-		//this.desde = 0;
-		//this.cantidad = 20;
+		// this.desde = 0;
+		// this.cantidad = 20;
 		this.alertas = this.cargarAlertas();
 		// Clients.showNotification(this.alertas.size()+" - "+this.cargarAlertas().size());
 		// BindUtils.postNotifyChange(null, null, this, "alertas");
@@ -110,7 +110,7 @@ public class ControlAlertas extends SoloViewModel {
 			AssemblerAlerta as = new AssemblerAlerta();
 			// this.desde = 0;
 			// this.hasta = 50;
-			//System.out.println("entro a cargar: "+this.desde+" - "+this.hasta);
+			// System.out.println("entro a cargar: "+this.desde+" - "+this.hasta);
 			List<Alerta> alertasDom = rr.getAllAlertas(desde, cantidad,
 					this.getLoginNombre());
 			for (Alerta alerta : alertasDom) {
@@ -135,25 +135,54 @@ public class ControlAlertas extends SoloViewModel {
 	@Command
 	@NotifyChange("alertas")
 	public void prev() {
-		if(this.desde != 0){
+		if (this.desde != 0) {
 			this.desde -= 20;
 			this.alertas = this.cargarAlertas();
 		}
 	}
+
 	
-	// que parametros deberia recibir
-	public void crearAlerta(String creador, MyPair nivel, MyPair tipo, String descripcion, String destino){
+	private void crearAlerta(String creador, MyPair nivel, MyPair tipo,
+			String descripcion, String destino) throws Exception {
+		// esto falta desglosar para las distintas combinaciones de alertas
+		Register rr = Register.getInstance();
+		AssemblerAlerta as = new AssemblerAlerta(); 
+		AlertaDTO alerta = new AlertaDTO();
+		alerta.setCreador(creador);
+		alerta.setDestino(destino);
+		alerta.setDescripcion(descripcion);
+		alerta.setNivel(nivel);
+		alerta.setTipo(tipo);
+		alerta.setCancelada(false);
+		// se pasa de dto a domain y se tiene que guardar
+		// aca tambien se deberia llamar al metodo que notifique a los destinos
+		rr.saveObject(as.dtoToDomain(alerta),this.getLoginNombre());
 		
 	}
-	
+
 	@Command
 	@NotifyChange("*")
-	public void cancelarAlerta(){
-		String obsv = this.getMotivoAnulacion();
-		if (obsv.length() != 0){
-			this.selectedAlerta.setCancelada(true);
-			this.selectedAlerta.setObservacion(obsv);
-		}	
+	public void cancelarAlerta() {
+		if (!this.selectedAlerta.isCancelada()) {
+			String obsv = this.getMotivoAnulacion();
+			if (obsv.length() != 0) {
+				this.selectedAlerta.setCancelada(true);
+				this.selectedAlerta.setObservacion(obsv);
+			}
+		}
+
+	}
+	
+	public int getCantidadAlertasNoCanceladas(){
+		int cant = 0;
+		Register rr = Register.getInstance();
+		try {
+			cant = rr.getCantidadAlertasNoCanceladas(this.getLoginNombre());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//System.out.println("cantidad de alertas: "+cant);
+		return cant;
 	}
 
 }

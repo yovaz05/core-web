@@ -868,6 +868,15 @@ public class Register {
 		return list;
 	}
 
+	// retorna todas las alertas
+	public int getCantidadAlertasNoCanceladas(String usuario) throws Exception {
+		List<Alerta> list = null;
+		String query = "select a from Alerta a where a.cancelada = 'false' and a.destino like '%"
+				+ usuario + "%'";
+		list = this.hql(query);
+		return list.size();
+	}
+
 	public static void xmain(String[] args) {
 		try {
 			String query = ""
