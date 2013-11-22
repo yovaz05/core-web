@@ -8,6 +8,8 @@ public class Config {
 
 	public static String USER_SYSTEMA = "SYS";
 	public static String ANCHO_APP = "1024px";
+	public static String ALERTAS = "alertas";
+	public static String MI_ALERTAS = "mi_alertas";
 	
 	public static String ALIAS_HABILITADO_SI_O_SI = "-- Alias habilitado si o si  --";
 	public static String LOGEADO = "logeado";

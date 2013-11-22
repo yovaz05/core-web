@@ -11,7 +11,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
@@ -43,6 +47,7 @@ import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
 import com.coreweb.dto.UtilCoreDTO;
+import com.coreweb.extras.alerta.ControlAlertas;
 import com.coreweb.login.LoginUsuarioDTO;
 import com.coreweb.util.Check;
 import com.coreweb.util.Misc;
@@ -530,6 +535,9 @@ public class Control {
 		Control.empresa = empresa;
 	}
 
+	
+	// ============ session y context =======================
+	
 	public Object getAtributoSession(String arg) {
 		Session s = Sessions.getCurrent();
 		Object atributo = s.getAttribute(arg);
@@ -541,6 +549,22 @@ public class Control {
 		s.setAttribute(key, value);
 	}
 
+	public Object getAtributoContext(String arg) {
+		ServletContext s = Sessions.getCurrent().getWebApp()
+				.getServletContext();
+		Object atributo = s.getAttribute(arg);
+		return atributo;
+	}
+
+	public void setAtributoContext(String key, Object value) {
+		ServletContext s = Sessions.getCurrent().getWebApp()
+				.getServletContext();
+		s.setAttribute(key, value);
+	}
+	
+
+	
+	
 	public static void main(String[] args) {
 		String a = "";
 		String b = "hola";

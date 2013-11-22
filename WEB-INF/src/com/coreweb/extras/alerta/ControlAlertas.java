@@ -3,6 +3,7 @@ package com.coreweb.extras.alerta;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ import com.coreweb.domain.Register;
 import com.coreweb.extras.agenda.AgendaEventoDTO;
 import com.coreweb.extras.agenda.AgendaEventoDetalleDTO;
 import com.coreweb.extras.agenda.AssemblerAgenda;
+import com.coreweb.login.ControlInicio;
 import com.coreweb.util.Misc;
 import com.coreweb.util.MyPair;
 import com.jgoodies.binding.BindingUtils;
@@ -145,8 +147,8 @@ public class ControlAlertas extends SoloViewModel {
 	private void crearAlerta(String creador, MyPair nivel, MyPair tipo,
 			String descripcion, String destino) throws Exception {
 		// esto falta desglosar para las distintas combinaciones de alertas
-		Register rr = Register.getInstance();
-		AssemblerAlerta as = new AssemblerAlerta(); 
+		
+
 		AlertaDTO alerta = new AlertaDTO();
 		alerta.setCreador(creador);
 		alerta.setDestino(destino);
@@ -154,20 +156,35 @@ public class ControlAlertas extends SoloViewModel {
 		alerta.setNivel(nivel);
 		alerta.setTipo(tipo);
 		alerta.setCancelada(false);
-		// se pasa de dto a domain y se tiene que guardar
-		// aca tambien se deberia llamar al metodo que notifique a los destinos
-		rr.saveObject(as.dtoToDomain(alerta),this.getLoginNombre());
 		
+		this.grabarAlerta(alerta);
+		
+		// ojo, si destino es una lista, hay que desglosarlo
+		this.refrescarAlertas(destino);
 	}
 
+	private void grabarAlerta(AlertaDTO alerta) throws Exception{
+		String login = this.getLoginNombre();
+		Register rr = Register.getInstance();
+		AssemblerAlerta as = new AssemblerAlerta(); 
+		rr.saveObject(as.dtoToDomain(alerta),login);		
+	}
+	
+	
+	
 	@Command
 	@NotifyChange("*")
-	public void cancelarAlerta() {
+	public void cancelarAlerta() throws Exception {
+		// NOTA: no hay que grabar la alerta cancelada??
 		if (!this.selectedAlerta.isCancelada()) {
 			String obsv = this.getMotivoAnulacion();
 			if (obsv.length() != 0) {
 				this.selectedAlerta.setCancelada(true);
 				this.selectedAlerta.setObservacion(obsv);
+				this.grabarAlerta(this.selectedAlerta);
+				String destino = this.selectedAlerta.getDestino();
+				this.refrescarAlertas(destino);
+				
 			}
 		}
 
@@ -175,14 +192,37 @@ public class ControlAlertas extends SoloViewModel {
 	
 	public int getCantidadAlertasNoCanceladas(){
 		int cant = 0;
+		String login = this.getLoginNombre();
 		Register rr = Register.getInstance();
 		try {
-			cant = rr.getCantidadAlertasNoCanceladas(this.getLoginNombre());
+			cant = rr.getCantidadAlertasNoCanceladas(login);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		//System.out.println("cantidad de alertas: "+cant);
 		return cant;
 	}
+	
+	
+	private void refrescarAlertas(String destino){
+		Hashtable<String, ControlInicio> hci = (Hashtable<String, ControlInicio>) this
+				.getAtributoContext(Config.ALERTAS);
+		
+		String[] ls = destino.split(",");
+		for (int i = 0; i < ls.length; i++) {
+			String login = ls[i];
+			System.out.println("============================ buscando alerta para:"+login);
+			ControlInicio ci = hci.get(login);
+			if (ci != null){
+				System.out.println("============================ encontro ["+ci+"]" );
+				ci.refreshAlertas();
+			}
+
+		}
+		
+		
+	}
+	
+	
 
 }
