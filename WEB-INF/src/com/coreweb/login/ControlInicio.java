@@ -30,6 +30,7 @@ import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.Window;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.EventQueue;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
@@ -83,9 +84,9 @@ public class ControlInicio extends Control {
 		this.setMenu(menu);
 		this.setMenuSistema(menuSistema);
 
-		this.createSessions();
-		// poner en la session el controlInicio
-		// s.setAttribute(Config.CONTROL_INICIO, this);
+		// el control en la session para luego manipular las alertas
+		this.setAtributoSession(Config.MI_ALERTAS, this);
+
 	}
 
 	@GlobalCommand
@@ -179,6 +180,17 @@ public class ControlInicio extends Control {
 
 	// ====================== ALERTAS =======================
 
+	private boolean hayAlertas = true;
+	private int cantidadAlertas = 0;
+	
+	public boolean isHayAlertas(){
+		return this.hayAlertas;
+	}
+	
+	public void setHayAlerta(){
+		this.hayAlertas = true;
+	}
+	
 	@Command
 	public void mostrarAlertas() {
 		ControlAlertas alertaControl = new ControlAlertas();
@@ -186,16 +198,18 @@ public class ControlInicio extends Control {
 	}
 
 	public String getMisAlertas()  {
-		String out = "Mis Alertas ";
-		int cant = 0 ;
-		try {
-			cant = this.getCantidadAlertasNoCanceladas();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			out += " [error]";
+		String err = "";
+		if (true || (this.isHayAlertas() == true)){
+			try {
+				this.cantidadAlertas = this.getCantidadAlertasNoCanceladas();
+				this.hayAlertas = false;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				err = "[error] ";
+			}
 		}
-		out += "(" + cant + ")"; // ["+this+"] "+this.getLoginNombre();
+		String out = "Mis Alertas "+err+"(" + this.cantidadAlertas + ")"; // ["+this+"] "+this.getLoginNombre();
 		return out;
 	}
 
@@ -209,30 +223,11 @@ public class ControlInicio extends Control {
 	}
 
 	public void refreshAlertas() {
-		BindUtils.postNotifyChange(null, null, this, "alertas");
+		//this.setHayAlerta();
+		System.out.println("=================== Refrescando ============");
+		BindUtils.postNotifyChange(null, null, this, "*");
 
-	}
-
-	/**
-	 * Crea el hash generar con todos los ControlInicios para las alertas
-	 * También guarda el controlInicio de esta sessión, en la session, para
-	 * buscarl cuando esté logeado
-	 */
-	private synchronized void createSessions() {
-
-		Object cis = this.getAtributoContext(Config.ALERTAS);
-
-		if (cis == null) {
-
-			System.out.println("===========================================");
-			System.out.println("INICIO " + this.m.dateHoyToString());
-			System.out.println("===========================================");
-
-			cis = new Hashtable<String, ControlInicio>();
-			this.setAtributoContext(Config.ALERTAS, cis);
-		}
-
-		this.setAtributoSession(Config.MI_ALERTAS, this);
+		//EventQueue que = EventQueues.lookup("groupTest", EventQueues.APPLICATION, true);
 	}
 
 }
@@ -385,3 +380,21 @@ class MenuitemUser implements EventListener {
 	}
 
 }
+
+
+class AlertaEvento implements EventListener{
+
+	ControlInicio ctr = null;
+	
+	public AlertaEvento(ControlInicio ctr){
+		this.ctr = ctr;
+	}
+	
+	@Override
+	public void onEvent(Event arg0) throws Exception {
+		ctr.refreshAlertas();
+		
+	}
+	
+}
+

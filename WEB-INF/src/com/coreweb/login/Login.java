@@ -14,6 +14,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Menu;
@@ -74,16 +75,18 @@ public class Login extends Control {
 		if (uDto.isLogeado() == true) {
 
 			try {
-				// guardar el control inicio de cada uno en la tabla con todas
-				// las referencias, para refrescar la session
-	
+				// recupero el control de esta sesion y lo pongo a escuchar
+				// eventos para este login
+
 				ControlInicio miCi = (ControlInicio) this
-						.getAtributoSession(Config.MI_ALERTAS);				
-				Hashtable<String, ControlInicio> hci = (Hashtable<String, ControlInicio>) this
-						.getAtributoContext(Config.ALERTAS);
-				hci.put(uDto.getLogin(), miCi);
-				//================
-				
+						.getAtributoSession(Config.MI_ALERTAS);
+
+				EventQueues.lookup(this.getLoginNombre(),
+						EventQueues.APPLICATION, true).subscribe(
+						new AlertaEvento(miCi));
+
+				// ================
+
 				this.m.ejecutarMetoto(Config.INIT_CLASE,
 						Config.INIT_AFTER_LOGIN);
 			} catch (Exception e) {
