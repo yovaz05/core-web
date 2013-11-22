@@ -549,14 +549,14 @@ public class Control {
 		s.setAttribute(key, value);
 	}
 
-	public Object getAtributoContext(String arg) {
+	public Object getAtributoContextx(String arg) {
 		ServletContext s = Sessions.getCurrent().getWebApp()
 				.getServletContext();
 		Object atributo = s.getAttribute(arg);
 		return atributo;
 	}
 
-	public void setAtributoContext(String key, Object value) {
+	public void setAtributoContextx(String key, Object value) {
 		ServletContext s = Sessions.getCurrent().getWebApp()
 				.getServletContext();
 		s.setAttribute(key, value);
