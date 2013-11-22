@@ -2,10 +2,13 @@ package com.coreweb.login;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.ServletContext;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.Command;
@@ -27,6 +30,7 @@ import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.Window;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.util.Clients;
 
@@ -78,6 +82,7 @@ public class ControlInicio extends Control {
 		this.setMenu(menu);
 		this.setMenuSistema(menuSistema);
 
+		this.createSessions();
 		// poner en la session el controlInicio
 		// s.setAttribute(Config.CONTROL_INICIO, this);
 	}
@@ -183,12 +188,35 @@ public class ControlInicio extends Control {
 	public String getMisAlertas() {
 		String out = "Mis Alertas ";
 		int cant = this.alertaControl.getCantidadAlertasNoCanceladas();
-		out += "(" + cant + ")";
+		out += "(" + cant + ")"; //   ["+this+"]";
 		return out;
 	}
 
 	public void refreshAlertas() {
-		BindUtils.postNotifyChange(null, null, this, "misAlertas");
+		BindUtils.postNotifyChange(null, null, this, "*");
+	
+	}
+
+	/**
+	 * Crea el hash generar con todos los ControlInicios para las alertas
+	 * También guarda el controlInicio de esta sessión, en la session, para
+	 * buscarl cuando esté logeado
+	 */
+	private synchronized void createSessions() {
+
+		Object cis = this.getAtributoContext(Config.ALERTAS);
+
+		if (cis == null) {
+
+			System.out.println("===========================================");
+			System.out.println("INICIO " + this.m.dateHoyToString());
+			System.out.println("===========================================");
+
+			cis = new Hashtable<String, ControlInicio>();
+			this.setAtributoContext(Config.ALERTAS, cis);
+		}
+
+		this.setAtributoSession(Config.MI_ALERTAS, this);
 	}
 
 }
