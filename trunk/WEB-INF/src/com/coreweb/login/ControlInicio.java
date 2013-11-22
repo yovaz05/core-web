@@ -179,38 +179,38 @@ public class ControlInicio extends Control {
 
 	// ====================== ALERTAS =======================
 
-
 	@Command
 	public void mostrarAlertas() {
 		ControlAlertas alertaControl = new ControlAlertas();
 		alertaControl.mostrarAlertas();
 	}
 
-	public String getMisAlertas() {
+	public String getMisAlertas()  {
 		String out = "Mis Alertas ";
-		int cant = this.getCantidadAlertasNoCanceladas();
-		out += "(" + cant + ")"; //  ["+this+"] "+this.getLoginNombre();
+		int cant = 0 ;
+		try {
+			cant = this.getCantidadAlertasNoCanceladas();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			out += " [error]";
+		}
+		out += "(" + cant + ")"; // ["+this+"] "+this.getLoginNombre();
 		return out;
 	}
 
-	public int getCantidadAlertasNoCanceladas(){
+	public int getCantidadAlertasNoCanceladas() throws Exception {
 		int cant = 0;
 		String login = this.getLoginNombre();
 		Register rr = Register.getInstance();
-		try {
-			cant = rr.getCantidadAlertasNoCanceladas(login);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		//System.out.println("cantidad de alertas: "+cant);
+		cant = rr.getCantidadAlertasNoCanceladas(login);
+		// System.out.println("cantidad de alertas: "+cant);
 		return cant;
 	}
-	
-	
-	
+
 	public void refreshAlertas() {
 		BindUtils.postNotifyChange(null, null, this, "alertas");
-	
+
 	}
 
 	/**
