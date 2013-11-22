@@ -76,6 +76,7 @@ public class Login extends Control {
 			try {
 				// guardar el control inicio de cada uno en la tabla con todas
 				// las referencias, para refrescar la session
+	
 				ControlInicio miCi = (ControlInicio) this
 						.getAtributoSession(Config.MI_ALERTAS);				
 				Hashtable<String, ControlInicio> hci = (Hashtable<String, ControlInicio>) this

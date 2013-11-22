@@ -36,6 +36,7 @@ import org.zkoss.zk.ui.util.Clients;
 
 import com.coreweb.Config;
 import com.coreweb.control.Control;
+import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
 import com.coreweb.extras.alerta.Alertas;
 import com.coreweb.extras.alerta.ControlAlertas;
@@ -178,22 +179,37 @@ public class ControlInicio extends Control {
 
 	// ====================== ALERTAS =======================
 
-	ControlAlertas alertaControl = new ControlAlertas();
 
 	@Command
 	public void mostrarAlertas() {
-		this.alertaControl.mostrarAlertas();
+		ControlAlertas alertaControl = new ControlAlertas();
+		alertaControl.mostrarAlertas();
 	}
 
 	public String getMisAlertas() {
 		String out = "Mis Alertas ";
-		int cant = this.alertaControl.getCantidadAlertasNoCanceladas();
-		out += "(" + cant + ")"; //   ["+this+"]";
+		int cant = this.getCantidadAlertasNoCanceladas();
+		out += "(" + cant + ")"; //  ["+this+"] "+this.getLoginNombre();
 		return out;
 	}
 
+	public int getCantidadAlertasNoCanceladas(){
+		int cant = 0;
+		String login = this.getLoginNombre();
+		Register rr = Register.getInstance();
+		try {
+			cant = rr.getCantidadAlertasNoCanceladas(login);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//System.out.println("cantidad de alertas: "+cant);
+		return cant;
+	}
+	
+	
+	
 	public void refreshAlertas() {
-		BindUtils.postNotifyChange(null, null, this, "*");
+		BindUtils.postNotifyChange(null, null, this, "alertas");
 	
 	}
 
