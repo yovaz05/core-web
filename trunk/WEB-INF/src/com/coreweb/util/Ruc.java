@@ -13,6 +13,7 @@ public class Ruc {
 				out = true;
 			}			
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return out;
 	}	
