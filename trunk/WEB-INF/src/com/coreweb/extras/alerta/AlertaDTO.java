@@ -11,6 +11,7 @@ import com.coreweb.util.MyPair;
 
 public class AlertaDTO extends DTO {
 
+	String numero = "";
 	Date fechaCreacion = new Date();
 	Date fechaCancelacion = new Date();
 	String creador = "";
@@ -20,7 +21,8 @@ public class AlertaDTO extends DTO {
 	boolean cancelada;
 	MyPair nivel = new MyPair();
 	MyPair tipo = new MyPair();
-	
+	String propietario = "";
+
 	@DependsOn("nivel")
 	public String getNivelAlerta() {
 		String out = "";
@@ -32,12 +34,12 @@ public class AlertaDTO extends DTO {
 		}
 		return out;
 	}
-	
+
 	@DependsOn("nivel")
 	public String getMensajeNivel() {
 		return this.nivel.getText();
 	}
-	
+
 	@DependsOn("cancelada")
 	public String getEstadoAlerta() {
 		String out = "";
@@ -55,14 +57,16 @@ public class AlertaDTO extends DTO {
 		return "";
 	}
 
-	public String getFechaCreacionStr(){
-		return this.misc.dateToString(this.fechaCreacion, Misc.YYYY_MM_DD_HORA_MIN_SEG2);
+	public String getFechaCreacionStr() {
+		return this.misc.dateToString(this.fechaCreacion,
+				Misc.YYYY_MM_DD_HORA_MIN_SEG2);
 	}
-	
-	public String getFechaCancelacionStr(){
-		return this.misc.dateToString(this.fechaCancelacion, Misc.YYYY_MM_DD_HORA_MIN_SEG2);
+
+	public String getFechaCancelacionStr() {
+		return this.misc.dateToString(this.fechaCancelacion,
+				Misc.YYYY_MM_DD_HORA_MIN_SEG2);
 	}
-	
+
 	public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
@@ -133,6 +137,22 @@ public class AlertaDTO extends DTO {
 
 	public void setTipo(MyPair tipo) {
 		this.tipo = tipo;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(String propietario) {
+		this.propietario = propietario;
 	}
 
 }

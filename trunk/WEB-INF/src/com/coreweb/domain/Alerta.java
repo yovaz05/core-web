@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Alerta extends Domain {
 
+	String numero = "";
 	Date fechaCreacion = new Date();
 	Date fechaCancelacion = new Date();
 	String creador = "";
@@ -13,6 +14,15 @@ public class Alerta extends Domain {
 	boolean cancelada = false;
 	Tipo nivel;
 	Tipo tipo;
+	String propietario = "";
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
 
 	public Date getFechaCreacion() {
 		return fechaCreacion;
@@ -84,6 +94,14 @@ public class Alerta extends Domain {
 
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
+	}
+
+	public String getPropietario() {
+		return propietario;
+	}
+
+	public void setPropietario(String propietario) {
+		this.propietario = propietario;
 	}
 
 	@Override

@@ -14,6 +14,8 @@ import org.zkoss.bind.annotation.ExecutionArgParam;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
@@ -95,6 +97,7 @@ public class ControlAlertas extends SoloViewModel {
 			w.setTitulo("Mis Alertas");
 			w.setWidth("920px");
 			w.setHigth("520px");
+			w.setSoloBotonCerrar();
 			w.show(Config.ALERTAS_ZUL);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -113,7 +116,8 @@ public class ControlAlertas extends SoloViewModel {
 			// this.desde = 0;
 			// this.hasta = 50;
 			// System.out.println("entro a cargar: "+this.desde+" - "+this.hasta);
-			List<Alerta> alertasDom = rr.getAllAlertas(desde, cantidad,this.getLoginNombre());
+			List<Alerta> alertasDom = rr.getAllAlertas(desde, cantidad,
+					this.getLoginNombre());
 			for (Alerta alerta : alertasDom) {
 				AlertaDTO alertaDto = new AlertaDTO();
 				alertaDto = as.domainToDto(alerta);
@@ -142,40 +146,112 @@ public class ControlAlertas extends SoloViewModel {
 		}
 	}
 
-	private String getLoginSession(){
+	private String getLoginSession() {
 		String out = "";
 		return out;
 	}
-	
-	
+
+	public void crearAlertaUnoInformativa(String creador, String descripcion,
+			String destino) throws Exception {
+		MyPair nivel = this.getDtoUtil().getTipoAlertaUno();
+		MyPair tipo = this.getDtoUtil().getNivelAlertaInformativa();
+		this.crearAlerta(creador, nivel, tipo, descripcion, destino, "");
+	}
+
+	public void crearAlertaMuchosInformativa(String creador,
+			String descripcion, List<String> destino) throws Exception {
+		MyPair nivel = this.getDtoUtil().getTipoAlertaMuchos();
+		MyPair tipo = this.getDtoUtil().getNivelAlertaInformativa();
+		// iterar sobre los detinos e ir creando una alerta para cada uno
+		for (String dest : destino) {
+			this.crearAlerta(creador, nivel, tipo, descripcion, dest, "");
+		}
+
+	}
+
+	public void crearAlertaUnoError(String creador, String descripcion,
+			String destino) throws Exception {
+		MyPair nivel = this.getDtoUtil().getTipoAlertaUno();
+		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
+		this.crearAlerta(creador, nivel, tipo, descripcion, destino, "");
+
+	}
+
+	public void crearAlertaMuchosError(String creador, String descripcion,
+			List<String> destino) throws Exception {
+
+		MyPair nivel = this.getDtoUtil().getTipoAlertaMuchos();
+		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
+		// iterar sobre los detinos e ir creando una alerta para cada uno
+		for (String dest : destino) {
+			this.crearAlerta(creador, nivel, tipo, descripcion, dest, "");
+		}
+
+	}
+
+	public void crearAlertaComunitariaError(String creador, String descripcion,
+			List<String> destino, List<String> propietario) throws Exception {
+		MyPair nivel = this.getDtoUtil().getTipoAlertaUno();
+		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
+		String destinoStr = "";
+		String propietarioStr = "";
+		for (String dest : destino) {
+			// crear string destino (entre comas)
+		}
+		for (String prop : propietario) {
+			// crear string propietario (entre comas)
+		}
+		this.crearAlerta(creador, nivel, tipo, descripcion, destinoStr,
+				propietarioStr);
+
+	}
+
+	public void crearAlertaComunitariaInformativa(String creador,
+			String descripcion, List<String> destino, List<String> propietario)
+			throws Exception {
+
+		MyPair nivel = this.getDtoUtil().getTipoAlertaMuchos();
+		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
+		String destinoStr = "";
+		String propietarioStr = "";
+		for (String dest : destino) {
+			// crear string destino (entre comas)
+		}
+		for (String prop : propietario) {
+			// crear string propietario (entre comas)
+		}
+		this.crearAlerta(creador, nivel, tipo, descripcion, destinoStr,
+				propietarioStr);
+	}
+
 	private void crearAlerta(String creador, MyPair nivel, MyPair tipo,
-			String descripcion, String destino) throws Exception {
-		// esto falta desglosar para las distintas combinaciones de alertas
-		
+			String descripcion, String destino, String propietario)
+			throws Exception {
 
 		AlertaDTO alerta = new AlertaDTO();
+		// falta el autonumero aca
+		alerta.setNumero("");
 		alerta.setCreador(creador);
 		alerta.setDestino(destino);
 		alerta.setDescripcion(descripcion);
 		alerta.setNivel(nivel);
 		alerta.setTipo(tipo);
 		alerta.setCancelada(false);
-		
+		alerta.setPropietario(propietario);
+
 		this.grabarAlerta(alerta);
-		
+
 		// ojo, si destino es una lista, hay que desglosarlo
 		this.refrescarAlertas(destino);
 	}
 
-	private void grabarAlerta(AlertaDTO alerta) throws Exception{
+	private void grabarAlerta(AlertaDTO alerta) throws Exception {
 		String login = this.getLoginNombre();
 		Register rr = Register.getInstance();
-		AssemblerAlerta as = new AssemblerAlerta(); 
-		rr.saveObject(as.dtoToDomain(alerta),login);		
+		AssemblerAlerta as = new AssemblerAlerta();
+		rr.saveObject(as.dtoToDomain(alerta), login);
 	}
-	
-	
-	
+
 	@Command
 	@NotifyChange("*")
 	public void cancelarAlerta() throws Exception {
@@ -188,33 +264,22 @@ public class ControlAlertas extends SoloViewModel {
 				this.grabarAlerta(this.selectedAlerta);
 				String destino = this.selectedAlerta.getDestino();
 				this.refrescarAlertas(destino);
-				
+
 			}
 		}
 
 	}
-	
-	
-	
-	private void refrescarAlertas(String destino){
-		Hashtable<String, ControlInicio> hci = (Hashtable<String, ControlInicio>) this
-				.getAtributoContext(Config.ALERTAS);
-		
+
+	private void refrescarAlertas(String destino) {
+
 		String[] ls = destino.split(",");
 		for (int i = 0; i < ls.length; i++) {
 			String login = ls[i];
-			System.out.println("============================ buscando alerta para:"+login);
-			ControlInicio ci = hci.get(login);
-			if (ci != null){
-				System.out.println("============================ encontro ["+ci+"]" );
-				ci.refreshAlertas();
-			}
+
+			EventQueues.lookup(login, EventQueues.APPLICATION, true).publish(
+					new Event(Config.ALERTAS, null, null));
 
 		}
-		
-		
 	}
-	
-	
 
 }

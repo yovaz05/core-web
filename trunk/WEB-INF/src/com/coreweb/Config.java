@@ -107,4 +107,11 @@ public class Config {
 	public static String ALERTA_NIVEL_INFORMATIVO = "Alerta informativa";
 	public static String ALERTA_NIVEL_ERROR = "Alerta error";
 
+	public static String SIGLA_NIVEL_ALERTA_INFORMATIVA = "ALER-INFO";
+	public static String SIGLA_NIVEL_ALERTA_ERROR = "ALER-ERROR";
+	
+	public static String SIGLA_TIPO_ALERTA_UNO = "DESTINO-UNO";
+	public static String SIGLA_TIPO_ALERTA_MUCHOS = "DESTINO-MUCHOS";
+	public static String SIGLA_TIPO_ALERTA_COMUNITARIA = "DESTINO-COMUN";
+
 }

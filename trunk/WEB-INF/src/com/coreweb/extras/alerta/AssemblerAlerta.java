@@ -15,8 +15,8 @@ import com.coreweb.extras.agenda.AssemblerAgenda;
 
 public class AssemblerAlerta extends Assembler {
 
-	private static String[] attAlerta = { "fechaCreacion", "fechaCancelacion",
-			"creador", "destino", "descripcion", "observacion", "cancelada" };
+	private static String[] attAlerta = { "numero", "fechaCreacion", "fechaCancelacion",
+			"creador", "destino", "descripcion", "observacion", "cancelada", "propietario"};
 
 	public Domain dtoToDomain(DTO dtoG) throws Exception {
 
