@@ -11,6 +11,7 @@
 
 		&hibernate-domain;
 
+		<property name="numero" />
 		<property name="fechaCreacion" type="date" column="fechaCreacion" />
 		<property name="fechaCancelacion" type="date" column="fechaCancelacion" />
 		<property name="creador" />
@@ -24,6 +25,8 @@
 
 		<many-to-one name="tipo" class="com.coreweb.domain.Tipo"
 			column="idtipo" lazy="false" />
+			
+		<property name="propietario" />
 
 	</class>
 </hibernate-mapping>

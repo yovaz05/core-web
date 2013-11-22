@@ -22,14 +22,61 @@ public class UtilCoreDTO extends DTO {
 	public void setHabilitado(List<MyPair> habilitado) {
 		this.habilitado = habilitado;
 	}
-	
-	
+
 	// ==== Para el manejo de propiedades del usuario
-	
-	public String getPropiedad(String key){
+
+	public String getPropiedad(String key) {
 		String out = "";
-		
+
 		return out;
+	}
+
+	// ==== Para alertas
+
+	MyPair tipoAlertaUno = new MyPair();
+	MyPair tipoAlertaComunitaria = new MyPair();
+	MyPair tipoAlertaMuchos = new MyPair();
+	MyPair nivelAlertaInformativa = new MyPair();
+	MyPair nivelAlertaError = new MyPair();
+
+	public MyPair getTipoAlertaUno() {
+		return tipoAlertaUno;
+	}
+
+	public void setTipoAlertaUno(MyPair tipoAlertaUno) {
+		this.tipoAlertaUno = tipoAlertaUno;
+	}
+
+	public MyPair getTipoAlertaComunitaria() {
+		return tipoAlertaComunitaria;
+	}
+
+	public void setTipoAlertaComunitaria(MyPair tipoAlertaComunitaria) {
+		this.tipoAlertaComunitaria = tipoAlertaComunitaria;
+	}
+
+	public MyPair getTipoAlertaMuchos() {
+		return tipoAlertaMuchos;
+	}
+
+	public void setTipoAlertaMuchos(MyPair tipoAlertaMuchos) {
+		this.tipoAlertaMuchos = tipoAlertaMuchos;
+	}
+
+	public MyPair getNivelAlertaInformativa() {
+		return nivelAlertaInformativa;
+	}
+
+	public void setNivelAlertaInformativa(MyPair nivelAlertaInformativa) {
+		this.nivelAlertaInformativa = nivelAlertaInformativa;
+	}
+
+	public MyPair getNivelAlertaError() {
+		return nivelAlertaError;
+	}
+
+	public void setNivelAlertaError(MyPair nivelAlertaError) {
+		this.nivelAlertaError = nivelAlertaError;
 	}
 
 }
