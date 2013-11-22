@@ -113,8 +113,7 @@ public class ControlAlertas extends SoloViewModel {
 			// this.desde = 0;
 			// this.hasta = 50;
 			// System.out.println("entro a cargar: "+this.desde+" - "+this.hasta);
-			List<Alerta> alertasDom = rr.getAllAlertas(desde, cantidad,
-					this.getLoginNombre());
+			List<Alerta> alertasDom = rr.getAllAlertas(desde, cantidad,this.getLoginNombre());
 			for (Alerta alerta : alertasDom) {
 				AlertaDTO alertaDto = new AlertaDTO();
 				alertaDto = as.domainToDto(alerta);
@@ -143,6 +142,11 @@ public class ControlAlertas extends SoloViewModel {
 		}
 	}
 
+	private String getLoginSession(){
+		String out = "";
+		return out;
+	}
+	
 	
 	private void crearAlerta(String creador, MyPair nivel, MyPair tipo,
 			String descripcion, String destino) throws Exception {
@@ -190,18 +194,6 @@ public class ControlAlertas extends SoloViewModel {
 
 	}
 	
-	public int getCantidadAlertasNoCanceladas(){
-		int cant = 0;
-		String login = this.getLoginNombre();
-		Register rr = Register.getInstance();
-		try {
-			cant = rr.getCantidadAlertasNoCanceladas(login);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		//System.out.println("cantidad de alertas: "+cant);
-		return cant;
-	}
 	
 	
 	private void refrescarAlertas(String destino){

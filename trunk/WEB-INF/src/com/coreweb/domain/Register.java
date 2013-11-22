@@ -873,6 +873,7 @@ public class Register {
 		List<Alerta> list = null;
 		String query = "select a from Alerta a where a.cancelada = 'false' and a.destino like '%"
 				+ usuario + "%'";
+		System.out.println("\n\n\n"+query+"\n\n");
 		list = this.hql(query);
 		return list.size();
 	}
