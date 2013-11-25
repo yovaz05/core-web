@@ -368,6 +368,26 @@ public class Misc {
 		return formato("" + dato, 15, false);
 	}
 
+	public String formatoNumeroBig(Object dato, boolean siDecimal) {
+		String dec = "";
+		if (siDecimal == true){
+			dec = ".00";
+		}
+		if (dato instanceof Double) {
+			NumberFormat formatter = new DecimalFormat("###,###,###,###,##0"+dec);
+			String str = formatter.format(dato);
+			dato = str;
+		}
+
+		if (dato instanceof Long) {
+			NumberFormat formatter = new DecimalFormat("###,###,###,###,##0"+dec);
+			String str = formatter.format(dato);
+			dato = str;
+		}
+		return formato("" + dato, 22, false);
+	}
+	
+	
 	public String formato(Object dato, int longitud, boolean izquierda) {
 		if (dato instanceof Boolean) {
 			if ((boolean) dato) {

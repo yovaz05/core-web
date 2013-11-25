@@ -85,6 +85,11 @@ public class Register {
 
 	}
 
+	public void SESSIONcloseSession(Session session) {
+		this.closeSession(session);
+	}
+
+	
 	private void closeSession(Session session) {
 		// System.out.println("Entra en close Session.");
 		if (session != null) { // && session.isOpen()){
@@ -94,6 +99,14 @@ public class Register {
 
 	}
 
+	/**
+	 * Obtener una session, para grabar muchos objetos juntos
+	 */
+	public Session SESSIONgetSession() throws Exception {
+		return this.getSession();
+	}
+
+	
 	private Session getSession() throws Exception {
 		Session session = HibernateUtil.getSession();
 
@@ -150,6 +163,16 @@ public class Register {
 
 	}
 
+
+	/**
+	 * Para grabar más rápido, se obtiene la session y se usa esa.
+	 */
+	public void SESSIONsaveObjectDomain(Domain o, Session session, String user)
+			throws Exception {
+		this.saveObjectDomain(o,session,user);
+	}
+
+	
 	// este es el que realmente graba
 	private void saveObjectDomain(Domain o, Session session, String user)
 			throws Exception {
@@ -466,10 +489,15 @@ public class Register {
 	}
 
 	public void deleteAllObjects(String entityName) throws Exception {
+		
+		Session s = getSession();
+		s.createQuery("delete from "+entityName);
+		/*
 		List<Domain> l = getObjects(entityName, new Vector(), new Vector());
 		for (int i = 0; i < l.size(); i++) {
 			this.deleteObject(l.get(i));
 		}
+		*/
 	}
 
 	public Usuario getUsuario(String login, String clave) throws Exception {
