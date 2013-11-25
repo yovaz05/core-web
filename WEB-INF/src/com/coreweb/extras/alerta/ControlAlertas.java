@@ -33,6 +33,7 @@ import com.coreweb.extras.agenda.AgendaEventoDTO;
 import com.coreweb.extras.agenda.AgendaEventoDetalleDTO;
 import com.coreweb.extras.agenda.AssemblerAgenda;
 import com.coreweb.login.ControlInicio;
+import com.coreweb.util.AutoNumeroControl;
 import com.coreweb.util.Misc;
 import com.coreweb.util.MyPair;
 import com.jgoodies.binding.BindingUtils;
@@ -73,8 +74,6 @@ public class ControlAlertas extends SoloViewModel {
 
 	@Init(superclass = true)
 	public void initControlAlertas() {
-		// this.desde = 0;
-		// this.cantidad = 20;
 		this.alertas = this.cargarAlertas();
 		// Clients.showNotification(this.alertas.size()+" - "+this.cargarAlertas().size());
 		// BindUtils.postNotifyChange(null, null, this, "alertas");
@@ -113,8 +112,6 @@ public class ControlAlertas extends SoloViewModel {
 		try {
 			Register rr = Register.getInstance();
 			AssemblerAlerta as = new AssemblerAlerta();
-			// this.desde = 0;
-			// this.hasta = 50;
 			// System.out.println("entro a cargar: "+this.desde+" - "+this.hasta);
 			List<Alerta> alertasDom = rr.getAllAlertas(desde, cantidad,
 					this.getLoginNombre());
@@ -155,7 +152,7 @@ public class ControlAlertas extends SoloViewModel {
 			String destino) throws Exception {
 		MyPair nivel = this.getDtoUtil().getTipoAlertaUno();
 		MyPair tipo = this.getDtoUtil().getNivelAlertaInformativa();
-		this.crearAlerta(creador, nivel, tipo, descripcion, destino, "");
+		this.crearAlerta(creador, nivel, tipo, descripcion, destino, destino);
 	}
 
 	public void crearAlertaMuchosInformativa(String creador,
@@ -164,7 +161,7 @@ public class ControlAlertas extends SoloViewModel {
 		MyPair tipo = this.getDtoUtil().getNivelAlertaInformativa();
 		// iterar sobre los detinos e ir creando una alerta para cada uno
 		for (String dest : destino) {
-			this.crearAlerta(creador, nivel, tipo, descripcion, dest, "");
+			this.crearAlerta(creador, nivel, tipo, descripcion, dest, dest);
 		}
 
 	}
@@ -173,33 +170,33 @@ public class ControlAlertas extends SoloViewModel {
 			String destino) throws Exception {
 		MyPair nivel = this.getDtoUtil().getTipoAlertaUno();
 		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
-		this.crearAlerta(creador, nivel, tipo, descripcion, destino, "");
-
+		this.crearAlerta(creador, nivel, tipo, descripcion, destino, destino);
 	}
 
 	public void crearAlertaMuchosError(String creador, String descripcion,
 			List<String> destino) throws Exception {
-
 		MyPair nivel = this.getDtoUtil().getTipoAlertaMuchos();
 		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
 		// iterar sobre los detinos e ir creando una alerta para cada uno
 		for (String dest : destino) {
-			this.crearAlerta(creador, nivel, tipo, descripcion, dest, "");
+			this.crearAlerta(creador, nivel, tipo, descripcion, dest, dest);
 		}
 
 	}
 
 	public void crearAlertaComunitariaError(String creador, String descripcion,
-			List<String> destino, List<String> propietario) throws Exception {
-		MyPair nivel = this.getDtoUtil().getTipoAlertaUno();
+			String[] destino, String[] propietario) throws Exception {
+		MyPair nivel = this.getDtoUtil().getTipoAlertaComunitaria();
 		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
 		String destinoStr = "";
 		String propietarioStr = "";
 		for (String dest : destino) {
 			// crear string destino (entre comas)
+			destinoStr += "," + dest + ",";
 		}
 		for (String prop : propietario) {
 			// crear string propietario (entre comas)
+			propietarioStr += "," + prop + ",";
 		}
 		this.crearAlerta(creador, nivel, tipo, descripcion, destinoStr,
 				propietarioStr);
@@ -207,18 +204,19 @@ public class ControlAlertas extends SoloViewModel {
 	}
 
 	public void crearAlertaComunitariaInformativa(String creador,
-			String descripcion, List<String> destino, List<String> propietario)
+			String descripcion, String[] destino, String[] propietario)
 			throws Exception {
-
-		MyPair nivel = this.getDtoUtil().getTipoAlertaMuchos();
+		MyPair nivel = this.getDtoUtil().getTipoAlertaComunitaria();
 		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
 		String destinoStr = "";
 		String propietarioStr = "";
 		for (String dest : destino) {
 			// crear string destino (entre comas)
+			destinoStr += "," + dest + ",";
 		}
 		for (String prop : propietario) {
 			// crear string propietario (entre comas)
+			propietarioStr += "," + prop + ",";
 		}
 		this.crearAlerta(creador, nivel, tipo, descripcion, destinoStr,
 				propietarioStr);
@@ -229,8 +227,8 @@ public class ControlAlertas extends SoloViewModel {
 			throws Exception {
 
 		AlertaDTO alerta = new AlertaDTO();
-		// falta el autonumero aca
-		alerta.setNumero("");
+		alerta.setNumero(AutoNumeroControl.getAutoNumeroKey(
+				Config.NRO_ALERTA, 7));
 		alerta.setCreador(creador);
 		alerta.setDestino(destino);
 		alerta.setDescripcion(descripcion);
@@ -241,7 +239,7 @@ public class ControlAlertas extends SoloViewModel {
 
 		this.grabarAlerta(alerta);
 
-		// ojo, si destino es una lista, hay que desglosarlo
+		// ojo, si destino es una lista, hay que desglosarlo ???
 		this.refrescarAlertas(destino);
 	}
 
