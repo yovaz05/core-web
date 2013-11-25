@@ -278,7 +278,7 @@ public class ControlAlertas extends SoloViewModel {
 
 			EventQueues.lookup(login, EventQueues.APPLICATION, true).publish(
 					new Event(Config.ALERTAS, null, null));
-
+		
 		}
 	}
 
