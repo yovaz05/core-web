@@ -2,4 +2,5 @@
 <property name="dbEstado" />
 <property name="modificado" />
 <property name="usuarioMod" />
+<property name="auxi" />
 

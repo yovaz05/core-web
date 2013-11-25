@@ -20,6 +20,8 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 
 	private String usuarioMod = "new";
 
+	private String auxi = "";
+
 	transient public Misc misc = new Misc();
 
 	private boolean checked = false; // agregar en todos los DTO
@@ -34,14 +36,11 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	}
 
 	public String getUltimaModificacion() {
-		if (this.esNuevo() == true){
+		if (this.esNuevo() == true) {
 			return "--nuevo--";
 		}
-		String out = ""
-				+ this.getUsuarioMod()
-				+ ", "
-				+ this.misc.dateToString(this.modificado,
-						Misc.D_MMMM_YYYY2) ;
+		String out = "" + this.getUsuarioMod() + ", "
+				+ this.misc.dateToString(this.modificado, Misc.D_MMMM_YYYY2);
 		return out;
 	}
 
@@ -52,7 +51,14 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	public boolean isEsNuevo() {
 		return this.esNuevo();
 	}
-	
+
+	public String getAuxi() {
+		return auxi;
+	}
+
+	public void setAuxi(String auxi) {
+		this.auxi = auxi;
+	}
 
 	public void setEsNuevo(boolean esNuevo) throws Exception {
 		throw new Exception("Intentando modificar si es nuevo un DTO");
@@ -179,12 +185,10 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 		return clone;
 	}
 
-	public String getTextOrden(){
-		return this.misc.ceros(this.getId()+"", 8);
+	public String getTextOrden() {
+		return this.misc.ceros(this.getId() + "", 8);
 	}
 
-	
-	
 	/*
 	 * public Comparator<DTO> COMPARATOR = new Comparator<DTO>() { // This is
 	 * where the sorting happens. public int compare(DTO o1, DTO o2) { int out =
