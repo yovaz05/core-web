@@ -7,17 +7,16 @@ import com.coreweb.dto.DBEstado;
 
 public abstract class Domain implements Serializable, Comparable, IiD {
 
-
-	
 	protected Long id = new Long(-1);
-	
+
 	private char dbEstado = DBEstado.DB_EDITABLE;
-	
+
 	private Date modificado = null;
-	
+
 	private String usuarioMod = "popu";
 
-	
+	private String auxi = "";
+
 	public String getUsuarioMod() {
 		return usuarioMod;
 	}
@@ -28,6 +27,16 @@ public abstract class Domain implements Serializable, Comparable, IiD {
 
 	public boolean esNuevo() {
 		return (id < 1);
+	}
+
+	
+	
+	public String getAuxi() {
+		return auxi;
+	}
+
+	public void setAuxi(String auxi) {
+		this.auxi = auxi;
 	}
 
 	public Long getId() {
@@ -53,8 +62,5 @@ public abstract class Domain implements Serializable, Comparable, IiD {
 	public void setDbEstado(char dbEstado) {
 		this.dbEstado = dbEstado;
 	}
-
-
-
 
 }

@@ -140,6 +140,7 @@ public abstract class Assembler {
 		dom.setDbEstado(dto.getDbEstado());
 		dom.setModificado(dto.getModificado());
 		dom.setUsuarioMod(dto.getUsuarioMod());
+		dom.setAuxi(dto.getAuxi());
 		return dom;
 	}
 
@@ -161,6 +162,7 @@ public abstract class Assembler {
 		dto.setDbEstado(dom.getDbEstado());
 		dto.setModificado(dom.getModificado());
 		dto.setUsuarioMod(dom.getUsuarioMod());
+		dto.setAuxi(dom.getAuxi());
 		return dto;
 	}
 
