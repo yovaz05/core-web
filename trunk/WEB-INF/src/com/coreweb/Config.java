@@ -113,5 +113,7 @@ public class Config {
 	public static String SIGLA_TIPO_ALERTA_UNO = "DESTINO-UNO";
 	public static String SIGLA_TIPO_ALERTA_MUCHOS = "DESTINO-MUCHOS";
 	public static String SIGLA_TIPO_ALERTA_COMUNITARIA = "DESTINO-COMUN";
+	
+	public static String NRO_ALERTA = "ALER";
 
 }

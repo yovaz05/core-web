@@ -90,6 +90,7 @@ public class Login extends Control {
 				this.m.ejecutarMetoto(Config.INIT_CLASE,
 						Config.INIT_AFTER_LOGIN);
 			} catch (Exception e) {
+				e.printStackTrace();
 				uDto.setLogeado(false);
 				System.out.println("Error: Metodo afterLogin\n "
 						+ "   InitClase:" + Config.INIT_CLASE + "\n    metodo:"
