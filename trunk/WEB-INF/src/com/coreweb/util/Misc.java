@@ -38,13 +38,6 @@ import com.coreweb.Config;
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
 
-
-
-
-
-
-
-
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -53,7 +46,7 @@ import net.sf.jme.Monto;
 
 public class Misc {
 
-	private static long idUnique = 0;	
+	private static long idUnique = 0;
 	private static String dir;
 
 	public static String TEXTO_ROJO = "font-weight: bold; color:Red; text-align: right";
@@ -246,21 +239,20 @@ public class Misc {
 		dateCal.setTime(new Date());
 		return dateCal.getTime();
 	}
-	
-	public long dateResta(Date d1, Date d2){
+
+	public long dateResta(Date d1, Date d2) {
 		long out = 0;
 		long diff = d2.getTime() - d1.getTime();
 		out = diff / (24 * 60 * 60 * 1000);
 		return out;
 	}
-	
+
 	/**
 	 * Agrega dias a una fecha dada..
 	 * */
-	public Date agregarDias(Date fecha, int dias){		
+	public Date agregarDias(Date fecha, int dias) {
 		return DateUtils.addDays(fecha, dias);
 	}
-	
 
 	/**
 	 * Obtiene los n ultimos caracteres de un string
@@ -302,8 +294,8 @@ public class Misc {
 		double diff = d1 - d2;
 		return ((diff * diff) < 0.00001);
 	}
-	
-	public boolean esIgual(double[] d1, double[]d2){
+
+	public boolean esIgual(double[] d1, double[] d2) {
 		boolean out = true;
 		try {
 			for (int i = 0; i < d1.length; i++) {
@@ -313,10 +305,9 @@ public class Misc {
 			}
 		} catch (Exception e) {
 			out = false;
-		}		
+		}
 		return out;
 	}
-	
 
 	public double redondeo(double d) {
 		double d2 = Math.rint(d * 1000) / 1000;
@@ -370,24 +361,25 @@ public class Misc {
 
 	public String formatoNumeroBig(Object dato, boolean siDecimal) {
 		String dec = "";
-		if (siDecimal == true){
+		if (siDecimal == true) {
 			dec = ".00";
 		}
 		if (dato instanceof Double) {
-			NumberFormat formatter = new DecimalFormat("###,###,###,###,##0"+dec);
+			NumberFormat formatter = new DecimalFormat("###,###,###,###,##0"
+					+ dec);
 			String str = formatter.format(dato);
 			dato = str;
 		}
 
 		if (dato instanceof Long) {
-			NumberFormat formatter = new DecimalFormat("###,###,###,###,##0"+dec);
+			NumberFormat formatter = new DecimalFormat("###,###,###,###,##0"
+					+ dec);
 			String str = formatter.format(dato);
 			dato = str;
 		}
 		return formato("" + dato, 22, false);
 	}
-	
-	
+
 	public String formato(Object dato, int longitud, boolean izquierda) {
 		if (dato instanceof Boolean) {
 			if ((boolean) dato) {
@@ -494,28 +486,29 @@ public class Misc {
 	}
 
 	/**
-	 * Recibe un array de direcciones de correo y retorna un 
-	 * array de tipo Object[0]: booleano si son correctos o no los mails y
-	 * Object[1]: el String con los correos incorrectos
+	 * Recibe un array de direcciones de correo y retorna un array de tipo
+	 * Object[0]: booleano si son correctos o no los mails y Object[1]: el
+	 * String con los correos incorrectos
 	 * */
 	public Object[] chequearMultipleCorreos(String[] correos) {
 
 		String correosIncorrectos = "";
-		
+
 		boolean out = true;
 		String validador = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-		
+
 		if (correos[0].trim().length() > 0) {
 			for (int i = 0; i < correos.length; i++) {
 				boolean check = correos[i].matches(validador);
 				if (check == false) {
 					out = false;
-					correosIncorrectos = correosIncorrectos + " \n - "	+ correos[i];
+					correosIncorrectos = correosIncorrectos + " \n - "
+							+ correos[i];
 				}
 			}
 		}
-		
-		return new Object[]{out, correosIncorrectos};
+
+		return new Object[] { out, correosIncorrectos };
 	}
 
 	public String encriptar(String cadena) {
@@ -859,14 +852,13 @@ public class Misc {
 		return false;
 	}
 
-	
-	
 	public int mensajeSiNoCancelar(String texto) {
 		int out = Config.BOTON_CANCEL;
-		
+
 		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Confirmar",
 				new Messagebox.Button[] { Messagebox.Button.YES,
-						Messagebox.Button.NO, Messagebox.Button.CANCEL }, Messagebox.QUESTION, null);
+						Messagebox.Button.NO, Messagebox.Button.CANCEL },
+				Messagebox.QUESTION, null);
 
 		if ((b != null) && (b.compareTo(Messagebox.Button.YES)) == 0) {
 			out = Config.BOTON_YES;
@@ -877,7 +869,6 @@ public class Misc {
 		return out;
 	}
 
-	
 	// Metodo que retorna el valor del Iva a partir de un valor iva incluido..
 	// 10 = calcularIVA(110,10)
 	public double calcularIVA(double ivaIncluido, int porcentajeIva) {
@@ -1052,19 +1043,19 @@ public class Misc {
 		out += "----------------------------------------------\n";
 		return out;
 	}
-	
-	
-	//Recibe una lista de arrays de string y retorna una sola concatenada..
-	public String[] concatenarArraysDeString(List<String[]> arrays){
+
+	// Recibe una lista de arrays de string y retorna una sola concatenada..
+	public String[] concatenarArraysDeString(List<String[]> arrays) {
 		List<String> list = new ArrayList<String>();
 		for (String[] string : arrays) {
 			list.addAll(Arrays.asList(string));
 		}
-		return list.toArray(new String[list.size()]);		
+		return list.toArray(new String[list.size()]);
 	}
-	
-	//Recibe de 1 a 5 arrays de string y retorna una sola concatenada..
-	public String[] concatenarArraysDeString(String[] array1, String[] array2, String[] array3, String[] array4, String[] array5){
+
+	// Recibe de 1 a 5 arrays de string y retorna una sola concatenada..
+	public String[] concatenarArraysDeString(String[] array1, String[] array2,
+			String[] array3, String[] array4, String[] array5) {
 		List<String[]> arrays = new ArrayList<String[]>();
 		if (array1 != null) {
 			arrays.add(array1);
@@ -1083,7 +1074,6 @@ public class Misc {
 		}
 		return this.concatenarArraysDeString(arrays);
 	}
-	
 
 	public static void Xmain(String[] args) {
 		double d = 10.1;
@@ -1099,19 +1089,18 @@ public class Misc {
 
 	}
 
-	
 	public byte[] serializar(Serializable o) {
 		return SerializationUtils.serialize(o);
 	}
 
-	public Object deSerializar(byte[] bs){
+	public Object deSerializar(byte[] bs) {
 		return SerializationUtils.deserialize(bs);
 	}
-	
-	public boolean siDirty(Serializable o2, byte[] bs1){
+
+	public boolean siDirty(Serializable o2, byte[] bs1) {
 		boolean out = true;
 		byte[] bs2 = this.serializar(o2);
-		if (bs1.length == bs2.length){
+		if (bs1.length == bs2.length) {
 			out = false;
 			for (int i = 0; ((!out) && (i < bs2.length)); i++) {
 				out = out || (bs1[i] != bs2[i]);
@@ -1119,31 +1108,42 @@ public class Misc {
 		}
 		return out;
 	}
-	
-	
-	public void mensajePopupTemporal(String mensaje){
+
+	public void mensajePopupTemporal(String mensaje) {
 		this.mensajePopupTemporal(mensaje, 3000);
 	}
 
-	public void mensajePopupTemporal(String mensaje, int time){
+	public void mensajePopupTemporal(String mensaje, int time) {
 		Clients.showNotification(mensaje, null, null, null, time);
 	}
 
-	public void mensajePopupTemporalWarning(String mensaje, int time){
+	public void mensajePopupTemporalWarning(String mensaje, int time) {
 		Clients.showNotification(mensaje, "warning", null, null, time);
 	}
 
-	public void mensajePopupTemporal(String mensaje, String tipo, Component posicion){
+	public void mensajePopupTemporal(String mensaje, String tipo,
+			Component posicion) {
 		Clients.showNotification(mensaje, tipo, posicion, null, 2000);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public boolean esPersonaJuridica(String ruc) {
+		// 80024884-8
+		boolean out = false;
+		try {
+			ruc = ruc.trim();
+			if (ruc.length() == 10) {
+				String ochennta = ruc.substring(0, 2);
+				int och = Integer.parseInt(ochennta);
+				if (och == 80) {
+					out = true;
+				}
+			}
+		} catch (Exception e) {
+			out = false;
+		}
+		return out;
+	}
+
 	public static void xxmain(String[] args) {
 		try {
 			Misc m = new Misc();
@@ -1160,7 +1160,10 @@ public class Misc {
 
 			Misc m = new Misc();
 
-			System.out.println(m.agregarDias(new Date(), 6).toString());
+			System.out.println("vacio:"+m.esPersonaJuridica(""));
+			System.out.println("80024884-8:"+m.esPersonaJuridica("80024884-8"));
+			System.out.println("8002484-8:"+m.esPersonaJuridica("8002484-8"));
+			System.out.println("7213746-0:"+m.esPersonaJuridica("7213746-0"));
 
 		} catch (Exception e) {
 			e.printStackTrace();

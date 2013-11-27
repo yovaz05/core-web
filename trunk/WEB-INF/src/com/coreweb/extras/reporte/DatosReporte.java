@@ -31,6 +31,7 @@ public abstract class DatosReporte {
 	public static final DateYearType TIPO_DATEYEAR = type.dateYearType();
 	public static final DateMonthType TIPO_DATEMONTH = type.dateMonthType();
 	public static final DateDayType TIPO_DATEDAY =type.dateDayType();
+	public static final BooleanType TIPO_BOOLEAN =type.booleanType();
 	
 
 	public static final String EXPORT_PDF = ".pdf";
