@@ -196,7 +196,7 @@ public abstract class Assembler {
 	// *************************************************************************************
 	public void myPairToDomain(DTO dto, Domain dom, String atributo)
 			throws Exception {
-		this.myPairToDomain(dto, dom, atributo, false);
+		this.myPairToDomain(dto, dom, atributo, true);
 
 	}
 
@@ -340,7 +340,7 @@ public abstract class Assembler {
 
 	public void myArrayToDomain(DTO dto, Domain dom, String atributo)
 			throws Exception {
-		myArrayToDomain(dto, dom, atributo, false);
+		myArrayToDomain(dto, dom, atributo, true);
 	}
 
 	public void myArrayToDomain(DTO dto, Domain dom, String atributo,
