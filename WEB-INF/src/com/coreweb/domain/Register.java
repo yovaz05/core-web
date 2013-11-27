@@ -490,14 +490,11 @@ public class Register {
 
 	public void deleteAllObjects(String entityName) throws Exception {
 		
-		Session s = getSession();
-		s.createQuery("delete from "+entityName);
-		/*
+
 		List<Domain> l = getObjects(entityName, new Vector(), new Vector());
 		for (int i = 0; i < l.size(); i++) {
 			this.deleteObject(l.get(i));
 		}
-		*/
 	}
 
 	public Usuario getUsuario(String login, String clave) throws Exception {
