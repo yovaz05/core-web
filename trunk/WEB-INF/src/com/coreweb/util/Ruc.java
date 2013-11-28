@@ -13,7 +13,7 @@ public class Ruc {
 				out = true;
 			}			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("[error] el ruc ["+ruc+"] es invalidao");
 		}
 		return out;
 	}	
