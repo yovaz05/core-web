@@ -111,7 +111,7 @@ public class HibernateUtil {
 					// session = session.getSessionFactory().openSession();
 					session = sessionFactory.openSession();
 				}
-				
+				/*
 
 				Criteria cri = session.createCriteria(Ping.class.getName());
 				Order r = (Order) Order.asc("echo");
@@ -119,6 +119,7 @@ public class HibernateUtil {
 
 				List lo = cri.list();
 				int size = lo.size();
+				*/
 
 				ok = true;
 

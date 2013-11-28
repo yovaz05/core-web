@@ -10,7 +10,7 @@
 
 <!-- Enable Hibernate's automatic session context management -->
 <property name="current_session_context_class">thread</property>
-
+         
 <!-- Disable the second-level cache -->
 <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
 
@@ -20,7 +20,12 @@
 <!-- Drop and re-create the database schema on startup -->
 <property name="hibernate.hbm2ddl.auto">update</property>
 
+<!-- tuning  -->
 
+<property name="hibernate.jdbc.batch_size">100</property>
+<property name="hibernate.order_inserts">true</property>
+<property name="hibernate.order_updates">true</property>
+<property name="hibernate.current_session_context_class">thread</property>
 
 <mapping resource="com/coreweb/domain/Ping.hbm.xml" />
 <mapping resource="com/coreweb/domain/Tecorei.hbm.xml" />

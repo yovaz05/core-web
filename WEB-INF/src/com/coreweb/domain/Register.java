@@ -29,6 +29,9 @@ import com.coreweb.extras.browser.Browser;
 
 import java.io.*;
 
+import javax.naming.InitialContext;
+import javax.transaction.UserTransaction;
+
 public class Register {
 
 	// El register tiene que ser un sigleton
@@ -49,7 +52,7 @@ public class Register {
 	/********************************/
 
 	public void dropAllTables() throws Exception {
-
+	
 		Random rand = new Random(System.currentTimeMillis());
 		int v = 1000 + rand.nextInt(8999);
 		String codigo = (" " + v).trim();
@@ -140,17 +143,41 @@ public class Register {
 
 	}
 
+
+	public synchronized void saveObjectxx(Domain o, String user) throws Exception {
+		Session session = null;
+	    UserTransaction tx = (UserTransaction)new InitialContext().lookup("java:comp/UserTransaction");  
+
+	    try {  
+	    	session = getSession();             
+		    tx.begin();  
+			saveObjectDomain(o, session, user);
+		  
+		    tx.commit();  
+		}  
+		catch (RuntimeException e) {  
+		    tx.rollback();  
+		    throw e; // or display error message  
+		} finally {
+			closeSession(session);
+		}
+	}
+
+	
 	public synchronized void saveObject(Domain o, String user) throws Exception {
 
 		Session session = null;
 		Transaction tx = null;
 		try {
+			
 			session = getSession();
 			tx = session.beginTransaction();
 
 			saveObjectDomain(o, session, user);
 
-			tx.commit();
+			
+			tx.commit();			
+			
 			// session.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) {
@@ -224,6 +251,20 @@ public class Register {
 		return null;
 	}
 
+
+	public synchronized Object SESSIONgetObject(String entityName, String campo,
+			Object value, Session session) throws Exception {
+
+		Vector v = new Vector();
+		v.add(Restrictions.eq(campo, value));
+
+		List l = SESSIONgetObject_Real(entityName, v, new Vector(), -1, -1, session);
+		if (l.size() == 1) {
+			return l.get(0);
+		}
+		return null;
+	}
+	
 	public synchronized void deleteObject(String entityName, long id)
 			throws Exception {
 
@@ -342,6 +383,38 @@ public class Register {
 		}
 	}
 
+
+	protected synchronized List SESSIONgetObject_Real(String entityName, Vector rest,
+			Vector orders, int ini, int max, Session session) throws Exception {
+
+		try {
+			Criteria cri = session.createCriteria(entityName);
+			cri.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			for (int i = 0; i < rest.size(); i++) {
+				Criterion r = (Criterion) rest.elementAt(i);
+				cri.add(r);
+			}
+
+			for (int i = 0; i < orders.size(); i++) {
+				Order o = (Order) orders.get(i);
+				cri.addOrder(o);
+			}
+
+			if ((ini >= 0) && (max >= 0)) {
+				cri.setFirstResult(ini);
+				cri.setMaxResults(max);
+			}
+
+			List list = cri.list();
+			
+
+			return list;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	
 	protected int getSizeObjects(String entityName, Vector rest)
 			throws Exception {
 
