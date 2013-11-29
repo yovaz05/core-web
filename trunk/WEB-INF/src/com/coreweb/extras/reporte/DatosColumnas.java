@@ -1,11 +1,13 @@
 package com.coreweb.extras.reporte;
-
+import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import static net.sf.dynamicreports.report.builder.DynamicReports.col;
 import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
 
+import net.sf.dynamicreports.report.base.expression.AbstractValueFormatter;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.VerticalAlignment;
+import net.sf.dynamicreports.report.definition.ReportParameters;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 
 public class DatosColumnas {
@@ -108,7 +110,13 @@ public class DatosColumnas {
 	public TextColumnBuilder getColumnBuilder() {
 		TextColumnBuilder tx = col.column(this.getTitulo(), this.getTitulo()
 				.replace(" ", "").toLowerCase().replace(" ", "").toLowerCase(),
-				(DRIDataType) this.getTipo());
+				((DRIDataType) this.getTipo()));
+		
+		if (this.getTipo() == DatosReporte.TIPO_DOUBLE_GS) {
+			tx.setValueFormatter(new ValueFormatterGS());
+		}
+		
+		
 
 		if (this.alineacionColuman == DatosReporte.COLUMNA_ALINEADA_CENTRADA) {
 			tx.setStyle(Templates.columnStyleCenter);
@@ -127,3 +135,24 @@ public class DatosColumnas {
 	}
 
 }
+
+
+
+ class ValueFormatterGS extends AbstractValueFormatter<String, Number> {
+
+     private static final long serialVersionUID = 1L;
+
+     @Override
+     public String format(Number value, ReportParameters reportParameters) {
+
+    	 return type.doubleType().valueToString(value, reportParameters.getLocale()) + " gs";
+//        return type.bigDecimalType().valueToString(value, reportParameters.getLocale()) + " EUR";
+
+     }
+
+
+
+
+  }
+
+

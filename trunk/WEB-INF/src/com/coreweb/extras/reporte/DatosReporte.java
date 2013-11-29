@@ -26,6 +26,7 @@ public abstract class DatosReporte {
 	public static final IntegerType TIPO_INTEGER = type.integerType();
 	public static final LongType TIPO_LONG = type.longType();
 	public static final DoubleType TIPO_DOUBLE = type.doubleType();
+	public static final DoubleType TIPO_DOUBLE_GS = type.doubleType();
 	public static final BigDecimalType TIPO_BIGDECIMAL = type.bigDecimalType();
 	public static final DateType TIPO_DATE = type.dateType();
 	public static final DateYearType TIPO_DATEYEAR = type.dateYearType();
