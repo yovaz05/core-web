@@ -39,7 +39,6 @@ public class Check {
 
 	// No admite empty o null
 	public MiConstraint getNoVacio() {
-		System.out.println("=============== check:getNoVacio");
 		return new MiConstraint(this.vm, MiConstraint.NO_VACIO);
 	}
 

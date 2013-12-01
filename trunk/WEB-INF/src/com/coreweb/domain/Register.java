@@ -640,7 +640,7 @@ public class Register {
 			out = l.get(0);
 		} else {
 			throw new Exception("Más de un objeto (" + l.size()
-					+ ") para el query \n" + query);
+					+ ") para el query \n" + query+"  param:"+o);
 		}
 		return out;
 	}
