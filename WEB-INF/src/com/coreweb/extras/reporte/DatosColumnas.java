@@ -3,6 +3,8 @@ import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import static net.sf.dynamicreports.report.builder.DynamicReports.col;
 import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
 
+import com.coreweb.util.Misc;
+
 import net.sf.dynamicreports.report.base.expression.AbstractValueFormatter;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
@@ -12,34 +14,34 @@ import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 
 public class DatosColumnas {
 	private String titulo;
-	private Object tipo;
+	private String tipo;
 	private int ancho = 0;
 	private int alto = 0;
 	private boolean totaliza = false;
 	private int alineacionColuman = 0;
 	private boolean agrupar = false;
 
-	public DatosColumnas(String titulo, Object tipo) {
+	public DatosColumnas(String titulo, String tipo) {
 		this.setColumna(titulo, tipo, 0);
 	}
 
-	public DatosColumnas(String titulo, Object tipo, int ancho) {
+	public DatosColumnas(String titulo, String tipo, int ancho) {
 		this.setColumna(titulo, tipo, ancho);
 	}
 
-	public DatosColumnas(String titulo, Object tipo, boolean totaliza) {
+	public DatosColumnas(String titulo, String tipo, boolean totaliza) {
 		this.setColumna(titulo, tipo, 0);
 		this.setTotaliza(totaliza);
 	}
 
-	public DatosColumnas(String titulo, Object tipo, int ancho, boolean totaliza) {
+	public DatosColumnas(String titulo, String tipo, int ancho, boolean totaliza) {
 		this.setColumna(titulo, tipo, ancho);
 		this.setTotaliza(totaliza);
 	}
 
-	private void setColumna(String titulo, Object tipo, int ancho) {
+	private void setColumna(String titulo, String tipo, int ancho) {
 		this.titulo = titulo;
-		setTipo(tipo);
+		this.setTipo(tipo);
 		this.ancho = ancho;
 	}
 
@@ -51,11 +53,11 @@ public class DatosColumnas {
 		this.titulo = titulo;
 	}
 
-	public Object getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(Object tipo) {
+	public void setTipo(String tipo) {
 		/*
 		 * if (tipo.equals(TIPO_BIGDECIMAL) || tipo.equals(TIPO_DATE) ||
 		 * tipo.equals(TIPO_DATEDAY) || tipo.equals(TIPO_DATEMONTH) ||
@@ -110,9 +112,9 @@ public class DatosColumnas {
 	public TextColumnBuilder getColumnBuilder() {
 		TextColumnBuilder tx = col.column(this.getTitulo(), this.getTitulo()
 				.replace(" ", "").toLowerCase().replace(" ", "").toLowerCase(),
-				((DRIDataType) this.getTipo()));
+				( DatosReporte.getTipo( this.getTipo())));
 		
-		if (this.getTipo() == DatosReporte.TIPO_DOUBLE_GS) {
+		if (this.getTipo().compareTo(DatosReporte.TIPO_DOUBLE_GS)==0) {
 			tx.setValueFormatter(new ValueFormatterGS());
 		}
 		
@@ -140,14 +142,15 @@ public class DatosColumnas {
 
  class ValueFormatterGS extends AbstractValueFormatter<String, Number> {
 
+	 private Misc m = new Misc();
      private static final long serialVersionUID = 1L;
 
      @Override
      public String format(Number value, ReportParameters reportParameters) {
 
-    	 return type.doubleType().valueToString(value, reportParameters.getLocale()) + " gs";
-//        return type.bigDecimalType().valueToString(value, reportParameters.getLocale()) + " EUR";
-
+    	 String d = m.formatoGs( (Double) value, 11, false);
+    	 
+    	 return d;
      }
 
 
