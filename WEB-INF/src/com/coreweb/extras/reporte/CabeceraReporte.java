@@ -45,47 +45,6 @@ public class CabeceraReporte {
 	*/
 
 	
-	public TextColumnBuilder[] xxgetColumnas() {
-		TextColumnBuilder[] items = new TextColumnBuilder[columnas.size()];
-		for (int i = 0; i < columnas.size(); i++) {
-			DatosColumnas columna = columnas.get(i);
-			try {
-				
-				items[i] = col.column(columna.getTitulo(), columna.getTitulo()
-						.replace(" ", "").toLowerCase().replace(" ", "")
-						.toLowerCase(),(DRIDataType) columna.getTipo());
-				
-				/*
-				if (columna.getTipo().compareTo(DatosReporte.TIPO_LONG)==0){
-					items[i] = col.column(columna.getTitulo(), columna.getTitulo()
-							.replace(" ", "").toLowerCase().replace(" ", "")
-							.toLowerCase(), new LongType());
-				}else{
-					items[i] = col.column(columna.getTitulo(), columna.getTitulo()
-							.replace(" ", "").toLowerCase().replace(" ", "")
-							.toLowerCase(), type.detectType(columna.getTipo()));
-				}
-				*/
-				
-				
-				
-				/*  ---- Daniel Franco ----
-				items[i] = col.column(columna.getTitulo(), columna.getTitulo()
-						.replace(" ", "").toLowerCase().replace(" ", "")
-						.toLowerCase(),(DRIDataType) columna.getTipo());
-				*/
-				if(columna.getAncho()>0)
-					items[i].setWidth(columna.getAncho());
-				//items[i].setHeight(columna.getAlto());
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-		}
-		return items;
-	}
-
 	
 	public List<DatosColumnas> getColumnas(){
 		return this.columnas;
