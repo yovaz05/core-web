@@ -33,6 +33,7 @@ import com.coreweb.extras.agenda.AgendaEventoDTO;
 import com.coreweb.extras.agenda.AgendaEventoDetalleDTO;
 import com.coreweb.extras.agenda.AssemblerAgenda;
 import com.coreweb.login.ControlInicio;
+import com.coreweb.login.Login;
 import com.coreweb.util.AutoNumeroControl;
 import com.coreweb.util.Misc;
 import com.coreweb.util.MyPair;
@@ -187,7 +188,9 @@ public class ControlAlertas extends SoloViewModel {
 	public void crearAlertaComunitariaError(String creador, String descripcion,
 			String[] destino, String[] propietario) throws Exception {
 		MyPair nivel = this.getDtoUtil().getTipoAlertaComunitaria();
+		System.out.println("nivel: "+ nivel.getText());
 		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
+		System.out.println("tipo: "+ tipo.getText());
 		String destinoStr = "";
 		String propietarioStr = "";
 		for (String dest : destino) {
@@ -207,7 +210,9 @@ public class ControlAlertas extends SoloViewModel {
 			String descripcion, String[] destino, String[] propietario)
 			throws Exception {
 		MyPair nivel = this.getDtoUtil().getTipoAlertaComunitaria();
+		System.out.println("nivel: "+ nivel.getText());
 		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
+		System.out.println("tipo: "+ tipo.getText());
 		String destinoStr = "";
 		String propietarioStr = "";
 		for (String dest : destino) {
@@ -254,13 +259,15 @@ public class ControlAlertas extends SoloViewModel {
 	@NotifyChange("*")
 	public void cancelarAlerta() throws Exception {
 		// NOTA: no hay que grabar la alerta cancelada??
-		if (!this.selectedAlerta.isCancelada()) {
+		String login = this.getLoginNombre();
+		String destino = this.selectedAlerta.getDestino();
+		if (!this.selectedAlerta.isCancelada() && login.compareTo(destino) == 0) {
 			String obsv = this.getMotivoAnulacion();
 			if (obsv.length() != 0) {
 				this.selectedAlerta.setCancelada(true);
 				this.selectedAlerta.setObservacion(obsv);
 				this.grabarAlerta(this.selectedAlerta);
-				String destino = this.selectedAlerta.getDestino();
+				
 				this.refrescarAlertas(destino);
 
 			}

@@ -928,6 +928,12 @@ public class Register {
 		Tipo out = (Tipo) this.hqlToObject(queryTipo);
 		return out;
 	}
+	
+	public Tipo getTipoPorSigla_Index(String sigla, int id) throws Exception {
+		String queryTipo = "select t from Tipo t where t.sigla='" + sigla + "' order by t.id";
+		List<Tipo> out = (List<Tipo>) this.hql(queryTipo);
+		return out.get(id-1);
+	}
 
 	public Tipo getTipoPorDescripcion(String descripcion) throws Exception {
 		String queryTipo = "select t from Tipo t where t.descripcion='"
@@ -967,7 +973,7 @@ public class Register {
 	}
 
 	// retorna todas las alertas
-	public int getCantidadAlertasNoCanceladas(String usuario) throws Exception {
+	public synchronized int  getCantidadAlertasNoCanceladas(String usuario) throws Exception {
 		List<Alerta> list = null;
 		String query = "select a from Alerta a where a.cancelada = 'false' and a.destino like '%"
 				+ usuario + "%'";

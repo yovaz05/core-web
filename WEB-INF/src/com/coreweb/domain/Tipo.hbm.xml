@@ -12,7 +12,7 @@
 		&hibernate-domain; 
 		
 		<property name="descripcion" />
-		<property name="sigla" />
+		<property name="sigla" index="inx_sigla"/>
 
 		<many-to-one name="tipoTipo" class="com.coreweb.domain.TipoTipo"
 			column="idtipo" lazy="false" />
