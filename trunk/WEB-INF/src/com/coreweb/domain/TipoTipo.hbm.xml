@@ -11,6 +11,6 @@
 
 		&hibernate-domain; 
 
-                <property name="descripcion"/>    
+                <property name="descripcion" index="inx_descripcion"/>    
         </class>
 </hibernate-mapping>
