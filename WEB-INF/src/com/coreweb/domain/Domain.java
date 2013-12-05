@@ -11,7 +11,7 @@ public abstract class Domain implements Serializable, Comparable, IiD {
 
 	private char dbEstado = DBEstado.DB_EDITABLE;
 
-	private Date modificado = null;
+	private Date modificado = new Date();
 
 	private String usuarioMod = "popu";
 
