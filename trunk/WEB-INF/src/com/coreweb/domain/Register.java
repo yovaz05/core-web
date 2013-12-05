@@ -678,6 +678,26 @@ public class Register {
 
 	}
 
+	public List SESSIONhql(String query, Object[] param, Session session) throws Exception {
+
+		List list = new ArrayList<Domain>();
+		try {
+
+			Query q = session.createQuery(query);
+			for (int i = 0; i < param.length; i++) {
+				Object o = param[i];
+				q.setParameter(i, o);
+			}
+			list = q.list();
+		} catch (Exception e) {
+			throw e;
+		}
+
+		return list;
+
+	}
+
+	
 	public int hqlDelete(String query) throws Exception {
 		return this.hqlDelete(query, new Object[] {});
 	}

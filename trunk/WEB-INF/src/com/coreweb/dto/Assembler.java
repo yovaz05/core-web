@@ -138,7 +138,7 @@ public abstract class Assembler {
 			dom = rr.getObject(classDomain.getName(), dto.getId());
 		}
 		dom.setDbEstado(dto.getDbEstado());
-		dom.setModificado(dto.getModificado());
+		dom.setModificado(new Date());
 		dom.setUsuarioMod(dto.getUsuarioMod());
 		dom.setAuxi(dto.getAuxi());
 		return dom;
