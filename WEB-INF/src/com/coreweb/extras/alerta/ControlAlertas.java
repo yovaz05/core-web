@@ -243,9 +243,19 @@ public class ControlAlertas extends SoloViewModel {
 		alerta.setPropietario(propietario);
 
 		this.grabarAlerta(alerta);
-
+		this.cargarAlertas();
 		// ojo, si destino es una lista, hay que desglosarlo ???
 		this.refrescarAlertas(destino);
+	}
+	
+	@Command
+	@NotifyChange("*")
+	private void crearAlertaRapida(){
+		// mostrar una ventana nueva
+		// debe ser informativa
+		// elegir el grupo o el usuario
+		// agregar la observacion
+		// grabar
 	}
 
 	private void grabarAlerta(AlertaDTO alerta) throws Exception {
@@ -258,16 +268,14 @@ public class ControlAlertas extends SoloViewModel {
 	@Command
 	@NotifyChange("*")
 	public void cancelarAlerta() throws Exception {
-		// NOTA: no hay que grabar la alerta cancelada??
 		String login = this.getLoginNombre();
 		String destino = this.selectedAlerta.getDestino();
-		if (!this.selectedAlerta.isCancelada() && login.compareTo(destino) == 0) {
+		if (!this.selectedAlerta.isCancelada() && destino.contains(login)) {
 			String obsv = this.getMotivoAnulacion();
 			if (obsv.length() != 0) {
 				this.selectedAlerta.setCancelada(true);
 				this.selectedAlerta.setObservacion(obsv);
 				this.grabarAlerta(this.selectedAlerta);
-				
 				this.refrescarAlertas(destino);
 
 			}

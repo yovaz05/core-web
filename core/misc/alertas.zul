@@ -4,19 +4,24 @@
 	<!-- ================================== LISTADO DETALLES ============================== -->
 	<div id="alertas">
 		<vlayout>
-			<hbox pack="center" width="100%">
+			<hlayout width="100%" sclass="z-valign-middle">
+				<separator width="360px" />
 				<toolbarbutton label="Anterior" dir="reverse"
 					image="/core/images/nav_izquierda.png" onClick="@command('prev')" />
 				<toolbarbutton label="Siguiente"
 					image="/core/images/nav_derecha.png" onClick="@command('next')" />
-			</hbox>
+				<separator width="260px" />
+				<toolbarbutton label="Crear Alerta"
+					image="/core/images/add.png"
+					onClick="@command('crearAlertaRapida')" />
+			</hlayout>
 			<listbox height="500px" model="@load(vm.alertas)"
 				selectedItem="@bind(vm.selectedAlerta)"
 				emptyMessage="@bind(vm.mensaje)">
 				<custom-attributes
 					org.zkoss.zul.listbox.autoSort="true" />
 				<listhead>
-				<listheader style="text-align:center"
+					<listheader style="text-align:center"
 						width="50px">
 						<vlayout>
 							<label value="Nivel:" />
@@ -34,7 +39,7 @@
 							<label value="Creador:" />
 						</vlayout>
 					</listheader>
-					
+
 					<listheader style="text-align:center"
 						width="200px">
 						<vlayout>
@@ -74,12 +79,12 @@
 							style="color:black" />
 						<listcell label="@load(each.observacion)"
 							style="color:black" />
-						<listcell label="@load(each.fechaCancelacionStr)"
-							style="color:black" />
+						<listcell
+							label="@load(each.fechaCancelacionStr)" style="color:black" />
 						<listcell>
 							<image src="@load(each.estadoAlerta)"
-								tooltiptext="@load(each.mensajeEstado)" 
-								onClick="@command('cancelarAlerta')"/>
+								tooltiptext="@load(each.mensajeEstado)"
+								onClick="@command('cancelarAlerta')" />
 						</listcell>
 					</listitem>
 				</template>

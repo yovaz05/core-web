@@ -20,6 +20,7 @@ public class UsuarioControlBody extends Body {
 
 	@Init(superclass = true)
 	public void initModuloControlBody() {
+		
 	}
 
 	@AfterCompose(superclass = true)
@@ -73,8 +74,8 @@ public class UsuarioControlBody extends Body {
 		this.dto = dto;
 	}
 
-	String CNT_VACIA = "---vacia---";
-	MyArray selectedUsuario = new MyArray("", "", CNT_VACIA, new ArrayList<MyArray>());
+	//String CNT_VACIA = "---vacia---";
+	MyArray selectedUsuario = new MyArray("", "", "", new ArrayList<MyArray>());
 	MyArray selectedPerfilUsuario = null;
 	MyArray selectedPerfilUsr = null;
 	MyArray selectedPerfil = new MyArray("", "", new ArrayList<String>(),
@@ -83,6 +84,18 @@ public class UsuarioControlBody extends Body {
 	MyArray selectedModulo = null;
 	MyArray selectedFormulario = null;
 	MyArray selectedOperacion = new MyArray();
+	
+	// prueba
+	MyArray selectedNuevoPermiso = new MyArray();
+
+	public MyArray getSelectedNuevoPermiso() {
+		return selectedNuevoPermiso;
+	}
+
+	public void setSelectedNuevoPermiso(MyArray selectedNuevoPermiso) {
+		this.selectedNuevoPermiso = selectedNuevoPermiso;
+	}
+	
 
 	public MyArray getSelectedUsuario() {
 		return selectedUsuario;
@@ -265,9 +278,19 @@ public class UsuarioControlBody extends Body {
 	public void agregarPermiso() {
 
 		if (mensajeAgregar("Agregar un nuevo permiso?")) {
-			// verificar que no este asociado a ningun objeto
+			
+			this.selectedModulo = new MyArray();
+			this.selectedModulo.setPos3(new ArrayList<MyArray>());
+			this.selectedFormulario = new MyArray();
+			this.selectedFormulario.setPos6(new ArrayList<MyArray>());
+			//this.selectedPermiso = new MyArray();
+			
 			MyArray nPerm = new MyArray();
-			nPerm.setPos1(false);
+			MyPair si = new MyPair();
+			si.setId(new Long(1));
+			si.setText("SI");
+			
+			nPerm.setPos1(si);
 			nPerm.setPos2(new MyArray());
 			nPerm.setPos3(this.selectedPerfil.getId());
 			((List) this.selectedPerfil.getPos4()).add(nPerm);
