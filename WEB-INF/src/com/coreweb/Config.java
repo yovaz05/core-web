@@ -115,5 +115,7 @@ public class Config {
 	public static String SIGLA_TIPO_ALERTA_COMUNITARIA = "DESTINO-COMUN";
 	
 	public static String NRO_ALERTA = "ALER";
+	
+	public static String CREAR_ALERTA_ZUL = "/core/misc/crearAlerta.zul";
 
 }

@@ -39,7 +39,6 @@ import com.coreweb.Config;
 import com.coreweb.control.Control;
 import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
-import com.coreweb.extras.alerta.Alertas;
 import com.coreweb.extras.alerta.ControlAlertas;
 import com.coreweb.extras.carita.Carita;
 import com.coreweb.util.Misc;

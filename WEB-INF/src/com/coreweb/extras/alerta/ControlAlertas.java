@@ -188,9 +188,9 @@ public class ControlAlertas extends SoloViewModel {
 	public void crearAlertaComunitariaError(String creador, String descripcion,
 			String[] destino, String[] propietario) throws Exception {
 		MyPair nivel = this.getDtoUtil().getTipoAlertaComunitaria();
-		System.out.println("nivel: "+ nivel.getText());
+		System.out.println("nivel: " + nivel.getText());
 		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
-		System.out.println("tipo: "+ tipo.getText());
+		System.out.println("tipo: " + tipo.getText());
 		String destinoStr = "";
 		String propietarioStr = "";
 		for (String dest : destino) {
@@ -210,9 +210,9 @@ public class ControlAlertas extends SoloViewModel {
 			String descripcion, String[] destino, String[] propietario)
 			throws Exception {
 		MyPair nivel = this.getDtoUtil().getTipoAlertaComunitaria();
-		System.out.println("nivel: "+ nivel.getText());
+		System.out.println("nivel: " + nivel.getText());
 		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
-		System.out.println("tipo: "+ tipo.getText());
+		System.out.println("tipo: " + tipo.getText());
 		String destinoStr = "";
 		String propietarioStr = "";
 		for (String dest : destino) {
@@ -232,8 +232,8 @@ public class ControlAlertas extends SoloViewModel {
 			throws Exception {
 
 		AlertaDTO alerta = new AlertaDTO();
-		alerta.setNumero(AutoNumeroControl.getAutoNumeroKey(
-				Config.NRO_ALERTA, 7));
+		alerta.setNumero(AutoNumeroControl.getAutoNumeroKey(Config.NRO_ALERTA,
+				7));
 		alerta.setCreador(creador);
 		alerta.setDestino(destino);
 		alerta.setDescripcion(descripcion);
@@ -247,15 +247,19 @@ public class ControlAlertas extends SoloViewModel {
 		// ojo, si destino es una lista, hay que desglosarlo ???
 		this.refrescarAlertas(destino);
 	}
-	
+
 	@Command
 	@NotifyChange("*")
-	private void crearAlertaRapida(){
-		// mostrar una ventana nueva
-		// debe ser informativa
-		// elegir el grupo o el usuario
-		// agregar la observacion
-		// grabar
+	public void crearAlertaRapida() throws Exception {
+		ControlCrearAlerta ca = new ControlCrearAlerta();
+		ca.show();
+		AlertaDTO nuevaAlerta = ca.getNuevaAlerta();
+		if (ca.isClickAceptar()) {
+			nuevaAlerta.setNumero(AutoNumeroControl.getAutoNumeroKey(
+					Config.NRO_ALERTA, 7));
+			this.grabarAlerta(nuevaAlerta);
+		}
+
 	}
 
 	private void grabarAlerta(AlertaDTO alerta) throws Exception {
@@ -291,7 +295,7 @@ public class ControlAlertas extends SoloViewModel {
 
 			EventQueues.lookup(login, EventQueues.APPLICATION, true).publish(
 					new Event(Config.ALERTAS, null, null));
-		
+
 		}
 	}
 
