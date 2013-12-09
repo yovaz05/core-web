@@ -10,10 +10,6 @@
 					image="/core/images/nav_izquierda.png" onClick="@command('prev')" />
 				<toolbarbutton label="Siguiente"
 					image="/core/images/nav_derecha.png" onClick="@command('next')" />
-				<separator width="260px" />
-				<toolbarbutton label="Crear Alerta"
-					image="/core/images/add.png"
-					onClick="@command('crearAlertaRapida')" />
 			</hlayout>
 			<listbox height="500px" model="@load(vm.alertas)"
 				selectedItem="@bind(vm.selectedAlerta)"

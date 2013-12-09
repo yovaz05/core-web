@@ -48,4 +48,5 @@
 
 <!-- Alerta -->
 <mapping resource="com/coreweb/domain/Alerta.hbm.xml" />
+<mapping resource="com/coreweb/domain/AlertaDestinos.hbm.xml" />
 		

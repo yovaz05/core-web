@@ -102,7 +102,6 @@ public class ControlAlertas extends SoloViewModel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public int desde = 0;
@@ -132,7 +131,6 @@ public class ControlAlertas extends SoloViewModel {
 	public void next() {
 		this.desde += 20;
 		this.alertas = this.cargarAlertas();
-
 	}
 
 	@Command
@@ -151,46 +149,42 @@ public class ControlAlertas extends SoloViewModel {
 
 	public void crearAlertaUnoInformativa(String creador, String descripcion,
 			String destino) throws Exception {
-		MyPair nivel = this.getDtoUtil().getTipoAlertaUno();
-		MyPair tipo = this.getDtoUtil().getNivelAlertaInformativa();
+		MyPair tipo = this.getDtoUtil().getTipoAlertaUno();
+		MyPair nivel = this.getDtoUtil().getNivelAlertaInformativa();
 		this.crearAlerta(creador, nivel, tipo, descripcion, destino, destino);
 	}
 
 	public void crearAlertaMuchosInformativa(String creador,
 			String descripcion, List<String> destino) throws Exception {
-		MyPair nivel = this.getDtoUtil().getTipoAlertaMuchos();
-		MyPair tipo = this.getDtoUtil().getNivelAlertaInformativa();
+		MyPair tipo = this.getDtoUtil().getTipoAlertaMuchos();
+		MyPair nivel = this.getDtoUtil().getNivelAlertaInformativa();
 		// iterar sobre los detinos e ir creando una alerta para cada uno
 		for (String dest : destino) {
 			this.crearAlerta(creador, nivel, tipo, descripcion, dest, dest);
 		}
-
 	}
 
 	public void crearAlertaUnoError(String creador, String descripcion,
 			String destino) throws Exception {
-		MyPair nivel = this.getDtoUtil().getTipoAlertaUno();
-		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
+		MyPair tipo = this.getDtoUtil().getTipoAlertaUno();
+		MyPair nivel = this.getDtoUtil().getNivelAlertaError();
 		this.crearAlerta(creador, nivel, tipo, descripcion, destino, destino);
 	}
 
 	public void crearAlertaMuchosError(String creador, String descripcion,
 			List<String> destino) throws Exception {
-		MyPair nivel = this.getDtoUtil().getTipoAlertaMuchos();
-		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
+		MyPair tipo = this.getDtoUtil().getTipoAlertaMuchos();
+		MyPair nivel = this.getDtoUtil().getNivelAlertaError();
 		// iterar sobre los detinos e ir creando una alerta para cada uno
 		for (String dest : destino) {
 			this.crearAlerta(creador, nivel, tipo, descripcion, dest, dest);
 		}
-
 	}
 
 	public void crearAlertaComunitariaError(String creador, String descripcion,
 			String[] destino, String[] propietario) throws Exception {
-		MyPair nivel = this.getDtoUtil().getTipoAlertaComunitaria();
-		System.out.println("nivel: " + nivel.getText());
-		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
-		System.out.println("tipo: " + tipo.getText());
+		MyPair tipo = this.getDtoUtil().getTipoAlertaComunitaria();
+		MyPair nivel = this.getDtoUtil().getNivelAlertaError();
 		String destinoStr = "";
 		String propietarioStr = "";
 		for (String dest : destino) {
@@ -203,16 +197,13 @@ public class ControlAlertas extends SoloViewModel {
 		}
 		this.crearAlerta(creador, nivel, tipo, descripcion, destinoStr,
 				propietarioStr);
-
 	}
 
 	public void crearAlertaComunitariaInformativa(String creador,
 			String descripcion, String[] destino, String[] propietario)
 			throws Exception {
-		MyPair nivel = this.getDtoUtil().getTipoAlertaComunitaria();
-		System.out.println("nivel: " + nivel.getText());
-		MyPair tipo = this.getDtoUtil().getNivelAlertaError();
-		System.out.println("tipo: " + tipo.getText());
+		MyPair nivel = this.getDtoUtil().getNivelAlertaError();
+		MyPair tipo = this.getDtoUtil().getTipoAlertaComunitaria();
 		String destinoStr = "";
 		String propietarioStr = "";
 		for (String dest : destino) {
@@ -243,24 +234,36 @@ public class ControlAlertas extends SoloViewModel {
 		alerta.setPropietario(propietario);
 
 		this.grabarAlerta(alerta);
-		this.cargarAlertas();
-		// ojo, si destino es una lista, hay que desglosarlo ???
+		// ojo, si destino es una lista, hay que desglosarlo
 		this.refrescarAlertas(destino);
 	}
 
-	@Command
+	/*@Command
 	@NotifyChange("*")
 	public void crearAlertaRapida() throws Exception {
 		ControlCrearAlerta ca = new ControlCrearAlerta();
 		ca.show();
-		AlertaDTO nuevaAlerta = ca.getNuevaAlerta();
-		if (ca.isClickAceptar()) {
-			nuevaAlerta.setNumero(AutoNumeroControl.getAutoNumeroKey(
-					Config.NRO_ALERTA, 7));
-			this.grabarAlerta(nuevaAlerta);
+		if(ca.isClickAceptar()){
+			AlertaDTO nuevaAlerta = ca.getNuevaAlerta();
+			if (((String) nuevaAlerta.getTipo().getSigla())
+					.compareTo(Config.SIGLA_TIPO_ALERTA_MUCHOS) == 0) {
+				for (String d : ca.getListaDestinos()) {
+					AlertaDTO alerta = nuevaAlerta;
+					alerta.setNumero(AutoNumeroControl.getAutoNumeroKey(
+							Config.NRO_ALERTA, 7));
+					alerta.setDestino(d);
+					this.grabarAlerta(alerta);
+					this.refrescarAlertas(d);
+				}
+			} else {
+				nuevaAlerta.setNumero(AutoNumeroControl.getAutoNumeroKey(
+						Config.NRO_ALERTA, 7));
+				this.grabarAlerta(nuevaAlerta);
+				this.refrescarAlertas(nuevaAlerta.getDestino());
+			}
+			this.cargarAlertas();
 		}
-
-	}
+	}*/
 
 	private void grabarAlerta(AlertaDTO alerta) throws Exception {
 		String login = this.getLoginNombre();
@@ -281,10 +284,8 @@ public class ControlAlertas extends SoloViewModel {
 				this.selectedAlerta.setObservacion(obsv);
 				this.grabarAlerta(this.selectedAlerta);
 				this.refrescarAlertas(destino);
-
 			}
 		}
-
 	}
 
 	private void refrescarAlertas(String destino) {
@@ -295,7 +296,6 @@ public class ControlAlertas extends SoloViewModel {
 
 			EventQueues.lookup(login, EventQueues.APPLICATION, true).publish(
 					new Event(Config.ALERTAS, null, null));
-
 		}
 	}
 
