@@ -437,10 +437,16 @@ public class DBMenuUserParser {
 				String valor = upFile.getProperty(key);
 				
 				if (valor != null){
-					UsuarioPropiedad up = new UsuarioPropiedad();
-					up.setClave(propTipo);
-					up.setValor(valor);
-					u.getUsuarioPropiedades().add(up);
+					String[] valores = valor.split(",");
+					for (int i = 0; i < valores.length; i++) {
+						String valorItem = valores[i];
+						
+						UsuarioPropiedad up = new UsuarioPropiedad();
+						up.setClave(propTipo);
+						up.setValor(valorItem);
+						u.getUsuarioPropiedades().add(up);
+					}
+					
 				}
 			}
 
