@@ -204,6 +204,33 @@ public class Misc {
 
 	}
 
+
+	public Date toFecha2400(Date fecha) {
+
+		Calendar dateCal = Calendar.getInstance();
+		// make it now
+		dateCal.setTime(fecha);
+		// fin del dia
+		dateCal.set(Calendar.HOUR_OF_DAY, 23);
+		dateCal.set(Calendar.MINUTE, 59);
+		dateCal.set(Calendar.SECOND, 59);
+		dateCal.set(Calendar.MILLISECOND, 999);
+		return dateCal.getTime();
+	}
+
+	public Date toFecha0000(Date fecha) {
+
+		Calendar dateCal = Calendar.getInstance();
+		// make it now
+		dateCal.setTime(fecha);
+		// fin del dia
+		dateCal.set(Calendar.HOUR_OF_DAY, 0);
+		dateCal.set(Calendar.MINUTE, 0);
+		dateCal.set(Calendar.SECOND, 0);
+		dateCal.set(Calendar.MILLISECOND, 0);
+		return dateCal.getTime();
+	}
+	
 	public Date getFechaManana() {
 
 		Calendar dateCal = Calendar.getInstance();
@@ -1159,11 +1186,10 @@ public class Misc {
 		try {
 
 			Misc m = new Misc();
-
-			System.out.println("vacio:"+m.esPersonaJuridica(""));
-			System.out.println("80024884-8:"+m.esPersonaJuridica("80024884-8"));
-			System.out.println("8002484-8:"+m.esPersonaJuridica("8002484-8"));
-			System.out.println("7213746-0:"+m.esPersonaJuridica("7213746-0"));
+			Date d =  new Date();
+			
+			System.out.println(m.toFecha0000(d));
+			System.out.println(m.toFecha2400(d));
 
 		} catch (Exception e) {
 			e.printStackTrace();
