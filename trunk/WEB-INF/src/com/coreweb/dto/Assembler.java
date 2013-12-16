@@ -3,6 +3,7 @@ package com.coreweb.dto;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
 
@@ -935,8 +936,12 @@ public abstract class Assembler {
 	// una)
 	private Object getValue(Object obj, String att) throws Exception {
 
-		Object v = new PropertyDescriptor(att, obj.getClass()).getReadMethod()
-				.invoke(obj);
+		Method m = new PropertyDescriptor(att, obj.getClass()).getReadMethod();
+		
+		Object v = m.invoke(obj);
+		if (v == null){
+			v = m.getReturnType().newInstance();
+		}
 		return v;
 
 		// Field fd = getField(obj.getClass(), att);
