@@ -5,7 +5,7 @@ YHAGUY=/home/daniel/datos/yhaguy/proyecto-core/yhaguy
 VIDRIOLUZ=/home/daniel/datos/vidrio-luz/proyecto/vidrioluz
 TDNAPP=/home/daniel/datos/tdn/tdnapp
 
-########### yhaguy ##########################
+########### yhaguy #######################
 DESDE=$CORE
 HASTA=$YHAGUY
 
