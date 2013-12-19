@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
@@ -28,8 +29,10 @@ import java.util.Random;
 
 import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.zkoss.io.Files;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Messagebox;
 
@@ -69,6 +72,9 @@ public class Misc {
 	public static String DD_MM_YYYY = "dd-MM-yyyy";
 
 	public static String LABEL_BORDER = "border:1px solid; border-color:#54afcb; padding:2px";
+	
+	public static int TIPO_IMAGEN = 1;
+	public static int TIPO_DOCUMENTO = 2;
 
 	public static String getDir() {
 		return dir;
@@ -791,8 +797,7 @@ public class Misc {
 		}
 	}
 
-	public void uploadFile(String path, String name, String ext,
-			InputStream file) {
+	public void uploadFile(String path, String name, String ext, InputStream file) {
 		try {
 			OutputStream out = new java.io.FileOutputStream(path + name + ext);
 			InputStream in = file;
@@ -808,7 +813,41 @@ public class Misc {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}	
+	
+	
+	/**
+	 * Este método sirve para cuando queremos subir archivos al servidor
+	 * lo que hace es recibir como parametro el evento tipo upload
+	 * la ruta del directorio y el nombre del archivo y tambien el tipo
+	 * de archivo para controlar si se quieren subir imagenes o docs.. 
+	 * */
+	public boolean uploadFile(String folder, String fileName, UploadEvent event, int tipo) throws IOException{
+		
+		boolean ok = true;
+		
+		String format = event.getMedia().getFormat().toLowerCase();
+		InputStream file = event.getMedia().getStreamData();
+		String destino = folder + fileName + "." + format;
+		
+		if ((tipo == TIPO_IMAGEN) 
+				&& (Config.EXTENSION_IMAGEN.indexOf(format)) >= 0) {
+			
+			this.copiarArchivo(file, destino);
+			
+		} else if ((tipo == TIPO_DOCUMENTO)
+				&& (Config.EXTENSION_DOCUMENTO.indexOf(format) >= 0)) {
+			
+			this.copiarArchivo(file, destino);
+			
+		} else {
+			ok = false;
+			this.mensajeError("Archivo con formato Incorrecto..");
+		}
+		
+		return ok;
 	}
+	
 
 	public double obtenerPorcentaje(double valor, double porcentaje) {
 		return (valor * porcentaje) / 100;
@@ -1170,6 +1209,17 @@ public class Misc {
 		}
 		return out;
 	}
+	
+	
+	/**
+	 * Recibe un archivo y lo copia a un directorio destino..
+	 * @throws IOException 
+	 * */
+	public void copiarArchivo(InputStream file, String destino) throws IOException{
+		File dst = new File(destino);
+		Files.copy(dst, file);
+	}
+	
 
 	public static void xxmain(String[] args) {
 		try {
