@@ -95,6 +95,10 @@ public class Config {
 	public static String IMAGEN_OK = "/core/images/accept_.png";
 	public static String IMAGEN_CANCEL = "/core/images/delete_.png";
 	public static String IMAGEN_CHECK = "/core/images/tick.png";
+	
+	public static String EXTENSION_DOCUMENTO = "pdf-odt-txt-docx-rtf";
+	public static String EXTENSION_IMAGEN = "jpg-jpeg-gif-png-tif";
+	public static String EXTENSION_PLANILLA = "xlsx-csv-ods";
 
 	// alertas
 	public static String ICONO_ACEPTAR_16X16 = "/core/images/accept_.png";
