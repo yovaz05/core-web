@@ -13,6 +13,7 @@ import org.zkoss.zk.ui.Sessions;
 
 
 import com.coreweb.Config;
+import com.coreweb.domain.AgendaEvento;
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.IiD;
 import com.coreweb.domain.Register;
@@ -939,7 +940,7 @@ public abstract class Assembler {
 		Method m = new PropertyDescriptor(att, obj.getClass()).getReadMethod();
 		
 		Object v = m.invoke(obj);
-		if (v == null){
+		if ((v == null)&&(IiD.class.isAssignableFrom(m.getReturnType()) == false )){			
 			v = m.getReturnType().newInstance();
 		}
 		return v;
@@ -1046,20 +1047,18 @@ public abstract class Assembler {
 
 	public static void xmain(String[] args) {
 		try {
-
-			AgendaEventoDTO obj = new AgendaEventoDTO();
-			String att = "agendaEventoDetalles";
-
-			System.out
-					.println("=======================================================");
-			System.out.println("Obj------> " + obj.getClass().getName()
-					+ "- Att------->" + att);
-			System.out
-					.println("=======================================================");
-			Object v = new PropertyDescriptor(att, obj.getClass())
-					.getReadMethod().invoke(obj);
-			System.out.println("Resultado---->" + v);
-
+			
+			String s = new String();
+			String[] as = {};
+			AgendaEvento aa = new AgendaEvento();
+			
+			
+			
+			System.out.println(IiD.class.isAssignableFrom(s.getClass()));
+			System.out.println(IiD.class.isAssignableFrom(as.getClass()));
+			System.out.println(IiD.class.isAssignableFrom(aa.getClass()));
+			
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
