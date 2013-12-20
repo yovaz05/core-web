@@ -940,9 +940,14 @@ public abstract class Assembler {
 		Method m = new PropertyDescriptor(att, obj.getClass()).getReadMethod();
 		
 		Object v = m.invoke(obj);
-		if ((v == null)&&(IiD.class.isAssignableFrom(m.getReturnType()) == false )){			
+		/*
+		if ((v == null)&&(m.getReturnType().isPrimitive() == true)){			
 			v = m.getReturnType().newInstance();
 		}
+		
+		if ((v == null)&&(IiD.class.isAssignableFrom(m.getReturnType()) == false )){			
+			v = m.getReturnType().newInstance();
+		} */
 		return v;
 
 		// Field fd = getField(obj.getClass(), att);
@@ -966,6 +971,14 @@ public abstract class Assembler {
 	private void setValue(Object obj, String att, Object value)
 			throws Exception {
 
+		Object vv = value;
+		if (vv != null){
+			vv = vv.getClass().getName() + "" + vv;
+		}
+		
+		System.out.println("\n\n\n------------------------\n clase: "+obj.getClass().getName()+"   att:"+att+"    value:"+vv+"\n\n\n\n");
+		
+		
 		new PropertyDescriptor(att, obj.getClass()).getWriteMethod().invoke(
 				obj, value);
 
