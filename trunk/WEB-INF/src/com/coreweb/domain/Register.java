@@ -867,6 +867,17 @@ public class Register {
 																		// va.toLowerCase()+
 																		// "%' ";
 
+				} else if (tipos[i].compareTo(Config.TIPO_DATE) == 0) {
+					if (permiteLike == true) {
+						// ww = " lower(str(" + at + ")) like  "+strLike; // '%"
+						// + va.toLowerCase()+ "%' ";
+					} else {
+						// ww = at + " = " + va.toLowerCase();
+					}
+					ww = " lower(str(" + at + ")) like  " + strLike; // '%" +
+																		// va.toLowerCase()+
+																		// "%' ";
+
 				} else {
 					// por defecto es String
 					if (permiteLike == true) {
