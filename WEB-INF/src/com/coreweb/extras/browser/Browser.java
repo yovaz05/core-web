@@ -50,7 +50,8 @@ import com.coreweb.domain.Register;
 import com.coreweb.util.Check;
 import com.coreweb.util.MyArray;
 
-public abstract class Browser extends SimpleViewModel implements VerificaAceptarCancelar {
+public abstract class Browser extends SimpleViewModel implements
+		VerificaAceptarCancelar {
 
 	@Init(superclass = true)
 	public void initBrowser() {
@@ -108,8 +109,8 @@ public abstract class Browser extends SimpleViewModel implements VerificaAceptar
 	private String join = "";
 	private String attOrden = "";
 
-	public static Object[] NO_SELECTED_ITEM = {-1};
-	
+	public static Object[] NO_SELECTED_ITEM = { -1 };
+
 	private Object[] selectedItem = NO_SELECTED_ITEM;
 	private Row selectedRow = new Row();
 	private Row selectedRowPrevio = new Row();
@@ -256,9 +257,15 @@ public abstract class Browser extends SimpleViewModel implements VerificaAceptar
 	private List<Object[]> getModelo() throws Exception {
 		Register rr = Register.getInstance();
 		List<Object[]> datos = new ArrayList<Object[]>();
-
-		datos = (List<Object[]>) rr.buscarElemento(clase, atributos, valores,
-				wheres, tipos, true, this.join, this.attOrden);
+		try {
+			datos = (List<Object[]>) rr.buscarElemento(clase, atributos,
+					valores, wheres, tipos, true, this.join, this.attOrden);
+		} catch (Exception e) {
+			System.out.println("------------------------------------");
+			e.printStackTrace();
+			System.out.println("------------------------------------");
+			throw e;
+		}
 
 		return datos;
 	}
@@ -334,14 +341,14 @@ public abstract class Browser extends SimpleViewModel implements VerificaAceptar
 		this.checkVisible = checkVisible;
 	}
 
-	public void addJoin(String join){
+	public void addJoin(String join) {
 		this.join = join;
 	}
-	
-	public void addOrden(String orden){
+
+	public void addOrden(String orden) {
 		this.attOrden = orden;
 	}
-	
+
 	// *********************************************************
 	// Lista de componentes
 
@@ -417,7 +424,7 @@ public abstract class Browser extends SimpleViewModel implements VerificaAceptar
 		l.setValue(this.m.dateToString((Date) obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
 		return l;
 	}
-	
+
 	public HtmlBasedComponent getImagenOKCancel(Object obj, Object[] datos) {
 		Image img = new Image();
 		if ((boolean) obj == true) {
@@ -428,7 +435,6 @@ public abstract class Browser extends SimpleViewModel implements VerificaAceptar
 		return img;
 	}
 
-	
 	public HtmlBasedComponent getImagenCheck(Object obj, Object[] datos) {
 		Image img = new Image();
 		if ((boolean) obj == true) {
@@ -466,9 +472,7 @@ public abstract class Browser extends SimpleViewModel implements VerificaAceptar
 		return null;
 	}
 	// =============================================================
-	
-	
-	
+
 }
 
 class FiltroBrowserEvento implements EventListener {
@@ -562,11 +566,12 @@ class GridRowRender implements RowRenderer {
 				// invoca a la operación
 				Method m = this.br.getClass().getMethod(col.getComponente(),
 						Object.class, Object[].class);
-				
-				
+
 				comp = (HtmlBasedComponent) m.invoke(this.br, va, datosCel);
 			} catch (Exception e) {
-				System.out.println("Error metodo componente ["+col.getComponente()+"]:"+e.getCause().getMessage());
+				System.out.println("Error metodo componente ["
+						+ col.getComponente() + "]:"
+						+ e.getCause().getMessage());
 				comp = this.br.getLabel(va, datosCel);
 			}
 			String auxSt = comp.getStyle();
@@ -614,5 +619,3 @@ class RowEventListener implements EventListener {
 	}
 
 }
-
-

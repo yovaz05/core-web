@@ -840,6 +840,7 @@ public class Register {
 			String strLike = this.likeStr(va, siLike >= 0);
 
 			// va armando el select
+			// prueba para las fechas
 			select += at + " ,";
 
 			// para armar el where que vienen del filtro de los textbox
@@ -874,7 +875,7 @@ public class Register {
 					} else {
 						// ww = at + " = " + va.toLowerCase();
 					}
-					ww = " lower(str(" + at + ")) like  " + strLike; // '%" +
+					ww = " cast(" + at + " as string) like  " + strLike; // '%" +
 																		// va.toLowerCase()+
 																		// "%' ";
 
