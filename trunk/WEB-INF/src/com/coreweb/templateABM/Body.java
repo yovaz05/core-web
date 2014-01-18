@@ -210,7 +210,7 @@ public abstract class Body extends GenericViewModel {
 	}
 	
 	
-	public boolean siDirtyDTO(){
+	public boolean siHuboCambiosEnDTO(){
 		return this.m.siDirty(this.getDTOCorriente(), this.dtoSerializado);
 	}
 	

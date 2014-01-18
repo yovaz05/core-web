@@ -86,7 +86,7 @@ public class Footer extends GenericViewModel {
 		// no es necesario un NotifyChange porque desde el zul se invoca el
 		// globalCommand deshabilitarComponentes
 		this.yesClick = false;
-		boolean siDirty = this.getPagina().getBody().siDirtyDTO();
+		boolean siDirty = this.getPagina().getBody().siHuboCambiosEnDTO();
 
 		// no hay cambios, sale nomas
 		if (siDirty == false) {
