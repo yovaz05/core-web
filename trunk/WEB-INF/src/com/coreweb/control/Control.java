@@ -459,18 +459,24 @@ public class Control {
 
 	public synchronized boolean operacionHabilitada(String aliasOperacion)
 			throws Exception {
-		String form = this.getAliasFormularioCorriente();
-		if (form.compareTo(Control.aliasFormularioCorrienteTXT) == 0) {
+		String aliasFormulario = this.getAliasFormularioCorriente();
+		return this.operacionHabilitada(aliasOperacion, aliasFormulario);
+	}
+
+	public synchronized boolean operacionHabilitada(String aliasOperacion, String aliasFormulario)
+			throws Exception {
+		if (aliasFormulario.compareTo(Control.aliasFormularioCorrienteTXT) == 0) {
 			Exception ex = new Exception(
 					"Nombre de formulario NO definido para la operacion: '"
 							+ aliasOperacion + "' en la clase "
 							+ this.getClass().getName());
 			throw ex;
 		}
-		return this.getUs().opeHabilitada(form, aliasOperacion);
-
+		return this.getUs().opeHabilitada(aliasFormulario, aliasOperacion);
 	}
-
+	
+	
+	
 	public boolean mensajeEliminar(String texto) {
 		return this.m.mensajeEliminar(texto);
 	}
