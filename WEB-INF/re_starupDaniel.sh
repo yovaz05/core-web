@@ -6,6 +6,12 @@ export CATALINA_HOME="/home/daniel/tool/apache-tomcat-7.0.27/"
 export BASEDIR="/home/daniel/tool/apache-tomcat-7.0.27/"
 export CLASSPATH="$CATALINA_HOME/common/lib/servlet-api.jar:$CATALINA_HOME/jdbc/ojdbc14.jar:."
 
+# Estas líneas son para el problema de los reportes en dos apps
+export CATALINA_OPTS="-Xms384m -Xmx512m -XX:MaxPermSize=256m"
+export JAVA_OPTS="-Xms384m -Xmx512m -XX:MaxPermSize=256m"
+
+
+
 cd /home/daniel/tool/apache-tomcat-7.0.27/bin
 
 echo .
