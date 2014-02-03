@@ -7,11 +7,11 @@
 
 <hibernate-mapping>
 
-        <class name="com.coreweb.domain.Ping" table="Ping">
+	<class name="com.coreweb.domain.Ping" table="Ping">
 
-		&hibernate-domain; 
+		&hibernate-domain;
 
-                <property name="echo"/>
-        </class>
+		<property name="echo" />
+	</class>
 
 </hibernate-mapping>
