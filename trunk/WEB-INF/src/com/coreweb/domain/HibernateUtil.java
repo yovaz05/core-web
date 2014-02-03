@@ -4,7 +4,9 @@ import org.hibernate.*;
 import org.hibernate.cfg.*;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
-
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
+//import org.hibernate.service.ServiceRegistryBuilder;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,6 +14,7 @@ import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
+import java.util.logging.Level;
 
 public class HibernateUtil {
 
@@ -21,37 +24,79 @@ public class HibernateUtil {
 
 	static {
 		try {
-			configuration = new Configuration();
-					
-			// Create the SessionFactory from hibernate.cfg.xml
-			sessionFactory = configuration.configure().buildSessionFactory();
-			
+
+			//java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
+			//configuration = new Configuration().configure("classpath:/hibernate.cfg.xml");
+			configuration = new Configuration().configure("hibernate.cfg.xml");
+
 			/*
-			System.out.println("====================================================");
-			System.out.println("====================================================");
-			System.out.println("====================================================");
-			
-			
+			System.out.println("============================");
+			System.out.println("============================");
+			System.out.println("============================");
+
 			Properties p = configuration.getProperties();
 			Set ks = p.keySet();
 			for (Iterator iterator = ks.iterator(); iterator.hasNext();) {
 				Object k = (String) iterator.next();
-				Object o = configuration.getProperty((String)k);
-				System.out.println("k: "+ k + " - " + o );
+				Object o = configuration.getProperty((String) k);
+				System.out.println("k: " + k + " - " + o);
 			}
-			
-			System.out.println("====================================================");
-			System.out.println("====================================================");
-			System.out.println("====================================================");
-			 */
-			
+
+			System.out.println("============================");
+			System.out.println("============================");
+			System.out.println("============================");
+			*/
+			sessionFactory = createSessionFactory();
 			session = sessionFactory.openSession();
-			
+
+			/*
+			 * 
+			 * 
+			 * sessionFactory = configuration.configure().buildSessionFactory();
+			 * session = sessionFactory.openSession();
+			 */
+			/*
+			 * System.out.println("============================");
+			 * System.out.println("============================");
+			 * System.out.println("============================");
+			 * 
+			 * 
+			 * Properties p = configuration.getProperties(); Set ks =
+			 * p.keySet(); for (Iterator iterator = ks.iterator();
+			 * iterator.hasNext();) { Object k = (String) iterator.next();
+			 * Object o = configuration.getProperty((String)k);
+			 * System.out.println("k: "+ k + " - " + o ); }
+			 * 
+			 * System.out.println("============================");
+			 * System.out.println("============================");
+			 * System.out.println("============================"); );
+			 */
+
 		} catch (Throwable ex) {
 			// Make sure you log the exception, as it might be swallowed
-			System.out.println("Initial SessionFactory creation failed." + ex);
+			System.out
+					.println("Initial SessionFactory creation failed.\n" + ex);
 			throw new ExceptionInInitializerError(ex);
 		}
+	}
+
+	private static SessionFactory createSessionFactory() {
+		/*
+		if (configuration == null) {
+			configuration = new Configuration();
+		}
+		*/
+		return createSessionFactory(configuration);
+	}
+
+	private static SessionFactory createSessionFactory(Configuration cfg) {
+		// Create the SessionFactory from hibernate.cfg.xml
+		configuration = cfg;
+		// configuration.configure();
+		ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
+				.applySettings(configuration.getProperties()).buildServiceRegistry();
+		SessionFactory sf = configuration.buildSessionFactory(serviceRegistry);
+		return sf;
 	}
 
 	private static SessionFactory getSessionFactory() {
@@ -62,30 +107,26 @@ public class HibernateUtil {
 		return configuration;
 	}
 
-	public static void forceRebuildSessionFactory(Configuration cfg) {
-		configuration = cfg;
-		sessionFactory = configuration.buildSessionFactory();
-		System.out.println("---- rebuildSessionFactory----");
-		synchronized (sessionFactory) {
-			try {
-				sessionFactory = configuration.buildSessionFactory();
-				session = sessionFactory.openSession();
-				System.out.println("---- ok rebuildSessionFactory----");
-			} catch (Exception ex) {
-				System.out.println("---- error !!! rebuildSessionFactory----");
-				ex.printStackTrace();
-			}
+	synchronized public static void forceRebuildSessionFactory(Configuration cfg) {
+		try {
+			sessionFactory = createSessionFactory(cfg);
+			session = sessionFactory.openSession();
+			System.out.println("---- ok forceRebuildSessionFactory ----");
+		} catch (Exception ex) {
+			System.out
+					.println("---- error !!! forceRebuildSessionFactory ----");
+			ex.printStackTrace();
 		}
 	}
 
-	public static void rebuildSessionFactory() {
+	synchronized public static void rebuildSessionFactory() {
 		// si es null si o si hay que asignarle algo para sincronizar :(
 		if (sessionFactory == null)
-			sessionFactory = configuration.buildSessionFactory();
+			sessionFactory = createSessionFactory();
 		System.out.println("---- rebuildSessionFactory----");
 		synchronized (sessionFactory) {
 			try {
-				sessionFactory = configuration.buildSessionFactory();
+				sessionFactory = createSessionFactory();
 				session = sessionFactory.openSession();
 				System.out.println("---- ok rebuildSessionFactory----");
 			} catch (Exception ex) {
@@ -104,7 +145,6 @@ public class HibernateUtil {
 		int v = 0;
 		boolean ok = false;
 
-
 		while (ok == false) {
 			try {
 				if (session.isOpen() == false) {
@@ -112,14 +152,12 @@ public class HibernateUtil {
 					session = sessionFactory.openSession();
 				}
 				/*
-
-				Criteria cri = session.createCriteria(Ping.class.getName());
-				Order r = (Order) Order.asc("echo");
-				cri.addOrder(r);
-
-				List lo = cri.list();
-				int size = lo.size();
-				*/
+				 * 
+				 * Criteria cri = session.createCriteria(Ping.class.getName());
+				 * Order r = (Order) Order.asc("echo"); cri.addOrder(r);
+				 * 
+				 * List lo = cri.list(); int size = lo.size();
+				 */
 
 				ok = true;
 
@@ -142,7 +180,7 @@ public class HibernateUtil {
 
 			Ping p = new Ping();
 			p.setEcho("clearDB-" + System.currentTimeMillis());
-			//rr.saveObject(p);
+			// rr.saveObject(p);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -159,20 +197,19 @@ public class HibernateUtil {
 			String sql = "SELECT * FROM usuariooperacion WHERE idformulario = ?";
 			PreparedStatement stm = con.prepareStatement(sql);
 			stm.setInt(1, 4);
-			
+
 			System.out.println("====================");
 			ResultSet rd = stm.getResultSet();
 			ParameterMetaData pmd = stm.getParameterMetaData();
-			System.out.println("ParameterMetaData:"+pmd);
-			System.out.println("pmd.getParameterCount():"+pmd.getParameterCount());
-			System.out.println("pmd.getParameterTypeName(0):"+pmd.getParameterTypeName(1));
-			
-			
-			
-			//System.out.println("rd.getObject(1):"+rd.getObject(0));
+			System.out.println("ParameterMetaData:" + pmd);
+			System.out.println("pmd.getParameterCount():"
+					+ pmd.getParameterCount());
+			System.out.println("pmd.getParameterTypeName(0):"
+					+ pmd.getParameterTypeName(1));
+
+			// System.out.println("rd.getObject(1):"+rd.getObject(0));
 			System.out.println("====================");
-			
-			
+
 			ResultSet rs1 = stm.executeQuery();
 			System.out.println("List");
 			while (rs1.next()) {
@@ -188,9 +225,12 @@ public class HibernateUtil {
 	}
 
 	public static void main(String[] args) {
-		//HibernateUtil.clearDB();
+		// HibernateUtil.clearDB();
 
 		pruebaPreparedStatement();
 	}
+	
+	
+
 
 }
