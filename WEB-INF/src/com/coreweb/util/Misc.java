@@ -41,6 +41,8 @@ import com.coreweb.Config;
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
 
+
+
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -75,7 +77,26 @@ public class Misc {
 	
 	public static int TIPO_IMAGEN = 1;
 	public static int TIPO_DOCUMENTO = 2;
-
+	
+	public static String doubleToString(double numero){
+		return String.valueOf(numero);
+	}
+	
+	public String formatearDimension(double numero){
+		NumberFormat formatter = new DecimalFormat("##0.00#");
+		return formatter.format(numero);
+	}
+	
+	public String redondearPrecio(double precio, double redondeo){
+		/**
+		 *	precio =253812, redondeo = 3, resultado = 254000 
+		 *	precio =253312, redondeo = 3, resultado = 253000
+		 */
+		double var = Math.pow(10,redondeo); 
+	  
+		return String.valueOf(Math.round(precio/var) * var);
+	}
+	
 	public static String getDir() {
 		return dir;
 	}
@@ -1175,6 +1196,8 @@ public class Misc {
 		return out;
 	}
 
+
+	
 	public void mensajePopupTemporal(String mensaje) {
 		this.mensajePopupTemporal(mensaje, 3000);
 	}
