@@ -78,6 +78,9 @@ public class Misc {
 	public static int TIPO_IMAGEN = 1;
 	public static int TIPO_DOCUMENTO = 2;
 	
+	public static String NOTIFICACION_WARNING = "warning";
+	public static String NOTIFICACION_NORMAL = "normal";
+	
 	public static String doubleToString(double numero){
 		return String.valueOf(numero);
 	}
@@ -1207,7 +1210,7 @@ public class Misc {
 	}
 
 	public void mensajePopupTemporalWarning(String mensaje, int time) {
-		Clients.showNotification(mensaje, "warning", null, null, time);
+		Clients.showNotification(mensaje, NOTIFICACION_WARNING, null, null, time);
 	}
 
 	public void mensajePopupTemporal(String mensaje, String tipo,
@@ -1258,6 +1261,11 @@ public class Misc {
 	public static void main(String[] args) {
 		try {
 
+			String x = "12";
+			double dd = Double.parseDouble(x);
+			System.out.println("es:"+dd);
+			
+			if (true) return;
 			Misc m = new Misc();
 			Date d =  new Date();
 			
