@@ -31,6 +31,7 @@ public class MiConstraint extends SimpleConstraint implements Constraint,
 	public static final int EMAIL = 13;
 	public static final int EMAILS = 14;
 	public static final int TRUE_FALSE = 15;
+	public static final int LONGITUD_MAX = 16;
 
 	private int constraint = 0;
 	private Number value = 0;
@@ -173,6 +174,15 @@ public class MiConstraint extends SimpleConstraint implements Constraint,
 			if ((this.constraint == this.TRUE_FALSE)
 					&& (misc.checkTrueFalse(s) == false)) {
 				throw new WrongValueException(comp, Check.TRUE_FALSE);
+			}
+			
+			if (this.constraint == this.LONGITUD_MAX) {
+				int max = (Integer) this.value;
+				String val = (String) value;
+				
+				if (val.trim().length() > max) {
+					throw new WrongValueException(comp, Check.MENSAJE_LONGITUD_MAX + max);
+				}
 			}
 
 			// Check de Fechas
