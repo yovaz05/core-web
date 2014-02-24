@@ -29,6 +29,7 @@ public class Check {
 	public static String MENSAJE_RUC = "Ruc no valido\nEl formato es 9999999-9";
 	public static String MENSAJE_EMAIL = "Debe Ingresar un correo válido";
 	public static String MENSAJE_EMAILS = "Los sgtes correos son inválidos: \n";
+	public static String MENSAJE_LONGITUD_MAX = "La longitud máxima permitida es de: \n";
 	public static String TRUE_FALSE = "Debe Ingresar \nT para Verdadero, o \nF para Falso ";
 
 	private GenericViewModel vm = null;
@@ -111,6 +112,11 @@ public class Check {
 	// Valida el formato del correo
 	public MiConstraint getTrueFalse() {
 		return new MiConstraint(this.vm, MiConstraint.TRUE_FALSE);
+	}
+	
+	// Valida la longitud maxima de caracteres
+	public MiConstraint getLongitudMax(int max){
+		return new MiConstraint(this.vm, MiConstraint.LONGITUD_MAX, max);
 	}
 
 }

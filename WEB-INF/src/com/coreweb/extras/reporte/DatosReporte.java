@@ -40,6 +40,7 @@ public abstract class DatosReporte {
 	public static final String TIPO_LONG = "Lomg";
 	public static final String TIPO_DOUBLE = "Double";
 	public static final String TIPO_DOUBLE_GS = "DoubleGs";
+	public static final String TIPO_DOUBLE_DS = "DoubleDolar";
 	public static final String TIPO_BIGDECIMAL = "BigDecimal";
 	public static final String TIPO_DATE = "Date";
 	public static final String TIPO_DATEYEAR = "DateYear";
@@ -55,6 +56,7 @@ public abstract class DatosReporte {
 		tipos.put(TIPO_LONG, type.longType());
 		tipos.put(TIPO_DOUBLE, type.doubleType());
 		tipos.put(TIPO_DOUBLE_GS, type.doubleType());
+		tipos.put(TIPO_DOUBLE_DS, type.doubleType());
 		tipos.put(TIPO_BIGDECIMAL, type.bigDecimalType());
 		tipos.put(TIPO_DATE, type.dateType());
 		tipos.put(TIPO_DATEYEAR, type.dateYearType());

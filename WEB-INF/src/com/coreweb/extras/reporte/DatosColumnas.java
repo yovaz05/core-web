@@ -1,4 +1,5 @@
 package com.coreweb.extras.reporte;
+
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import static net.sf.dynamicreports.report.builder.DynamicReports.col;
 import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
@@ -98,8 +99,6 @@ public class DatosColumnas {
 	public void setAlineacionColuman(int alineacionColuman) {
 		this.alineacionColuman = alineacionColuman;
 	}
-	
-	
 
 	public boolean isAgrupar() {
 		return agrupar;
@@ -112,13 +111,15 @@ public class DatosColumnas {
 	public TextColumnBuilder getColumnBuilder() {
 		TextColumnBuilder tx = col.column(this.getTitulo(), this.getTitulo()
 				.replace(" ", "").toLowerCase().replace(" ", "").toLowerCase(),
-				( DatosReporte.getTipo( this.getTipo())));
-		
-		if (this.getTipo().compareTo(DatosReporte.TIPO_DOUBLE_GS)==0) {
+				(DatosReporte.getTipo(this.getTipo())));
+
+		if (this.getTipo().compareTo(DatosReporte.TIPO_DOUBLE_GS) == 0) {
 			tx.setValueFormatter(new ValueFormatterGS());
 		}
-		
-		
+
+		if (this.getTipo().compareTo(DatosReporte.TIPO_DOUBLE_DS) == 0) {
+			tx.setValueFormatter(new ValueFormatterDS());
+		}
 
 		if (this.alineacionColuman == DatosReporte.COLUMNA_ALINEADA_CENTRADA) {
 			tx.setStyle(Templates.columnStyleCenter);
@@ -138,24 +139,32 @@ public class DatosColumnas {
 
 }
 
+class ValueFormatterGS extends AbstractValueFormatter<String, Number> {
 
+	private Misc m = new Misc();
+	private static final long serialVersionUID = 1L;
 
- class ValueFormatterGS extends AbstractValueFormatter<String, Number> {
+	@Override
+	public String format(Number value, ReportParameters reportParameters) {
 
-	 private Misc m = new Misc();
-     private static final long serialVersionUID = 1L;
+		String d = m.formatoGs((Double) value, 11, false);
 
-     @Override
-     public String format(Number value, ReportParameters reportParameters) {
+		return d;
+	}
 
-    	 String d = m.formatoGs( (Double) value, 11, false);
-    	 
-    	 return d;
-     }
+}
 
+class ValueFormatterDS extends AbstractValueFormatter<String, Number> {
 
+	private Misc m = new Misc();
+	private static final long serialVersionUID = 1L;
 
+	@Override
+	public String format(Number value, ReportParameters reportParameters) {
 
-  }
+		String d = m.formatoDs((Double) value, 11, false);
 
+		return d;
+	}
 
+}
