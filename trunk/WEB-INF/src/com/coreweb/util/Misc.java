@@ -133,6 +133,31 @@ public class Misc {
 		return color;
 	}
 
+	public int obtenerUnidad(String param){
+		/**
+		 * se obtiene un numero indicando si es unidad, decena, centena, etc.
+		 *	10,3 --> 10 resultado 2
+		 *	3 resultado 1
+		*/
+		if(param.indexOf(",") != -1 )
+			param = param.substring(0, param.indexOf(","));
+		return param.length();
+	}
+	
+	public String completarCeros(String param,int tamaño){
+		/**
+		 * recibe un string y completa con ceros hasta que alcance el tamaño
+		 * indicado en la variable tamaño
+		 */
+		if (param == null){
+			param = "";
+		}
+		for(int i=obtenerUnidad(param) ; i<tamaño; i++)
+			param = "0"+param;
+		return param;
+	}
+	
+	
 	// 1:color rojo, 2:color azul, 3:---
 	public String colorVariacionByParam(int param) {
 
@@ -769,6 +794,8 @@ public class Misc {
 
 		return true;
 	}
+	
+	
 
 	public boolean containsOnlyNumbers(String str) {
 
@@ -930,6 +957,7 @@ public class Misc {
 				Messagebox.ERROR, null);
 	}
 
+	
 	public boolean mensajeSiNo(String texto) {
 
 		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Confirmar",
