@@ -206,7 +206,7 @@ public class Register {
 
 		o.setModificado(new Date());
 		o.setUsuarioMod(user);
-
+		o.definirOrden();
 		if (o.esNuevo() == true) {
 			session.save(o);
 		} else {

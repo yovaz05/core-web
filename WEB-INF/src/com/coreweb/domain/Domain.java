@@ -16,7 +16,22 @@ public abstract class Domain implements Serializable, Comparable, IiD {
 	private String usuarioMod = "popu";
 
 	private String auxi = "";
+	
+	private String orden = "";
+	
+	
+	public void definirOrden(){
+		this.orden = String.valueOf(id);
+	}
+	
+	public String getOrden() {
+		return orden;
+	}
 
+	public void setOrden(String orden){
+		this.orden = orden;
+	}
+	
 	public String getUsuarioMod() {
 		return usuarioMod;
 	}
@@ -45,7 +60,7 @@ public abstract class Domain implements Serializable, Comparable, IiD {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
+ 	}
 
 	public Date getModificado() {
 		return modificado;
