@@ -1,7 +1,10 @@
 package com.coreweb.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -665,6 +668,7 @@ public class Register {
 			for (int i = 0; i < param.length; i++) {
 				Object o = param[i];
 				q.setParameter(i, o);
+				
 			}
 			list = q.list();
 			session.getTransaction().commit();
@@ -678,6 +682,36 @@ public class Register {
 
 	}
 
+	
+	public List hql(String query, Hashtable<String, Object> params) throws Exception {
+
+		List list = new ArrayList<Domain>();
+		Session session = null;
+		try {
+			session = getSession();
+			session.beginTransaction();
+
+			Query q = session.createQuery(query);
+			Enumeration<String> keys = params.keys();
+			while (keys.hasMoreElements()){
+				String k = keys.nextElement();
+				Object v = params.get(k);
+				q.setParameter(k, v);
+			}
+			
+			list = q.list();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			closeSession(session);
+		}
+
+		return list;
+
+	}
+	
+	
 	public List SESSIONhql(String query, Object[] param, Session session) throws Exception {
 
 		List list = new ArrayList<Domain>();
