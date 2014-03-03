@@ -498,7 +498,8 @@ public class Misc {
 	}
 
 	public String formato(String dato, int longitud, boolean izquierda) {
-		String bl = "                             ";
+		String bl = "                                                                                       ";
+		
 		String out = "";
 		if (izquierda == true) {
 			out = (dato + bl).substring(0, longitud);
