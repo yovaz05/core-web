@@ -682,9 +682,14 @@ public class Register {
 
 	}
 
-	
+	/**
+	 * Ejecuta una consulta hql
+	 * @param query: consuta
+	 * @param params: Hash con los nombres de los parámetros y los valores
+	 * @return
+	 * @throws Exception
+	 */
 	public List hql(String query, Hashtable<String, Object> params) throws Exception {
-
 		List list = new ArrayList<Domain>();
 		Session session = null;
 		try {
@@ -698,7 +703,6 @@ public class Register {
 				Object v = params.get(k);
 				q.setParameter(k, v);
 			}
-			
 			list = q.list();
 			session.getTransaction().commit();
 		} catch (Exception e) {
