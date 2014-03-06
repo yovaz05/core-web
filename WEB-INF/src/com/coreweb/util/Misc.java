@@ -900,9 +900,14 @@ public class Misc {
 		return ok;
 	}
 	
-
-	public double obtenerPorcentaje(double valor, double porcentaje) {
+	//Obtiene el valor segun el porcentaje
+	public double obtenerValorDelPorcentaje(double valor, double porcentaje) {
 		return (valor * porcentaje) / 100;
+	}
+	
+	//Obtiene el porcentaje segun el valor
+	public double obtenerPorcentajeDelValor(double valor1, double valor2){
+		return (valor1 / valor2) * 100;
 	}
 
 	// Para obtener un id unico =======================
