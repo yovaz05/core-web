@@ -1,28 +1,22 @@
 package com.coreweb.templateABM;
 
-import java.util.*;
-
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
-import org.zkoss.bind.annotation.ExecutionArgParam;
-import org.zkoss.bind.annotation.ExecutionParam;
-import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.bind.annotation.QueryParam;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
-import org.zkoss.zk.ui.Path;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Include;
-import org.zkoss.zul.Window;
+import org.zkoss.zk.ui.event.KeyEvent;
 
 import com.coreweb.Config;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.dto.DTO;
+
 
 public class Page extends GenericViewModel {
 
@@ -67,6 +61,88 @@ public class Page extends GenericViewModel {
 		}
 	}
 
+	
+	@Command @NotifyChange("*")
+	public void ctrlKeyClick(@BindingParam("key") String key) throws Exception{
+		int keyCode = Integer.parseInt(key);
+		
+		switch (keyCode) {
+		
+		case KeyEvent.F1 : this.getBody().clickF1();
+			break;
+		
+		case KeyEvent.F2 : this.getBody().clickF2();
+			break;
+		
+		case KeyEvent.F3 : this.getBody().clickF3();
+			break;
+		
+		case KeyEvent.F4 : this.getBody().clickF4();
+			break;
+		
+		case KeyEvent.F5 : this.getBody().clickF5();
+			break;
+		
+		case KeyEvent.F6 : this.getBody().clickF6();
+			break;
+		
+		case KeyEvent.F7 : this.getBody().clickF7();
+			break;
+		
+		case KeyEvent.F8 : this.getBody().clickF8();
+			break;
+		
+		case KeyEvent.F9 : this.getBody().clickF9();
+			break;
+		
+		case KeyEvent.F10 : this.getBody().clickF10();
+			break;
+		
+		case KeyEvent.F11 : this.getBody().clickF11();
+			break;
+		
+		case KeyEvent.F12 : this.getBody().clickF12();
+			break;
+		
+		case Config.CTRL_A : this.getBody().clickCtrA();			
+			break;
+
+		case Config.CTRL_B : this.getBody().clickCtrB();
+			break;
+			
+		case Config.CTRL_C : this.getBody().clickCtrC();
+			break;	
+		
+		case Config.CTRL_F : this.getBody().clickCtrF();
+			break;
+		
+		case Config.CTRL_I : this.getBody().clickCtrI();
+			break;
+		
+		case Config.CTRL_L : this.getBody().clickCtrL();
+			break;
+		
+		case Config.CTRL_S : this.getBody().clickCtrS();
+			break;
+			
+		case Config.CTRL_U : this.getBody().clickCtrU();
+			break;
+		
+		case Config.CTRL_V : this.getBody().clickCtrV();
+			break;
+			
+		case Config.CTRL_X : this.getBody().clickCtrX();
+			break;
+		
+		case Config.CTRL_Y : this.getBody().clickCtrY();
+			break;
+		
+		case Config.CTRL_Z : this.getBody().clickCtrZ();
+			break;		
+		}
+	}
+	
+	
 	public void grabarDTOCorriente() throws Exception {
 		if (this.body.isGrabadoAlternativo() == true){
 			this.body.metodoGrabadoAlternativo();

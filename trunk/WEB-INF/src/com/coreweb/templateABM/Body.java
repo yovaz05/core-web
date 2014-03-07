@@ -215,6 +215,79 @@ public abstract class Body extends GenericViewModel {
 	}
 	
 	//===================================================================
+	public void clickF1() throws Exception{		
+	}
+	
+	public void clickF2() throws Exception{		
+	}
+	
+	public void clickF3() throws Exception{		
+	}
+	
+	public void clickF4() throws Exception{		
+	}
+	
+	public void clickF5() throws Exception{		
+	}
+	
+	public void clickF6() throws Exception{		
+	}
+	
+	public void clickF7() throws Exception{		
+	}
+	
+	public void clickF8() throws Exception{		
+	}
+	
+	public void clickF9() throws Exception{		
+	}
+	
+	public void clickF10() throws Exception{		
+	}
+	
+	public void clickF11() throws Exception{		
+	}
+	
+	public void clickF12() throws Exception{		
+	}
+	
+	public void clickCtrA() throws Exception{		
+	}
+	
+	public void clickCtrB() throws Exception{		
+	}
+	
+	public void clickCtrC() throws Exception{		
+	}
+	
+	public void clickCtrF() throws Exception{		
+	}
+
+	public void clickCtrI() throws Exception{	
+	}
+
+	public void clickCtrL() throws Exception{	
+	}
+
+	public void clickCtrS() throws Exception{	
+	}
+	
+	public void clickCtrU() throws Exception{		
+	}
+
+	public void clickCtrV() throws Exception{		
+	}
+	
+	public void clickCtrX() throws Exception{		
+	}
+	
+	public void clickCtrY() throws Exception{		
+	}
+	
+	public void clickCtrZ() throws Exception{		
+	}
+	
+	//===================================================================
 
 	// se verifica antes de hacer una grabación
 	public abstract boolean verificarAlGrabar();

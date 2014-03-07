@@ -121,5 +121,18 @@ public class Config {
 	public static String NRO_ALERTA = "ALER";
 	
 	public static String CREAR_ALERTA_ZUL = "/core/misc/crearAlerta.zul";
+	
+	public static final int CTRL_A = 65;
+	public static final int CTRL_B = 66;
+	public static final int CTRL_C = 67;
+	public static final int CTRL_F = 70;
+	public static final int CTRL_I = 73;
+	public static final int CTRL_L = 76;
+	public static final int CTRL_S = 83;
+	public static final int CTRL_U = 85;
+	public static final int CTRL_V = 86;
+	public static final int CTRL_X = 88;
+	public static final int CTRL_Y = 89;
+	public static final int CTRL_Z = 90;	
 
 }
