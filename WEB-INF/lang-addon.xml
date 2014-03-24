@@ -121,6 +121,13 @@
 	</component>
 
 
+	<component>
+		<component-name>buscadorProveedor</component-name>
+		<component-class>com.yhaguy.util.macros.BuscadorProveedor</component-class>
+		<macro-uri>/yhaguy/macros/buscadorProveedor.zul</macro-uri>
+	</component>
+
+
 	<!-- Es una idea a probar y ver si funciona 
 	<component> <component-name>ctextbox</component-name> 
 		<extends>textbox</extends> 
