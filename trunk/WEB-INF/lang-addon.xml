@@ -10,7 +10,7 @@
 		<property>
 			<property-name>border</property-name>
 			<property-value>0</property-value>
-		</property>		
+		</property>
 	</component>
 	<component>
 		<component-name>combobox</component-name>
@@ -18,7 +18,7 @@
 		<property>
 			<property-name>readonly</property-name>
 			<property-value>true</property-value>
-		</property>		
+		</property>
 	</component>
 
 	<component>
@@ -33,7 +33,7 @@
 			<property-value>reverse</property-value>
 		</property>
 	</component>
-	
+
 	<component>
 		<component-name>doublebox</component-name>
 		<extends>doublebox</extends>
@@ -42,7 +42,7 @@
 			<property-value>text-align:right</property-value>
 		</property>
 	</component>
-	
+
 	<component>
 		<component-name>intbox</component-name>
 		<extends>intbox</extends>
@@ -51,7 +51,7 @@
 			<property-value>text-align:right</property-value>
 		</property>
 	</component>
-	
+
 	<component>
 		<component-name>longbox</component-name>
 		<extends>longbox</extends>
@@ -60,7 +60,7 @@
 			<property-value>text-align:right</property-value>
 		</property>
 	</component>
-	
+
 	<component>
 		<component-name>guaranibox</component-name>
 		<extends>doublebox</extends>
@@ -74,6 +74,7 @@
 		</property>
 	</component>
 
+
 	<component>
 		<component-name>dolarbox</component-name>
 		<extends>doublebox</extends>
@@ -86,7 +87,18 @@
 			<property-value>#,###,###,##0.00</property-value>
 		</property>
 	</component>
-
+	<component>
+		<component-name>monedabox</component-name>
+		<extends>doublebox</extends>
+		<property>
+			<property-name>style</property-name>
+			<property-value>text-align:right</property-value>
+		</property>
+		<property>
+			<property-name>format</property-name>
+			<property-value>#,###,###,##0</property-value>
+		</property>
+	</component>
 
 	<component>
 		<component-name>groupbox</component-name>
@@ -99,21 +111,17 @@
 			<property-name>closable</property-name>
 			<property-value>false</property-value>
 		</property>
-		
-		
-		
+
+
+
 	</component>
 
 
 	<component>
 		<component-name>menubar</component-name>
 		<extends>menubar</extends>
-		<!-- 
-		<property>
-			<property-name>style</property-name>
-			<property-value>background: #3FC6D2;</property-value>
-		</property>
-		 -->
+		<!-- <property> <property-name>style</property-name> <property-value>background: 
+			#3FC6D2;</property-value> </property> -->
 		<property>
 			<property-name>autodrop</property-name>
 			<property-value>false</property-value>
@@ -121,17 +129,7 @@
 	</component>
 
 
-	<component>
-		<component-name>buscadorProveedor</component-name>
-		<component-class>com.yhaguy.util.macros.BuscadorProveedor</component-class>
-		<macro-uri>/yhaguy/macros/buscadorProveedor.zul</macro-uri>
-	</component>
-
-
-	<!-- Es una idea a probar y ver si funciona 
-	<component> <component-name>ctextbox</component-name> 
-		<extends>textbox</extends> 
-		<component-class>com.yhaguy.core.components.CTextbox</component-class> 
-	</component> 
-	-->
+	<!-- Es una idea a probar y ver si funciona <component> <component-name>ctextbox</component-name> 
+		<extends>textbox</extends> <component-class>com.yhaguy.core.components.CTextbox</component-class> 
+		</component> -->
 </language-addon>
