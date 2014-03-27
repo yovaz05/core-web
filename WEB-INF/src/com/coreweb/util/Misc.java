@@ -1198,21 +1198,7 @@ public class Misc {
 		}
 		return this.concatenarArraysDeString(arrays);
 	}
-
-	public static void Xmain(String[] args) {
-		double d = 10.1;
-		int i = 140;
-		long l = 10;
-		try {
-			Misc m = new Misc();
-			System.out.println(m.checkEmail("mail@mail.com"));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
+	
 	public byte[] serializar(Serializable o) {
 		return SerializationUtils.serialize(o);
 	}
@@ -1232,8 +1218,6 @@ public class Misc {
 		}
 		return out;
 	}
-
-
 	
 	public void mensajePopupTemporal(String mensaje) {
 		this.mensajePopupTemporal(mensaje, 3000);
@@ -1273,24 +1257,21 @@ public class Misc {
 	
 	/**
 	 * Recibe un archivo y lo copia a un directorio destino..
-	 * @throws IOException 
-	 * */
+	 */
 	public void copiarArchivo(InputStream file, String destino) throws IOException{
 		File dst = new File(destino);
 		Files.copy(dst, file);
 	}
 	
-
-	public static void xxmain(String[] args) {
-		try {
-			Misc m = new Misc();
-			String s = m
-					.dateToString(new Date(), m.YYYY_MM_DD_HORA_MIN_SEG_MIL);
-			System.out.println(s);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	/**
+	 * Retorna la fecha de vencimiento a partir del plazo 
+	 * que recibe como parametro
+	 */
+	public Date calcularFechaVencimiento(Date emision, int plazo){
+		Date out = this.agregarDias(emision, plazo);		
+		return out;
 	}
+	
 
 	public static void main(String[] args) {
 		try {
