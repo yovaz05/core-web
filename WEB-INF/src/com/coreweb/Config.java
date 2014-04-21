@@ -122,6 +122,10 @@ public class Config {
 	
 	public static String CREAR_ALERTA_ZUL = "/core/misc/crearAlerta.zul";
 	
+	//Formatos de moneda
+	public static String FORMAT_MONEDA_LOCAL = "#,##0";
+	public static String FORMAT_MONEDA_EXTRANJERA = "#,##0.00";
+	
 	public static final int CTRL_A = 65;
 	public static final int CTRL_B = 66;
 	public static final int CTRL_C = 67;
