@@ -1,10 +1,12 @@
 package com.coreweb.util;
 
+import java.text.DecimalFormat;
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.Converter;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.util.Clients;
+
+import com.coreweb.Config;
 
 
 
@@ -13,6 +15,8 @@ public class MyConverter implements Converter {
 	// los tipos de formato definido
 	private static int FORMAT_FACTURA_PY = 1;
 	private static int FORMAT_CREDIT_CARD  = 2;
+	private static int FORMAT_MONEDA_LOCAL = 3;
+	private static int FORMAT_MONEDA_EXTRANJERA = 4;
 	
 	// tipo del converter corriente
 	private int tipoFormato = 0;
@@ -39,34 +43,49 @@ public class MyConverter implements Converter {
 		return new MyConverter(FORMAT_CREDIT_CARD);
 	}
 	
+	public MyConverter getMonedaLocal(){
+		return new MyConverter(FORMAT_MONEDA_LOCAL);
+	}
+	
+	public MyConverter getMonedaExtranjera(){
+		return new MyConverter(FORMAT_MONEDA_EXTRANJERA);
+	}
+	
 	
 	@Override
 	public Object coerceToBean(Object arg0, Component arg1, BindContext arg2) {
-		System.out.println("==================== coerceToBean");
 		// TODO Auto-generated method stub
 		return coerceTo(arg0, arg1);
 	}
 
 	@Override
 	public Object coerceToUi(Object arg0, Component arg1, BindContext arg2) {
-		System.out.println("==================== coerceToUi");
 		// TODO Auto-generated method stub
-		//return coerceTo(arg0, arg1);
-		return arg0;
+		return coerceToUi(arg0, arg1);
 	}
 
 
-	public Object coerceTo(Object val, Component comp){
-		System.out.println("==================== coerceTo:"+val+"    tipo: 	"+this.tipoFormato);
-				
+	public Object coerceTo(Object val, Component comp){				
 		Object out = null;
 		
 		if (this.tipoFormato == FORMAT_FACTURA_PY) {
 			out = this.formatFactura((String) val, comp);
 			
 		} else if (this.tipoFormato == FORMAT_CREDIT_CARD) {
-			out = this.formatCreditCard((String) val, comp);		
-		}		
+			out = this.formatCreditCard((String) val, comp);			
+		} 
+			
+		return val == null ? null : out;
+	}
+	
+	public Object coerceToUi(Object val, Component comp){				
+		Object out = null;
+		
+		if (this.tipoFormato == FORMAT_MONEDA_LOCAL) {
+			out = this.formatMonedaLocal(val, comp);		
+		} else if (this.tipoFormato == FORMAT_MONEDA_EXTRANJERA){
+			out = this.formatMonedaExtranjera(val, comp);
+		}
 			
 		return val == null ? null : out;
 	}
@@ -96,4 +115,16 @@ public class MyConverter implements Converter {
 		String out = misc.ceros(s[0], 4)+"-"+misc.ceros(s[1], 4)+"-"+misc.ceros(s[2], 4)+"-"+misc.ceros(s[3], 4);
 		return out;
 	}	
+	
+	//Formato Moneda Local
+	public Object formatMonedaLocal(Object val, Component comp){
+		final Number number = (Number) val;
+		return new DecimalFormat(Config.FORMAT_MONEDA_LOCAL).format(number);
+	}
+	
+	//Formato Moneda Extranjera
+	public Object formatMonedaExtranjera(Object val, Component comp){
+		final Number number = (Number) val;
+		return new DecimalFormat(Config.FORMAT_MONEDA_EXTRANJERA).format(number);
+	}
 }
