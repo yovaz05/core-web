@@ -1127,7 +1127,7 @@ public class Misc {
 
 				DecimalFormat f = new DecimalFormat("##0.00");
 				String valor = f.format(numero);
-				int index = valor.lastIndexOf(",");
+				int index = valor.lastIndexOf(".");
 				String entero = valor.substring(0, index);
 				String decimal = valor.substring(index + 1);
 
@@ -1276,16 +1276,11 @@ public class Misc {
 	public static void main(String[] args) {
 		try {
 
-			String x = "12";
-			double dd = Double.parseDouble(x);
-			System.out.println("es:"+dd);
-			
-			if (true) return;
 			Misc m = new Misc();
-			Date d =  new Date();
+			double nm = 1556.15;
+			int ni = 1585;
 			
-			System.out.println(m.toFecha0000(d));
-			System.out.println(m.toFecha2400(d));
+			System.out.println(m.numberToLetter(nm));
 
 		} catch (Exception e) {
 			e.printStackTrace();
