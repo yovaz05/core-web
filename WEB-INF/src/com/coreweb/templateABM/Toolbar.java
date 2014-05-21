@@ -46,6 +46,7 @@ public class Toolbar extends GenericViewModel {
 	public static String MODO_EDITAR = "[editar]";
 	public static String MODO_BUSCAR = "[buscar]";
 	public static String MODO_AGREGAR = "[agregar]";
+	public static String MODO_ANULAR = "[anular]";
 	public static String MODO_BORRAR = "[borrar]";
 	public static String MODO_SOLO_CONSULTA = "[consulta]";
 
@@ -90,20 +91,43 @@ public class Toolbar extends GenericViewModel {
 		boolean esDTOnuevo = false;
 		boolean esDTOreadonly = false;
 
-		if (this.pagina.getDTOCorriente() == null){
+		if (this.pagina.getDTOCorriente() == null) {
 			esDTOnuevo = true;
-		}else {
+		} else {
 			esDTOnuevo = this.pagina.getDTOCorriente().esNuevo();
 			esDTOreadonly = this.pagina.getDTOCorriente().esReadonly();
 		}
 
-		if (esDTOreadonly == true){
+		if (esDTOreadonly == true) {
 			this.setEstadoABM(MODO_SOLO_CONSULTA);
 		}
 
-		
-		boolean b = (this.isDeshabilitado() || esDTOreadonly
+		boolean b = (this.isDeshabilitado()
+				|| esDTOreadonly
 				|| !(this.operacionHabilitada(IDCore.O_EDITAR
+						+ this.getAliasFormularioCorriente())) || (esDTOnuevo == true));
+
+		return b;
+	}
+
+	public boolean getAnularDeshabilitado() throws Exception {
+		boolean esDTOnuevo = false;
+		boolean esDTOreadonly = false;
+
+		if (this.pagina.getDTOCorriente() == null) {
+			esDTOnuevo = true;
+		} else {
+			esDTOnuevo = this.pagina.getDTOCorriente().esNuevo();
+			esDTOreadonly = this.pagina.getDTOCorriente().esReadonly();
+		}
+
+		if (esDTOreadonly == true) {
+			this.setEstadoABM(MODO_SOLO_CONSULTA);
+		}
+
+		boolean b = (this.isDeshabilitado()
+				|| esDTOreadonly
+				|| !(this.operacionHabilitada(IDCore.O_ANULAR
 						+ this.getAliasFormularioCorriente())) || (esDTOnuevo == true));
 
 		return b;
@@ -160,6 +184,20 @@ public class Toolbar extends GenericViewModel {
 		// + " (Editar)";
 		// this.setTextoFormularioCorriente(texLabel);
 		this.setEstadoABM(MODO_EDITAR);
+	}
+
+	@Command
+	public void anularItem() {
+		this.setEstadoABM(MODO_ANULAR);
+		Button b = Messagebox.show("Anular el registro?", "Anular",
+				new Messagebox.Button[] { Messagebox.Button.YES,
+						Messagebox.Button.NO }, Messagebox.QUESTION, null);
+		if (b.compareTo(Messagebox.Button.YES) == 0) {
+
+			// ToDo
+			
+		}
+		this.setEstadoABM(MODO_NADA);
 
 	}
 
@@ -192,8 +230,7 @@ public class Toolbar extends GenericViewModel {
 		// String texLabel = this.pagina.getTextoFormularioCorriente()
 		// + " (Buscar)";
 		// this.setTextoFormularioCorriente(texLabel);
-		
-		
+
 		this.setEstadoABM(MODO_BUSCAR);
 
 		Browser br = this.getPagina().getBody().getBrowser();
@@ -223,15 +260,14 @@ public class Toolbar extends GenericViewModel {
 				DTO dto = as.getDto(this.getPagina().getBody()
 						.getEntidadPrincipal(), m);
 				this.getPagina().getBody().setDTOCorrienteDirty(dto);
-				
+
 			}
 		}
 
 		this.setEstadoABM(MODO_NADA);
-//		BindUtils.postNotifyChange(null, null, this, "*");
-//		BindUtils.postGlobalCommand(null, null, "deshabilitarComponentes", null);
-		
-		
+		// BindUtils.postNotifyChange(null, null, this, "*");
+		// BindUtils.postGlobalCommand(null, null, "deshabilitarComponentes",
+		// null);
 
 	}
 

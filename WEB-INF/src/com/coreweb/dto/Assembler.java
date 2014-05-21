@@ -976,7 +976,7 @@ public abstract class Assembler {
 			vv = vv.getClass().getName() + "" + vv;
 		}
 		
-		System.out.println("\n\n\n------------------------\n clase: "+obj.getClass().getName()+"   att:"+att+"    value:"+vv+"\n\n\n\n");
+//		System.out.println("\n\n\n------------------------\n clase: "+obj.getClass().getName()+"   att:"+att+"    value:"+vv+"\n\n\n\n");
 		
 		
 		new PropertyDescriptor(att, obj.getClass()).getWriteMethod().invoke(
