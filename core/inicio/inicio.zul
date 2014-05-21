@@ -1,6 +1,7 @@
 <?page title="${param.title}"   style="background-color: #EBEBEB;"   ?>
 <?import com.coreweb.Config?>
 <zk>
+	<script src="/macros/js/jquery.maskedinput-1.3.js" type="text/javascript"/>
 	<style>
 
 		body { padding: 0 0; background-color: #EBEBEB; }
