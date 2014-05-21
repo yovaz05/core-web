@@ -3,6 +3,7 @@
 		viewModel="@id('Toolbar') @init('com.coreweb.templateABM.Toolbar')"
 		apply="org.zkoss.bind.BindComposer" zclass="z-window-popup" border="0">
 
+		<hlayout>
 			<hbox width="300px" align="start">
 
 				<toolbarbutton image="/core/images/add.png"
@@ -17,13 +18,17 @@
 				@global-command('habilitarComponentes')"
 					disabled="@load(Toolbar.editarDeshabilitado)" />
 
-<!-- 
-				<toolbarbutton image="/core/images/delete.png"
-					tooltiptext="Eliminar"
-					onClick="@command('eliminarItem')
-			    @global-command('refreshComponentes')"
-					disabled="@load(Toolbar.eliminarDeshabilitado)" />
- -->
+				<!-- <toolbarbutton image="/core/images/delete.png" tooltiptext="Eliminar" 
+					onClick="@command('eliminarItem') @global-command('refreshComponentes')" 
+					disabled="@load(Toolbar.eliminarDeshabilitado)" /> -->
+
+				<toolbarbutton image="/core/images/anular.png"
+					tooltiptext="Anular"
+					onClick="@command('anularItem')
+				@global-command('refreshComponentes')"
+					disabled="@load(Toolbar.anularDeshabilitado)" />
+
+
 				<toolbarbutton image="/core/images/find.png"
 					tooltiptext="Buscar"
 					onClick="@command('buscarItem')
@@ -40,5 +45,32 @@
 					multiline="false" style="font-size:12pt;font-weight:bold" />
 			</hbox>
 
+
+			<hbox width="700px" pack="end">
+
+				<toolbarbutton image="/core/images/agenda_24x24.png"
+					tooltiptext="Agenda" />
+				<toolbarbutton image="/core/images/printer.png"
+					tooltiptext="Imprimir" />
+				<toolbarbutton image="/core/images/info_24x24.png"
+					tooltiptext="Información" />
+
+				<toolbarbutton image="/core/images/arrow-left-2.png"
+					tooltiptext="Anterior" />
+				<hlayout>
+					<toolbarbutton image="/core/images/arrow-right-2.png"
+						tooltiptext="Siguiente" />
+					<vlayout>
+						<label value="1" style="font-size:8pt" />
+						<label value="235" style="font-size:8pt" />
+					</vlayout>
+				</hlayout>
+				<!-- onClick="@command('agregarItem') @global-command('habilitarComponentes')" 
+					disabled="@load(Toolbar.agregarDeshabilitado)" -->
+
+			</hbox>
+
+
+		</hlayout>
 	</window>
 </zk>
