@@ -40,6 +40,7 @@ import org.zkoss.zk.ui.Path;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
+import com.coreweb.extras.agenda.ControlAgendaEvento;
 import com.coreweb.extras.browser.Browser;
 
 
@@ -61,6 +62,9 @@ public abstract class Body extends GenericViewModel {
 		this.pagina = pagina;
 		this.pagina.setAss(this.getAss());
 	}
+
+
+
 
 	
 	
@@ -306,4 +310,33 @@ public abstract class Body extends GenericViewModel {
 	
 	public abstract List<DTO> getAllModel()  throws Exception;
 
+
+	
+	//======================= AGENDA ====================
+	
+	
+	private ControlAgendaEvento ctrAgenda;
+	private String ctrAgendaKey = "";
+	
+	public final ControlAgendaEvento getCtrAgenda() {
+		if (this.ctrAgenda == null){
+			this.ctrAgenda = new ControlAgendaEvento();
+		}
+		return this.ctrAgenda;
+	}
+
+	public int getCtrAgendaTipo(){
+		return 0;
+	}
+	
+	public String getCtrAgendaKey(){
+		String out = this.getEntidadPrincipal()+"-"+this.getDTOCorriente().getId();
+		return out;
+	}
+	
+	public String getCtrAgendaTitulo(){
+		String out = "Agenda ("+this.getDTOCorriente().getId()+")";
+		return out;
+	}
+	
 }
