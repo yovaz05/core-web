@@ -26,10 +26,10 @@ public class CustomDoublebox extends Doublebox{
 	public void setTipo(String tipo) {
 		
 		if (tipo.compareTo(TIPO_GUARANI) == 0) {
-			setWidgetListener("onBind", "jq(this).mask('000,000,000,000', {reverse: true});");	
+			setWidgetListener("onBind", "jq(this).mask('999,999,999,990', {reverse: true});");	
 			
 		} else if (tipo.compareTo(TIPO_MONEDA_EXTRANJERA) == 0) {
-			setWidgetListener("onBind", "jq(this).mask('000,000,000.00', {reverse: true});");
+			setWidgetListener("onBind", "jq(this).mask('999,999,999.00', {reverse: true});");
 		} 
 		
 		this.tipo = tipo;
@@ -60,7 +60,6 @@ public class CustomDoublebox extends Doublebox{
 
 	@Override
 	public void setValue(Double value) {
-		this.setSimbolo(this.simbolo);
 		super.setValue(value);
 	}
 }

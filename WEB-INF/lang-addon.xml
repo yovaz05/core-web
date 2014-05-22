@@ -69,8 +69,8 @@
 			<property-value>guarani</property-value>
 		</property>
 		<property>
-			<property-name>simbolo</property-name>
-			<property-value>Gs</property-value>
+			<property-name>format</property-name>
+			<property-value>###,###,##0</property-value>
 		</property>
 		<property>
 			<property-name>style</property-name>
@@ -87,8 +87,8 @@
 			<property-value>extranjera</property-value>
 		</property>
 		<property>
-			<property-name>simbolo</property-name>
-			<property-value>U$D</property-value>
+			<property-name>format</property-name>
+			<property-value>###,###,##0.00</property-value>
 		</property>
 		<property>
 			<property-name>style</property-name>
