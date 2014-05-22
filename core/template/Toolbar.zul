@@ -49,7 +49,8 @@
 			<hbox width="700px" pack="end">
 
 				<toolbarbutton image="/core/images/agenda_24x24.png"
-					tooltiptext="Agenda" />
+					tooltiptext="Agenda" onClick="@command('showAgenda')"/>
+					
 				<toolbarbutton image="/core/images/printer.png"
 					tooltiptext="Imprimir" />
 				<toolbarbutton image="/core/images/info_24x24.png"

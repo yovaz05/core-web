@@ -334,6 +334,32 @@ public class Toolbar extends GenericViewModel {
 
 	}
 
+	
+	
+	@Command
+	public void showAgenda() throws Exception {
+		if(this.getPagina().getDto().getId() < 1){
+			this.mensajeError("Debe grabar el dato antes de usar la Agenda");
+			return;
+		}
+		
+		int tipoAgenda = this.getPagina().getBody().getCtrAgendaTipo();
+		String keyAgenda = this.getPagina().getBody().getCtrAgendaKey();
+		String tituloAgenda = this.getPagina().getBody()
+				.getCtrAgendaTitulo();
+		
+		this.getPagina().getBody().getCtrAgenda().mostrarAgenda(tipoAgenda, keyAgenda, tituloAgenda);
+		
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
 	public String getIdObjeto() {
 		String out = "-";
 		try {
