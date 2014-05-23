@@ -62,8 +62,8 @@
 	</component>
 
 	<component>				
-		<component-name>guaranibox</component-name>
-		<component-class>com.coreweb.extras.macros.CustomDoublebox</component-class>
+		<component-name>guaranibox</component-name>		  
+		<!-- <component-class>com.coreweb.extras.macros.CustomDoublebox</component-class> -->
 		<property>
 			<property-name>tipo</property-name>
 			<property-value>guarani</property-value>
@@ -81,7 +81,7 @@
 	
 	<component>
 		<component-name>dolarbox</component-name>
-		<component-class>com.coreweb.extras.macros.CustomDoublebox</component-class>
+		<!-- <component-class>com.coreweb.extras.macros.CustomDoublebox</component-class>-->
 		<property>
 			<property-name>tipo</property-name>
 			<property-value>extranjera</property-value>
