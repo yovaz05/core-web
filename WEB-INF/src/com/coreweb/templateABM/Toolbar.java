@@ -32,6 +32,9 @@ import org.zkoss.zul.Messagebox.Button;
 import com.coreweb.Config;
 import com.coreweb.IDCore;
 import com.coreweb.control.GenericViewModel;
+import com.coreweb.domain.Domain;
+import com.coreweb.domain.IiD;
+import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
 import com.coreweb.extras.browser.Browser;
@@ -195,7 +198,7 @@ public class Toolbar extends GenericViewModel {
 		if (b.compareTo(Messagebox.Button.YES) == 0) {
 
 			// ToDo
-			
+
 		}
 		this.setEstadoABM(MODO_NADA);
 
@@ -244,6 +247,7 @@ public class Toolbar extends GenericViewModel {
 			map.put("modelo", new ListModelList<DTO>(listaOrdenada));
 			map.put("dtoCC", this.pagina.getBody().getDTOCorriente());
 			map.put("body", this.pagina.getBody());
+			map.put("toolbar", this);
 
 			Window window = (Window) Executions.createComponents(
 					"/core/template/Finder.zul", null, map);
@@ -253,7 +257,11 @@ public class Toolbar extends GenericViewModel {
 			// tiene un browser definido
 			br.show();
 			if (br.isClickAceptar() == true) {
+				
+				br.setDatosParaNavegacion(this);
+				
 				MyArray m = br.getSelectedItem();
+
 				// obtener un DTO del MyArray
 
 				Assembler as = this.getPagina().getBody().getAss();
@@ -334,32 +342,22 @@ public class Toolbar extends GenericViewModel {
 
 	}
 
-	
-	
 	@Command
 	public void showAgenda() throws Exception {
-		if(this.getPagina().getDto().getId() < 1){
-			this.mensajeError("Debe grabar el dato antes de usar la Agenda");
+		if (this.getPagina().getDto().getId() < 1) {
+			this.mensajeError("No hay información para mostrar. Verifique que haya grabado el registro");
 			return;
 		}
-		
+
 		int tipoAgenda = this.getPagina().getBody().getCtrAgendaTipo();
 		String keyAgenda = this.getPagina().getBody().getCtrAgendaKey();
-		String tituloAgenda = this.getPagina().getBody()
-				.getCtrAgendaTitulo();
-		
-		this.getPagina().getBody().getCtrAgenda().mostrarAgenda(tipoAgenda, keyAgenda, tituloAgenda);
-		
+		String tituloAgenda = this.getPagina().getBody().getCtrAgendaTitulo();
+
+		this.getPagina().getBody().getCtrAgenda()
+				.mostrarAgenda(tipoAgenda, keyAgenda, tituloAgenda);
+
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 	public String getIdObjeto() {
 		String out = "-";
 		try {
@@ -382,6 +380,106 @@ public class Toolbar extends GenericViewModel {
 
 	public void setEstadoABM(String estadoABM) {
 		this.estadoABM = estadoABM;
+	}
+
+	// buscar ========================
+
+	private int nBrowser = 0;
+	private int ccBrowser = 0;
+	private List listBrowser = new ArrayList();
+
+	
+	private long getIdListBrowser(int p){
+		long l = 0;
+		Object obj = this.listBrowser.get(p);
+		if (obj instanceof IiD) {
+			l = ((IiD) obj).getId();	
+		}else{
+			l = (long)((Object[])obj)[0];
+		}
+		return l;
+	}
+	
+	public int getnBrowser() {
+		return nBrowser;
+	}
+
+	public void setnBrowser(int nBrowser) {
+		this.nBrowser = nBrowser;
+	}
+
+	public int getCcBrowserPos() {
+		if (this.nBrowser == 0) {
+			return 0;
+		}
+		return (ccBrowser + 1);
+	}
+
+	public int getCcBrowser() {
+		return ccBrowser;
+	}
+
+	public void setCcBrowser(int ccBrowser) {
+		this.ccBrowser = ccBrowser;
+	}
+
+	public String getStrBrowser(){
+		if (this.getnBrowser() == 0){
+			return "";
+		}
+		String out = "";
+		out = "["+this.getCcBrowserPos()+" / "+this.getnBrowser() +"]";
+		return out;
+	}
+	
+	
+	public void setBotonesNavegacion(List modelx, int indice) {
+		this.setListBrowser(modelx);
+		this.setnBrowser(modelx.size());
+		this.setCcBrowser(indice);
+	}
+
+	@Command
+	public void afterPosicion() throws Exception {
+		if (this.getCcBrowserPos() < this.getnBrowser()) {
+			Body body = this.getPagina().getBody();
+
+			this.ccBrowser++;
+
+			long id = this.getIdListBrowser(this.ccBrowser);
+			DTO dto = this.getPagina().getBody()
+					.getDTOById(body.getEntidadPrincipal(), id);
+			body.setDTOCorrienteDirty(dto);
+
+		} else {
+			this.mensajePopupTemporal("Fin", 1);
+		}
+
+	}
+
+	@Command
+	public void beforePosicion() throws Exception {
+		if ((this.getCcBrowserPos() > 1) && (this.getnBrowser() > 0)) {
+			Body body = this.getPagina().getBody();
+
+			this.ccBrowser--;
+
+			long id = this.getIdListBrowser(this.ccBrowser);
+			DTO dto = this.getPagina().getBody()
+					.getDTOById(body.getEntidadPrincipal(), id);
+			body.setDTOCorrienteDirty(dto);
+		} else {
+			this.mensajePopupTemporal("Inicio", 1);
+		}
+
+	}
+
+	public List<IiD> getListBrowser() {
+		return listBrowser;
+	}
+
+	public void setListBrowser(List<IiD> listBrowser) {
+		this.listBrowser = listBrowser;
 	}
 
 }

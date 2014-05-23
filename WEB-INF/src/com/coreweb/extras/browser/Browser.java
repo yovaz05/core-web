@@ -46,7 +46,9 @@ import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.componente.BuscarElemento;
 import com.coreweb.componente.VerificaAceptarCancelar;
 import com.coreweb.control.SimpleViewModel;
+import com.coreweb.domain.IiD;
 import com.coreweb.domain.Register;
+import com.coreweb.templateABM.Toolbar;
 import com.coreweb.util.Check;
 import com.coreweb.util.MyArray;
 
@@ -231,13 +233,14 @@ public abstract class Browser extends SimpleViewModel implements
 		bpac.addComponente("Buscar", this.rg);
 		bpac.setWidthWindows(this.getWidthWindows());
 		bpac.setHighWindows(this.getHigthWindows());
-		bpac.showPopupUnaColumna("Browser de " + this.getTituloBrowser());
-
+		bpac.showPopupUnaColumna("Browser de " + this.getTituloBrowser());		
 	}
 
+	// modelo
+	List<Object[]> datos = new ArrayList<Object[]>();
+	
 	protected void refreshModeloGrid() throws Exception {
-
-		List<Object[]> datos = new ArrayList<Object[]>();
+		
 		String msg = "vacia..";
 		try {
 			datos = this.getModelo();
@@ -256,20 +259,23 @@ public abstract class Browser extends SimpleViewModel implements
 
 	private List<Object[]> getModelo() throws Exception {
 		Register rr = Register.getInstance();
-		List<Object[]> datos = new ArrayList<Object[]>();
 		try {
 			datos = (List<Object[]>) rr.buscarElemento(clase, atributos,
 					valores, wheres, tipos, true, this.join, this.attOrden);
 		} catch (Exception e) {
-			System.out.println("------------------------------------");
-			e.printStackTrace();
-			System.out.println("------------------------------------");
 			throw e;
 		}
 
 		return datos;
 	}
 
+	
+	public void setDatosParaNavegacion(Toolbar toolbar){
+		
+		toolbar.setBotonesNavegacion(this.datos, this.datos.indexOf(selectedItem));
+	}
+	
+	
 	public boolean isClickAceptar() {
 		return this.bpac.isClickAceptar();
 	}

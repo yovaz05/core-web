@@ -49,25 +49,34 @@
 			<hbox width="700px" pack="end">
 
 				<toolbarbutton image="/core/images/agenda_24x24.png"
-					tooltiptext="Agenda" onClick="@command('showAgenda')"/>
-					
+					tooltiptext="Agenda" onClick="@command('showAgenda')" />
+
 				<toolbarbutton image="/core/images/printer.png"
 					tooltiptext="Imprimir" />
 				<toolbarbutton image="/core/images/info_24x24.png"
 					tooltiptext="Información" />
+				<toolbarbutton image="/core/images/kuser-3.png"
+					tooltiptext="Cambio de Usuario" />
 
-				<toolbarbutton image="/core/images/arrow-left-2.png"
-					tooltiptext="Anterior" />
-				<hlayout>
+
+				<hbox align="center" pack="center">
+
+					<toolbarbutton image="/core/images/arrow-left-2.png"
+						tooltiptext="Anterior"
+						onClick="@command('beforePosicion')
+				@global-command('refreshComponentes')"
+						disabled="@load(Toolbar.buscarDeshabilitado)" />
+
+					<label value="@load(Toolbar.strBrowser)" style="font-size:10pt" />
+
 					<toolbarbutton image="/core/images/arrow-right-2.png"
-						tooltiptext="Siguiente" />
-					<vlayout>
-						<label value="1" style="font-size:8pt" />
-						<label value="235" style="font-size:8pt" />
-					</vlayout>
-				</hlayout>
-				<!-- onClick="@command('agregarItem') @global-command('habilitarComponentes')" 
-					disabled="@load(Toolbar.agregarDeshabilitado)" -->
+						tooltiptext="Siguiente"
+						onClick="@command('afterPosicion')
+				@global-command('refreshComponentes')"
+						disabled="@load(Toolbar.buscarDeshabilitado)" />
+
+
+				</hbox>
 
 			</hbox>
 
