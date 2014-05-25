@@ -4,8 +4,6 @@
 		.error {
 		color: red; }
 	</style>
-	<vlayout xmlns:c="client">
-
 		<window id="loginWin" mode="modal" width="370px" visible="true"
 			minimizable="false" border="1" apply="org.zkoss.bind.BindComposer"
 			zclass="z-window-popup" viewModel="@id('crt') @init('com.coreweb.login.Login')">
@@ -39,12 +37,12 @@
 							<row>
 								Usuario :
 								<textbox id="name" width="110px" value="@bind(crt.user)"
-									c:onFocus="this.select()" onOK="@command('loginOk')" />
+									 onOK="@command('loginOk')" />
 							</row>
 							<row>
 								Clave :
 								<textbox id="pwd" width="110px" type="password" value="@bind(crt.pass)"
-									c:onFocus="this.select()" onOK="@command('loginOk')" />
+									 onOK="@command('loginOk')" />
 							</row>
 						</rows>
 					</grid>
@@ -74,5 +72,4 @@ function loginFaild() { //Shake the window
 } 
 ]]></script>
 		</window>
-	</vlayout>
 </zk>

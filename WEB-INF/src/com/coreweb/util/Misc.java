@@ -1227,6 +1227,10 @@ public class Misc {
 		Clients.showNotification(mensaje, null, null, null, time);
 	}
 
+	public void mensajePopupTemporalWarning(String mensaje) {
+		this.mensajePopupTemporalWarning(mensaje, 3000);
+	}
+
 	public void mensajePopupTemporalWarning(String mensaje, int time) {
 		Clients.showNotification(mensaje, NOTIFICACION_WARNING, null, null, time);
 	}

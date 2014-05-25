@@ -65,8 +65,6 @@ public class Control {
 	// private ControlAgendaEvento ctrAgenda = new ControlAgendaEvento();
 	private Assembler ass;
 
-	private LoginUsuarioDTO us = null; // new LoginUsuarioDTO();
-
 	private static String empresa = "Definir empresa";
 
 	private static String aliasFormularioCorrienteTXT = "--AliasFormularioNoDefinido--";
@@ -92,8 +90,8 @@ public class Control {
 	public void initControl() throws Exception {
 
 		Session s = Sessions.getCurrent();
-		this.us = (LoginUsuarioDTO) s.getAttribute(Config.USUARIO);
-		if (this.us == null) {
+		LoginUsuarioDTO us = this.getUs();
+		if (us == null) {
 			// primera vez
 
 			String prefix = Executions.getCurrent().getParameter(Config.PREFIX);
@@ -101,17 +99,18 @@ public class Control {
 
 			this.inicializarDtoUtil(prefix);
 
-			this.us = new LoginUsuarioDTO();
+			us = new LoginUsuarioDTO();
+			this.setUs(us);
 
 			// dr aca poner la invocacion afterLogin
 
 			// System.out.println("--- entra al initPrincipal por primera vez al sistema");
 			return;
 		}
-		s.setAttribute(Config.LOGIN, this.us.getLogin());
+		s.setAttribute(Config.LOGIN, us.getLogin());
 
 		this.preInit();
-		this.poneCarita(this.us.isLogeado());
+		this.poneCarita(us.isLogeado());
 	}
 
 	@AfterCompose(superclass = true)
@@ -120,13 +119,13 @@ public class Control {
 		Selectors.wireComponents(view, this, false);
 		Selectors.wireEventListeners(view, this);
 
-		if (this.us.isLogeado() == true) {
+		if (this.getUs().isLogeado() == true) {
 			// si esta logeado retorna, cualquier otro caso exepcion
 			// System.out.println("usuario logeado: " + this.us.getLogin());
 
 			String aliasF = this.getAliasFormularioCorriente();
 			if (this.getUs().formDeshabilitado(aliasF) == true) {
-				System.out.println("=========== [" + this.us.getLogin()
+				System.out.println("=========== [" + this.getUs().getLogin()
 						+ "] No tiene permisos para acceder a esta pagina: ["
 						+ aliasF + "] " + this.getClass().getName() + ":"
 						+ this);
@@ -135,8 +134,6 @@ public class Control {
 
 			return;
 		}
-		System.out.println("****************** NO Logeado:"
-				+ this.us.getLogin());
 		this.saltoDePagina(Archivo.errorLogin);
 	}
 
@@ -162,18 +159,19 @@ public class Control {
 
 	// Login del usuario
 	public String getLoginNombre() {
-		try {
-
-			try {
-				return this.getUs().getLogin();
-			} catch (Exception e) {
-				Session s = Sessions.getCurrent();
-				this.us = (LoginUsuarioDTO) s.getAttribute(Config.USUARIO);
-				return this.us.getLogin();
-			}
-		} catch (Exception e) {
-			return "NS";
+		LoginUsuarioDTO us = this.getUs();
+		if (us != null){
+			return us.getLogin();
 		}
+		return "NS";
+		/*
+		 * try {
+		 * 
+		 * try { return this.getUs().getLogin(); } catch (Exception e) { Session
+		 * s = Sessions.getCurrent(); this.us = (LoginUsuarioDTO)
+		 * s.getAttribute(Config.USUARIO); return this.us.getLogin(); } } catch
+		 * (Exception e) { return "NS"; }
+		 */
 	}
 
 	// hacer un salto de pagina
@@ -430,11 +428,11 @@ public class Control {
 	 */
 
 	public LoginUsuarioDTO getUs() {
-		return us;
+		return (LoginUsuarioDTO) this.getAtributoSession(Config.USUARIO);
 	}
 
 	public void setUs(LoginUsuarioDTO us) {
-		this.us = us;
+		this.setAtributoSession(Config.USUARIO, us);
 	}
 
 	public String getAliasFormularioCorriente() {
@@ -463,8 +461,8 @@ public class Control {
 		return this.operacionHabilitada(aliasOperacion, aliasFormulario);
 	}
 
-	public synchronized boolean operacionHabilitada(String aliasOperacion, String aliasFormulario)
-			throws Exception {
+	public synchronized boolean operacionHabilitada(String aliasOperacion,
+			String aliasFormulario) throws Exception {
 		if (aliasFormulario.compareTo(Control.aliasFormularioCorrienteTXT) == 0) {
 			Exception ex = new Exception(
 					"Nombre de formulario NO definido para la operacion: '"
@@ -474,9 +472,7 @@ public class Control {
 		}
 		return this.getUs().opeHabilitada(aliasFormulario, aliasOperacion);
 	}
-	
-	
-	
+
 	public boolean mensajeEliminar(String texto) {
 		return this.m.mensajeEliminar(texto);
 	}
@@ -499,6 +495,14 @@ public class Control {
 
 	public int mensajeSiNoCancelar(String texto) {
 		return this.m.mensajeSiNoCancelar(texto);
+	}
+
+	public void mensajePopupTemporalWarning(String mensaje) {
+		this.m.mensajePopupTemporalWarning(mensaje);
+	}
+
+	public void mensajePopupTemporalWarning(String mensaje, int time) {
+		this.m.mensajePopupTemporalWarning(mensaje, time);
 	}
 
 	public void mensajePopupTemporal(String mensaje) {
@@ -541,9 +545,8 @@ public class Control {
 		Control.empresa = empresa;
 	}
 
-	
 	// ============ session y context =======================
-	
+
 	public Object getAtributoSession(String arg) {
 		Session s = Sessions.getCurrent();
 		Object atributo = s.getAttribute(arg);
@@ -567,8 +570,33 @@ public class Control {
 				.getServletContext();
 		s.setAttribute(key, value);
 	}
-	
 
+	// ======================= USUARIO TEMPORAL ===================
+
+	private CambioUsuarioTemporal cut = null;
+
+	public void cambiarUsuarioTemporal() {
+		if (cut == null) {
+			cut = new CambioUsuarioTemporal(this);
+		}
+		cut.cambioUsuarioTemporal();
+	}
+
+	public void restaurarUsuarioOriginal() {
+		if (cut == null) {
+			cut = new CambioUsuarioTemporal(this);
+		}
+		cut.restaurarUsuarioOriginal();
+	}
+
+	public boolean isHayUsuarioTemporal() {
+		if (cut == null) {
+			cut = new CambioUsuarioTemporal(this);
+		}
+		return cut.isHayUsuarioTemporal();
+	}
+
+	//=======================================================
 	
 	
 	public static void main(String[] args) {
