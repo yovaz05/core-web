@@ -19,6 +19,8 @@ import org.zkoss.zul.Window;
 import com.coreweb.Config;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.dto.DTO;
+import com.coreweb.login.ControlInicio;
+import com.coreweb.login.LoginUsuarioDTO;
 
 public class Footer extends GenericViewModel {
 
@@ -122,6 +124,7 @@ public class Footer extends GenericViewModel {
 			this.yesClick = true;
 		}
 
+
 	}
 
 	@GlobalCommand
@@ -135,6 +138,10 @@ public class Footer extends GenericViewModel {
 	@GlobalCommand
 	@NotifyChange("*")
 	public void deshabilitarComponentes() {
+		
+		this.restaurarUsuarioOriginal();
+		
+		
 		this.disableAllComponents();
 		Window win = (Window) this.mainComponent;
 		win.setVisible(false);

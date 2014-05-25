@@ -1,10 +1,6 @@
 package com.coreweb.templateABM;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -25,12 +21,14 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.Messagebox.Button;
 
 import com.coreweb.Config;
 import com.coreweb.IDCore;
+import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.IiD;
@@ -38,6 +36,10 @@ import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
 import com.coreweb.extras.browser.Browser;
+import com.coreweb.login.ControlInicio;
+import com.coreweb.login.Login;
+import com.coreweb.login.LoginUsuario;
+import com.coreweb.login.LoginUsuarioDTO;
 import com.coreweb.util.MyArray;
 
 public class Toolbar extends GenericViewModel {
@@ -156,6 +158,22 @@ public class Toolbar extends GenericViewModel {
 		return b;
 	}
 
+	public boolean getAgendaDeshabilitado() throws Exception {
+		return this.getPagina().getBody().getAgendaDeshabilitado();
+	}
+
+	public boolean getImprimirDeshabilitado() throws Exception {
+		return this.getPagina().getBody().getImprimirDeshabilitado();
+	}
+
+	public boolean getInformacionDeshabilitado() throws Exception {
+		return this.getPagina().getBody().getInformacionDeshabilitado();
+	}
+
+	public boolean getCambioUsuarioDeshabilitado() throws Exception {
+		return !(this.isDeshabilitado());
+	}
+
 	@GlobalCommand
 	@NotifyChange("*")
 	public void habilitarComponentes() {
@@ -257,9 +275,9 @@ public class Toolbar extends GenericViewModel {
 			// tiene un browser definido
 			br.show();
 			if (br.isClickAceptar() == true) {
-				
+
 				br.setDatosParaNavegacion(this);
-				
+
 				MyArray m = br.getSelectedItem();
 
 				// obtener un DTO del MyArray
@@ -344,18 +362,46 @@ public class Toolbar extends GenericViewModel {
 
 	@Command
 	public void showAgenda() throws Exception {
-		if (this.getPagina().getDto().getId() < 1) {
-			this.mensajeError("No hay información para mostrar. Verifique que haya grabado el registro");
-			return;
+		if (this.getAgendaDeshabilitado() == true) {
+			this.getPagina().getBody().showAgenda();
+		} else {
+			this.mensajePopupTemporalWarning("Error, showAgenda no implementado");
+		}
+	}
+
+	@Command
+	public void showImprimir() throws Exception {
+		if (this.getImprimirDeshabilitado() == true) {
+			this.getPagina().getBody().getImprimirDeshabilitado();
+		} else {
+			this.mensajePopupTemporalWarning("Error, showImprimir no implementado");
+		}
+	}
+
+	@Command
+	public void showInformacion() throws Exception {
+		if (this.getInformacionDeshabilitado() == true) {
+			this.getPagina().getBody().getInformacionDeshabilitado();
+		} else {
+			this.mensajePopupTemporalWarning("Error, showInformacion no implementado");
 		}
 
-		int tipoAgenda = this.getPagina().getBody().getCtrAgendaTipo();
-		String keyAgenda = this.getPagina().getBody().getCtrAgendaKey();
-		String tituloAgenda = this.getPagina().getBody().getCtrAgendaTitulo();
+	}
 
-		this.getPagina().getBody().getCtrAgenda()
-				.mostrarAgenda(tipoAgenda, keyAgenda, tituloAgenda);
+	public String getUsuarioTemporal() {
+		String usuarioTemporal = "";
 
+		if (this.isHayUsuarioTemporal() == true) {
+			usuarioTemporal = this.getUs().getNombre();
+		}
+
+		return usuarioTemporal;
+
+	}
+
+	@Command
+	public void cambioUsuario() throws Exception {
+		this.cambiarUsuarioTemporal();
 	}
 
 	public String getIdObjeto() {
@@ -388,18 +434,17 @@ public class Toolbar extends GenericViewModel {
 	private int ccBrowser = 0;
 	private List listBrowser = new ArrayList();
 
-	
-	private long getIdListBrowser(int p){
+	private long getIdListBrowser(int p) {
 		long l = 0;
 		Object obj = this.listBrowser.get(p);
 		if (obj instanceof IiD) {
-			l = ((IiD) obj).getId();	
-		}else{
-			l = (long)((Object[])obj)[0];
+			l = ((IiD) obj).getId();
+		} else {
+			l = (long) ((Object[]) obj)[0];
 		}
 		return l;
 	}
-	
+
 	public int getnBrowser() {
 		return nBrowser;
 	}
@@ -423,16 +468,15 @@ public class Toolbar extends GenericViewModel {
 		this.ccBrowser = ccBrowser;
 	}
 
-	public String getStrBrowser(){
-		if (this.getnBrowser() == 0){
+	public String getStrBrowser() {
+		if (this.getnBrowser() == 0) {
 			return "";
 		}
 		String out = "";
-		out = "["+this.getCcBrowserPos()+" / "+this.getnBrowser() +"]";
+		out = "[" + this.getCcBrowserPos() + " / " + this.getnBrowser() + "]";
 		return out;
 	}
-	
-	
+
 	public void setBotonesNavegacion(List modelx, int indice) {
 		this.setListBrowser(modelx);
 		this.setnBrowser(modelx.size());

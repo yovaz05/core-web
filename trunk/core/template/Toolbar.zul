@@ -48,16 +48,24 @@
 
 			<hbox width="700px" pack="end">
 
+				<label value="@load(Toolbar.usuarioTemporal)" style="font-size:12pt;font-weight:bold"  />
+
+				<toolbarbutton image="/core/images/kuser-3.png"
+					tooltiptext="Cambio de Usuario" onClick="@command('cambioUsuario')
+					@global-command('refreshComponentes')" 
+					disabled="@load(Toolbar.cambioUsuarioDeshabilitado)"/>
+
 				<toolbarbutton image="/core/images/agenda_24x24.png"
-					tooltiptext="Agenda" onClick="@command('showAgenda')" />
+					tooltiptext="Agenda" onClick="@command('showAgenda')" 
+					disabled="@load(Toolbar.agendaDeshabilitado)" />
 
 				<toolbarbutton image="/core/images/printer.png"
-					tooltiptext="Imprimir" />
+					tooltiptext="Imprimir" onClick="@command('showImprimir')" 
+					disabled="@load(Toolbar.imprimirDeshabilitado)"/>
+					
 				<toolbarbutton image="/core/images/info_24x24.png"
-					tooltiptext="Información" />
-				<toolbarbutton image="/core/images/kuser-3.png"
-					tooltiptext="Cambio de Usuario" />
-
+					tooltiptext="Información" onClick="@command('showInformacion')" 
+					disabled="@load(Toolbar.informacionDeshabilitado)" />					
 
 				<hbox align="center" pack="center">
 

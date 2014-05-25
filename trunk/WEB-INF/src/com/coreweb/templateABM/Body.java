@@ -339,4 +339,45 @@ public abstract class Body extends GenericViewModel {
 		return out;
 	}
 	
+	
+	
+	
+	// 	para el manejo del toolbar ========================
+	
+	public boolean getAgendaDeshabilitado() throws Exception {
+		return false;
+	}
+
+	public boolean getImprimirDeshabilitado() throws Exception {
+		return false;
+	}
+	
+	public boolean getInformacionDeshabilitado() throws Exception {
+		return false;
+	}
+
+	
+	public void showAgenda() throws Exception {
+		if (this.getDTOCorriente().getId() < 1) {
+			this.mensajeError("No hay información para mostrar. Verifique que haya grabado el registro");
+			return;
+		}
+
+		int tipoAgenda = this.getCtrAgendaTipo();
+		String keyAgenda = this.getCtrAgendaKey();
+		String tituloAgenda = this.getCtrAgendaTitulo();
+
+		this.getCtrAgenda().mostrarAgenda(tipoAgenda, keyAgenda, tituloAgenda);
+	}
+
+	
+	public void showImprimir() throws Exception {
+		this.mensajePopupTemporalWarning("Imprimir NO implementado");
+	}
+	
+	public void showInformacion() throws Exception {
+		this.mensajePopupTemporalWarning("Información NO implementado");
+	}
+	
+	
 }

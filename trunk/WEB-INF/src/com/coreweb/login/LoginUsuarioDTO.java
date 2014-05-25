@@ -10,6 +10,7 @@ import com.coreweb.util.MapDefault;
 public class LoginUsuarioDTO extends DTO {
 
 	private static String NO_LABEL = "label no definido";
+	// empieza siempre deslogeado
 	private boolean logeado = false;
 	private String login = "login";
 	private String nombre = "nombre";

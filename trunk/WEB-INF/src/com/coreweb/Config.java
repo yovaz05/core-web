@@ -12,9 +12,15 @@ public class Config {
 	public static String ALIAS_HABILITADO_SI_O_SI = "-- Alias habilitado si o si  --";
 	public static String LOGEADO = "logeado";
 	public static String USUARIO = "usuario";
+	public static String USUARIO_ORIGINAL = "usuarioOriginal";
 	public static String LOGIN = "login";
 	public static String CONTROL_INICIO = "ControlInicio";
 
+	public static String COLOR_BARRA = "#B5B4B4";
+	public static String COLOR_BARRA_CAMBIO_USUARIO = "#EEAD2C";
+	
+	
+	
 	public static String PREFIX = "prefix";
 
 	public static String INIT_CLASE = "com.?.inicio.Inicio";

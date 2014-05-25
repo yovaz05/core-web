@@ -134,9 +134,6 @@ public class BodyPopupAceptarCancelar {
 
 
 	public void showPopup(String titulo){
-
-		
-		
 		Grid grid = new Grid();
 		grid.setWidth(this.widthWindows);
 		
@@ -186,6 +183,7 @@ public class BodyPopupAceptarCancelar {
 		window.setPosition("center");
 
 		//window.setWidth(null);
+		System.out.println("\n\n --------------------------this.heightWindows:"+this.heightWindows+"\n\n");
 		if (this.heightWindows.trim().length() > 0){
 			window.setHeight(this.heightWindows);
 		}

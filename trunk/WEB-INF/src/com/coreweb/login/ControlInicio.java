@@ -55,6 +55,8 @@ public class ControlInicio extends Control {
 	public ControlInicio() {
 		super(null);
 	}
+	
+	
 
 	String menu = "";
 	String menuSistema = "";
@@ -85,9 +87,29 @@ public class ControlInicio extends Control {
 
 		// el control en la session para luego manipular las alertas
 		this.setAtributoSession(Config.MI_ALERTAS, this);
+		this.setAtributoSession(Config.CONTROL_INICIO, this);
 
 	}
 
+	@GlobalCommand
+	@NotifyChange("*")
+	public void refreshComponentes() {
+	}
+
+	
+	String colorBarra = "background-color:"+Config.COLOR_BARRA+" ; border-color: "+Config.COLOR_BARRA+" ;";
+	
+	public String getColorBarra(){
+		return this.colorBarra;
+	}
+	
+	public void setColorBarra(String color){
+		String d = "background-color:XX ; border-color: XX ;";
+		d = d.replaceAll("XX", color);
+		this.colorBarra = d;
+	}
+	
+	
 	@GlobalCommand
 	@NotifyChange("*")
 	public void habilitarComponentes() {
@@ -133,6 +155,9 @@ public class ControlInicio extends Control {
 	}
 
 	public void menuItem(Object o, String formAlias, String paramsFromMenu) {
+		if (this.getUs() == null){
+			return;
+		}
 		String label = this.getUs().formLabel(formAlias);
 		String url = this.getUs().formURL(formAlias);
 		boolean deshabilitado = this.getUs().formDeshabilitado(formAlias);

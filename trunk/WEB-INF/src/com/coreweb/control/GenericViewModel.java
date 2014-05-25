@@ -245,19 +245,6 @@ public abstract class GenericViewModel extends Control {
 	 * atributo; }
 	 */
 
-	public void xhabilitarMenu() {
-		Session s = Sessions.getCurrent();
-		ControlInicio ctr = (ControlInicio) s
-				.getAttribute(Config.CONTROL_INICIO);
-		ctr.setMenuVisible(true);
-	}
-
-	public void xdeshabilitarMenu() {
-		Session s = Sessions.getCurrent();
-		ControlInicio ctr = (ControlInicio) s
-				.getAttribute(Config.CONTROL_INICIO);
-		ctr.setMenuVisible(false);
-	}
 
 	
 	
