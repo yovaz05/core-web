@@ -80,7 +80,7 @@ public class ControlInicio extends Control {
 	@Init(superclass = true)
 	public void init(@QueryParam("menu") String menu,
 			@QueryParam("menuSistema") String menuSistema) {
-		Session s = Sessions.getCurrent();
+		Session s = this.getSessionZK();
 		s.setAttribute(Config.USUARIO, null);
 		this.setMenu(menu);
 		this.setMenuSistema(menuSistema);

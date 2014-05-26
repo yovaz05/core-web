@@ -89,7 +89,7 @@ public class Control {
 	@Init(superclass = true)
 	public void initControl() throws Exception {
 
-		Session s = Sessions.getCurrent();
+		Session s = this.getSessionZK();
 		LoginUsuarioDTO us = this.getUs();
 		if (us == null) {
 			// primera vez
@@ -160,18 +160,11 @@ public class Control {
 	// Login del usuario
 	public String getLoginNombre() {
 		LoginUsuarioDTO us = this.getUs();
-		if (us != null){
+		if (us != null) {
 			return us.getLogin();
 		}
 		return "NS";
-		/*
-		 * try {
-		 * 
-		 * try { return this.getUs().getLogin(); } catch (Exception e) { Session
-		 * s = Sessions.getCurrent(); this.us = (LoginUsuarioDTO)
-		 * s.getAttribute(Config.USUARIO); return this.us.getLogin(); } } catch
-		 * (Exception e) { return "NS"; }
-		 */
+
 	}
 
 	// hacer un salto de pagina
@@ -244,7 +237,7 @@ public class Control {
 				.println("==================================== no autorizado ============");
 
 		try {
-			Session s = Sessions.getCurrent();
+			Session s = this.getSessionZK();
 			s.setAttribute(Config.LOGEADO, new Boolean(false));
 			Executions.sendRedirect(Archivo.noAutorizado);
 		} catch (Exception e1) {
@@ -428,7 +421,13 @@ public class Control {
 	 */
 
 	public LoginUsuarioDTO getUs() {
-		return (LoginUsuarioDTO) this.getAtributoSession(Config.USUARIO);
+		LoginUsuarioDTO lDto;
+		try {
+			lDto = (LoginUsuarioDTO) this.getAtributoSession(Config.USUARIO);
+		} catch (Exception e) {
+			lDto = new LoginUsuarioDTO();
+		}
+		return lDto;
 	}
 
 	public void setUs(LoginUsuarioDTO us) {
@@ -547,27 +546,29 @@ public class Control {
 
 	// ============ session y context =======================
 
+	public Session getSessionZK() {
+		return Sessions.getCurrent();
+	}
+
 	public Object getAtributoSession(String arg) {
-		Session s = Sessions.getCurrent();
+		Session s = this.getSessionZK();
 		Object atributo = s.getAttribute(arg);
 		return atributo;
 	}
 
 	public void setAtributoSession(String key, Object value) {
-		Session s = Sessions.getCurrent();
+		Session s = this.getSessionZK();
 		s.setAttribute(key, value);
 	}
 
 	public Object getAtributoContextx(String arg) {
-		ServletContext s = Sessions.getCurrent().getWebApp()
-				.getServletContext();
+		ServletContext s = this.getSessionZK().getWebApp().getServletContext();
 		Object atributo = s.getAttribute(arg);
 		return atributo;
 	}
 
 	public void setAtributoContextx(String key, Object value) {
-		ServletContext s = Sessions.getCurrent().getWebApp()
-				.getServletContext();
+		ServletContext s = this.getSessionZK().getWebApp().getServletContext();
 		s.setAttribute(key, value);
 	}
 
@@ -596,9 +597,8 @@ public class Control {
 		return cut.isHayUsuarioTemporal();
 	}
 
-	//=======================================================
-	
-	
+	// =======================================================
+
 	public static void main(String[] args) {
 		String a = "";
 		String b = "hola";
