@@ -190,22 +190,5 @@ public class ControlAgendaEvento extends GenericViewModel {
 		
 		return this.getDto() != null;
 	}
-
-	
-
-	/*
-	private String getLogin(){
-		String out = "Juan - PoPu";
-		try {
-			Session s = Sessions.getCurrent();
-			out = (String) s.getAttribute(Config.LOGIN);
-			if (out.trim().length()==0){
-				out = "error "+" ("+ m.dateToString(new Date(),Misc.YYYY_MM_DD_HORA_MIN_SEG)+")";
-			}
-		} catch (Exception e) {
-		}
-		return out;
-	}
-	*/
 	
 }

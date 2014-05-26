@@ -42,7 +42,7 @@ public class Login extends Control {
 
 	@Init
 	public void initLogin() {
-		Session s = Sessions.getCurrent();
+		Session s = this.getSessionZK();
 		s.setAttribute(Config.LOGEADO, new Boolean(false));
 		BindUtils.postGlobalCommand(null, null, "deshabilitarMenu", null);
 		this.setTextoFormularioCorriente(" ");

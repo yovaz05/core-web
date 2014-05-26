@@ -239,13 +239,6 @@ public abstract class GenericViewModel extends Control {
 		this.check = check;
 	}
 
-	/*
-	 * public Object getAtributoSession(String arg) { Session s =
-	 * Sessions.getCurrent(); Object atributo = s.getAttribute(arg); return
-	 * atributo; }
-	 */
-
-
 	
 	
 	public void enmascarar(Component comp, String texto, int textoSize) {	
