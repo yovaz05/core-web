@@ -1276,6 +1276,14 @@ public class Misc {
 		return out;
 	}
 	
+	/**
+	 * Retorna true si el nro (int) es par
+	 * @param int nro
+	 */
+	public boolean esPar(int nro){
+		return (nro % 2) == 0;
+	}
+	
 
 	public static void main(String[] args) {
 		try {
