@@ -284,8 +284,12 @@ public abstract class Assembler {
 	}
 
 	public MyPair pasaDomainToMyPair(Domain dom) throws Exception {
+		return pasaDomainToMyPair(dom, "descripcion");
+	}
+
+	public MyPair pasaDomainToMyPair(Domain dom, String campo) throws Exception {
 		// obtengo el valor del dominio
-		Object dato = getValue(dom, "descripcion");
+		Object dato = getValue(dom, campo);
 
 		// setea los valores
 		MyPair mp = new MyPair();
@@ -294,7 +298,9 @@ public abstract class Assembler {
 
 		return mp;
 	}
-
+	
+	
+	
 	// NOTA: este método se puede juntar con el de arriba
 	public void domainToMyArray(Domain dom, DTO dto, String atributo,
 			String[] campos) throws Exception {
@@ -814,9 +820,47 @@ public abstract class Assembler {
 		List l = rr.hql(hql);
 		Tipo dom = (Tipo) l.get(0);
 		out = this.pasaDomainToMyPair(dom);
+		out.setSigla(dom.getSigla());
 		return out;
 	}
 
+	public MyPair getTipo(long id) throws Exception {
+		MyPair out = new MyPair();
+		String hql = "from Tipo t where  t.id = " + id;
+		Register rr = Register.getInstance();
+		List l = rr.hql(hql);
+		Tipo dom = (Tipo) l.get(0);
+		out = this.pasaDomainToMyPair(dom);
+		out.setSigla(dom.getSigla());
+		return out;
+	}
+
+	
+	public MyPair getTipo(String tipoTipo, String desc) throws Exception {
+		MyPair out = new MyPair();
+		String hql = "from Tipo t where t.tipoTipo.descripcion = '" + tipoTipo
+				+ "'  and t.descripcion = '" + desc+"'";
+		System.out.println("hql:"+hql);
+		Register rr = Register.getInstance();
+		List l = rr.hql(hql);
+		Tipo dom = (Tipo) l.get(0);
+		out = this.pasaDomainToMyPair(dom);
+		out.setSigla(dom.getSigla());
+		return out;
+	}
+	
+	public MyPair getTipoTipo(String tipoTipo) throws Exception{
+		MyPair out = new MyPair();
+		String hql = "from TipoTipo t where t.descripcion = '" + tipoTipo+"'";
+		Register rr = Register.getInstance();
+		List l = rr.hql(hql);
+		TipoTipo dom = (TipoTipo) l.get(0);
+		out = this.pasaDomainToMyPair(dom);
+		return out;
+		
+	}
+	
+	
 	// **********************************************************************
 
 	// Para que un error en algun maping de atributos no haga que deje de
