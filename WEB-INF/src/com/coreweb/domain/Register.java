@@ -947,7 +947,7 @@ public class Register {
 
 		String hql = select + " from " + clase.getName() + " c " + join + " "
 				+ where + orden;
-		System.out.println("\n\n\n" + hql + "\n\n\n");
+		//System.out.println("\n\n\n" + hql + "\n\n\n");
 
 		l = this.hql(hql);
 
