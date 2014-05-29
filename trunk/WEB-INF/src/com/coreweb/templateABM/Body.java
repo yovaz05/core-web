@@ -345,15 +345,15 @@ public abstract class Body extends GenericViewModel {
 	// 	para el manejo del toolbar ========================
 	
 	public boolean getAgendaDeshabilitado() throws Exception {
-		return false;
+		return true;
 	}
 
 	public boolean getImprimirDeshabilitado() throws Exception {
-		return false;
+		return true;
 	}
 	
 	public boolean getInformacionDeshabilitado() throws Exception {
-		return false;
+		return true;
 	}
 
 	
