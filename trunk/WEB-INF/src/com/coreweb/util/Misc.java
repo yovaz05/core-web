@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -40,8 +41,6 @@ import com.coreweb.Config;
 
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
-
-
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -74,32 +73,32 @@ public class Misc {
 	public static String DD_MM_YYYY = "dd-MM-yyyy";
 
 	public static String LABEL_BORDER = "border:1px solid; border-color:#54afcb; padding:2px";
-	
+
 	public static int TIPO_IMAGEN = 1;
 	public static int TIPO_DOCUMENTO = 2;
-	
+
 	public static String NOTIFICACION_WARNING = "warning";
 	public static String NOTIFICACION_NORMAL = "normal";
-	
-	public static String doubleToString(double numero){
+
+	public static String doubleToString(double numero) {
 		return String.valueOf(numero);
 	}
-	
-	public String formatearDimension(double numero){
+
+	public String formatearDimension(double numero) {
 		NumberFormat formatter = new DecimalFormat("##0.00#");
 		return formatter.format(numero);
 	}
-	
-	public String redondearPrecio(double precio, double redondeo){
+
+	public String redondearPrecio(double precio, double redondeo) {
 		/**
-		 *	precio =253812, redondeo = 3, resultado = 254000 
-		 *	precio =253312, redondeo = 3, resultado = 253000
+		 * precio =253812, redondeo = 3, resultado = 254000 precio =253312,
+		 * redondeo = 3, resultado = 253000
 		 */
-		double var = Math.pow(10,redondeo); 
-	  
-		return String.valueOf(Math.round(precio/var) * var);
+		double var = Math.pow(10, redondeo);
+
+		return String.valueOf(Math.round(precio / var) * var);
 	}
-	
+
 	public static String getDir() {
 		return dir;
 	}
@@ -133,31 +132,29 @@ public class Misc {
 		return color;
 	}
 
-	public int obtenerUnidad(String param){
+	public int obtenerUnidad(String param) {
 		/**
 		 * se obtiene un numero indicando si es unidad, decena, centena, etc.
-		 *	10,3 --> 10 resultado 2
-		 *	3 resultado 1
-		*/
-		if(param.indexOf(",") != -1 )
+		 * 10,3 --> 10 resultado 2 3 resultado 1
+		 */
+		if (param.indexOf(",") != -1)
 			param = param.substring(0, param.indexOf(","));
 		return param.length();
 	}
-	
-	public String completarCeros(String param,int tamaño){
+
+	public String completarCeros(String param, int tamaño) {
 		/**
 		 * recibe un string y completa con ceros hasta que alcance el tamaño
 		 * indicado en la variable tamaño
 		 */
-		if (param == null){
+		if (param == null) {
 			param = "";
 		}
-		for(int i=obtenerUnidad(param) ; i<tamaño; i++)
-			param = "0"+param;
+		for (int i = obtenerUnidad(param); i < tamaño; i++)
+			param = "0" + param;
 		return param;
 	}
-	
-	
+
 	// 1:color rojo, 2:color azul, 3:---
 	public String colorVariacionByParam(int param) {
 
@@ -259,7 +256,6 @@ public class Misc {
 
 	}
 
-
 	public Date toFecha2400(Date fecha) {
 
 		Calendar dateCal = Calendar.getInstance();
@@ -285,7 +281,7 @@ public class Misc {
 		dateCal.set(Calendar.MILLISECOND, 0);
 		return dateCal.getTime();
 	}
-	
+
 	public Date getFechaManana() {
 
 		Calendar dateCal = Calendar.getInstance();
@@ -322,10 +318,19 @@ public class Misc {
 		return dateCal.getTime();
 	}
 
-	public long dateResta(Date d1, Date d2) {
+	/**
+	 * Data dos fechas, dice la diferencia de dias entre ellas, no considera las
+	 * horas y minutos. Ojo, la fecha 2 debe ser mas mayor.
+	 * 
+	 * @param d1
+	 * @param d2
+	 * @return
+	 */
+	public long diasEntreFechas(Date d1, Date d2) {
 		long out = 0;
-		long diff = d2.getTime() - d1.getTime();
-		out = diff / (24 * 60 * 60 * 1000);
+		long diff = this.toFecha2400(d2).getTime()
+				- this.toFecha0000(d1).getTime();
+		out = (diff / (24 * 60 * 60 * 1000));
 		return out;
 	}
 
@@ -499,7 +504,7 @@ public class Misc {
 
 	public String formato(String dato, int longitud, boolean izquierda) {
 		String bl = "                                                                                       ";
-		
+
 		String out = "";
 		if (izquierda == true) {
 			out = (dato + bl).substring(0, longitud);
@@ -795,8 +800,6 @@ public class Misc {
 
 		return true;
 	}
-	
-	
 
 	public boolean containsOnlyNumbers(String str) {
 
@@ -849,7 +852,8 @@ public class Misc {
 		}
 	}
 
-	public void uploadFile(String path, String name, String ext, InputStream file) {
+	public void uploadFile(String path, String name, String ext,
+			InputStream file) {
 		try {
 			OutputStream out = new java.io.FileOutputStream(path + name + ext);
 			InputStream in = file;
@@ -865,48 +869,48 @@ public class Misc {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	}	
-	
-	
+	}
+
 	/**
-	 * Este método sirve para cuando queremos subir archivos al servidor
-	 * lo que hace es recibir como parametro el evento tipo upload
-	 * la ruta del directorio y el nombre del archivo y tambien el tipo
-	 * de archivo para controlar si se quieren subir imagenes o docs.. 
+	 * Este método sirve para cuando queremos subir archivos al servidor lo que
+	 * hace es recibir como parametro el evento tipo upload la ruta del
+	 * directorio y el nombre del archivo y tambien el tipo de archivo para
+	 * controlar si se quieren subir imagenes o docs..
 	 * */
-	public boolean uploadFile(String folder, String fileName, UploadEvent event, int tipo) throws IOException{
-		
+	public boolean uploadFile(String folder, String fileName,
+			UploadEvent event, int tipo) throws IOException {
+
 		boolean ok = true;
-		
+
 		String format = event.getMedia().getFormat().toLowerCase();
 		InputStream file = event.getMedia().getStreamData();
 		String destino = folder + fileName + "." + format;
-		
-		if ((tipo == TIPO_IMAGEN) 
+
+		if ((tipo == TIPO_IMAGEN)
 				&& (Config.EXTENSION_IMAGEN.indexOf(format)) >= 0) {
-			
+
 			this.copiarArchivo(file, destino);
-			
+
 		} else if ((tipo == TIPO_DOCUMENTO)
 				&& (Config.EXTENSION_DOCUMENTO.indexOf(format) >= 0)) {
-			
+
 			this.copiarArchivo(file, destino);
-			
+
 		} else {
 			ok = false;
 			this.mensajeError("Archivo con formato Incorrecto..");
 		}
-		
+
 		return ok;
 	}
-	
-	//Obtiene el valor segun el porcentaje
+
+	// Obtiene el valor segun el porcentaje
 	public double obtenerValorDelPorcentaje(double valor, double porcentaje) {
 		return (valor * porcentaje) / 100;
 	}
-	
-	//Obtiene el porcentaje segun el valor
-	public double obtenerPorcentajeDelValor(double valor1, double valor2){
+
+	// Obtiene el porcentaje segun el valor
+	public double obtenerPorcentajeDelValor(double valor1, double valor2) {
 		return (valor1 / valor2) * 100;
 	}
 
@@ -963,7 +967,6 @@ public class Misc {
 				Messagebox.ERROR, null);
 	}
 
-	
 	public boolean mensajeSiNo(String texto) {
 
 		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Confirmar",
@@ -1198,7 +1201,7 @@ public class Misc {
 		}
 		return this.concatenarArraysDeString(arrays);
 	}
-	
+
 	public byte[] serializar(Serializable o) {
 		return SerializationUtils.serialize(o);
 	}
@@ -1218,7 +1221,7 @@ public class Misc {
 		}
 		return out;
 	}
-	
+
 	public void mensajePopupTemporal(String mensaje) {
 		this.mensajePopupTemporal(mensaje, 3000);
 	}
@@ -1232,7 +1235,8 @@ public class Misc {
 	}
 
 	public void mensajePopupTemporalWarning(String mensaje, int time) {
-		Clients.showNotification(mensaje, NOTIFICACION_WARNING, null, null, time);
+		Clients.showNotification(mensaje, NOTIFICACION_WARNING, null, null,
+				time);
 	}
 
 	public void mensajePopupTemporal(String mensaje, String tipo,
@@ -1257,49 +1261,68 @@ public class Misc {
 		}
 		return out;
 	}
-	
-	
+
 	/**
 	 * Recibe un archivo y lo copia a un directorio destino..
 	 */
-	public void copiarArchivo(InputStream file, String destino) throws IOException{
+	public void copiarArchivo(InputStream file, String destino)
+			throws IOException {
 		File dst = new File(destino);
 		Files.copy(dst, file);
 	}
-	
+
 	/**
-	 * Retorna la fecha de vencimiento a partir del plazo 
-	 * que recibe como parametro
+	 * Retorna la fecha de vencimiento a partir del plazo que recibe como
+	 * parametro
 	 */
-	public Date calcularFechaVencimiento(Date emision, int plazo){
-		Date out = this.agregarDias(emision, plazo);		
+	public Date calcularFechaVencimiento(Date emision, int plazo) {
+		Date out = this.agregarDias(emision, plazo);
 		return out;
 	}
-	
+
 	/**
 	 * Retorna true si el nro (int) es par
+	 * 
 	 * @param int nro
 	 */
-	public boolean esPar(int nro){
+	public boolean esPar(int nro) {
 		return (nro % 2) == 0;
 	}
-	
 
 	public static void main(String[] args) {
 		try {
 
 			Misc m = new Misc();
-			double nm = 1556.15;
-			int ni = 1585;
-			
-			System.out.println(m.numberToLetter(nm));
+			Date d1 = new Date();
+			Date d2 = new Date();
 
+			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+			String inputStr1 = "01-02-2013";
+			d1 = dateFormat.parse(inputStr1);
+
+			String inputStr2 = "01-03-2013";
+			d2 = dateFormat.parse(inputStr2);
+			
+			System.out.println(m.diasEntreFechas(d1, d2));
+
+			
+			inputStr1 = "11-11-2012";
+			d1 = dateFormat.parse(inputStr1);
+
+			inputStr2 = "12-11-2012";
+			d2 = dateFormat.parse(inputStr2);
+			
+			System.out.println(m.diasEntreFechas(d1, d2));
+			
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
 }
 
 class A {
