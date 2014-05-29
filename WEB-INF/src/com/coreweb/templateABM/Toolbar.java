@@ -361,8 +361,8 @@ public class Toolbar extends GenericViewModel {
 	}
 
 	@Command
-	public void showAgenda() throws Exception {
-		if (this.getAgendaDeshabilitado() == true) {
+	public void showAgenda() throws Exception { 
+		if (this.getAgendaDeshabilitado() == false) {
 			this.getPagina().getBody().showAgenda();
 		} else {
 			this.mensajePopupTemporalWarning("Error, showAgenda no implementado");
@@ -371,8 +371,8 @@ public class Toolbar extends GenericViewModel {
 
 	@Command
 	public void showImprimir() throws Exception {
-		if (this.getImprimirDeshabilitado() == true) {
-			this.getPagina().getBody().getImprimirDeshabilitado();
+		if (this.getImprimirDeshabilitado() == false) {
+			this.getPagina().getBody().showImprimir();
 		} else {
 			this.mensajePopupTemporalWarning("Error, showImprimir no implementado");
 		}
@@ -380,8 +380,8 @@ public class Toolbar extends GenericViewModel {
 
 	@Command
 	public void showInformacion() throws Exception {
-		if (this.getInformacionDeshabilitado() == true) {
-			this.getPagina().getBody().getInformacionDeshabilitado();
+		if (this.getInformacionDeshabilitado() == false) {
+			this.getPagina().getBody().showInformacion();
 		} else {
 			this.mensajePopupTemporalWarning("Error, showInformacion no implementado");
 		}
