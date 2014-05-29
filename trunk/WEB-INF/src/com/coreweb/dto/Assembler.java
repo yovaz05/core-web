@@ -840,7 +840,7 @@ public abstract class Assembler {
 		MyPair out = new MyPair();
 		String hql = "from Tipo t where t.tipoTipo.descripcion = '" + tipoTipo
 				+ "'  and t.descripcion = '" + desc+"'";
-		System.out.println("hql:"+hql);
+		
 		Register rr = Register.getInstance();
 		List l = rr.hql(hql);
 		Tipo dom = (Tipo) l.get(0);
