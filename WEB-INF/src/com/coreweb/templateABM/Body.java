@@ -379,5 +379,10 @@ public abstract class Body extends GenericViewModel {
 		this.mensajePopupTemporalWarning("Información NO implementado");
 	}
 	
+
+	public void showAnular() throws Exception {
+		this.mensajePopupTemporalWarning("Anular NO implementado");
+	}
+
 	
 }

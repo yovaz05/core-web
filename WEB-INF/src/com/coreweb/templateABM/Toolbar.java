@@ -208,14 +208,14 @@ public class Toolbar extends GenericViewModel {
 	}
 
 	@Command
-	public void anularItem() {
+	public void anularItem() throws Exception {
 		this.setEstadoABM(MODO_ANULAR);
 		Button b = Messagebox.show("Anular el registro?", "Anular",
 				new Messagebox.Button[] { Messagebox.Button.YES,
 						Messagebox.Button.NO }, Messagebox.QUESTION, null);
 		if (b.compareTo(Messagebox.Button.YES) == 0) {
 
-			// ToDo
+			this.getPagina().getBody().showAnular();
 
 		}
 		this.setEstadoABM(MODO_NADA);
