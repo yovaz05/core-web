@@ -182,9 +182,12 @@ public abstract class Assembler {
 	public void copiarValoresAtributos(Object desde, Object hasta,
 			String[] atributos) throws Exception {
 
+		//System.out.println("-----------------------------------");
+		//System.out.println("\n\n desde:"+desde.getClass().getName() + "\n hasta:" + hasta.getClass().getName());
 		for (int i = 0; i < atributos.length; i++) {
 			String att = atributos[i];
 
+			//System.out.println(""+att);
 			// hacer el get
 			Object value = getValue(desde, att);
 
@@ -192,6 +195,7 @@ public abstract class Assembler {
 			setValue(hasta, att, value);
 		}
 
+		//System.out.println("-----------------------------------");
 	}
 
 	// *************************************************************************************
@@ -1022,9 +1026,12 @@ public abstract class Assembler {
 		
 //		System.out.println("\n\n\n------------------------\n clase: "+obj.getClass().getName()+"   att:"+att+"    value:"+vv+"\n\n\n\n");
 		
-		
-		new PropertyDescriptor(att, obj.getClass()).getWriteMethod().invoke(
-				obj, value);
+		try {
+			new PropertyDescriptor(att, obj.getClass()).getWriteMethod().invoke(
+					obj, value);
+		} catch (Exception e) {
+			// si error no hace nada
+		}
 
 		// Field fd = getField(obj.getClass(), att);
 		// fd.set(obj, value);
