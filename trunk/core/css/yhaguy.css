@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+
+.label-moneda{
+	font-size: 11px;
+}
+.searchform {
+ 	  background: transparent none no-repeat scroll 0 0;
+      border: 1px solid #cfcfcf;
+      -webkit-border-radius: 3px;
+	  border-radius: 3px;
+	  margin: 0;	
+	  vertical-align: bottom;    
+}  
+.searchfield {
+	border: none;
+    margin: 0;
+}
+.searchBtn {
+	background: transparent none no-repeat scroll 0 0;
+    -webkit-border-radius: 3px;
+	border-radius: 3px;
+	margin: 0;	   
+}
