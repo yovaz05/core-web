@@ -210,6 +210,7 @@ public class BuscarElemento {
 			msg = "Elementos encotrados: "+datos.size()+" - "+msg;
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			msg = e.getMessage();
 		}
 		

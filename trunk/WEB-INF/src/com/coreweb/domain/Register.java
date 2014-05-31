@@ -55,7 +55,7 @@ public class Register {
 	/********************************/
 
 	public void dropAllTables() throws Exception {
-	
+
 		Random rand = new Random(System.currentTimeMillis());
 		int v = 1000 + rand.nextInt(8999);
 		String codigo = (" " + v).trim();
@@ -95,7 +95,6 @@ public class Register {
 		this.closeSession(session);
 	}
 
-	
 	private void closeSession(Session session) {
 		// System.out.println("Entra en close Session.");
 		if (session != null) { // && session.isOpen()){
@@ -112,7 +111,6 @@ public class Register {
 		return this.getSession();
 	}
 
-	
 	private Session getSession() throws Exception {
 		Session session = HibernateUtil.getSession();
 
@@ -146,41 +144,39 @@ public class Register {
 
 	}
 
-
-	public synchronized void saveObjectxx(Domain o, String user) throws Exception {
+	public synchronized void saveObjectxx(Domain o, String user)
+			throws Exception {
 		Session session = null;
-	    UserTransaction tx = (UserTransaction)new InitialContext().lookup("java:comp/UserTransaction");  
+		UserTransaction tx = (UserTransaction) new InitialContext()
+				.lookup("java:comp/UserTransaction");
 
-	    try {  
-	    	session = getSession();             
-		    tx.begin();  
+		try {
+			session = getSession();
+			tx.begin();
 			saveObjectDomain(o, session, user);
-		  
-		    tx.commit();  
-		}  
-		catch (RuntimeException e) {  
-		    tx.rollback();  
-		    throw e; // or display error message  
+
+			tx.commit();
+		} catch (RuntimeException e) {
+			tx.rollback();
+			throw e; // or display error message
 		} finally {
 			closeSession(session);
 		}
 	}
 
-	
 	public synchronized void saveObject(Domain o, String user) throws Exception {
 
 		Session session = null;
 		Transaction tx = null;
 		try {
-			
+
 			session = getSession();
 			tx = session.beginTransaction();
 
 			saveObjectDomain(o, session, user);
 
-			
-			tx.commit();			
-			
+			tx.commit();
+
 			// session.getTransaction().commit();
 		} catch (Exception e) {
 			if (tx != null) {
@@ -193,16 +189,14 @@ public class Register {
 
 	}
 
-
 	/**
 	 * Para grabar más rápido, se obtiene la session y se usa esa.
 	 */
 	public void SESSIONsaveObjectDomain(Domain o, Session session, String user)
 			throws Exception {
-		this.saveObjectDomain(o,session,user);
+		this.saveObjectDomain(o, session, user);
 	}
 
-	
 	// este es el que realmente graba
 	private void saveObjectDomain(Domain o, Session session, String user)
 			throws Exception {
@@ -254,20 +248,20 @@ public class Register {
 		return null;
 	}
 
-
-	public synchronized Object SESSIONgetObject(String entityName, String campo,
-			Object value, Session session) throws Exception {
+	public synchronized Object SESSIONgetObject(String entityName,
+			String campo, Object value, Session session) throws Exception {
 
 		Vector v = new Vector();
 		v.add(Restrictions.eq(campo, value));
 
-		List l = SESSIONgetObject_Real(entityName, v, new Vector(), -1, -1, session);
+		List l = SESSIONgetObject_Real(entityName, v, new Vector(), -1, -1,
+				session);
 		if (l.size() == 1) {
 			return l.get(0);
 		}
 		return null;
 	}
-	
+
 	public synchronized void deleteObject(String entityName, long id)
 			throws Exception {
 
@@ -386,9 +380,9 @@ public class Register {
 		}
 	}
 
-
-	protected synchronized List SESSIONgetObject_Real(String entityName, Vector rest,
-			Vector orders, int ini, int max, Session session) throws Exception {
+	protected synchronized List SESSIONgetObject_Real(String entityName,
+			Vector rest, Vector orders, int ini, int max, Session session)
+			throws Exception {
 
 		try {
 			Criteria cri = session.createCriteria(entityName);
@@ -409,7 +403,6 @@ public class Register {
 			}
 
 			List list = cri.list();
-			
 
 			return list;
 		} catch (Exception e) {
@@ -417,7 +410,6 @@ public class Register {
 		}
 	}
 
-	
 	protected int getSizeObjects(String entityName, Vector rest)
 			throws Exception {
 
@@ -565,7 +557,6 @@ public class Register {
 	}
 
 	public void deleteAllObjects(String entityName) throws Exception {
-		
 
 		List<Domain> l = getObjects(entityName, new Vector(), new Vector());
 		for (int i = 0; i < l.size(); i++) {
@@ -643,7 +634,7 @@ public class Register {
 			out = l.get(0);
 		} else {
 			throw new Exception("Más de un objeto (" + l.size()
-					+ ") para el query \n" + query+"  param:"+o);
+					+ ") para el query \n" + query + "  param:" + o);
 		}
 		return out;
 	}
@@ -658,6 +649,8 @@ public class Register {
 
 	public List hql(String query, Object[] param) throws Exception {
 
+		System.out.println("\n\n" + query + "\n\n");
+
 		List list = new ArrayList<Domain>();
 		Session session = null;
 		try {
@@ -668,7 +661,7 @@ public class Register {
 			for (int i = 0; i < param.length; i++) {
 				Object o = param[i];
 				q.setParameter(i, o);
-				
+
 			}
 			list = q.list();
 			session.getTransaction().commit();
@@ -684,12 +677,16 @@ public class Register {
 
 	/**
 	 * Ejecuta una consulta hql
-	 * @param query: consuta
-	 * @param params: Hash con los nombres de los parámetros y los valores
+	 * 
+	 * @param query
+	 *            : consuta
+	 * @param params
+	 *            : Hash con los nombres de los parámetros y los valores
 	 * @return
 	 * @throws Exception
 	 */
-	public List hql(String query, Hashtable<String, Object> params) throws Exception {
+	public List hql(String query, Hashtable<String, Object> params)
+			throws Exception {
 		List list = new ArrayList<Domain>();
 		Session session = null;
 		try {
@@ -698,7 +695,7 @@ public class Register {
 
 			Query q = session.createQuery(query);
 			Enumeration<String> keys = params.keys();
-			while (keys.hasMoreElements()){
+			while (keys.hasMoreElements()) {
 				String k = keys.nextElement();
 				Object v = params.get(k);
 				q.setParameter(k, v);
@@ -714,9 +711,9 @@ public class Register {
 		return list;
 
 	}
-	
-	
-	public List SESSIONhql(String query, Object[] param, Session session) throws Exception {
+
+	public List SESSIONhql(String query, Object[] param, Session session)
+			throws Exception {
 
 		List list = new ArrayList<Domain>();
 		try {
@@ -735,7 +732,6 @@ public class Register {
 
 	}
 
-	
 	public int hqlDelete(String query) throws Exception {
 		return this.hqlDelete(query, new Object[] {});
 	}
@@ -913,9 +909,10 @@ public class Register {
 					} else {
 						// ww = at + " = " + va.toLowerCase();
 					}
-					ww = " cast(" + at + " as string) like  " + strLike; // '%" +
-																		// va.toLowerCase()+
-																		// "%' ";
+					ww = " cast(" + at + " as string) like  " + strLike; // '%"
+																			// +
+																			// va.toLowerCase()+
+																			// "%' ";
 
 				} else {
 					// por defecto es String
@@ -947,7 +944,7 @@ public class Register {
 
 		String hql = select + " from " + clase.getName() + " c " + join + " "
 				+ where + orden;
-		//System.out.println("\n\n\n" + hql + "\n\n\n");
+		System.out.println("\n\n\n" + hql + "\n\n\n");
 
 		l = this.hql(hql);
 
@@ -998,11 +995,12 @@ public class Register {
 		Tipo out = (Tipo) this.hqlToObject(queryTipo);
 		return out;
 	}
-	
+
 	public Tipo getTipoPorSigla_Index(String sigla, int id) throws Exception {
-		String queryTipo = "select t from Tipo t where t.sigla='" + sigla + "' order by t.id";
+		String queryTipo = "select t from Tipo t where t.sigla='" + sigla
+				+ "' order by t.id";
 		List<Tipo> out = (List<Tipo>) this.hql(queryTipo);
-		return out.get(id-1);
+		return out.get(id - 1);
 	}
 
 	public Tipo getTipoPorDescripcion(String descripcion) throws Exception {
@@ -1043,27 +1041,25 @@ public class Register {
 	}
 
 	// retorna todas las alertas
-	public synchronized int  getCantidadAlertasNoCanceladas(String usuario) throws Exception {
+	public synchronized int getCantidadAlertasNoCanceladas(String usuario)
+			throws Exception {
 		List<Alerta> list = null;
 		String query = "select a from Alerta a where a.cancelada = 'false' and a.destino like '%"
 				+ usuario + "%'";
-		System.out.println("\n\n\n"+query+"\n\n");
+		System.out.println("\n\n\n" + query + "\n\n");
 		list = this.hql(query);
 		return list.size();
 	}
 
-	public static void xmain(String[] args) {
+	public static void main(String[] args) {
 		try {
 			String query = ""
-					+ " select ci.id, tipo.descripcion, cli.empresa.nombre"
-					+ " from  Cliente cli join cli.contactosInternos ci "
-					+ "               join ci.tipoContactoInterno tipo "
-					+ " where ci.funcionario.id = ? ";
+					+ " select  c.id ,c.nroCuenta ,c.banco.descripcion  from com.yhaguy.domain.BancoCta c  where  c.dbEstado != 'D' and   lower(c.banco.descripcion) like  '%15%' ";
 
 			Register rr = Register.getInstance();
 			// List<Domain> l = rr.selectFrom(ContactoInterno.class.getName(),
 			// "funcionario.id='2'");
-			List l = rr.hql(query, new Object[] { (long) 2 });
+			List l = rr.hql(query);
 			for (int i = 0; i < l.size(); i++) {
 				Object[] o = (Object[]) l.get(i);
 				System.out.println(o[0] + " - " + o[1]);
