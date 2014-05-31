@@ -649,7 +649,7 @@ public class Register {
 
 	public List hql(String query, Object[] param) throws Exception {
 
-		System.out.println("\n\n" + query + "\n\n");
+		//System.out.println("\n\n" + query + "\n\n");
 
 		List list = new ArrayList<Domain>();
 		Session session = null;
@@ -944,7 +944,7 @@ public class Register {
 
 		String hql = select + " from " + clase.getName() + " c " + join + " "
 				+ where + orden;
-		System.out.println("\n\n\n" + hql + "\n\n\n");
+		//System.out.println("\n\n\n" + hql + "\n\n\n");
 
 		l = this.hql(hql);
 
@@ -1046,7 +1046,7 @@ public class Register {
 		List<Alerta> list = null;
 		String query = "select a from Alerta a where a.cancelada = 'false' and a.destino like '%"
 				+ usuario + "%'";
-		System.out.println("\n\n\n" + query + "\n\n");
+		//System.out.println("\n\n\n" + query + "\n\n");
 		list = this.hql(query);
 		return list.size();
 	}
