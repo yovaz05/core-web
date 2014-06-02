@@ -109,10 +109,7 @@ public class Page extends GenericViewModel {
 
 		case Config.CTRL_B : this.getBody().clickCtrB();
 			break;
-			
-		case Config.CTRL_C : this.getBody().clickCtrC();
-			break;	
-		
+					
 		case Config.CTRL_F : this.getBody().clickCtrF();
 			break;
 		
@@ -127,18 +124,12 @@ public class Page extends GenericViewModel {
 			
 		case Config.CTRL_U : this.getBody().clickCtrU();
 			break;
-		
-		case Config.CTRL_V : this.getBody().clickCtrV();
-			break;
 			
 		case Config.CTRL_X : this.getBody().clickCtrX();
 			break;
 		
 		case Config.CTRL_Y : this.getBody().clickCtrY();
 			break;
-		
-		case Config.CTRL_Z : this.getBody().clickCtrZ();
-			break;		
 		}
 	}
 	

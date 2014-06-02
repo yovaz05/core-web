@@ -261,9 +261,6 @@ public abstract class Body extends GenericViewModel {
 	public void clickCtrB() throws Exception{		
 	}
 	
-	public void clickCtrC() throws Exception{		
-	}
-	
 	public void clickCtrF() throws Exception{		
 	}
 
@@ -279,16 +276,10 @@ public abstract class Body extends GenericViewModel {
 	public void clickCtrU() throws Exception{		
 	}
 
-	public void clickCtrV() throws Exception{		
-	}
-	
 	public void clickCtrX() throws Exception{		
 	}
 	
 	public void clickCtrY() throws Exception{		
-	}
-	
-	public void clickCtrZ() throws Exception{		
 	}
 	
 	//===================================================================
