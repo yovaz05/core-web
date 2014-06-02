@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.zkoss.bind.BindUtils;
-import org.zkoss.bind.Binder;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
@@ -32,10 +31,8 @@ import org.zkoss.bind.annotation.ExecutionParam;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
-import org.zkoss.zhtml.Div;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
-import org.zkoss.zk.ui.Path;
 
 import com.coreweb.control.GenericViewModel;
 import com.coreweb.dto.Assembler;
@@ -308,6 +305,7 @@ public abstract class Body extends GenericViewModel {
 	
 	private ControlAgendaEvento ctrAgenda;
 	private String ctrAgendaKey = "";
+	private List<Object[]> eventosAgenda = new ArrayList<Object[]>();
 	
 	public final ControlAgendaEvento getCtrAgenda() {
 		if (this.ctrAgenda == null){
@@ -330,7 +328,38 @@ public abstract class Body extends GenericViewModel {
 		return out;
 	}
 	
+	/**
+	 * Agrega los eventos de la agenda a una lista de eventos 
+	 * que se guarda luego de Grabar el DTO.
+	 * @param tipoAgenda
+	 * @param claveAgenda
+	 * @param tipoDetalle
+	 * @param texto
+	 * @param link
+	 */
+	public void addEventoAgenda(int tipoAgenda, String claveAgenda, 
+			int tipoDetalle, String texto, String link){
+		Object[] evento = new Object[5];
+		evento[0] = tipoAgenda;
+		evento[1] = claveAgenda;
+		evento[2] = tipoDetalle;
+		evento[3] = texto;
+		evento[4] = link;
+		this.eventosAgenda.add(evento);
+	}
+			
+	public void addEventoAgenda(String texto){		
+		this.addEventoAgenda(this.getCtrAgendaTipo(), this.getCtrAgendaKey(), 
+				0, texto, null);
+	}
 	
+	public void grabarEventosAgenda() throws Exception{
+		for (Object[] evento : this.eventosAgenda) {
+			this.getCtrAgenda().addDetalle((int) evento[0], this.getCtrAgendaKey(), 
+					(int) evento[2], (String)evento[3], (String)evento[4]);					
+		}
+		this.eventosAgenda = new ArrayList<>();
+	}
 	
 	
 	// 	para el manejo del toolbar ========================
