@@ -1,8 +1,5 @@
 package com.coreweb.util;
 
-import java.util.Comparator;
-
-import com.coreweb.domain.IiD;
 
 public class MyPair extends MyAuxObject {
 
@@ -11,6 +8,10 @@ public class MyPair extends MyAuxObject {
 	private String sigla = "";
 
 	public MyPair() {
+	}
+	
+	public MyPair(long id) {
+		this.setId(id);
 	}
 
 	public MyPair(long id, String text) {

@@ -70,7 +70,8 @@ public class Footer extends GenericViewModel {
 
 		try {
 			this.pagina.grabarDTOCorriente(); // graba
-
+			this.pagina.getBody().grabarEventosAgenda();
+			
 			this.mensajePopupTemporal("Información grabada!!", 1000);
 			out = true;
 		} catch (Exception e) {
