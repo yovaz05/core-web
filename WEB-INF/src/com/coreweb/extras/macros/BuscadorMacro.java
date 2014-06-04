@@ -18,7 +18,8 @@ import com.coreweb.util.Misc;
 import com.coreweb.util.MyArray;
 
 
-@ComponentAnnotation("value:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)")
+@ComponentAnnotation({"value:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)", 
+	"disabled:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)"})
 public abstract class BuscadorMacro extends HtmlMacroComponent {
 
 	private Object dato = null;
@@ -28,6 +29,7 @@ public abstract class BuscadorMacro extends HtmlMacroComponent {
 	private Misc misc = new Misc();
 	private Object parent = null;
 	private String[] valor = {};
+	private boolean disabled = false;
 
 	private String atributo = "atributo";
 
@@ -42,6 +44,10 @@ public abstract class BuscadorMacro extends HtmlMacroComponent {
 	@Wire
 	Textbox searchText;
 
+	
+
+	
+	
 	public void afterCompose() {
 		super.afterCompose();
 		this.setPlaceholder();
@@ -284,6 +290,14 @@ public abstract class BuscadorMacro extends HtmlMacroComponent {
 
 		new PropertyDescriptor(att, obj.getClass()).getWriteMethod().invoke(
 				obj, value);
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
 	}
 
 }
