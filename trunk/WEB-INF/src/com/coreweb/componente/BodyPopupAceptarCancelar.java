@@ -89,7 +89,8 @@ public class BodyPopupAceptarCancelar {
 	public void aceptar() {
 		// si no cumple la verificacion, entonces no sale
 		if ((this.checkAC != null)&&(this.checkAC.verificarAceptar()==false)){
-			this.m.mensajeError(this.checkAC.textoVerificarAceptar());
+			//this.m.mensajeError(this.checkAC.textoVerificarAceptar());
+			this.m.mensajePopupTemporalWarning(this.checkAC.textoVerificarAceptar(), 1);
 			return;
 		}
 				
@@ -110,7 +111,8 @@ public class BodyPopupAceptarCancelar {
 	public void cancelar() {
 		// si no cumple la verificacion, entonces no sale
 		if ((this.checkAC != null)&&(this.checkAC.verificarCancelar()==false)){
-			this.m.mensajeError(this.checkAC.textoVerificarCancelar());
+			//this.m.mensajeError(this.checkAC.textoVerificarCancelar());
+			this.m.mensajePopupTemporalWarning(this.checkAC.textoVerificarCancelar(), 1);
 			return;
 		}
 		this.controlInicial.clickAceptar = false;
@@ -183,7 +185,7 @@ public class BodyPopupAceptarCancelar {
 		window.setPosition("center");
 
 		//window.setWidth(null);
-		System.out.println("\n\n --------------------------this.heightWindows:"+this.heightWindows+"\n\n");
+		//System.out.println("\n\n --------------------------this.heightWindows:"+this.heightWindows+"\n\n");
 		if (this.heightWindows.trim().length() > 0){
 			window.setHeight(this.heightWindows);
 		}
