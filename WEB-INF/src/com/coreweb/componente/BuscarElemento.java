@@ -18,7 +18,7 @@ import com.coreweb.dto.DTO;
 import com.coreweb.util.Misc;
 import com.coreweb.util.MyArray;
 
-public class BuscarElemento {
+public class BuscarElemento implements VerificaAceptarCancelar{
 
 	Class clase;
 	Assembler assembler;
@@ -46,17 +46,20 @@ public class BuscarElemento {
 	BodyPopupAceptarCancelar bpac = null;
 
 	public void show(String dato) throws Exception {
-		this.show(dato, 0);  
+		this.show(dato, 0);
 	}
 
 	/**
-	 * @param dato : el string con la información para filtrar
-	 * @param posFiltro : la posición del arreglo donde hay que filtrar. 0 (cero) es la primer posición.
+	 * @param dato
+	 *            : el string con la información para filtrar
+	 * @param posFiltro
+	 *            : la posición del arreglo donde hay que filtrar. 0 (cero) es
+	 *            la primer posición.
 	 * @throws Exception
 	 */
 	public void show(String dato, int posFiltro) throws Exception {
-		
-		posFiltro += 1;	// en el 0 está el ID
+
+		posFiltro += 1; // en el 0 está el ID
 
 		// carga los tipos, por defecto String
 		if (this.tipos == null) {
@@ -67,7 +70,7 @@ public class BuscarElemento {
 		}
 
 		try {
-			valores[posFiltro] = dato.trim(); 
+			valores[posFiltro] = dato.trim();
 			List<Object[]> datos = this.getModelo();
 			if (datos.size() == 1) {
 				this.unDatoAceptar = true;
@@ -76,7 +79,7 @@ public class BuscarElemento {
 				return;
 			}
 		} catch (Exception e) {
-			//e.printStackTrace();	
+			// e.printStackTrace();
 		}
 
 		this.listbox.setEmptyMessage(this.msgVacia);
@@ -101,13 +104,16 @@ public class BuscarElemento {
 			FiltroBuscarElementoEvento ev = new FiltroBuscarElementoEvento(
 					this, listFiltros);
 			ahcT.addEventListener(Events.ON_OK, ev);
+			// quitamos el doble click, por que era molesto cuando uno queria
+			// selecionar, además sólo es necesario el enter en la cabecera
 			ahcT.addEventListener(Events.ON_DOUBLE_CLICK, ev);
 
 			if (i == 0) {
 				ahcT.setDisabled(true);
 			}
 			if (i == posFiltro) {
-				ahcT.setValue(valores[posFiltro]); // el dato que viene como parámetro
+				ahcT.setValue(valores[posFiltro]); // el dato que viene como
+													// parámetro
 				ahcT.setFocus(true);
 				ahcT.focus();
 			}
@@ -163,13 +169,14 @@ public class BuscarElemento {
 
 	public void showAgain() {
 		bpac = new BodyPopupAceptarCancelar();
-		ListboxEventListener ev = new ListboxEventListener(bpac);
-		listbox.addEventListener(Events.ON_DOUBLE_CLICK, ev	);
-		listbox.addEventListener(Events.ON_OK, ev	);
-		
-		// hace los calculos para que quede el scroll del listbox y no del windows
+		ListboxEventListener ev = new ListboxEventListener(bpac, this);
+		listbox.addEventListener(Events.ON_DOUBLE_CLICK, ev);
+		listbox.addEventListener(Events.ON_OK, ev);
+
+		// hace los calculos para que quede el scroll del listbox y no del
+		// windows
 		this.setAnchoAlto(bpac, listbox, this.width, this.height);
-		
+
 		// Para centrar el listbox
 		Hbox hb = new Hbox();
 		hb.setWidth(bpac.getWidthWindows());
@@ -177,47 +184,44 @@ public class BuscarElemento {
 		hb.setAlign("start");
 		hb.getChildren().add(listbox);
 		/*
-		Hlayout hl = new Hlayout();
-		hl.setWidth(bpac.getWidthWindows());
-		hl.setValign("middle");
-		hl.getChildren().add(listbox);
-		*/
+		 * Hlayout hl = new Hlayout(); hl.setWidth(bpac.getWidthWindows());
+		 * hl.setValign("middle"); hl.getChildren().add(listbox);
+		 */
+		bpac.setCheckAC(this);
 		bpac.addComponente("Buscar", hb);
 		bpac.showPopupUnaColumna(this.titulo);
 
 	}
 
-	private void setAnchoAlto(BodyPopupAceptarCancelar bpac, Listbox listbox, String w, String h){
-		int ancho = Integer.parseInt(w.substring(0,w.length()-2));
-		int alto =  Integer.parseInt(h.substring(0,h.length()-2));
-		
+	private void setAnchoAlto(BodyPopupAceptarCancelar bpac, Listbox listbox,
+			String w, String h) {
+		int ancho = Integer.parseInt(w.substring(0, w.length() - 2));
+		int alto = Integer.parseInt(h.substring(0, h.length() - 2));
+
 		listbox.setWidth(w);
 		listbox.setHeight(h);
-		bpac.setWidthWindows((ancho+30)+"px");
-		bpac.setHighWindows((alto+100)+"px");
-		
-		
+		bpac.setWidthWindows((ancho + 30) + "px");
+		bpac.setHighWindows((alto + 100) + "px");
+
 	}
-	
-	
-	
+
 	protected void refreshModeloListbox() throws Exception {
 
 		List<Object[]> datos = new ArrayList<Object[]>();
 		String msg = this.msgVacia;
 		try {
 			datos = this.getModelo();
-			msg = "Elementos encotrados: "+datos.size()+" - "+msg;
+			msg = "Elementos encotrados: " + datos.size() + " - " + msg;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			msg = e.getMessage();
 		}
-		
+
 		this.listbox.setEmptyMessage(msg);
 		this.listbox.setModel(new ListModelList(datos));
 		this.listbox.setFocus(true);
-		if (datos.size() > 0){
+		if (datos.size() > 0) {
 			this.listbox.setSelectedIndex(0);
 		}
 	}
@@ -404,6 +408,38 @@ public class BuscarElemento {
 	}
 
 	
+	String textoError = "";
+	
+	@Override
+	public boolean verificarAceptar() {
+		textoError = "";
+		
+		if (this.getSelectedItem() == null){
+			textoError = "Debe seleccionar un item!";
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public String textoVerificarAceptar() {
+		// TODO Auto-generated method stub
+		return textoError;
+	}
+
+	@Override
+	public boolean verificarCancelar() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public String textoVerificarCancelar() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+
 }
 
 class FiltroBuscarElementoEvento implements EventListener {
@@ -419,7 +455,13 @@ class FiltroBuscarElementoEvento implements EventListener {
 	@Override
 	public void onEvent(Event ev) throws Exception {
 		// TODO Auto-generated method stub
-
+		
+		if (ev.getName().compareTo(Events.ON_DOUBLE_CLICK)==0){
+			// de esta forma filtro el doble click de la cabecera, para que no lo capture el del listbox
+			return;
+		}
+		
+		
 		String[] valores = new String[listTx.size()];
 		for (int i = 0; i < listTx.size(); i++) {
 			Textbox tx = (Textbox) listTx.get(i);
@@ -435,13 +477,22 @@ class FiltroBuscarElementoEvento implements EventListener {
 class ListboxEventListener implements EventListener {
 
 	BodyPopupAceptarCancelar bpac;
+	BuscarElemento be;
 
-	public ListboxEventListener(BodyPopupAceptarCancelar bpac) {
+	public ListboxEventListener(BodyPopupAceptarCancelar bpac, BuscarElemento be) {
 		this.bpac = bpac;
+		this.be = be;
 	}
 
 	@Override
-	public void onEvent(Event arg0) throws Exception {
+	public void onEvent(Event ev) throws Exception {
+		
+		if (this.be.getSelectedItem() == null) {
+			// para que no se cierre en el doble click o enter, que si o si haya
+			// seleccionado algo
+			return;
+		}
+
 		this.bpac.getControlVM().aceptar();
 	}
 

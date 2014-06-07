@@ -19,7 +19,7 @@ import com.coreweb.util.MyArray;
 
 
 @ComponentAnnotation({"value:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)", 
-	"disabled:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)"})
+	"disabled:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)", "readonly:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)"})
 public abstract class BuscadorMacro extends HtmlMacroComponent {
 
 	private Object dato = null;
@@ -30,6 +30,7 @@ public abstract class BuscadorMacro extends HtmlMacroComponent {
 	private Object parent = null;
 	private String[] valor = {};
 	private boolean disabled = false;
+	private boolean readonly = false;
 
 	private String atributo = "atributo";
 
@@ -298,6 +299,18 @@ public abstract class BuscadorMacro extends HtmlMacroComponent {
 
 	public void setDisabled(boolean disabled) {
 		this.disabled = disabled;
+		this.searchText.setDisabled(disabled);
+		this.searchBtn.setDisabled(disabled);
+	}
+
+	public boolean isReadonly() {
+		return readonly;
+	}
+
+	public void setReadonly(boolean readonly) {
+		this.readonly = readonly;
+		this.searchText.setReadonly(readonly);
+		this.searchBtn.setDisabled(readonly);
 	}
 
 }
