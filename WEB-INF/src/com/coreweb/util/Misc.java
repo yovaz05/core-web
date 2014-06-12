@@ -15,6 +15,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,6 +42,8 @@ import com.coreweb.Config;
 
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
+
+
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -239,6 +242,34 @@ public class Misc {
 
 	}
 	
+	/**
+	 * 
+	 * @param fecha
+	 *            Fecha que se desea convertir a Date
+	 * @param formatoFecha
+	 *            El formato del String que almacena la fecha
+	 *            Ej.: String fecha = "03-27-2014 00:00:00"
+	 *				   Formato de la fecha "MM-dd-yyyy HH:mm:ss";
+	 *				   
+	 *		      Documentacion sobre SimpleDateFormat.html
+	 *		      http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+	 *				   
+	 * @return
+	 */
+	public static Date ParseFecha(String fecha, String formatoFecha)
+	{
+	    SimpleDateFormat formato = new SimpleDateFormat(formatoFecha);
+	    Date fechaDate = null;
+	    try {
+	        fechaDate = formato.parse(fecha);
+	    } 
+	    catch (ParseException ex) 
+	    {
+	        System.out.println(ex);
+	    }
+	    return fechaDate;
+	}
+
 	public String dateHoyToString() {
 		return dateToString(new Date(), YYYY_MM_DD_HORA_MIN_SEG2);
 	}
@@ -1313,6 +1344,7 @@ public class Misc {
 	public boolean esPar(int nro) {
 		return (nro % 2) == 0;
 	}
+	
 
 	public static void main(String[] args) {
 		try {
