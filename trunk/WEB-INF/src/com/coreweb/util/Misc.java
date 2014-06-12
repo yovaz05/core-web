@@ -191,6 +191,31 @@ public class Misc {
 		return color;
 	}
 
+	public java.util.Date stringToDateDiaMesAno(String dd) {
+		dd = dd + "0000000000000000000"; // son 19 caracteres, formato completo
+		int dia = 0;
+		int mes = 0;
+		int anio = 0;
+		
+		int hora24 = 0;
+		int minuto = 0;
+		int segundo = 0;
+
+		dia = Integer.parseInt(dd.substring(0, 2));
+		mes = Integer.parseInt(dd.substring(3, 5)) - 1;
+		anio = Integer.parseInt(dd.substring(7, 10));
+		
+		hora24 = Integer.parseInt(dd.substring(11, 13));
+		minuto = Integer.parseInt(dd.substring(14, 16));
+		segundo = Integer.parseInt(dd.substring(17, 19));
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(dia, mes, anio, hora24, minuto, segundo);
+
+		return calendar.getTime();
+
+	}
+
 	public java.util.Date stringToDate(String dd) {
 		dd = dd + "0000000000000000000"; // son 19 caracteres, formato completo
 		int anio = 0;
@@ -213,7 +238,7 @@ public class Misc {
 		return calendar.getTime();
 
 	}
-
+	
 	public String dateHoyToString() {
 		return dateToString(new Date(), YYYY_MM_DD_HORA_MIN_SEG2);
 	}
