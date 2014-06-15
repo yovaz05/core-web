@@ -46,7 +46,7 @@ public class Config {
 	public static String DIRECTORIO_BASE_REAL = "";
 
 	// directorios para reportes
-	private static String REPORTES = "reportes";
+	private static String REPORTES = "/reportes";
 	public static String DIRECTORIO_WEB_REPORTES;
 	public static String DIRECTORIO_REAL_REPORTES;
 
