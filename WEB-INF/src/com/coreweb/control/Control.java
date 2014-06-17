@@ -274,11 +274,15 @@ public class Control {
 	/***********************************************************************/
 
 	protected DTO saveDTO(DTO dto) throws Exception {
+		return saveDTO(dto, this.ass);
+	}
+
+	protected DTO saveDTO(DTO dto, Assembler assembler) throws Exception {
 		String login = getLoginNombre();
-		Domain don = ass.dtoToDomain(dto);
+		Domain don = assembler.dtoToDomain(dto);
 		Register register = Register.getInstance();
 		register.saveObject(don, login);
-		dto = ass.domainToDto(don);
+		dto = assembler.domainToDto(don);
 		return dto;
 	}
 

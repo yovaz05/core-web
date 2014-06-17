@@ -164,7 +164,7 @@ public class MyReport {
 		dataSource = contructor.newInstance((Object) titles);
 
 		for (int i = 0; i < data.size(); i++) {
-			System.out.println("-------------------- "+i);
+			//System.out.println("-------------------- "+i);
 			Object[] objects = (Object[]) data.get(i);
 			dataSource.add(objects);
 		}
