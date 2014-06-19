@@ -97,6 +97,7 @@ public class BuscarElemento implements VerificaAceptarCancelar{
 		for (int i = 0; i < valores.length; i++) {
 			Auxheader ahc = new Auxheader();
 			Textbox ahcT = new Textbox();
+			ahcT.setHflex("1");			
 			ahc.getChildren().add(ahcT);
 			ah.getChildren().add(ahc);
 			listFiltros.add(ahcT);
