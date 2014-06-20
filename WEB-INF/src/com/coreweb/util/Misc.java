@@ -1,5 +1,6 @@
 package com.coreweb.util;
 
+import java.beans.PropertyDescriptor;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -1106,6 +1107,15 @@ public class Misc {
 		fd.setAccessible(true);
 		fd.set(obj, value);
 	}
+	
+	// hace un get de un atributo, si no puede prueba con la super clase (sólo
+	// una)
+	public Object getValue(Object obj, String att) throws Exception {
+		Method m = new PropertyDescriptor(att, obj.getClass()).getReadMethod();
+		Object v = m.invoke(obj);
+		return v;
+	}
+
 
 	/*
 	 * NO ESTA REVISADO SI FUNCIONA // ejecuta el método de una clase public

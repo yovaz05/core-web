@@ -13,6 +13,7 @@
 
                <property name="key"/>
                 <property name="numero"/>
+                <property name="numeroDesde"/>
                 <property name="numeroHasta"/>
                 <property name="fecha"/>
                 <property name="descripcion"/>
