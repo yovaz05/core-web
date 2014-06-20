@@ -282,6 +282,8 @@ public class Toolbar extends GenericViewModel {
 
 				// obtener un DTO del MyArray
 
+				System.out.println("\n\n\n\nthis.getPagina().getBody().getEntidadPrincipal():"+this.getPagina().getBody().getEntidadPrincipal()+"\n\n\n\n");
+				
 				Assembler as = this.getPagina().getBody().getAss();
 				DTO dto = as.getDto(this.getPagina().getBody()
 						.getEntidadPrincipal(), m);

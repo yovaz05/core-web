@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.coreweb.domain.IiD;
 import com.coreweb.util.Misc;
+import com.coreweb.util.MyArray;
 
 public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 
@@ -187,6 +188,36 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 
 	public String getTextOrden() {
 		return this.misc.ceros(this.getId() + "", 8);
+	}
+
+	/**
+	 * Retorna el MyArray de un DTO. Es necesario reimplementar el método
+	 * getCamposMyArray para definir que campos se usaran
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public MyArray toMyArray() throws Exception {
+		MyArray ma = new MyArray();
+		ma.setId(this.getId());
+		String[] campos = this.getCamposMyArray();
+		for (int i = 0; i < campos.length; i++) {
+			String campo = campos[i];
+			Object dato = this.misc.getValue(this, campo);
+			this.misc.setValue(ma, "pos" + (i + 1), dato);
+		}
+		return ma;
+	}
+
+	/**
+	 * Los campos que se usan para pasar de Dto a MyArray. Si no se define, sólo
+	 * usa el campo Id.
+	 * 
+	 * @return
+	 */
+	public String[] getCamposMyArray() {
+		String[] campos = {};
+		return campos;
 	}
 
 	/*

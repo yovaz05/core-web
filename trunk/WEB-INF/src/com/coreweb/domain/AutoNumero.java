@@ -6,6 +6,7 @@ public class AutoNumero extends Domain {
 
 	String key = "";
 	long numero = 0;
+	long numeroDesde = 1;
 	long numeroHasta = -1;
 	Date fecha = new Date();
 	String descripcion = "descripcion no definada";
@@ -58,6 +59,16 @@ public class AutoNumero extends Domain {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+
+	public long getNumeroDesde() {
+		return numeroDesde;
+	}
+
+
+	public void setNumeroDesde(long numeroDesde) {
+		this.numeroDesde = numeroDesde;
 	}
 
 
