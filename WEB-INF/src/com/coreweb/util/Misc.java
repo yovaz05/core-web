@@ -195,7 +195,7 @@ public class Misc {
 		return color;
 	}
 
-	public java.util.Date stringToDateDiaMesAno(String dd) {
+	public java.util.Date stringMesDiaAnoToDate(String dd) {
 		dd = dd + "0000000000000000000"; // son 19 caracteres, formato completo
 		int dia = 0;
 		int mes = 0;
@@ -205,8 +205,8 @@ public class Misc {
 		int minuto = 0;
 		int segundo = 0;
 
-		dia = Integer.parseInt(dd.substring(0, 2));
-		mes = Integer.parseInt(dd.substring(3, 5)) - 1;
+		mes = Integer.parseInt(dd.substring(0, 2))-1;
+		dia = Integer.parseInt(dd.substring(3, 5));
 		anio = Integer.parseInt(dd.substring(7, 10));
 		
 		hora24 = Integer.parseInt(dd.substring(11, 13));
@@ -214,8 +214,8 @@ public class Misc {
 		segundo = Integer.parseInt(dd.substring(17, 19));
 
 		Calendar calendar = Calendar.getInstance();
-		calendar.set(dia, mes, anio, hora24, minuto, segundo);
-
+		calendar.set(anio, mes, dia, hora24, minuto, segundo);
+		
 		return calendar.getTime();
 
 	}
