@@ -384,10 +384,26 @@ public class Misc {
 	 * @return
 	 */
 	public long diasEntreFechas(Date d1, Date d2) {
+		long aux = 0;
 		long out = 0;
-		long diff = this.toFecha2400(d2).getTime()
-				- this.toFecha0000(d1).getTime();
-		out = (diff / (24 * 60 * 60 * 1000));
+		long ld1 = this.toFecha0000(d1).getTime();
+		long ld2 = this.toFecha2400(d2).getTime();
+		
+		long dia = (24 * 60 * 60 * 1000);
+		long diff = ld2 - ld1;
+		
+		
+		if (diff < dia && diff > 0) {
+			return 0;
+		}
+		if ( diff < 0) {
+			aux = -1;
+			if (diff*-1 < dia) {
+				return -1;
+			}
+			
+		}
+		out = (diff / dia)+aux;
 		return out;
 	}
 
@@ -1359,16 +1375,20 @@ public class Misc {
 	public static void main(String[] args) {
 		try {
 
+			long xx = 10 / (24 * 60 * 60 * 1000);
+			System.out.println("--->"+xx+"   "+(24 * 60 * 60 * 1000));
+			
+			
 			Misc m = new Misc();
 			Date d1 = new Date();
 			Date d2 = new Date();
 
 			DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-			String inputStr1 = "01-02-2013";
+			String inputStr1 = "26-02-2013";
 			d1 = dateFormat.parse(inputStr1);
 
-			String inputStr2 = "01-03-2013";
+			String inputStr2 = "27-02-2013";
 			d2 = dateFormat.parse(inputStr2);
 			
 			System.out.println(m.diasEntreFechas(d1, d2));
@@ -1380,7 +1400,7 @@ public class Misc {
 			inputStr2 = "12-11-2012";
 			d2 = dateFormat.parse(inputStr2);
 			
-			System.out.println(m.diasEntreFechas(d1, d2));
+			//System.out.println(m.diasEntreFechas(d1, d2));
 			
 			
 			
