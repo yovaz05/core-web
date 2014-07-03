@@ -205,7 +205,7 @@ public class Misc {
 		int minuto = 0;
 		int segundo = 0;
 
-		mes = Integer.parseInt(dd.substring(0, 2))-1;
+		mes = Integer.parseInt(dd.substring(0, 2)) - 1;
 		dia = Integer.parseInt(dd.substring(3, 5));
 		anio = Integer.parseInt(dd.substring(7, 10));
 		
