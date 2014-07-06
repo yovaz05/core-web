@@ -1371,6 +1371,14 @@ public class Misc {
 		return (nro % 2) == 0;
 	}
 	
+	/**
+	 * Retorna true si el nro es múltiplo del factor..
+	 * @param int factor
+	 */
+	public boolean esMultiploDe(int nro, int factor){
+		return (nro % factor) == 0;
+	}
+	
 
 	public static void main(String[] args) {
 		try {
