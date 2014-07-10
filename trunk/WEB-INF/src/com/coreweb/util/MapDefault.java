@@ -1,9 +1,10 @@
 package com.coreweb.util;
 
 
+import java.io.Serializable;
 import java.util.*;
 
-public class MapDefault{
+public class MapDefault implements Serializable{
 	// toma un valor por default en el constructor 
 
 	private Object porDefecto = null;
