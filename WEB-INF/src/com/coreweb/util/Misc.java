@@ -75,6 +75,8 @@ public class Misc {
 	public static String D_MMMM_YYYY = "d 'de' MMMM 'del' yyyy";
 	public static String D_MMMM_YYYY2 = "d MMMM yyyy (HH:mm:ss)";
 	public static String DD_MM_YYYY = "dd-MM-yyyy";
+	public static String DD_MMMM_HH_MM = "dd MMMM (HH:mm)";
+	public static String HH_MM_SS = "h:m:s";
 
 	public static String LABEL_BORDER = "border:1px solid; border-color:#54afcb; padding:2px";
 
@@ -276,6 +278,9 @@ public class Misc {
 	}
 
 	public String dateToString(java.util.Date dd, String format) {
+		if (dd == null){
+			return "-";
+		}
 
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		String out2 = sdf.format(dd);
@@ -367,6 +372,19 @@ public class Misc {
 		return dateCal.getTime();
 	}
 
+	public Date getFechaHoy2359() {
+
+		Calendar dateCal = Calendar.getInstance();
+		// make it now
+		dateCal.setTime(new Date());
+		// Now set it to the time you want
+		dateCal.set(Calendar.HOUR_OF_DAY, 23);
+		dateCal.set(Calendar.MINUTE, 59);
+		dateCal.set(Calendar.SECOND, 59);
+		dateCal.set(Calendar.MILLISECOND, 999);
+		return dateCal.getTime();
+	}
+
 	public Date getFechaHoyDetalle() {
 
 		Calendar dateCal = Calendar.getInstance();
@@ -375,6 +393,28 @@ public class Misc {
 		return dateCal.getTime();
 	}
 
+	
+	/**
+	 * Muestra la diferencia entre fechas con formato HH:mm:ss
+	 * @param desde
+	 * @param hasta
+	 * @return
+	 */
+	public String tiempoTareas(Date desde, Date hasta){
+		String out = "";
+		if ((desde == null)||(hasta == null)){
+			return "";
+		}
+		long dif = hasta.getTime() - desde.getTime();
+		dif = dif / 1000;
+        long hor=dif/3600;  
+        long min=(dif-(3600*hor))/60;  
+        long seg=dif-((hor*3600)+(min*60));  
+        out = hor+"h "+min+"m "+seg+"s";
+        
+		return out;
+	}
+	
 	/**
 	 * Data dos fechas, dice la diferencia de dias entre ellas, no considera las
 	 * horas y minutos. Ojo, la fecha 2 debe ser mas mayor.

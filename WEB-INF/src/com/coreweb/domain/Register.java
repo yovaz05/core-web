@@ -144,25 +144,7 @@ public class Register {
 
 	}
 
-	public synchronized void saveObjectxx(Domain o, String user)
-			throws Exception {
-		Session session = null;
-		UserTransaction tx = (UserTransaction) new InitialContext()
-				.lookup("java:comp/UserTransaction");
 
-		try {
-			session = getSession();
-			tx.begin();
-			saveObjectDomain(o, session, user);
-
-			tx.commit();
-		} catch (RuntimeException e) {
-			tx.rollback();
-			throw e; // or display error message
-		} finally {
-			closeSession(session);
-		}
-	}
 
 	public synchronized void saveObject(Domain o, String user) throws Exception {
 
@@ -229,6 +211,7 @@ public class Register {
 			return (Domain) o;
 
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			throw e;
 		} finally {
 			closeSession(session);
@@ -277,6 +260,7 @@ public class Register {
 			session.delete(o);
 			session.getTransaction().commit();
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			throw e;
 		} finally {
 			closeSession(session);
@@ -374,6 +358,7 @@ public class Register {
 
 			return list;
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			throw e;
 		} finally {
 			closeSession(session);
@@ -434,6 +419,7 @@ public class Register {
 			return Integer.parseInt(cri.uniqueResult().toString());
 
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			throw e;
 		} finally {
 			closeSession(session);
@@ -607,6 +593,7 @@ public class Register {
 			session.getTransaction().commit();
 
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			throw e;
 		} finally {
 			closeSession(session);
@@ -666,6 +653,7 @@ public class Register {
 			list = q.list();
 			session.getTransaction().commit();
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			throw e;
 		} finally {
 			closeSession(session);
@@ -703,6 +691,7 @@ public class Register {
 			list = q.list();
 			session.getTransaction().commit();
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			throw e;
 		} finally {
 			closeSession(session);
@@ -756,6 +745,7 @@ public class Register {
 			session.getTransaction().commit();
 
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			throw e;
 		} finally {
 			closeSession(session);
@@ -778,6 +768,7 @@ public class Register {
 			session.getTransaction().commit();
 
 		} catch (Exception e) {
+			session.getTransaction().rollback();
 			throw e;
 		} finally {
 			closeSession(session);
