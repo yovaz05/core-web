@@ -25,6 +25,7 @@ import net.sf.dynamicreports.report.builder.subtotal.AggregationSubtotalBuilder;
 import net.sf.dynamicreports.report.constant.GroupHeaderLayout;
 import net.sf.dynamicreports.report.constant.PageOrientation;
 import net.sf.dynamicreports.report.constant.PageType;
+import net.sf.dynamicreports.report.constant.WhenNoDataType;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
 import net.sf.dynamicreports.report.exception.DRException;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -113,6 +114,7 @@ public class MyReport {
 			
 			rep.setDataSource(createDataSource(cabecera.getColumnasDS(), datos));
 			rep.addSummary(this.footer);
+			rep.setWhenNoDataType(WhenNoDataType.ALL_SECTIONS_NO_DETAIL);
 
 			
 			

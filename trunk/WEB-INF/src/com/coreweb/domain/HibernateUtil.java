@@ -20,7 +20,7 @@ public class HibernateUtil {
 
 	private static Configuration configuration;
 	private static SessionFactory sessionFactory;
-	private static Session session;
+//	private Session session;
 
 	static {
 		try {
@@ -28,6 +28,7 @@ public class HibernateUtil {
 			//java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 			//configuration = new Configuration().configure("classpath:/hibernate.cfg.xml");
 			configuration = new Configuration().configure("hibernate.cfg.xml");
+			sessionFactory = createSessionFactory();
 
 			/*
 			System.out.println("============================");
@@ -46,8 +47,7 @@ public class HibernateUtil {
 			System.out.println("============================");
 			System.out.println("============================");
 			*/
-			sessionFactory = createSessionFactory();
-			session = sessionFactory.openSession();
+
 
 			/*
 			 * 
@@ -80,37 +80,32 @@ public class HibernateUtil {
 		}
 	}
 
-	private static SessionFactory createSessionFactory() {
-		/*
-		if (configuration == null) {
-			configuration = new Configuration();
-		}
-		*/
+	private static  SessionFactory createSessionFactory() {
+
 		return createSessionFactory(configuration);
 	}
 
 	private static SessionFactory createSessionFactory(Configuration cfg) {
 		// Create the SessionFactory from hibernate.cfg.xml
 		configuration = cfg;
-		// configuration.configure();
 		ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
 				.applySettings(configuration.getProperties()).buildServiceRegistry();
 		SessionFactory sf = configuration.buildSessionFactory(serviceRegistry);
 		return sf;
 	}
 
-	private static SessionFactory getSessionFactory() {
+	private  SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
 
-	public static Configuration getConfiguration() {
+	public  Configuration getConfiguration() {
 		return configuration;
 	}
 
-	synchronized public static void forceRebuildSessionFactory(Configuration cfg) {
+	synchronized public  void forceRebuildSessionFactory(Configuration cfg) {
 		try {
 			sessionFactory = createSessionFactory(cfg);
-			session = sessionFactory.openSession();
+			Session session = sessionFactory.openSession();
 			System.out.println("---- ok forceRebuildSessionFactory ----");
 		} catch (Exception ex) {
 			System.out
@@ -119,7 +114,7 @@ public class HibernateUtil {
 		}
 	}
 
-	synchronized public static void rebuildSessionFactory() {
+	synchronized public  void rebuildSessionFactory() {
 		// si es null si o si hay que asignarle algo para sincronizar :(
 		if (sessionFactory == null)
 			sessionFactory = createSessionFactory();
@@ -127,7 +122,7 @@ public class HibernateUtil {
 		synchronized (sessionFactory) {
 			try {
 				sessionFactory = createSessionFactory();
-				session = sessionFactory.openSession();
+				Session session = sessionFactory.openSession();
 				System.out.println("---- ok rebuildSessionFactory----");
 			} catch (Exception ex) {
 				System.out.println("---- error !!! rebuildSessionFactory----");
@@ -136,14 +131,15 @@ public class HibernateUtil {
 		}
 	}
 
-	public static Session getSession() throws Exception {
-		checkSession();
-		return session;
+	public  Session getSession() throws Exception {
+		//checkSession();
+		return sessionFactory.openSession();
 	}
 
-	private static void checkSession() throws Exception {
+	private  void checkSession() throws Exception {
 		int v = 0;
 		boolean ok = false;
+		Session session = getSession();
 
 		while (ok == false) {
 			try {
@@ -173,7 +169,7 @@ public class HibernateUtil {
 
 	}
 
-	public static void clearDB() {
+	public  void clearDB() {
 		try {
 			Register rr = Register.getInstance();
 			rr.dropAllTables();
