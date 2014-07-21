@@ -37,6 +37,8 @@ import javax.transaction.UserTransaction;
 
 public class Register {
 
+	HibernateUtil hibernateUtil = new HibernateUtil();
+	
 	// El register tiene que ser un sigleton
 	private static Register instance = new Register();
 
@@ -85,9 +87,9 @@ public class Register {
 		}
 
 		System.out.println(".... borrando Base de datos ...");
-		Configuration cfg = HibernateUtil.getConfiguration();
+		Configuration cfg = this.hibernateUtil.getConfiguration();
 		cfg.setProperty("hibernate.hbm2ddl.auto", "create");
-		HibernateUtil.forceRebuildSessionFactory(cfg);
+		this.hibernateUtil.forceRebuildSessionFactory(cfg);
 
 	}
 
@@ -112,7 +114,7 @@ public class Register {
 	}
 
 	private Session getSession() throws Exception {
-		Session session = HibernateUtil.getSession();
+		Session session = this.hibernateUtil.getSession();
 
 		if (session.isOpen() == false) {
 			session = session.getSessionFactory().openSession();
@@ -305,7 +307,7 @@ public class Register {
 	protected synchronized List getObjects(String entityName, Vector rest,
 			Vector orders, int ini, int max) throws Exception {
 		// este metodo no debería hacer falta, lo pongo para hacer una prueba
-		// nomas, deberñia borrar y usar el metodo que sigue.
+		// nomas, deberia borrar y usar el metodo que sigue.
 		boolean ok = false;
 		int vuelta = 0;
 		List l = null;
@@ -316,7 +318,7 @@ public class Register {
 				ok = true;
 			} catch (Exception e) {
 				e.printStackTrace();
-				HibernateUtil.rebuildSessionFactory();
+				this.hibernateUtil.rebuildSessionFactory();
 				vuelta++;
 				if (vuelta == 2) {
 					System.out
@@ -626,15 +628,15 @@ public class Register {
 		return out;
 	}
 
-	public List hql(String query) throws Exception {
+	public synchronized List hql(String query) throws Exception {
 		return this.hql(query, new Object[] {});
 	}
 
-	public List hql(String query, Object o) throws Exception {
+	public synchronized List hql(String query, Object o) throws Exception {
 		return this.hql(query, new Object[] { o });
 	}
 
-	public List hql(String query, Object[] param) throws Exception {
+	public synchronized List hql(String query, Object[] param) throws Exception {
 
 		//System.out.println("\n\n" + query + "\n\n");
 
@@ -673,7 +675,7 @@ public class Register {
 	 * @return
 	 * @throws Exception
 	 */
-	public List hql(String query, Hashtable<String, Object> params)
+	public synchronized List hql(String query, Hashtable<String, Object> params)
 			throws Exception {
 		List list = new ArrayList<Domain>();
 		Session session = null;
