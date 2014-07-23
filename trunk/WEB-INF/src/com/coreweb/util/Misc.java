@@ -965,10 +965,10 @@ public class Misc {
 		}
 	}
 
-	public void uploadFile(String path, String name, String ext,
-			InputStream file) {
+	
+	public void uploadFile(String pathCompleto, InputStream file) {
 		try {
-			OutputStream out = new java.io.FileOutputStream(path + name + ext);
+			OutputStream out = new java.io.FileOutputStream(pathCompleto);
 			InputStream in = file;
 			int read = 0;
 			byte[] bytes = new byte[1024];
@@ -982,6 +982,13 @@ public class Misc {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	
+	public void uploadFile(String path, String name, String ext,
+			InputStream file) {
+		
+		this.uploadFile(path + name + ext, file);
 	}
 
 	/**
