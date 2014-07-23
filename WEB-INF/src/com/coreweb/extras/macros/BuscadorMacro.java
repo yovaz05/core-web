@@ -19,7 +19,8 @@ import com.coreweb.util.MyArray;
 
 
 @ComponentAnnotation({"value:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)", 
-	"disabled:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)", "readonly:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)"})
+	"disabled:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)", 
+	"readonly:@ZKBIND(ACCESS=both,SAVE_EVENT=onEdited)"})
 public abstract class BuscadorMacro extends HtmlMacroComponent {
 
 	private Object dato = null;
@@ -200,7 +201,7 @@ public abstract class BuscadorMacro extends HtmlMacroComponent {
 		String valor = this.searchText.getValue().trim();
 		int posicion = this.getPosFiltro();
 
-		System.out.println("\n\n\n where:" + this.where + "\n\n\n\n");
+		
 
 		BuscarElemento b = new BuscarElemento();
 		b.setClase(this.getClaseObject());
@@ -298,6 +299,7 @@ public abstract class BuscadorMacro extends HtmlMacroComponent {
 	}
 
 	public void setDisabled(boolean disabled) {
+		
 		this.disabled = disabled;
 		this.searchText.setDisabled(disabled);
 		this.searchBtn.setDisabled(disabled);
@@ -308,6 +310,7 @@ public abstract class BuscadorMacro extends HtmlMacroComponent {
 	}
 
 	public void setReadonly(boolean readonly) {
+		
 		this.readonly = readonly;
 		this.searchText.setReadonly(readonly);
 		this.searchBtn.setDisabled(readonly);
