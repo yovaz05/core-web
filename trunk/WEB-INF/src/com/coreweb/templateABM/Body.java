@@ -352,6 +352,12 @@ public abstract class Body extends GenericViewModel {
 		this.addEventoAgenda(this.getCtrAgendaTipo(), this.getCtrAgendaKey(), 
 				0, texto, null);
 	}
+
+	public void addEventoAgendaLink(String texto, String link){		
+		this.addEventoAgenda(this.getCtrAgendaTipo(), this.getCtrAgendaKey(), 
+				0, texto, link);
+	}
+
 	
 	public void grabarEventosAgenda() throws Exception{
 		for (Object[] evento : this.eventosAgenda) {
