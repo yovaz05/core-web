@@ -89,8 +89,8 @@ public class BodyPopupAceptarCancelar {
 	public void aceptar() {
 		// si no cumple la verificacion, entonces no sale
 		if ((this.checkAC != null)&&(this.checkAC.verificarAceptar()==false)){
-			//this.m.mensajeError(this.checkAC.textoVerificarAceptar());
-			this.m.mensajePopupTemporalWarning(this.checkAC.textoVerificarAceptar(), 1);
+			this.m.mensajeError(this.checkAC.textoVerificarAceptar());
+			//this.m.mensajePopupTemporalWarning(this.checkAC.textoVerificarAceptar(), 1);
 			return;
 		}
 				
