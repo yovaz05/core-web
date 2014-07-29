@@ -1,6 +1,7 @@
 package com.coreweb.util;
 
 import java.text.DecimalFormat;
+
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.Converter;
 import org.zkoss.zk.ui.Component;
@@ -61,7 +62,7 @@ public class MyConverter implements Converter {
 	@Override
 	public Object coerceToUi(Object arg0, Component arg1, BindContext arg2) {
 		// TODO Auto-generated method stub
-		return coerceToUi(arg0, arg1);
+		return coerceTo(arg0, arg1);
 	}
 
 
@@ -73,29 +74,25 @@ public class MyConverter implements Converter {
 			
 		} else if (this.tipoFormato == FORMAT_CREDIT_CARD) {
 			out = this.formatCreditCard((String) val, comp);			
+		
+		} else if (this.tipoFormato == FORMAT_MONEDA_EXTRANJERA) {
+			out = this.formatMonedaExtranjera(val, comp);
+		
+		} else if (this.tipoFormato == FORMAT_MONEDA_LOCAL) {
+			out = this.formatMonedaLocal(val, comp);
 		} 
 			
 		return val == null ? null : out;
-	}
-	
-	public Object coerceToUi(Object val, Component comp){				
-		Object out = null;
-		
-		if (this.tipoFormato == FORMAT_MONEDA_LOCAL) {
-			out = this.formatMonedaLocal(val, comp);		
-		} else if (this.tipoFormato == FORMAT_MONEDA_EXTRANJERA){
-			out = this.formatMonedaExtranjera(val, comp);
-		}
-			
-		return val == null ? null : out;
-	}
-	
+	}	
 	
 
 	/************************* FORMATOS ****************************/
 	
 	//Formato Factura
 	public String formatFactura(String val, Component comp){
+		if ((val == null) || (val.trim().length() == 0)) {
+			return val;
+		}
 		if (((val.split("-").length != 3) || !misc.containsOnlyNumbers((String) val))) {
 			Clients.showNotification("Mal formato de la factura", "error", comp, "end_center", 3000, true);
 			return val;
@@ -105,25 +102,28 @@ public class MyConverter implements Converter {
 		return out;
 	}
 	
-	//Formato Tarjeta de Credito
+	//Formato Tarjeta de Credito (Solo se permite ingresar los ultimos 4 digitos)
 	public String formatCreditCard(String val, Component comp){
-		if (((val.split("-").length != 4) || !misc.containsOnlyNumbers((String) val))) {
-			Clients.showNotification("No es el formato", "error", comp, "end_center", 3000, true);		
+		if ((val == null) || (val.trim().length() == 0)) {
 			return val;
 		}
-		String[] s = ((String) val).split("-");
-		String out = misc.ceros(s[0], 4)+"-"+misc.ceros(s[1], 4)+"-"+misc.ceros(s[2], 4)+"-"+misc.ceros(s[3], 4);
-		return out;
+		if (((val.trim().length() > 4) || !misc.containsOnlyNumbers((String) val))) {
+			Clients.showNotification("No es el formato", "error", comp, "end_center", 3000, true);		
+			return "";
+		}
+		//String[] s = ((String) val).split("-");
+		//String out = misc.ceros(s[0], 4)+"-"+misc.ceros(s[1], 4)+"-"+misc.ceros(s[2], 4)+"-"+misc.ceros(s[3], 4);
+		return val;
 	}	
 	
 	//Formato Moneda Local
-	public Object formatMonedaLocal(Object val, Component comp){
+	public String formatMonedaLocal(Object val, Component comp){
 		final Number number = (Number) val;
 		return new DecimalFormat(Config.FORMAT_MONEDA_LOCAL).format(number);
 	}
 	
 	//Formato Moneda Extranjera
-	public Object formatMonedaExtranjera(Object val, Component comp){
+	public String formatMonedaExtranjera(Object val, Component comp){
 		final Number number = (Number) val;
 		return new DecimalFormat(Config.FORMAT_MONEDA_EXTRANJERA).format(number);
 	}
