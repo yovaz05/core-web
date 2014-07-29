@@ -34,6 +34,9 @@
 .texto-centrado {
 	text-align: center;
 }
+.formato-numerico {
+	text-align: right;
+}
 .footer-input {
 	background:#dddddd;
 	text-align:right; 
