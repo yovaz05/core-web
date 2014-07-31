@@ -46,6 +46,8 @@ import com.coreweb.Config;
 
 
 
+
+
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -1426,6 +1428,36 @@ public class Misc {
 		return (nro % factor) == 0;
 	}
 	
+	/**
+	 * Verifica si se puede parsear el String a Integer..
+	 */
+	public boolean isInteger(String str){
+	    try {
+	        Integer.parseInt(str);
+	        return true;
+	    } catch (NumberFormatException nfe) {}
+	    return false;
+	}
+	
+	/**
+	 * Separa letras de numeros
+	 * [0]: letra/s
+	 * [1]: numero/s
+	 */
+	public String[] separarLetrasDeNumeros(String str){		
+		String[] sp = str.split("");
+		String letra = ""; 
+		String numero = "";
+		
+		for (int i = 0; i < sp.length; i++) {
+			if (this.isInteger(sp[i])) {
+				numero += sp[i];
+			} else {
+				letra += sp[i];
+			}
+		}		
+		return new String[]{letra, numero};
+	}
 
 	public static void main(String[] args) {
 		try {
