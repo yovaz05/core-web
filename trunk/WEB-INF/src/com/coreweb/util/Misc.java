@@ -418,6 +418,25 @@ public class Misc {
 	}
 	
 	/**
+	 * Muestra la diferencia entre fechas con formato HH:mm:ss
+	 * @param desde
+	 * @param hasta
+	 * @return
+	 */
+	public String tiempoTareas(long tiempo){
+		String out = "";
+		long dif = tiempo;
+		dif = dif / 1000;
+        long hor=dif/3600;  
+        long min=(dif-(3600*hor))/60;  
+        long seg=dif-((hor*3600)+(min*60));  
+        out = hor+"h "+min+"m "+seg+"s";
+        
+		return out;
+	}
+
+	
+	/**
 	 * Data dos fechas, dice la diferencia de dias entre ellas, no considera las
 	 * horas y minutos. Ojo, la fecha 2 debe ser mas mayor.
 	 * 
@@ -1467,6 +1486,15 @@ public class Misc {
 			
 			
 			Misc m = new Misc();
+			
+			System.out.println(m.tiempoTareas(1000));
+			System.out.println(m.tiempoTareas(1000*10));
+			System.out.println(m.tiempoTareas(1000*80));
+			
+			if (true){
+				return;
+			}
+			
 			Date d1 = new Date();
 			Date d2 = new Date();
 
