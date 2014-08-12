@@ -4,6 +4,11 @@ import org.zkoss.zk.ui.Executions;
 
 public class Config {
 
+	// 0 = normal, 1=bootstrap, 2=
+	public static int TEMA = 0;  
+	public static int TIPO_TEMA_NORMAL = 0;
+	public static int TIPO_TEMA_BOOTSTRAP = 1;
+	
 	public static String USER_SYSTEMA = "SYS";
 	public static String ANCHO_APP = "1024px";
 	public static String ALERTAS = "alertas";
