@@ -1,70 +1,31 @@
 package com.coreweb.control;
 
-import java.lang.reflect.Method;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.hamcrest.core.IsInstanceOf;
-import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
-import org.zkoss.bind.annotation.Default;
-import org.zkoss.bind.annotation.ExecutionParam;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Session;
-import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.ext.Disable;
-import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zk.ui.util.Template;
-import org.zkoss.zul.Bandbox;
-import org.zkoss.zul.Button;
-import org.zkoss.zul.Checkbox;
-import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Constraint;
-import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
-import org.zkoss.zul.Grid;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listitem;
-import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Radio;
-import org.zkoss.zul.Radiogroup;
-import org.zkoss.zul.Row;
-import org.zkoss.zul.RowRenderer;
-import org.zkoss.zul.Rows;
-import org.zkoss.zul.SimpleConstraint;
-import org.zkoss.zul.Space;
 import org.zkoss.zul.Textbox;
-import org.zkoss.zul.Toolbarbutton;
 import org.zkoss.zul.Vbox;
 import org.zkoss.zul.Vlayout;
 import org.zkoss.zul.Window;
-import org.zkoss.zul.event.ZulEvents;
 import org.zkoss.zul.ext.Constrainted;
 
 import com.coreweb.Config;
 import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.dto.Assembler;
-import com.coreweb.login.ControlInicio;
 import com.coreweb.util.Check;
 import com.coreweb.util.MyConverter;
 
@@ -162,23 +123,16 @@ public abstract class GenericViewModel extends Control {
 	public void addCamposObligotorios(Component ac) {
 		this.addCamposObligotorios((AbstractComponent) ac);
 	}
+	
+	private void addCamposObligotorios(AbstractComponent ac) {
 
-	private AbstractComponent addCamposObligotorios(AbstractComponent ac) {
-
-		List<AbstractComponent> children2 = new ArrayList<AbstractComponent>();
-
-		boolean nuevaLista = false;
-		List children = ac.getChildren();
+		List<Component> children = ac.getChildren();
 
 		if (children != null) {
 			int len = children.size();
 			for (int i = (len - 1); i >= 0; i--) {
 				AbstractComponent co = (AbstractComponent) children.get(i);
-				AbstractComponent co2 = addCamposObligotorios(co);
-				if (co != co2) {
-					children.remove(co);
-					children.add(i, co2);
-				}
+				addCamposObligotorios(co);
 			}
 		}
 
@@ -192,18 +146,14 @@ public abstract class GenericViewModel extends Control {
 				Label l = new Label();
 				l.setValue("(*)");
 				l.setStyle("color:red");
+				
+				Hlayout hl = new Hlayout();				
 
-				Hlayout hl = new Hlayout();
-				hl.getChildren().add(ac);
-				hl.getChildren().add(l);
-
-				ac = hl;
-
+				ac.getParent().appendChild(hl);
+				hl.appendChild(ac);
+				hl.appendChild(l);
 			}
 		}
-
-		return ac;
-
 	}
 
 	// Crea un nuevo Window recibiendo como parametro el Path del zul..

@@ -46,21 +46,21 @@
 	</script>
 
 
-	<html>
+	<!--<html>
 <![CDATA[
 <p style="text-align: right;">
 [<a href="JavaScript:window.close()">cerrar</a>]
 </p>
 ]]>
-	</html>
+	</html>-->
 
 
 
-	<window id="templateInicio" width="1024px" position="center"
-		mode="overlapped" height="680px" apply="org.zkoss.bind.BindComposer"
+	<window id="templateInicio" width="98%" position="center"
+		mode="overlapped" height="98%" apply="org.zkoss.bind.BindComposer"
 		title="" viewModel="@id('vm')
 		@init('com.coreweb.login.ControlInicio')"
-		contentStyle="overflow:auto" zclass="z-window-popup" border="normal">
+		border="normal">
 
 		<!-- contentStyle="overflow:auto" -->
 
@@ -83,15 +83,12 @@
 
 			<north border="0" collapsible="false" height="30px" style="@load(vm.colorBarra)" >
 				<hlayout valign="middle">
-					<hbox width="3px" align="center" height="30px" />
-					<hbox width="250px" align="center" height="30px">
+					
+					<hbox hflex="30%" align="center" height="30px">
 						<label id="nombreFormulario" value=" " multiline="false"
 							maxlength="26" style="font-size:12pt;font-weight:bold" />
 					</hbox>
-					
-					<hbox width="750px" align="center" height="30px">
-						<include id="menu" src="@load(vm.menu)"/>
-					</hbox>
+					<include id="menu" src="@load(vm.menu)" hflex="70%"/>
 				</hlayout>
 			</north>
 
@@ -112,7 +109,7 @@
 					</hbox>
 
 
-					<hbox width="740px" align="center" pack="end" height="30px"
+					<hbox hflex="true" align="center" pack="end" height="30px"
 						style="@load(vm.colorBarra)">
 
 						<menubar id="menubarFoot2" width="100%" style="@load(vm.colorBarra)">
