@@ -31,7 +31,7 @@
 	border-radius: 3px;
 	margin: 0;	   
 }
-.texto-centrado {
+.text-center {
 	text-align: center;
 }
 .formato-numerico {
@@ -42,3 +42,13 @@
 	text-align:right; 
 	font-weight:bold
 }
+.small-list {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+.small-list .z-listcell-content { 
+  height: 25px; 
+  line-height: 17px; 
+  min-height: 25px;  
+} 

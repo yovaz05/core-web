@@ -46,7 +46,7 @@
 			</hbox>
 
 
-			<hbox width="700px" pack="end">
+			<hbox hflex="true" pack="end">
 
 				<label value="@load(Toolbar.usuarioTemporal)" style="font-size:12pt;font-weight:bold"  />
 
