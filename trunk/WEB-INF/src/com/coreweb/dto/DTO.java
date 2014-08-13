@@ -23,7 +23,7 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 
 	private String auxi = "";
 
-	transient public Misc misc = new Misc();
+	transient private Misc m = new Misc();
 
 	private boolean checked = false; // agregar en todos los DTO
 
@@ -32,8 +32,19 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	// public abstract Domain getDomainObject();
 
 	//
+	
+	
+	
+	
 	public boolean esNuevo() {
 		return (this.id < 0);
+	}
+
+	public Misc getMisc() {
+		if (this.m == null){
+			this.m = new Misc();
+		}
+		return m;
 	}
 
 	public String getUltimaModificacion() {
@@ -41,7 +52,7 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 			return "--nuevo--";
 		}
 		String out = "" + this.getUsuarioMod() + ", "
-				+ this.misc.dateToString(this.modificado, Misc.D_MMMM_YYYY2);
+				+ this.getMisc().dateToString(this.modificado, Misc.D_MMMM_YYYY2);
 		return out;
 	}
 
@@ -187,7 +198,7 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	}
 
 	public String getTextOrden() {
-		return this.misc.ceros(this.getId() + "", 8);
+		return this.getMisc().ceros(this.getId() + "", 8);
 	}
 
 	/**
@@ -203,8 +214,8 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 		String[] campos = this.getCamposMyArray();
 		for (int i = 0; i < campos.length; i++) {
 			String campo = campos[i];
-			Object dato = this.misc.getValue(this, campo);
-			this.misc.setValue(ma, "pos" + (i + 1), dato);
+			Object dato = this.getMisc().getValue(this, campo);
+			this.getMisc().setValue(ma, "pos" + (i + 1), dato);
 		}
 		return ma;
 	}
