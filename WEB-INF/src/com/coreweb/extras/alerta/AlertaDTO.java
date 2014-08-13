@@ -58,12 +58,12 @@ public class AlertaDTO extends DTO {
 	}
 
 	public String getFechaCreacionStr() {
-		return this.misc.dateToString(this.fechaCreacion,
+		return this.getMisc().dateToString(this.fechaCreacion,
 				Misc.YYYY_MM_DD_HORA_MIN_SEG2);
 	}
 
 	public String getFechaCancelacionStr() {
-		return this.misc.dateToString(this.fechaCancelacion,
+		return this.getMisc().dateToString(this.fechaCancelacion,
 				Misc.YYYY_MM_DD_HORA_MIN_SEG2);
 	}
 
