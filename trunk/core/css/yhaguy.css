@@ -51,4 +51,56 @@
   height: 25px; 
   line-height: 17px; 
   min-height: 25px;  
-} 
+}
+.form-container {
+  margin: 5px 5px 5px 5px;
+  padding: 10px 10px 10px 10px;
+  border: 1px solid #cfcfcf;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+/* ----------------------------------------------------------------------------------------------------------------------- */
+/* Form Grid
+/* ----------------------------------------------------------------------------------------------------------------------- */
+.vgrid tr.z-row
+		td.z-row-inner,tr.z-row,div.z-grid-body div.z-cell,div.z-grid {
+	border: none;
+	overflow: hidden;
+	zoom: 1;
+	background-color: transparent;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+	border-bottom: none;
+}
+
+.vgrid .z-grid-odd .vgrid .z-row-inner,.vgrid .z-grid-odd .z-cell {
+	background-color: transparent;
+	border-bottom: 1px solid transparent;
+	border-left: 1px solid transparent;
+	border-top: 1px solid transparent;
+}
+
+.vgrid .z-grid-odd .vgrid.z-row-inner,.vgrid.z-grid-odd .z-cell,.vgrid.z-grid-odd
+	{
+	background: none repeat scroll 0 0 transparent;
+}
+
+.vgrid tr.z-row td.z-row-inner,.vgrid tr.z-row .z-cell {
+	line-height: 15px;
+}
+
+.vgrid tr.z-grid-odd td.z-row-inner,.vgrid tr.z-grid-odd .z-cell,.vgrid tr.z-grid-odd
+	{
+	background-color: transparent;
+}
+
+.vgrid tr.z-row td.z-row-inner,.vgrid tr.z-row .z-cell {
+	background-color: transparent;
+	border-top: none;
+}
+/* ----------------------------------------------------------------------------------------------------------------------- */
+/* End: Form Grid 
+/* ----------------------------------------------------------------------------------------------------------------------- */ 

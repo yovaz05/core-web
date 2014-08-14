@@ -148,6 +148,14 @@
 			<property-value>false</property-value>
 		</property>
 	</component>
+	
+	<component>
+		<component-name>hlayout</component-name>
+		<property>
+			<property-name>valign</property-name>
+			<property-value>middle</property-value>
+		</property>
+	</component>
 
 
 	<!-- Es una idea a probar y ver si funciona <component> <component-name>ctextbox</component-name> 
