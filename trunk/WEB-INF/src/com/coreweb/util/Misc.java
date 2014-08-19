@@ -1477,6 +1477,13 @@ public class Misc {
 		}		
 		return new String[]{letra, numero};
 	}
+	
+	/**
+	 * Concatena dos String..
+	 */
+	public String concat(String str1, String str2, String separador){
+		return str1 + separador + str2;
+	}
 
 	public static void main(String[] args) {
 		try {
