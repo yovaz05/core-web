@@ -184,7 +184,7 @@ public class Register {
 	// este es el que realmente graba
 	private void saveObjectDomain(Domain o, Session session, String user)
 			throws Exception {
-
+//System.out.println("   saveObjectDomain "+o.getClass().getName());
 		o.setModificado(new Date());
 		o.setUsuarioMod(user);
 		o.definirOrden();
@@ -989,6 +989,18 @@ public class Register {
 		return out;
 	}
 
+	
+	public Tipo getTipoPorSiglaAuxi(String sigla, String auxi) throws Exception {
+		Tipo t = null;
+		try {
+			String queryTipo = "select t from Tipo t where t.sigla='" + sigla + "' and  t.auxi='" + auxi + "'";
+			t = (Tipo) this.hqlToObject(queryTipo);
+		} catch (Exception e) {
+		}
+		return t;
+	}
+	
+	
 	public Tipo getTipoPorSigla_Index(String sigla, int id) throws Exception {
 		String queryTipo = "select t from Tipo t where t.sigla='" + sigla
 				+ "' order by t.id";
