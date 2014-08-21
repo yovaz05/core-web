@@ -1,14 +1,9 @@
 package com.coreweb.login;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import javax.servlet.ServletContext;
 
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.Command;
@@ -20,20 +15,15 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Session;
-import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zul.Image;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zkmax.zul.Nav;
+import org.zkoss.zkmax.zul.Navitem;
 import org.zkoss.zul.Include;
-import org.zkoss.zul.Label;
 import org.zkoss.zul.Menubar;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.Window;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.EventQueue;
-import org.zkoss.zk.ui.event.EventQueues;
-import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Clients;
 
 import com.coreweb.Config;
 import com.coreweb.control.Control;
@@ -42,7 +32,6 @@ import com.coreweb.dto.Assembler;
 import com.coreweb.extras.alerta.ControlAlertas;
 import com.coreweb.extras.carita.Carita;
 import com.coreweb.util.Misc;
-import com.jgoodies.binding.BindingUtils;
 
 public class ControlInicio extends Control {
 
@@ -154,6 +143,7 @@ public class ControlInicio extends Control {
 		this.menuItem(o, formAlias, "");
 	}
 
+	@SuppressWarnings("unchecked")
 	public void menuItem(Object o, String formAlias, String paramsFromMenu) {
 		if (this.getUs() == null){
 			return;
@@ -167,17 +157,31 @@ public class ControlInicio extends Control {
 		 * 
 		 * if (deshabilitado == true){ return; }
 		 */
+		
+		if (o instanceof Nav) {			
+			Nav nv = (Nav) o;
+			Navitem nvi = new Navitem();
+			nvi.setDisabled(deshabilitado);
+			nvi.setLabel(label);
+			nvi.addEventListener("onClick", new MenuitemOnclick(url, formAlias,
+					label, paramsFromMenu, this));
 
-		Menupopup mp = (Menupopup) o;
-		Menuitem m = new Menuitem();
-		// m.setId(formAlias);
-		// se puede agregar un texto a cada menu m.setTooltiptext("texto");
-		m.setDisabled(deshabilitado);
-		m.setLabel(label);
-		m.addEventListener("onClick", new MenuitemOnclick(url, formAlias,
-				label, paramsFromMenu, this));
+			nv.getChildren().add(nvi);
+			
+		} else {
+			
+			Menupopup mp = (Menupopup) o;
+			Menuitem m = new Menuitem();
+			// m.setId(formAlias);
+			// se puede agregar un texto a cada menu m.setTooltiptext("texto");
+			m.setDisabled(deshabilitado);
+			m.setLabel(label);
+			m.addEventListener("onClick", new MenuitemOnclick(url, formAlias,
+					label, paramsFromMenu, this));
 
-		mp.getChildren().add(m);
+			mp.getChildren().add(m);
+
+		}
 	}
 
 	public void menuItemUser(Object o) {

@@ -151,6 +151,7 @@
 	
 	<component>
 		<component-name>hlayout</component-name>
+		<extends>hlayout</extends>
 		<property>
 			<property-name>valign</property-name>
 			<property-value>middle</property-value>
