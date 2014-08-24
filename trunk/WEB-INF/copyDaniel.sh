@@ -5,7 +5,7 @@ YHAGUY=/home/daniel/datos/yhaguy/proyecto-core/yhaguy
 VIDRIOLUZ=/home/daniel/datos/vidrio-luz/proyecto/vidrioluz
 TDNPEDIDOS=/home/daniel/datos/tdn/pedidos/pedidosApp
 TURNOS=/home/daniel/datos/yhaguy/proyecto-turnos/turnos
-SARAKI=/home/daniel/datos/varios/propuestas/saraki/proyecto/saraki
+SARAKI=/home/daniel/datos/varios/propuestas/saraki/proyecto/saraki-proyecto
 
 ########### yhaguy ##########################
 DESDE=$CORE
