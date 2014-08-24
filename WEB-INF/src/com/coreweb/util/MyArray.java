@@ -30,13 +30,6 @@ public class MyArray extends MyAuxObject {
 	}
 	
 
-	public Object xclone() {
-		Object clone = null;
-		clone = super.xclone();
-		return clone;
-	}
-
-
 	public String toString() {
 		if (this.esNuevo() == true){
 			return " ";
