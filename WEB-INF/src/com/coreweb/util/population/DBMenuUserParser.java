@@ -322,6 +322,11 @@ public class DBMenuUserParser {
 		this.verificarAlias();
 		System.out.println("\n======================= ID -> menu_config.ini \n");
 		this.misc.testIdInAlias(this.aliasTipo, this.idClass);
+		
+		// CHISTES
+		DBChistes chistes = new DBChistes();
+		chistes.chistes();
+		
 		System.out.println("\n======================= fin =================");
 		
 		this.cargaUsuarioPropiedades();
