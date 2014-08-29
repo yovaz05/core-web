@@ -240,7 +240,8 @@ public abstract class Assembler {
 		Domain d = rr.getObject(entidad, mp.getId());
 		setValue(dom, atributo, d);
 
-		rr.saveObject(dom, this.getLogin());
+		// se quito para que no grabe siempre
+		//rr.saveObject(dom, this.getLogin());
 		mp.setId(d.getId());
 	}
 
@@ -380,8 +381,9 @@ public abstract class Assembler {
 		String entidad = getEntidadAtributo(dom, atributo);
 		Domain d = rr.getObject(entidad, mp.getId());
 		setValue(dom, atributo, d);
-
-		rr.saveObject(dom, this.getLogin());
+		
+		// se quito para que no graba todas las veces
+		//rr.saveObject(dom, this.getLogin());
 		mp.setId(d.getId());
 	}
 
@@ -475,7 +477,8 @@ public abstract class Assembler {
 		}
 
 		setValue(dom, atributo, dd);
-		rr.saveObject(dom, this.getLogin());
+		// quitado, no deber'ia hacer falta
+		//rr.saveObject(dom, this.getLogin());
 		dto.setId(dom.getId());
 	}
 

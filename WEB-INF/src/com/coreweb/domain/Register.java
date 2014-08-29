@@ -181,10 +181,13 @@ public class Register {
 		this.saveObjectDomain(o, session, user);
 	}
 
+	
+	static long kk = 0;
+	
 	// este es el que realmente graba
 	private void saveObjectDomain(Domain o, Session session, String user)
 			throws Exception {
-//System.out.println("   saveObjectDomain "+o.getClass().getName());
+		//System.out.println("   ("+(kk++)+")saveObjectDomain "+o.getClass().getName());
 		o.setModificado(new Date());
 		o.setUsuarioMod(user);
 		o.definirOrden();
