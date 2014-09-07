@@ -2,6 +2,9 @@
 <?import com.coreweb.Config?>
 <zk>
 
+<?link rel="shortcut icon" type="image/x-icon" href="/icono-tab.ico"?>
+<?link rel="icon" type="image/x-icon" href="/icono-tab.ico"?>
+
 	<script src="/core/macros/js/jquery.maskedinput-1.3.js" type="text/javascript" />
 	<style src="/core/css/yhaguy.css"/>
 	<style>
