@@ -226,7 +226,7 @@ public class Control {
 		} catch (Exception e) {
 			System.out
 					.println("error poniendo carita (" + e.getMessage() + ")");
-			this.noAutorizado();
+			//this.noAutorizado();
 
 		}
 
