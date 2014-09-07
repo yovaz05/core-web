@@ -309,7 +309,7 @@ class MenuitemOnclick implements EventListener {
 					inc.setDynamicProperty(key, map.get(key));
 				}
 			}
-
+			
 			inc.setSrc(urlSolo);
 		} catch (Exception e) {
 			System.out

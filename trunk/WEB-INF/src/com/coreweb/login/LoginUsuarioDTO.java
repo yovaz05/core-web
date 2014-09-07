@@ -75,6 +75,7 @@ public class LoginUsuarioDTO extends DTO {
 	}
 
 	public boolean formDeshabilitado(String formAlias){
+			
 		if (formAlias.compareTo(Config.ALIAS_HABILITADO_SI_O_SI)==0){
 			return false;
 		}
