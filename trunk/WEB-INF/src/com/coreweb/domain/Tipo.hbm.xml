@@ -15,6 +15,6 @@
 		<property name="sigla" index="inx_sigla"/>
 
 		<many-to-one name="tipoTipo" class="com.coreweb.domain.TipoTipo"
-			column="idtipo" lazy="false" />
+			column="idtipoTipo" lazy="false" />
 	</class>
 </hibernate-mapping>
