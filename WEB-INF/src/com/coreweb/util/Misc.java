@@ -1484,8 +1484,28 @@ public class Misc {
 	public String concat(String str1, String str2, String separador){
 		return str1 + separador + str2;
 	}
+	
+	/**
+	 * Calcula la edad a partir de la fecha de nacimiento
+	 * @param fechaNacimiento
+	 * @return edad
+	 */
+	public static int calcularEdad(Date fechaNacimiento){
 
-	public static void main(String[] args) {
+		Calendar fNac = Calendar.getInstance();
+		fNac.setTime(fechaNacimiento);
+		Calendar fechaActual = Calendar.getInstance();
+		int edad = fechaActual.get(Calendar.YEAR) - fNac.get(Calendar.YEAR);
+		if (fechaActual.get(Calendar.MONTH) < fNac.get(Calendar.MONTH)){
+			edad--;
+		} else if (fechaActual.get(Calendar.MONTH) == fNac.get(Calendar.MONTH) && 
+				   fechaActual.get(Calendar.DAY_OF_MONTH) < fNac.get(Calendar.DAY_OF_MONTH)){
+			edad--;
+		}
+		return edad;
+	}
+	
+	public static void mainxxx(String[] args) {
 		try {
 
 			long xx = 10 / (24 * 60 * 60 * 1000);
