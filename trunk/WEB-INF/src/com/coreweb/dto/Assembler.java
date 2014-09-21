@@ -22,6 +22,7 @@ import com.coreweb.domain.TipoTipo;
 import com.coreweb.extras.agenda.AgendaEventoDTO;
 import com.coreweb.extras.agenda.AgendaEventoDetalleDTO;
 import com.coreweb.login.LoginUsuarioDTO;
+
 import com.coreweb.util.Misc;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
@@ -34,6 +35,9 @@ public abstract class Assembler {
 	public static int MY_PAIR_TIPO = 4;
 	public static int MY_ARRAY_TIPO = 5;
 
+	private Misc m = new Misc();
+	
+	
 	private String login = this.getClass().getName();
 	
 	private List<Domain> subModel = new ArrayList<Domain>();
@@ -1129,6 +1133,14 @@ public abstract class Assembler {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Misc getM() {
+		return m;
+	}
+
+	public void setM(Misc m) {
+		this.m = m;
 	}
 
 	/*
