@@ -156,6 +156,17 @@ public class Control {
 	}
 
 	// ================================================
+	// Alertas
+	// por ahora no, porque ControlAlerta hereda de Control, entonces tenemos un
+	// ciclo.
+	/*
+	private ControlAlertas ctrAlertas = new ControlAlertas();
+
+	public ControlAlertas getCtrAlertas() {
+		return ctrAlertas;
+	}
+	*/
+	// ================================================
 
 	// Login del usuario
 	public String getLoginNombre() {
@@ -226,7 +237,7 @@ public class Control {
 		} catch (Exception e) {
 			System.out
 					.println("error poniendo carita (" + e.getMessage() + ")");
-			//this.noAutorizado();
+			// this.noAutorizado();
 
 		}
 
@@ -602,7 +613,5 @@ public class Control {
 	}
 
 	// =======================================================
-
-
 
 }
