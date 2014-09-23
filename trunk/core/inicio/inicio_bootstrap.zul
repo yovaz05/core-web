@@ -30,6 +30,8 @@
 	<script>
 
 
+
+
 		
 		<![CDATA[ zk.afterLoad("zul.tab", function () { var _tpWgt = {};
 		zk.override(zul.tab.Tabpanel.prototype, _tpWgt, { bind_:
@@ -39,6 +41,8 @@
 		_tpWgt.setVisible.apply(this, arguments); if (n) { if (v)
 		jq(this.$n()).removeClass('z-tabpanel-hidden'); else
 		jq(this.$n()).addClass('z-tabpanel-hidden'); } } }); }); ]]>
+		
+		
 		
 
 
@@ -52,66 +56,73 @@
 		<!-- // esto es para recibir como parametro el // archivo del menu a utilizar -->
 
 		<zscript>
-			import javax.servlet.http.HttpServletRequest;
-			import org.zkoss.zk.ui.Executions;
-			HttpServletRequest request = (HttpServletRequest) Executions.getCurrent()
+	import javax.servlet.http.HttpServletRequest;
+	import org.zkoss.zk.ui.Executions;
+	HttpServletRequest request = (HttpServletRequest) Executions.getCurrent()
 			.getNativeRequest();
-			String menuApp = request.getParameter("menu");
-		</zscript>
+	String menuApp = request.getParameter("menu");
+</zscript>
 
-		<vlayout height="100%" width="100%">
+		<borderlayout height="100%" width="100%">
 
-			<div sclass="header">
-				<include id="menu" src="@load(vm.menu)" />
-			</div>
+			<center style="border:none">
+				<div height="100%" width="100%">
+					<include id="menu" src="@load(vm.menu)" />
+					<label id="nombreFormulario" value=""
+						visible="false" />
+					<include id="principalBody" mode="instant"
+						src="/core/inicio/login_bootstrap.zul" />
+				</div>
+			</center>
+
+			<south style="border:none" height="40px">
+				<div sclass="breadcrumb" height="40px">
+
+					<hlayout>
+
+						<button onClick="@command('informacionUsuario')"
+							label="@load(vm.us.nombre)" iconSclass="z-icon-user"
+							width="150px" sclass="btn-primary btn-xs" dir="normal" />
 
 
-			<div class="content" vflex="true" width="100%">
-				<label id="nombreFormulario" value="" visible="false"/>
-				<include id="principalBody" mode="instant"
-					src="/core/inicio/login_bootstrap.zul" />
-			</div>
+						<hbox hflex="true" align="center" pack="end">
 
-			<div sclass="breadcrumb">
+							<button label="@load(vm.misAlertas)"
+								onClick="@command('mostrarAlertas')" width="150px"
+								sclass="btn-primary btn-xs" iconSclass="z-icon-warning"
+								dir="normal">
+							</button>
 
-				<hlayout>
+							<button label="click me"
+								onClick="@command('mostrarCarita')" width="150px"
+								sclass="btn-primary btn-xs" iconSclass="z-icon-thumbs-up"
+								dir="normal" />
 
-					<button onClick="@command('informacionUsuario')"
-						label="@load(vm.us.nombre)" iconSclass="z-icon-user" width="150px"
-						sclass="btn-primary btn-sm" dir="normal" />
+						</hbox>
 
+						<hbox visible="false">
+							<menubar id="menubarFoot2" width="100%"
+								style="@load(vm.colorBarra)">
+								<menuitem id="alertas"
+									label="@load(vm.misAlertas)"
+									onClick="@command('mostrarAlertas')"
+									image="/core/images/exclamation.png"
+									style="@load(vm.colorBarra)" />
+								<menuitem id="carita" label="click me"
+									onClick="@command('mostrarCarita')"
+									image="/core/images/face-angry.png"
+									style="@load(vm.colorBarra)" />
+							</menubar>
+						</hbox>
 
-					<hbox hflex="true" align="center" pack="end">
+						<hbox visible="false">
+							<include id="menuSistema"
+								src="@load(vm.menuSistema)" />
+						</hbox>
 
-						<button label="@load(vm.misAlertas)"
-							onClick="@command('mostrarAlertas')" width="150px"
-							sclass="btn-primary btn-sm" iconSclass="z-icon-warning"
-							dir="normal">
-						</button>
-
-						<button label="click me"
-							onClick="@command('mostrarCarita')" width="150px"
-							sclass="btn-primary btn-sm" iconSclass="z-icon-thumbs-up"
-							dir="normal" />
-
-					</hbox>
-					
-					<hbox visible="false">
-						<menubar id="menubarFoot2" width="100%" style="@load(vm.colorBarra)">
-							<menuitem id="alertas" label="@load(vm.misAlertas)"
-								onClick="@command('mostrarAlertas')" image="/core/images/exclamation.png"
-								style="@load(vm.colorBarra)" />
-							<menuitem id="carita" label="click me" onClick="@command('mostrarCarita')"
-								image="/core/images/face-angry.png" style="@load(vm.colorBarra)"/>
-						</menubar>
-					</hbox>
-					
-					<hbox visible="false">
-						<include id="menuSistema" src="@load(vm.menuSistema)" />
-					</hbox>
-					
-				</hlayout>
-			</div>
-		</vlayout>
+					</hlayout>
+				</div>
+			</south>
+		</borderlayout>
 	</window>
 </zk>
