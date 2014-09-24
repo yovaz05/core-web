@@ -644,7 +644,7 @@ public abstract class Assembler {
 									+ tipo + ") en " + tipoColeccion.getName()
 									+ " con id:" + mp.getId() + "");
 				}
-
+				
 				rr.saveObject(dAux, this.getLogin());
 				mp.setId(dAux.getId());
 			}
@@ -1055,7 +1055,7 @@ public abstract class Assembler {
 		return classLista;
 	}
 
-	private Object newInstance(Class classObject) throws Exception {
+	public Object newInstance(Class classObject) throws Exception {
 		Constructor ctor = classObject.getConstructor();
 		Object obj = ctor.newInstance();
 		return obj;
@@ -1116,8 +1116,19 @@ public abstract class Assembler {
 
 	/**********************************************/
 
-	public static void xmain(String[] args) {
+	public static void xxxxxmain(String[] args) {
 		try {
+			
+		
+			
+			MyArray m1 = new MyArray();
+			System.out.println(m1.getId());
+			
+			
+			
+			if (1 ==1 ){
+				return;
+			}
 			
 			String s = new String();
 			String[] as = {};
