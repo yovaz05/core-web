@@ -1490,7 +1490,7 @@ public class Misc {
 	 * @param fechaNacimiento
 	 * @return edad
 	 */
-	public static int calcularEdad(Date fechaNacimiento){
+	public int calcularEdad(Date fechaNacimiento){
 
 		Calendar fNac = Calendar.getInstance();
 		fNac.setTime(fechaNacimiento);

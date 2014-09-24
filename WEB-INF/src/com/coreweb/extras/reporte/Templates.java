@@ -1,28 +1,24 @@
 package com.coreweb.extras.reporte;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.*;
+import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
+import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
+import static net.sf.dynamicreports.report.builder.DynamicReports.tableOfContentsCustomizer;
+import static net.sf.dynamicreports.report.builder.DynamicReports.template;
 
 import java.awt.Color;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
-import com.coreweb.util.Misc;
-
-import net.sf.dynamicreports.report.base.expression.AbstractValueFormatter;
-import net.sf.dynamicreports.report.builder.HyperLinkBuilder;
 import net.sf.dynamicreports.report.builder.ReportTemplateBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
-import net.sf.dynamicreports.report.builder.datatype.BigDecimalType;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.builder.tableofcontents.TableOfContentsCustomizerBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.Markup;
 import net.sf.dynamicreports.report.constant.VerticalAlignment;
-import net.sf.dynamicreports.report.definition.ReportParameters;
+
+import com.coreweb.util.Misc;
 
 /**
  * @author Ricardo Mariaca (r.mariaca@dynamicreports.org)

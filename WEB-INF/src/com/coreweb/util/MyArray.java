@@ -28,39 +28,32 @@ public class MyArray extends MyAuxObject {
 
 	public MyArray() {
 	}
-	
 
 	public String toString() {
-		if (this.esNuevo() == true){
+		if (this.esNuevo() == true) {
 			return " ";
 		}
-		String out = "";
-		if (this.pos1 != POS_VACIO) {
-			out = out + this.pos1 + " - ";
-		}
-		if (this.pos2 != POS_VACIO) {
-			out = out + this.pos2 + " - ";
-		}
-		if (this.pos3 != POS_VACIO) {
-			out = out + this.pos3 + " - ";
-		}
-		if (this.pos4 != POS_VACIO) {
-			out = out + this.pos4 + " - ";
-		}
-		if (this.pos5 != POS_VACIO) {
-			out = out + this.pos5 + " - ";
-		}
-		if (this.pos6 != POS_VACIO) {
-			out = out + this.pos6 + " - ";
-		}
 
+		String out = "";
+
+		Misc m = new Misc();
+		try {
+
+			for (int i = 1; i < 20; i++) {
+				Object o = m.getValue(this, "pos" + i);
+				if (o != POS_VACIO){
+					out = out + o + " - ";
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return out + " (" + this.getId() + ")";
 	}
 
-	
-
 	public MyArray(Object[] dato) {
-		this.setId((long)dato[0]);
+		this.setId((long) dato[0]);
 		try {
 			this.pos1 = dato[1];
 			this.pos2 = dato[2];
@@ -261,166 +254,84 @@ public class MyArray extends MyAuxObject {
 		this.pos10 = pos10;
 	}
 
-
-
-
-
 	public Object getPos11() {
 		return pos11;
 	}
-
-
-
-
 
 	public void setPos11(Object pos11) {
 		this.pos11 = pos11;
 	}
 
-
-
-
-
 	public Object getPos12() {
 		return pos12;
 	}
-
-
-
-
 
 	public void setPos12(Object pos12) {
 		this.pos12 = pos12;
 	}
 
-
-
-
-
 	public Object getPos13() {
 		return pos13;
 	}
-
-
-
-
 
 	public void setPos13(Object pos13) {
 		this.pos13 = pos13;
 	}
 
-
-
-
-
 	public Object getPos14() {
 		return pos14;
 	}
-
-
-
-
 
 	public void setPos14(Object pos14) {
 		this.pos14 = pos14;
 	}
 
-
-
-
-
 	public Object getPos15() {
 		return pos15;
 	}
-
-
-
-
 
 	public void setPos15(Object pos15) {
 		this.pos15 = pos15;
 	}
 
-
-
-
-
 	public Object getPos16() {
 		return pos16;
 	}
-
-
-
-
 
 	public void setPos16(Object pos16) {
 		this.pos16 = pos16;
 	}
 
-
-
-
-
 	public Object getPos17() {
 		return pos17;
 	}
-
-
-
-
 
 	public void setPos17(Object pos17) {
 		this.pos17 = pos17;
 	}
 
-
-
-
-
 	public Object getPos18() {
 		return pos18;
 	}
-
-
-
-
 
 	public void setPos18(Object pos18) {
 		this.pos18 = pos18;
 	}
 
-
-
-
-
 	public Object getPos19() {
 		return pos19;
 	}
-
-
-
-
 
 	public void setPos19(Object pos19) {
 		this.pos19 = pos19;
 	}
 
-
-
-
-
 	public Object getPos20() {
 		return pos20;
 	}
-
-
-
-
 
 	public void setPos20(Object pos20) {
 		this.pos20 = pos20;
 	}
 
-
-	
 }
