@@ -150,7 +150,7 @@ public class Misc {
 		return param.length();
 	}
 
-	public String completarCeros(String param, int tamaño) {
+	public String completarCeros(String param, int tamanio) {
 		/**
 		 * recibe un string y completa con ceros hasta que alcance el tamaño
 		 * indicado en la variable tamaño
@@ -158,7 +158,7 @@ public class Misc {
 		if (param == null) {
 			param = "";
 		}
-		for (int i = obtenerUnidad(param); i < tamaño; i++)
+		for (int i = obtenerUnidad(param); i < tamanio; i++)
 			param = "0" + param;
 		return param;
 	}
