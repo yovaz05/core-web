@@ -733,7 +733,18 @@ public class Misc {
 		return new Object[] { out, correosIncorrectos };
 	}
 
-	public String encriptar(String cadena) {
+	/**
+	 * Encrita considerando caseSensitive
+	 * @param cadena
+	 * @param caseSensitive
+	 * @return
+	 */
+	public String encriptar(String cadena, boolean caseSensitive) {
+		
+		if (caseSensitive ==  false){
+			cadena = cadena.toLowerCase();
+		}
+		
 		MessageDigest md = null;
 		try {
 			md = MessageDigest.getInstance("MD5");
@@ -746,9 +757,18 @@ public class Misc {
 		byte[] b = md.digest();
 		String out = toHexadecimal(b);
 		return out;
-
 	}
 
+	/**
+	 * Encripta una cadena, pasando primero todo a minúscula
+	 * @param cadena
+	 * @return
+	 */
+	public String encriptar(String cadena) {
+		return this.encriptar(cadena, false);
+	}
+
+	
 	private String toHexadecimal(byte[] digest) {
 		String hash = "";
 		for (byte aux : digest) {
