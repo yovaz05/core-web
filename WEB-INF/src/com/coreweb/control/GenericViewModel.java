@@ -1,6 +1,7 @@
 package com.coreweb.control;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.zkoss.bind.annotation.AfterCompose;
@@ -121,10 +122,89 @@ public abstract class GenericViewModel extends Control {
 	// Pone el (*) en los campos con constraint, si tiene constraint es
 	// obligatorio
 	public void addCamposObligotorios(Component ac) {
-		this.addCamposObligotorios((AbstractComponent) ac);
+		this.addCamposObligotorios2((AbstractComponent) ac);
 	}
 	
-	private void addCamposObligotorios(AbstractComponent ac) {
+	private AbstractComponent addCamposObligotorios_ORI_DR(AbstractComponent ac) {
+
+		List<AbstractComponent> children2 = new ArrayList<AbstractComponent>();
+
+		boolean nuevaLista = false;
+		List children = ac.getChildren();
+		
+
+		if (children != null) {
+			int len = children.size();
+			for (int i = (len - 1); i >= 0; i--) {
+				AbstractComponent co = (AbstractComponent) children.get(i);
+				AbstractComponent co2 = addCamposObligotorios_ORI_DR(co);
+				if (co != co2) {
+					children.remove(co);
+					children.add(i, co2);
+				}
+			}
+		}
+
+		if (ac instanceof Constrainted) {
+
+			Constrainted c = (Constrainted) ac;
+			Constraint cn = c.getConstraint();
+
+			if (cn != null) {
+				Component parent = ac.getParent();
+				
+				Label l = new Label();
+				l.setValue("(*)");
+				l.setStyle("color:red");
+
+				Hlayout hl = new Hlayout();
+				hl.getChildren().add(ac);
+				hl.getChildren().add(l);
+				
+				ac = hl;
+
+			}
+		}
+
+		return ac;
+
+	}
+	
+	private void addCamposObligotorios2(AbstractComponent ac) {
+
+		List<Component> children = ac.getChildren();
+
+		if (children != null) {
+			int len = children.size();
+			for (int i = (len - 1); i >= 0; i--) {
+				AbstractComponent co = (AbstractComponent) children.get(i);			
+				addCamposObligotorios2(co);
+			}
+		}
+
+		if (ac instanceof Constrainted) {
+
+			Constrainted c = (Constrainted) ac;
+			Constraint cn = c.getConstraint();
+
+			if (cn != null) {
+
+				Label l = new Label();
+				l.setValue("(*)");
+				l.setStyle("color:red");
+				
+				Hlayout hl = new Hlayout();			
+				
+				ac.getParent().insertBefore(hl, ac);
+				
+				hl.appendChild(ac);
+				hl.appendChild(l);
+			}
+		}
+	}
+
+
+	private void addCamposObligotorio_SER(AbstractComponent ac) {
 
 		List<Component> children = ac.getChildren();
 
@@ -132,7 +212,7 @@ public abstract class GenericViewModel extends Control {
 			int len = children.size();
 			for (int i = (len - 1); i >= 0; i--) {
 				AbstractComponent co = (AbstractComponent) children.get(i);
-				addCamposObligotorios(co);
+				addCamposObligotorio_SER(co);
 			}
 		}
 
