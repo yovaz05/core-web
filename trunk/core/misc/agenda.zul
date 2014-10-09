@@ -15,7 +15,7 @@
 		</north  -->
 		<center>
 			<grid id="agendaDetalle" model="@load(vm.dto.agendaEventoDetalles)"
-				sizedByContent="true" height="100%">
+				sizedByContent="true"  height="280px">
 				<custom-attributes org.zkoss.zul.grid.autoSort="true" />
 				<columns menupopup="auto">
 					<column label="Fecha" width="160px" sort="auto(fechaHora)"

@@ -1157,6 +1157,21 @@ public class Misc {
 		return out;
 	}
 
+	public int mensajeSiCancelar(String texto) {
+		int out = Config.BOTON_CANCEL;
+
+		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Confirmar",
+				new Messagebox.Button[] { Messagebox.Button.YES, Messagebox.Button.CANCEL },
+				Messagebox.QUESTION, null);
+
+		if ((b != null) && (b.compareTo(Messagebox.Button.YES)) == 0) {
+			out = Config.BOTON_YES;
+		}
+		return out;
+	}
+
+	
+	
 	// Metodo que retorna el valor del Iva a partir de un valor iva incluido..
 	// 10 = calcularIVA(110,10)
 	public double calcularIVA(double ivaIncluido, int porcentajeIva) {
