@@ -511,6 +511,11 @@ public class Control {
 		return this.m.mensajeSiNoCancelar(texto);
 	}
 
+	public int mensajeSiCancelar(String texto) {
+		return this.m.mensajeSiCancelar(texto);
+	}
+
+	
 	public void mensajePopupTemporalWarning(String mensaje) {
 		this.m.mensajePopupTemporalWarning(mensaje);
 	}
