@@ -12,8 +12,8 @@
 		&hibernate-domain;
 
 		<property name="numero" />
-		<property name="fechaCreacion" type="date" column="fechaCreacion" />
-		<property name="fechaCancelacion" type="date" column="fechaCancelacion" />
+		<property name="fechaCreacion" />
+		<property name="fechaCancelacion" />
 		<property name="creador" />
 		<property name="destino" />
 		<property name="descripcion" />

@@ -11,7 +11,7 @@
 
 		&hibernate-domain; 
 
-		<property name="fecha" type="date" column="fecha" />
+		<property name="fecha"  column="fecha" />
 		<property name="key" />
 		<property name="tipo" />
 
