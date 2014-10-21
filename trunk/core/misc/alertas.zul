@@ -67,16 +67,12 @@
 							<image src="@load(each.nivelAlerta)"
 								tooltiptext="@load(each.mensajeNivel)" />
 						</listcell>
-						<listcell label="@load(each.fechaCreacionStr)"
-							style="color:black" />
-						<listcell label="@load(each.creador)"
-							style="color:black" />
-						<listcell label="@load(each.descripcion)"
-							style="color:black" />
-						<listcell label="@load(each.observacion)"
-							style="color:black" />
+						<listcell label="@load(each.fechaCreacionStr)"/>
+						<listcell label="@load(each.creador)" />
+						<listcell label="@load(each.descripcion)" />
+						<listcell label="@load(each.observacion)" />
 						<listcell
-							label="@load(each.fechaCancelacionStr)" style="color:black" />
+							label="@load(each.fechaCancelacionStr)" />
 						<listcell>
 							<image src="@load(each.estadoAlerta)"
 								tooltiptext="@load(each.mensajeEstado)"
