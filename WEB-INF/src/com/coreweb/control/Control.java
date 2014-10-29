@@ -1,21 +1,13 @@
 package com.coreweb.control;
 
-import java.lang.reflect.Method;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
-import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
@@ -24,32 +16,20 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.ext.Disable;
 import org.zkoss.zk.ui.select.Selectors;
-import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zk.ui.util.Clients;
-import org.zkoss.zul.Image;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModel;
-import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Menu;
 import org.zkoss.zul.Menuitem;
-import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Panel;
-import org.zkoss.zul.Textbox;
 
 import com.coreweb.Archivo;
 import com.coreweb.Config;
-import com.coreweb.UsuarioPropiedad;
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
 import com.coreweb.dto.DTO;
 import com.coreweb.dto.UtilCoreDTO;
-import com.coreweb.extras.alerta.ControlAlertas;
 import com.coreweb.login.LoginUsuarioDTO;
-import com.coreweb.util.Check;
 import com.coreweb.util.Misc;
 
 //public class Control extends UnicastRemoteObject implements IControl{
@@ -618,5 +598,19 @@ public class Control {
 	}
 
 	// =======================================================
+	
+	/**
+	 * @return true si el cliente conectado es un dispositivo movil..
+	 */
+	public boolean isMobile(){
+		return Executions.getCurrent().getBrowser("mobile") != null;
+	}
+	
+	/**
+	 * @return el IP del cliente conectado..
+	 */
+	public String getMyIP() {
+		return Executions.getCurrent().getRemoteAddr();
+	}
 
 }
