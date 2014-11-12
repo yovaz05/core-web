@@ -55,6 +55,12 @@ public class Register {
 	/********************************/
 	/***** Hibernate functions ******/
 	/********************************/
+	
+	public void resetTables() throws Exception {
+		Configuration cfg = this.hibernateUtil.getConfiguration();
+		cfg.setProperty("hibernate.hbm2ddl.auto", "update");
+		this.hibernateUtil.forceRebuildSessionFactory(cfg);
+	}
 
 	public void dropAllTables() throws Exception {
 
@@ -181,7 +187,6 @@ public class Register {
 		this.saveObjectDomain(o, session, user);
 	}
 
-	
 	static long kk = 0;
 	
 	// este es el que realmente graba
@@ -1024,6 +1029,7 @@ public class Register {
 		String query = "select t from Tipo t where t.tipoTipo.descripcion = '"
 				+ tipoTipoDescripcion + "'";
 		list = this.hql(query);
+		System.out.println("query ("+list.size()+"):"+query);
 		return list;
 	}
 

@@ -424,9 +424,6 @@ public abstract class Browser extends SimpleViewModel implements
 
 	public HtmlBasedComponent getLabelDate(Object obj, Object[] datos) {
 		Label l = new Label();
-		System.out.println("  obj:" + obj + "   " + m.YYYY_MM_DD_HORA_MIN_SEG2
-				+ ":"
-				+ this.m.dateToString((Date) obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
 		l.setValue(this.m.dateToString((Date) obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
 		return l;
 	}

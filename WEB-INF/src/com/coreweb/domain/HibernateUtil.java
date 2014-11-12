@@ -6,6 +6,8 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
+
+import com.coreweb.util.Misc;
 //import org.hibernate.service.ServiceRegistryBuilder;
 
 import java.sql.Connection;
@@ -21,9 +23,12 @@ public class HibernateUtil {
 	private static Configuration configuration;
 	private static SessionFactory sessionFactory;
 //	private Session session;
+	
 
 	static {
 		try {
+
+			//Misc m = new Misc();
 
 			//java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.OFF);
 			//configuration = new Configuration().configure("classpath:/hibernate.cfg.xml");
