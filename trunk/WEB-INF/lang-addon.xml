@@ -157,6 +157,15 @@
 			<property-value>middle</property-value>
 		</property>
 	</component>
+	
+	<component>
+		<component-name>field</component-name>
+		<extends>label</extends>
+		<property>
+			<property-name>style</property-name>
+			<property-value>font-weight:bold</property-value>
+		</property>
+	</component>
 
 
 	<!-- Es una idea a probar y ver si funciona <component> <component-name>ctextbox</component-name> 
