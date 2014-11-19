@@ -1,6 +1,8 @@
 <?page title="${param.title}"   style="background-color: #EBEBEB;"   ?>
 <?import com.coreweb.Config?>
 <zk>
+	<?link rel="shortcut icon" type="image/x-icon" href="/icono-tab.ico"?>
+	<?link rel="icon" type="image/x-icon" href="/icono-tab.ico"?>	
 
 	<script src="/core/macros/js/jquery.maskedinput-1.3.js"
 		type="text/javascript" />
@@ -48,10 +50,10 @@
 
 	</script>
 
-	<window id="templateInicio" width="98%" position="center"
-		mode="overlapped" height="98%" apply="org.zkoss.bind.BindComposer"
+	<window id="templateInicio" width="99.5%" position="center"
+		mode="overlapped" height="100%" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('com.coreweb.login.ControlInicio')"
-		border="normal">
+		border="none">
 
 		<!-- // esto es para recibir como parametro el // archivo del menu a utilizar -->
 
@@ -63,16 +65,28 @@
 	String menuApp = request.getParameter("menu");
 </zscript>
 
-		<borderlayout height="100%" width="100%">
+		<borderlayout>
+		
+			<north border="0" collapsible="false" height="50px">
+				<hlayout valign="middle">
+					
+					<hbox hflex="30%" align="center" height="30px" visible="false">
+						<label id="nombreFormulario" value=" " multiline="false"
+							maxlength="26" style="font-size:12pt;font-weight:bold" />
+					</hbox>
+					
+					<include id="menu" src="@load(vm.menu)" hflex="70%"/>
+					
+				</hlayout>
+			</north>
 
-			<center style="border:none">
-				<div height="100%" width="100%">
-					<include id="menu" src="@load(vm.menu)" />
-					<label id="nombreFormulario" value=""
-						visible="false" />
+			<center style="border:none" autoscroll="true" hflex="true">
+					
+												
 					<include id="principalBody" mode="instant"
 						src="/core/inicio/login_bootstrap.zul" />
-				</div>
+					
+				
 			</center>
 
 			<south style="border:none" height="40px">
