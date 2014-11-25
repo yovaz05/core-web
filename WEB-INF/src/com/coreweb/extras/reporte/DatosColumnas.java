@@ -1,8 +1,5 @@
 package com.coreweb.extras.reporte;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.*;
-import static net.sf.dynamicreports.report.builder.DynamicReports.col;
-import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
 
 import com.coreweb.util.Misc;
 
@@ -13,7 +10,7 @@ import net.sf.dynamicreports.report.constant.VerticalAlignment;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 
-public class DatosColumnas {
+public class DatosColumnas extends ReporteDefinicion{
 	private String titulo;
 	private String tipo;
 	private int ancho = 0;

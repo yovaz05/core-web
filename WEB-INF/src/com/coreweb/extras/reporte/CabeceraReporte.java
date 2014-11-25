@@ -1,8 +1,6 @@
 package com.coreweb.extras.reporte;
 
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.*;
-
 import net.sf.dynamicreports.jasper.builder.export.JasperPdfExporterBuilder;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.builder.datatype.LongType;

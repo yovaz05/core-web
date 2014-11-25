@@ -1,7 +1,6 @@
 package com.coreweb.extras.reporte;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.*;
- 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +14,11 @@ import net.sf.dynamicreports.examples.complex.dynamicreport.DynamicReportData;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.base.component.DRComponent;
+import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.column.TextColumnBuilder;
 import net.sf.dynamicreports.report.builder.component.PageXofYBuilder;
 import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
+import net.sf.dynamicreports.report.builder.datatype.DataTypeBuilders;
 import net.sf.dynamicreports.report.builder.group.ColumnGroupBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
@@ -26,8 +27,10 @@ import net.sf.dynamicreports.report.exception.DRException;
 /**
  * @author Ricardo Mariaca (r.mariaca@dynamicreports.org)
  */
-public class DynamicReportDesign {
+public class DynamicReportDesign extends ReporteDefinicion {
+	
    private DynamicReportData data = new DynamicReportData();
+ 
  
    @SuppressWarnings({ "rawtypes", "unchecked" })
    public JasperReportBuilder build() throws DRException {

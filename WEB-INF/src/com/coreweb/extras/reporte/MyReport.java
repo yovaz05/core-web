@@ -1,6 +1,6 @@
 package com.coreweb.extras.reporte;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.*;
+
 
 import java.awt.Color;
 import java.lang.reflect.Constructor;
@@ -30,7 +30,7 @@ import net.sf.dynamicreports.report.datasource.DRDataSource;
 import net.sf.dynamicreports.report.exception.DRException;
 import net.sf.jasperreports.engine.JRDataSource;
 
-public class MyReport {
+public class MyReport extends ReporteDefinicion {
 
 	CabeceraReporte cabecera = new CabeceraReporte();
 	List<Object[]> datos = new ArrayList<Object[]>();
@@ -93,8 +93,10 @@ public class MyReport {
 
 		try {
 
+			Templates template = new Templates();
+			
 			rep = report();
-			rep.setTemplate(Templates.reportTemplate);
+			rep.setTemplate(template.reportTemplate);
 			rep.setColumnStyle(Templates.columnStyle);
 
 			rep.setPageFormat(this.tipoPagina);
@@ -109,7 +111,7 @@ public class MyReport {
 			rep.addTitle(this.body);
 
 			if(this.isPutFooter() == true){
-				rep.pageFooter(Templates.footerComponent);
+				rep.pageFooter(template.footerComponent);
 			}
 			
 			rep.setDataSource(createDataSource(cabecera.getColumnasDS(), datos));
