@@ -1,18 +1,16 @@
 package com.coreweb.extras.reporte;
 
-import static net.sf.dynamicreports.report.builder.DynamicReports.cmp;
-import static net.sf.dynamicreports.report.builder.DynamicReports.stl;
-import static net.sf.dynamicreports.report.builder.DynamicReports.tableOfContentsCustomizer;
-import static net.sf.dynamicreports.report.builder.DynamicReports.template;
 
 import java.awt.Color;
 import java.util.Locale;
 
 import net.sf.dynamicreports.report.builder.ReportTemplateBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
+import net.sf.dynamicreports.report.builder.component.ComponentBuilders;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.builder.style.StyleBuilders;
 import net.sf.dynamicreports.report.builder.tableofcontents.TableOfContentsCustomizerBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.Markup;
@@ -23,7 +21,7 @@ import com.coreweb.util.Misc;
 /**
  * @author Ricardo Mariaca (r.mariaca@dynamicreports.org)
  */
-public class Templates {
+public class Templates extends ReporteDefinicion {
 
 	public static final StyleBuilder rootStyle;
 	public static final StyleBuilder boldStyle;
@@ -42,14 +40,14 @@ public class Templates {
 	public static final StyleBuilder styleHTML;
 	public static final StyleBuilder box;
 
-	public static final ReportTemplateBuilder reportTemplate;
-	// public static final CurrencyType currencyType;
-	// public static final ComponentBuilder<?, ?> dynamicReportsComponent;
-	public static final ComponentBuilder footerComponent;
+
 
 	Misc m = new Misc();
 
 	static {
+		StyleBuilders stl = new StyleBuilders();
+		ComponentBuilders cmp = new ComponentBuilders();
+		
 		styleHTML = stl.style().setMarkup(Markup.STYLED);
 		rootStyle = stl.style().setPadding(2);
 		boldStyle = stl.style(rootStyle).bold();
@@ -93,32 +91,30 @@ public class Templates {
 				.setHorizontalAlignment(HorizontalAlignment.RIGHT)
 				.setBackgroundColor(Color.LIGHT_GRAY).bold();
 
-		StyleBuilder crosstabGroupStyle = stl.style(columnTitleStyle);
-		StyleBuilder crosstabGroupTotalStyle = stl.style(columnTitleStyle)
-				.setBackgroundColor(new Color(170, 170, 170));
-		StyleBuilder crosstabGrandTotalStyle = stl.style(columnTitleStyle)
-				.setBackgroundColor(new Color(140, 140, 140));
-		StyleBuilder crosstabCellStyle = stl.style(columnStyle).setBorder(
-				stl.pen1Point());
 
-		TableOfContentsCustomizerBuilder tableOfContentsCustomizer = tableOfContentsCustomizer()
-				.setHeadingStyle(0, stl.style(rootStyle).bold());
-
-		reportTemplate = template().setLocale(Locale.ENGLISH)
-				.setColumnStyle(columnStyle)
-				.setColumnTitleStyle(columnTitleStyle)
-				.setGroupStyle(groupStyle).setGroupTitleStyle(groupStyle)
-				.setSubtotalStyle(subtotalStyle).highlightDetailEvenRows()
-				.crosstabHighlightEvenRows()
-				.setCrosstabGroupStyle(crosstabGroupStyle)
-				.setCrosstabGroupTotalStyle(crosstabGroupTotalStyle)
-				.setCrosstabGrandTotalStyle(crosstabGrandTotalStyle)
-				.setCrosstabCellStyle(crosstabCellStyle)
-				.setTableOfContentsCustomizer(tableOfContentsCustomizer);
-
-		footerComponent = cmp.pageXofY().setStyle(
-				stl.style(boldCenteredStyle).setTopBorder(stl.pen1Point()));
 	}
+	
+	public ReportTemplateBuilder reportTemplate = template().setLocale(Locale.ENGLISH)
+			.setColumnStyle(columnStyle)
+			.setColumnTitleStyle(columnTitleStyle)
+			.setGroupStyle(groupStyle).setGroupTitleStyle(groupStyle)
+			.setSubtotalStyle(subtotalStyle).highlightDetailEvenRows()
+			.crosstabHighlightEvenRows()
+			.setCrosstabGroupStyle(stl.style(columnTitleStyle))
+			.setCrosstabGroupTotalStyle(stl.style(columnTitleStyle)
+					.setBackgroundColor(new Color(140, 140, 140)))
+			.setCrosstabGrandTotalStyle(stl.style(columnTitleStyle)
+					.setBackgroundColor(new Color(140, 140, 140)))
+			.setCrosstabCellStyle(stl.style(columnStyle).setBorder(
+					stl.pen1Point()))
+			.setTableOfContentsCustomizer(tableOfContentsCustomizer()
+					.setHeadingStyle(0, stl.style(rootStyle).bold()));
+
+	public ComponentBuilder footerComponent = cmp.pageXofY().setStyle(
+			stl.style(boldCenteredStyle).setTopBorder(stl.pen1Point()));
+
+	
+	
 
 	public ComponentBuilder createCabeceraPrincipal(String empresa,
 			String titulo, String user) {

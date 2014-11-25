@@ -10,9 +10,10 @@ import com.coreweb.Config;
 import com.coreweb.util.Misc;
 
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
+import net.sf.dynamicreports.report.builder.component.ComponentBuilders;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
-import static net.sf.dynamicreports.report.builder.DynamicReports.*;
+
 import net.sf.dynamicreports.report.builder.datatype.*;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.constant.Markup;
@@ -20,7 +21,7 @@ import net.sf.dynamicreports.report.constant.PageType;
 import net.sf.dynamicreports.report.constant.StretchType;
 import net.sf.dynamicreports.report.definition.datatype.DRIDataType;
 
-public abstract class DatosReporte {
+public abstract class DatosReporte extends ReporteDefinicion {
 	/*
 	 * public static final StringType TIPO_STRING = type.stringType(); public
 	 * static final IntegerType TIPO_INTEGER = type.integerType(); public static
@@ -35,6 +36,10 @@ public abstract class DatosReporte {
 	 * BooleanType TIPO_BOOLEAN =type.booleanType();
 	 */
 
+
+
+	
+	
 	public static final String TIPO_STRING = "String";
 	public static final String TIPO_INTEGER = "Integer";
 	public static final String TIPO_LONG = "Lomg";
@@ -50,6 +55,8 @@ public abstract class DatosReporte {
 
 	private static Hashtable<String, DRIDataType> tipos = new Hashtable<>();
 	static {
+		DataTypeBuilders type = new DataTypeBuilders();
+		
 		tipos.put(TIPO_STRING, type.stringType());
 		tipos.put(TIPO_STRING, type.stringType());
 		tipos.put(TIPO_INTEGER, type.integerType());
