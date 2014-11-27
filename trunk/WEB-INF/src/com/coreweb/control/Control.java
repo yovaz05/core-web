@@ -17,6 +17,7 @@ import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModel;
@@ -91,6 +92,7 @@ public class Control {
 
 		this.preInit();
 		this.poneCarita(us.isLogeado());
+		Clients.confirmClose("Esta acción cerrará la Aplicación.");
 	}
 
 	@AfterCompose(superclass = true)
