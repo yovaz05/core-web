@@ -20,6 +20,7 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkmax.zul.Nav;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Menu;
 import org.zkoss.zul.Menubar;
@@ -147,8 +148,17 @@ public class Login extends Control {
 		if (m instanceof Menuitem){
 			Menuitem mi = (Menuitem) m;
 			boolean visible = (mi.isVisible()==true) && (mi.isDisabled() == false);
+			mi.setVisible(visible);
 			return visible;
 		}
+		if (m instanceof Nav){
+			Nav mi = (Nav) m;
+			boolean visible = (mi.isVisible()==true); // && (mi.isisDisabled() == false);
+			mi.setVisible(visible);
+			return visible;
+		}
+		
+		
 		
 		// ciclar los hijos
 		
@@ -164,7 +174,7 @@ public class Login extends Control {
 			
 			if ((visible == false)&&(m instanceof Menupopup)){
 				Menupopup mp = (Menupopup) ac;
-				mp.close();
+				//mp.close();
 			}
 			if (m instanceof Menu){
 				Menu mp = (Menu) ac;
