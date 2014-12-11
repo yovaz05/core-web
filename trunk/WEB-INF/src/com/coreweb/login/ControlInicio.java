@@ -119,33 +119,6 @@ public class ControlInicio extends Control {
 	@NotifyChange("*")
 	public void habilitarMenu() {
 		this.setMenuVisible(true);
-		// ver que menus popups estan visibles
-		
-
-		//Component compTool = Path.getComponent("/templateInicio");
-		
-/*		
-		for (Iterator<Menupopup> ite = this.listaMenuPopup.iterator(); ite.hasNext();) {
-			Menupopup mp = (Menupopup) ite.next();
-			// ver sus hijos
-			List li = mp.getChildren();
-			boolean visible = false;
-			for (int i = 0; i < li.size(); i++) {
-				Object obj = li.get(i);
-				if (obj instanceof Disable){
-					Disable mi = (Disable) obj;
-					visible = visible || (mi.isDisabled() == false);
-				}
-			}	
-			if (visible == false){
-				System.out.println("============== no visible:"+ mp);
-				mp.setVisible(false);
-				mp.getParent().removeChild(mp);
-				//mp.setVisible(visible);
-			}
-			
-		}
-*/		
 	}
 
 	@GlobalCommand
@@ -174,9 +147,7 @@ public class ControlInicio extends Control {
 		this.menuItem(o, formAlias, "");
 	}
 
-	// lista de menus popups para luego mostrar si sus items están visibles o no;
-	Set<Menupopup> listaMenuPopup = new HashSet<>();
-	
+
 	@SuppressWarnings("unchecked")
 	public void menuItem(Object o, String formAlias, String paramsFromMenu) {
 		if (this.getUs() == null){
@@ -205,9 +176,6 @@ public class ControlInicio extends Control {
 		} else {
 			
 			Menupopup mp = (Menupopup) o;
-			
-			// para guardar la lista de menus popups para luego mostrar o no si sus items están visible
-			listaMenuPopup.add(mp);
 			
 			Menuitem m = new Menuitem();
 			// m.setId(formAlias);
