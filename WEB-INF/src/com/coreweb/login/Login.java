@@ -112,7 +112,7 @@ public class Login extends Control {
 			Include incS = (Include) compTool.getFellow("menuSistema");
 			incS.invalidate(); // esto hace un refresh del menu
 
-			Menubar menuBar = (Menubar)inc.getFellow("menubar");
+			Object menuBar = inc.getFellow("menubar");
 			habilitarDeshabilitarMenuBar(menuBar);
 			
 			
@@ -128,9 +128,9 @@ public class Login extends Control {
 	}
 
 	//===============================================================
-	private void habilitarDeshabilitarMenuBar(Menubar m){
+	private void habilitarDeshabilitarMenuBar(Object mobj){
 		
-		
+		AbstractComponent m = (AbstractComponent) mobj;
 		List lcmps = m.getChildren();
 		for (Iterator iterator = lcmps.iterator(); iterator.hasNext();) {
 			Object dato = (Object) iterator.next();
