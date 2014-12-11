@@ -2,6 +2,8 @@ package com.coreweb.login;
 
 import java.rmi.RemoteException;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -10,6 +12,8 @@ import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.zhtml.Ins;
+import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Session;
@@ -18,7 +22,9 @@ import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Menu;
+import org.zkoss.zul.Menubar;
 import org.zkoss.zul.Menuitem;
+import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.Panel;
 
 import com.coreweb.Archivo;
@@ -69,8 +75,7 @@ public class Login extends Control {
 		Component compTool = Path.getComponent("/templateInicio");
 		Control vm = (Control) compTool.getAttribute("vm");
 		vm.setUs(uDto);
-		Include inc = (Include) compTool.getFellow("menu");
-		inc.invalidate(); // esto hace un refresh del menu
+		
 
 		if (uDto.isLogeado() == true) {
 
@@ -100,9 +105,16 @@ public class Login extends Control {
 				return;
 			}
 
+			Include inc = (Include) compTool.getFellow("menu");
+			inc.invalidate(); // esto hace un refresh del menu
+			
 			Include incS = (Include) compTool.getFellow("menuSistema");
 			incS.invalidate(); // esto hace un refresh del menu
 
+			Menubar menuBar = (Menubar)inc.getFellow("menubar");
+			habilitarDeshabilitarMenuBar(menuBar);
+			
+			
 			BindUtils.postGlobalCommand(null, null, "habilitarMenu", null);
 
 			this.setTextoFormularioCorriente(" ");
@@ -114,6 +126,66 @@ public class Login extends Control {
 		}
 	}
 
+	//===============================================================
+	private void habilitarDeshabilitarMenuBar(Menubar m){
+		
+		
+		List lcmps = m.getChildren();
+		for (Iterator iterator = lcmps.iterator(); iterator.hasNext();) {
+			Object dato = (Object) iterator.next();
+			
+			if (dato instanceof Menu) {
+				Menu menu = (Menu) dato;
+				menu.setVisible(this.siMenuHabilitado(menu));
+			}
+		}
+	}
+
+	private boolean siMenuHabilitado(Object m){
+		
+		// caso base
+		if (m instanceof Menuitem){
+			Menuitem mi = (Menuitem) m;
+			boolean visible = (mi.isVisible()==true) && (mi.isDisabled() == false);
+			return visible;
+		}
+		
+		// ciclar los hijos
+		
+		if ((m instanceof Menu)||(m instanceof Menupopup)){
+			AbstractComponent ac = (AbstractComponent) m;
+			List listHijos = ac.getChildren();
+			// si hay algún hijo visible, entonces visible
+			boolean visible = false;
+			for (int i = 0; i < listHijos.size(); i++) {
+				Object hijo = listHijos.get(i);
+				visible = visible || siMenuHabilitado(hijo);
+			}
+			
+			if ((visible == false)&&(m instanceof Menupopup)){
+				Menupopup mp = (Menupopup) ac;
+				mp.close();
+			}
+			if (m instanceof Menu){
+				Menu mp = (Menu) ac;
+				System.out.println("----------------- menu:"+mp.getLabel()+" "+visible);
+				ac.setVisible(visible);
+				if (visible == false){
+					mp.setLabel(mp.getLabel()+"(NO)");
+				}
+			}
+			
+			return visible;
+		}
+		return false;
+	}
+	
+	
+	
+	
+	
+	//===============================================================
+	
 	public String getUser() {
 		return user;
 	}

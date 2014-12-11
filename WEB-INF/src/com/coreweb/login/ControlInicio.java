@@ -1,7 +1,10 @@
 package com.coreweb.login;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,6 +20,7 @@ import org.zkoss.zk.ui.Path;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.ext.Disable;
 import org.zkoss.zkmax.zul.Nav;
 import org.zkoss.zkmax.zul.Navitem;
 import org.zkoss.zul.Include;
@@ -115,6 +119,33 @@ public class ControlInicio extends Control {
 	@NotifyChange("*")
 	public void habilitarMenu() {
 		this.setMenuVisible(true);
+		// ver que menus popups estan visibles
+		
+
+		//Component compTool = Path.getComponent("/templateInicio");
+		
+/*		
+		for (Iterator<Menupopup> ite = this.listaMenuPopup.iterator(); ite.hasNext();) {
+			Menupopup mp = (Menupopup) ite.next();
+			// ver sus hijos
+			List li = mp.getChildren();
+			boolean visible = false;
+			for (int i = 0; i < li.size(); i++) {
+				Object obj = li.get(i);
+				if (obj instanceof Disable){
+					Disable mi = (Disable) obj;
+					visible = visible || (mi.isDisabled() == false);
+				}
+			}	
+			if (visible == false){
+				System.out.println("============== no visible:"+ mp);
+				mp.setVisible(false);
+				mp.getParent().removeChild(mp);
+				//mp.setVisible(visible);
+			}
+			
+		}
+*/		
 	}
 
 	@GlobalCommand
@@ -143,6 +174,9 @@ public class ControlInicio extends Control {
 		this.menuItem(o, formAlias, "");
 	}
 
+	// lista de menus popups para luego mostrar si sus items están visibles o no;
+	Set<Menupopup> listaMenuPopup = new HashSet<>();
+	
 	@SuppressWarnings("unchecked")
 	public void menuItem(Object o, String formAlias, String paramsFromMenu) {
 		if (this.getUs() == null){
@@ -171,6 +205,10 @@ public class ControlInicio extends Control {
 		} else {
 			
 			Menupopup mp = (Menupopup) o;
+			
+			// para guardar la lista de menus popups para luego mostrar o no si sus items están visible
+			listaMenuPopup.add(mp);
+			
 			Menuitem m = new Menuitem();
 			// m.setId(formAlias);
 			// se puede agregar un texto a cada menu m.setTooltiptext("texto");

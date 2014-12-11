@@ -75,6 +75,7 @@ public class Misc {
 	public static String YYYY_MM_DD_HORA_MIN_SEG3 = "yyyy-MM-dd (HH:mm:ss)";
 	public static String YYYY_MM_DD_HORA_MIN_SEG_MIL = "yyyy-MM-dd_HH_mm_ss_S";
 	public static String D_MMMM_YYYY = "d 'de' MMMM 'del' yyyy";
+	public static String E_D_MMMM_YYYY = "E d 'de' MMMM 'del' yyyy";
 	public static String D_MMMM_YYYY2 = "d MMMM yyyy (HH:mm:ss)";
 	public static String DD_MM_YYYY = "dd-MM-yyyy";
 	public static String DD_MMMM_HH_MM = "dd MMMM (HH:mm)";

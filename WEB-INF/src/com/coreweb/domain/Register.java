@@ -696,6 +696,10 @@ public class Register {
 			while (keys.hasMoreElements()) {
 				String k = keys.nextElement();
 				Object v = params.get(k);
+				// para quitar el ":" del parámetro
+				if (k.toCharArray()[0] == ':'){
+					k = k.substring(1);
+				}
 				q.setParameter(k, v);
 			}
 			list = q.list();
