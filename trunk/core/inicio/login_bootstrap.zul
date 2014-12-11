@@ -21,14 +21,10 @@
 				<vlayout width="250px">
 					<space height="50px" />
 					<hlayout valign="middle" style="border-bottom: 1px solid #ccc;">
-						<label style="font-size:14pt">Registrarse como</label>
+						<label style="font-size:14pt">Ingresar ó</label>
+						<a style="font-size:14pt">Registrarse</a>
 						<space hflex="true" />
 					</hlayout>
-					<hlayout>
-						<a style="font-size:14pt" href="/saraki/inicio/RegistroPostulante.zul">Postulante</a>
-						o
-						<a style="font-size:14pt" href="/saraki/inicio/RegistroEmpresa.zul">Empresa</a>
-				    </hlayout>
 					<div height="10px" />
 
 					<textbox class="form-control" placeholder="Usuario"

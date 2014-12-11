@@ -21,6 +21,8 @@ import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkmax.zul.Nav;
+import org.zkoss.zkmax.zul.Navbar;
+import org.zkoss.zkmax.zul.Navitem;
 import org.zkoss.zul.Include;
 import org.zkoss.zul.Menu;
 import org.zkoss.zul.Menubar;
@@ -135,34 +137,56 @@ public class Login extends Control {
 		for (Iterator iterator = lcmps.iterator(); iterator.hasNext();) {
 			Object dato = (Object) iterator.next();
 			
+			this.siMenuHabilitado(dato);
+			/*
 			if (dato instanceof Menu) {
 				Menu menu = (Menu) dato;
 				menu.setVisible(this.siMenuHabilitado(menu));
 			}
+			*/
 		}
 	}
 
 	private boolean siMenuHabilitado(Object m){
-		
-		// caso base
+				
+		// dos casos base
 		if (m instanceof Menuitem){
 			Menuitem mi = (Menuitem) m;
 			boolean visible = (mi.isVisible()==true) && (mi.isDisabled() == false);
 			mi.setVisible(visible);
 			return visible;
 		}
-		if (m instanceof Nav){
-			Nav mi = (Nav) m;
-			boolean visible = (mi.isVisible()==true); // && (mi.isisDisabled() == false);
+		if (m instanceof Navitem){
+			Navitem mi = (Navitem) m;
+			boolean visible = (mi.isVisible()==true) && (mi.isDisabled() == false);
 			mi.setVisible(visible);
 			return visible;
 		}
 		
 		
-		
 		// ciclar los hijos
+		AbstractComponent ac = (AbstractComponent) m;
+		List listHijos = ac.getChildren();
+		// si hay algún hijo visible, entonces visible
+		boolean visible = false;
+		for (int i = 0; i < listHijos.size(); i++) {
+			Object hijo = listHijos.get(i);
+			visible = visible || siMenuHabilitado(hijo);
+		}
+
+		if ((visible == false)&&(m instanceof Nav)){
+			Nav mp = (Nav) ac;
+			mp.setVisible(visible);
+			//mp.close();
+		}
+		if (m instanceof Menu){
+			Menu mp = (Menu) ac;
+			ac.setVisible(visible);
+		}
+		return visible;
 		
-		if ((m instanceof Menu)||(m instanceof Menupopup)){
+		/*
+		if ((m instanceof Menu)||(m instanceof Menupopup)||(m instanceof Nav)||(m instanceof Navbar) ){
 			AbstractComponent ac = (AbstractComponent) m;
 			List listHijos = ac.getChildren();
 			// si hay algún hijo visible, entonces visible
@@ -172,22 +196,20 @@ public class Login extends Control {
 				visible = visible || siMenuHabilitado(hijo);
 			}
 			
-			if ((visible == false)&&(m instanceof Menupopup)){
-				Menupopup mp = (Menupopup) ac;
+			if ((visible == false)&&(m instanceof Nav)){
+				Nav mp = (Nav) ac;
+				mp.setVisible(visible);
 				//mp.close();
 			}
 			if (m instanceof Menu){
 				Menu mp = (Menu) ac;
-				System.out.println("----------------- menu:"+mp.getLabel()+" "+visible);
 				ac.setVisible(visible);
-				if (visible == false){
-					mp.setLabel(mp.getLabel()+"(NO)");
-				}
 			}
 			
 			return visible;
 		}
 		return false;
+		*/
 	}
 	
 	
