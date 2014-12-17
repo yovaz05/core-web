@@ -244,9 +244,14 @@ public abstract class Assembler {
 		Domain d = rr.getObject(entidad, mp.getId());
 		setValue(dom, atributo, d);
 
-		// se quito para que no grabe siempre
-		//rr.saveObject(dom, this.getLogin());
-		mp.setId(d.getId());
+		if (d == null){
+			System.out.println("Error, valor NULO: "+dom.getClass().getName()+" atr:"+atributo);
+		}else{
+			// se quito para que no grabe siempre
+			//rr.saveObject(dom, this.getLogin());
+			mp.setId(d.getId());
+		}
+		
 	}
 
 	public void domainToMyPair(Domain dom, DTO dto, String atributo)

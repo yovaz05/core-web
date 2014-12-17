@@ -41,7 +41,7 @@ public class Register {
 	
 	// El register tiene que ser un sigleton
 	private static Register instance = new Register();
-
+	
 	protected Register() {
 	}
 
@@ -51,7 +51,8 @@ public class Register {
 		}
 		return instance;
 	}
-
+	
+	
 	/********************************/
 	/***** Hibernate functions ******/
 	/********************************/
@@ -949,7 +950,7 @@ public class Register {
 
 		String hql = select + " from " + clase.getName() + " c " + join + " "
 				+ where + orden;
-		System.out.println("\n\n\n" + hql + "\n\n\n");
+		//System.out.println("\n\n\n" + hql + "\n\n\n");
 
 		l = this.hql(hql);
 
@@ -1033,7 +1034,7 @@ public class Register {
 		String query = "select t from Tipo t where t.tipoTipo.descripcion = '"
 				+ tipoTipoDescripcion + "'";
 		list = this.hql(query);
-		System.out.println("query ("+list.size()+"):"+query);
+		//System.out.println("query ("+list.size()+"):"+query);
 		return list;
 	}
 
