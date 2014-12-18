@@ -1047,6 +1047,7 @@ public class Misc {
 		String format = event.getMedia().getFormat().toLowerCase();
 		InputStream file = event.getMedia().getStreamData();
 		String destino = folder + fileName + "." + format;
+		System.out.println("destino:"+destino);
 
 		if ((tipo == TIPO_IMAGEN)
 				&& (Config.EXTENSION_IMAGEN.indexOf(format)) >= 0) {
