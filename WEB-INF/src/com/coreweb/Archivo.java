@@ -11,7 +11,8 @@ public class Archivo {
 	public static String ViewPdf = componente +  "ViewPdf.zul";
 
 	
-	public static String okLogin = inicio +  "okLogin.zul";
+	public static String okLogin = inicio + "okLogin.zul";
+	public static String okLoginBootstrap = inicio + "okLogin_bootstrap.zul";
 	public static String vacio = inicio +  "vacio.zul";
 	public static String errorLogin = inicio +  "errorLogin.zul";
 	public static String noAutorizado = inicio +  "noAutorizado.zul";
