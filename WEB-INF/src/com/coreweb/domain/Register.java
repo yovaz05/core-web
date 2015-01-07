@@ -1108,5 +1108,30 @@ public class Register {
 		}
 
 	}
+	
+	public void printHql(String hql){
+		try {
+			int n = 0;
+			List l = this.hql(hql);
+			for (int i = 0; i < l.size(); i++) {
+				
+				String linea = "";
+				Object fila = l.get(i);
+				
+				if (fila instanceof Object[]){
+					Object[] ff = (Object[]) fila;
+					for (int j = 0; j < ff.length; j++) {
+						linea += ff[j]+" , ";
+					}
+				}else{
+					linea = fila + "";
+				}
+				System.out.println((n++)+") "+linea);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }
