@@ -19,6 +19,13 @@ public class MyPair extends MyAuxObject {
 		this.text = text;
 	}
 
+	public MyPair(long id, String text, String sigla) {
+		this.setId(id);
+		this.text = text;
+		this.sigla = sigla;
+	}
+	
+	
 	public String getText() {
 		return text;
 	}
