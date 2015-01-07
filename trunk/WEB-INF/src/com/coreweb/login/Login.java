@@ -61,10 +61,19 @@ public class Login extends Control {
 	@AfterCompose
 	public void afterComposeLogin() {
 	}
-
-	@Command
-	@NotifyChange("*")
+	
+	@Command @NotifyChange("*")
 	public void loginOk() throws Exception {
+		this.loginOk(false);
+	}
+	
+	@Command @NotifyChange("*")
+	public void loginOkBootstrap() throws Exception {
+		this.loginOk(true);
+	}
+
+	
+	public void loginOk(boolean bootstrap) throws Exception {
 
 		LoginUsuario lu = new LoginUsuario();
 		LoginUsuarioDTO uDto = lu.log(this.user, this.pass);
@@ -121,7 +130,7 @@ public class Login extends Control {
 			BindUtils.postGlobalCommand(null, null, "habilitarMenu", null);
 
 			this.setTextoFormularioCorriente(" ");
-			this.saltoDePagina(Archivo.okLogin);
+			this.saltoDePagina(bootstrap? Archivo.okLoginBootstrap : Archivo.okLogin);
 
 		} else {
 			this.msg = "Usuario o clave incorrecta";
