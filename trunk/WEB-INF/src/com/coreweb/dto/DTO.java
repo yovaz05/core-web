@@ -10,6 +10,7 @@ import java.util.List;
 import com.coreweb.domain.IiD;
 import com.coreweb.util.Misc;
 import com.coreweb.util.MyArray;
+import com.coreweb.util.MyPair;
 
 public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 
@@ -202,6 +203,27 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	}
 
 	/**
+	 * Retorna el MyPair de un DTO. Es necesario reimplementar el método
+	 * getCampoMyPair para definir que campos se usaran
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public MyPair toMyPair() throws Exception {
+		MyPair ma = new MyPair();
+		ma.setId(this.getId());
+		String[] campos = this.getCamposMyPair();
+		String valor = "";
+		for (int i = 0; i < campos.length; i++) {
+			String campo = campos[i];
+			Object dato = this.getMisc().getValue(this, campo);
+			valor += dato+" - ";
+		}
+		this.getMisc().setValue(ma, "text", valor);
+		return ma;
+	}
+
+	/**
 	 * Retorna el MyArray de un DTO. Es necesario reimplementar el método
 	 * getCamposMyArray para definir que campos se usaran
 	 * 
@@ -227,10 +249,22 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	 * @return
 	 */
 	public String[] getCamposMyArray() {
-		String[] campos = {};
+		String[] campos = null;
 		return campos;
 	}
 
+	/**
+	 * Los campos que se usan para pasar de Dto a MyPair. Si no se define, sólo
+	 * usa el campo Id.
+	 * 
+	 * @return
+	 */
+	public String[] getCamposMyPair() {
+		String[] campos = null;
+		return campos;
+	}
+
+	
 	/*
 	 * public Comparator<DTO> COMPARATOR = new Comparator<DTO>() { // This is
 	 * where the sorting happens. public int compare(DTO o1, DTO o2) { int out =
