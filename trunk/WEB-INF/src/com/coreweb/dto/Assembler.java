@@ -876,6 +876,11 @@ public abstract class Assembler {
 		
 	}
 	
+	public Tipo myPairToTipo(MyPair p) throws Exception{
+		Register rr = Register.getInstance();
+		Tipo t = (Tipo) rr.getObject(Tipo.class.getName(), p.getId());
+		return t;
+	}
 	
 	// **********************************************************************
 
