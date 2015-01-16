@@ -219,10 +219,10 @@ public abstract class Assembler {
 			return;
 		}
 
-		myPairToDomain(mp, dom, atributo);
+		myIiDToDomain(mp, dom, atributo);
 	}
 
-	protected void myPairToDomain(IiD mp, Domain dom, String atributo)
+	private void myIiDToDomain(IiD mp, Domain dom, String atributo)
 			throws Exception, NoSuchFieldException {
 		Object value = getValue(dom, atributo);
 
@@ -365,7 +365,7 @@ public abstract class Assembler {
 		myArrayToDomain(dto, dom, atributo, true);
 	}
 
-	public void myArrayToDomain(DTO dto, Domain dom, String atributo,
+	private void myArrayToDomain(DTO dto, Domain dom, String atributo,
 			boolean ignorarNuevo) throws Exception {
 
 		MyArray mp = (MyArray) getValue(dto, atributo);
@@ -374,6 +374,8 @@ public abstract class Assembler {
 			return;
 		}
 
+		myIiDToDomain(mp, dom, atributo);
+		/*
 		Object value = getValue(dom, atributo);
 
 		// ver si el objeto del dominio ya tiene el mismo valor seteado
@@ -394,6 +396,7 @@ public abstract class Assembler {
 		// se quito para que no graba todas las veces
 		//rr.saveObject(dom, this.getLogin());
 		mp.setId(d.getId());
+		*/
 	}
 
 	// *************************************************************************************
@@ -613,7 +616,7 @@ public abstract class Assembler {
 
 						if (vAux instanceof IiD) {
 							// MyPair o MyArray
-							myPairToDomain((IiD) vAux, dAux, campo);
+							myIiDToDomain((IiD) vAux, dAux, campo);
 
 						} else if (vAux instanceof Collection) {
 							// Tratar la coleccion (Lista seguramente)
