@@ -365,7 +365,7 @@ public abstract class Assembler {
 		myArrayToDomain(dto, dom, atributo, true);
 	}
 
-	private void myArrayToDomain(DTO dto, Domain dom, String atributo,
+	public void myArrayToDomain(DTO dto, Domain dom, String atributo,
 			boolean ignorarNuevo) throws Exception {
 
 		MyArray mp = (MyArray) getValue(dto, atributo);
@@ -374,8 +374,9 @@ public abstract class Assembler {
 			return;
 		}
 
-		myIiDToDomain(mp, dom, atributo);
-		/*
+		// dr: se quitó por que no grababa la relación
+		// myIiDToDomain(mp, dom, atributo);
+		
 		Object value = getValue(dom, atributo);
 
 		// ver si el objeto del dominio ya tiene el mismo valor seteado
@@ -396,7 +397,7 @@ public abstract class Assembler {
 		// se quito para que no graba todas las veces
 		//rr.saveObject(dom, this.getLogin());
 		mp.setId(d.getId());
-		*/
+		
 	}
 
 	// *************************************************************************************
