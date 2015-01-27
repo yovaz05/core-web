@@ -44,10 +44,6 @@ import com.coreweb.Config;
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
 
-
-
-
-
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -205,7 +201,7 @@ public class Misc {
 		int dia = 0;
 		int mes = 0;
 		int anio = 0;
-		
+
 		int hora24 = 0;
 		int minuto = 0;
 		int segundo = 0;
@@ -213,14 +209,14 @@ public class Misc {
 		mes = Integer.parseInt(dd.substring(0, 2)) - 1;
 		dia = Integer.parseInt(dd.substring(3, 5));
 		anio = Integer.parseInt(dd.substring(7, 10));
-		
+
 		hora24 = Integer.parseInt(dd.substring(11, 13));
 		minuto = Integer.parseInt(dd.substring(14, 16));
 		segundo = Integer.parseInt(dd.substring(17, 19));
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(anio, mes, dia, hora24, minuto, segundo);
-		
+
 		return calendar.getTime();
 
 	}
@@ -247,33 +243,31 @@ public class Misc {
 		return calendar.getTime();
 
 	}
-	
+
 	/**
 	 * 
 	 * @param fecha
 	 *            Fecha que se desea convertir a Date
 	 * @param formatoFecha
-	 *            El formato del String que almacena la fecha
-	 *            Ej.: String fecha = "03-27-2014 00:00:00"
-	 *				   Formato de la fecha "MM-dd-yyyy HH:mm:ss";
-	 *				   
-	 *		      Documentacion sobre SimpleDateFormat.html
-	 *		      http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
-	 *				   
+	 *            El formato del String que almacena la fecha Ej.: String fecha
+	 *            = "03-27-2014 00:00:00" Formato de la fecha
+	 *            "MM-dd-yyyy HH:mm:ss";
+	 * 
+	 *            Documentacion sobre SimpleDateFormat.html
+	 *            http://docs.oracle.com
+	 *            /javase/7/docs/api/java/text/SimpleDateFormat.html
+	 * 
 	 * @return
 	 */
-	public static Date ParseFecha(String fecha, String formatoFecha)
-	{
-	    SimpleDateFormat formato = new SimpleDateFormat(formatoFecha);
-	    Date fechaDate = null;
-	    try {
-	        fechaDate = formato.parse(fecha);
-	    } 
-	    catch (ParseException ex) 
-	    {
-	        System.out.println(ex);
-	    }
-	    return fechaDate;
+	public static Date ParseFecha(String fecha, String formatoFecha) {
+		SimpleDateFormat formato = new SimpleDateFormat(formatoFecha);
+		Date fechaDate = null;
+		try {
+			fechaDate = formato.parse(fecha);
+		} catch (ParseException ex) {
+			System.out.println(ex);
+		}
+		return fechaDate;
 	}
 
 	public String dateHoyToString() {
@@ -281,7 +275,7 @@ public class Misc {
 	}
 
 	public String dateToString(java.util.Date dd, String format) {
-		if (dd == null){
+		if (dd == null) {
 			return "-";
 		}
 
@@ -396,47 +390,47 @@ public class Misc {
 		return dateCal.getTime();
 	}
 
-	
 	/**
 	 * Muestra la diferencia entre fechas con formato HH:mm:ss
+	 * 
 	 * @param desde
 	 * @param hasta
 	 * @return
 	 */
-	public String tiempoTareas(Date desde, Date hasta){
+	public String tiempoTareas(Date desde, Date hasta) {
 		String out = "";
-		if ((desde == null)||(hasta == null)){
+		if ((desde == null) || (hasta == null)) {
 			return "";
 		}
 		long dif = hasta.getTime() - desde.getTime();
 		dif = dif / 1000;
-        long hor=dif/3600;  
-        long min=(dif-(3600*hor))/60;  
-        long seg=dif-((hor*3600)+(min*60));  
-        out = hor+"h "+min+"m "+seg+"s";
-        
+		long hor = dif / 3600;
+		long min = (dif - (3600 * hor)) / 60;
+		long seg = dif - ((hor * 3600) + (min * 60));
+		out = hor + "h " + min + "m " + seg + "s";
+
 		return out;
 	}
-	
+
 	/**
 	 * Muestra la diferencia entre fechas con formato HH:mm:ss
+	 * 
 	 * @param desde
 	 * @param hasta
 	 * @return
 	 */
-	public String tiempoTareas(long tiempo){
+	public String tiempoTareas(long tiempo) {
 		String out = "";
 		long dif = tiempo;
 		dif = dif / 1000;
-        long hor=dif/3600;  
-        long min=(dif-(3600*hor))/60;  
-        long seg=dif-((hor*3600)+(min*60));  
-        out = hor+"h "+min+"m "+seg+"s";
-        
+		long hor = dif / 3600;
+		long min = (dif - (3600 * hor)) / 60;
+		long seg = dif - ((hor * 3600) + (min * 60));
+		out = hor + "h " + min + "m " + seg + "s";
+
 		return out;
 	}
 
-	
 	/**
 	 * Data dos fechas, dice la diferencia de dias entre ellas, no considera las
 	 * horas y minutos. Ojo, la fecha 2 debe ser mas mayor.
@@ -450,22 +444,21 @@ public class Misc {
 		long out = 0;
 		long ld1 = this.toFecha0000(d1).getTime();
 		long ld2 = this.toFecha2400(d2).getTime();
-		
+
 		long dia = (24 * 60 * 60 * 1000);
 		long diff = ld2 - ld1;
-		
-		
+
 		if (diff < dia && diff > 0) {
 			return 0;
 		}
-		if ( diff < 0) {
+		if (diff < 0) {
 			aux = -1;
-			if (diff*-1 < dia) {
+			if (diff * -1 < dia) {
 				return -1;
 			}
-			
+
 		}
-		out = (diff / dia)+aux;
+		out = (diff / dia) + aux;
 		return out;
 	}
 
@@ -513,13 +506,13 @@ public class Misc {
 	}
 
 	public boolean esIgual(String d1, String d2) {
-		if (d1 == d2){
+		if (d1 == d2) {
 			return true;
 		}
-		if ((d1 == null)||(d2==null)){
+		if ((d1 == null) || (d2 == null)) {
 			return false;
 		}
-		if (d1.trim().toLowerCase().compareTo(d2.trim().toLowerCase())==0){
+		if (d1.trim().toLowerCase().compareTo(d2.trim().toLowerCase()) == 0) {
 			return true;
 		}
 		return false;
@@ -749,16 +742,17 @@ public class Misc {
 
 	/**
 	 * Encrita considerando caseSensitive
+	 * 
 	 * @param cadena
 	 * @param caseSensitive
 	 * @return
 	 */
 	public String encriptar(String cadena, boolean caseSensitive) {
-		
-		if (caseSensitive ==  false){
+
+		if (caseSensitive == false) {
 			cadena = cadena.toLowerCase();
 		}
-		
+
 		MessageDigest md = null;
 		try {
 			md = MessageDigest.getInstance("MD5");
@@ -775,6 +769,7 @@ public class Misc {
 
 	/**
 	 * Encripta una cadena, pasando primero todo a minúscula
+	 * 
 	 * @param cadena
 	 * @return
 	 */
@@ -782,7 +777,6 @@ public class Misc {
 		return this.encriptar(cadena, false);
 	}
 
-	
 	private String toHexadecimal(byte[] digest) {
 		String hash = "";
 		for (byte aux : digest) {
@@ -1020,7 +1014,6 @@ public class Misc {
 		}
 	}
 
-	
 	public void uploadFile(String pathCompleto, InputStream file) {
 		try {
 			OutputStream out = new java.io.FileOutputStream(pathCompleto);
@@ -1039,10 +1032,9 @@ public class Misc {
 		}
 	}
 
-	
 	public void uploadFile(String path, String name, String ext,
 			InputStream file) {
-		
+
 		this.uploadFile(path + name + ext, file);
 	}
 
@@ -1060,7 +1052,7 @@ public class Misc {
 		String format = event.getMedia().getFormat().toLowerCase();
 		InputStream file = event.getMedia().getStreamData();
 		String destino = folder + fileName + "." + format;
-		System.out.println("destino:"+destino);
+		System.out.println("destino:" + destino);
 
 		if ((tipo == TIPO_IMAGEN)
 				&& (Config.EXTENSION_IMAGEN.indexOf(format)) >= 0) {
@@ -1176,8 +1168,8 @@ public class Misc {
 		int out = Config.BOTON_CANCEL;
 
 		org.zkoss.zul.Messagebox.Button b = Messagebox.show(texto, "Confirmar",
-				new Messagebox.Button[] { Messagebox.Button.YES, Messagebox.Button.CANCEL },
-				Messagebox.QUESTION, null);
+				new Messagebox.Button[] { Messagebox.Button.YES,
+						Messagebox.Button.CANCEL }, Messagebox.QUESTION, null);
 
 		if ((b != null) && (b.compareTo(Messagebox.Button.YES)) == 0) {
 			out = Config.BOTON_YES;
@@ -1185,8 +1177,6 @@ public class Misc {
 		return out;
 	}
 
-	
-	
 	// Metodo que retorna el valor del Iva a partir de un valor iva incluido..
 	// 10 = calcularIVA(110,10)
 	public double calcularIVA(double ivaIncluido, int porcentajeIva) {
@@ -1241,7 +1231,7 @@ public class Misc {
 		fd.setAccessible(true);
 		fd.set(obj, value);
 	}
-	
+
 	// hace un get de un atributo, si no puede prueba con la super clase (sólo
 	// una)
 	public Object getValue(Object obj, String att) throws Exception {
@@ -1249,7 +1239,6 @@ public class Misc {
 		Object v = m.invoke(obj);
 		return v;
 	}
-
 
 	/*
 	 * NO ESTA REVISADO SI FUNCIONA // ejecuta el método de una clase public
@@ -1488,90 +1477,91 @@ public class Misc {
 	public boolean esPar(int nro) {
 		return (nro % 2) == 0;
 	}
-	
+
 	/**
 	 * Retorna true si el nro es múltiplo del factor..
+	 * 
 	 * @param int factor
 	 */
-	public boolean esMultiploDe(int nro, int factor){
+	public boolean esMultiploDe(int nro, int factor) {
 		return (nro % factor) == 0;
 	}
-	
+
 	/**
 	 * Verifica si se puede parsear el String a Integer..
 	 */
-	public boolean isInteger(String str){
-	    try {
-	        Integer.parseInt(str);
-	        return true;
-	    } catch (NumberFormatException nfe) {}
-	    return false;
+	public boolean isInteger(String str) {
+		try {
+			Integer.parseInt(str);
+			return true;
+		} catch (NumberFormatException nfe) {
+		}
+		return false;
 	}
-	
+
 	/**
-	 * Separa letras de numeros
-	 * [0]: letra/s
-	 * [1]: numero/s
+	 * Separa letras de numeros [0]: letra/s [1]: numero/s
 	 */
-	public String[] separarLetrasDeNumeros(String str){		
+	public String[] separarLetrasDeNumeros(String str) {
 		String[] sp = str.split("");
-		String letra = ""; 
+		String letra = "";
 		String numero = "";
-		
+
 		for (int i = 0; i < sp.length; i++) {
 			if (this.isInteger(sp[i])) {
 				numero += sp[i];
 			} else {
 				letra += sp[i];
 			}
-		}		
-		return new String[]{letra, numero};
+		}
+		return new String[] { letra, numero };
 	}
-	
+
 	/**
 	 * Concatena dos String..
 	 */
-	public String concat(String str1, String str2, String separador){
+	public String concat(String str1, String str2, String separador) {
 		return str1 + separador + str2;
 	}
-	
+
 	/**
 	 * Calcula la edad a partir de la fecha de nacimiento
+	 * 
 	 * @param fechaNacimiento
 	 * @return edad
 	 */
-	public int calcularEdad(Date fechaNacimiento){
+	public int calcularEdad(Date fechaNacimiento) {
 
 		Calendar fNac = Calendar.getInstance();
 		fNac.setTime(fechaNacimiento);
 		Calendar fechaActual = Calendar.getInstance();
 		int edad = fechaActual.get(Calendar.YEAR) - fNac.get(Calendar.YEAR);
-		if (fechaActual.get(Calendar.MONTH) < fNac.get(Calendar.MONTH)){
+		if (fechaActual.get(Calendar.MONTH) < fNac.get(Calendar.MONTH)) {
 			edad--;
-		} else if (fechaActual.get(Calendar.MONTH) == fNac.get(Calendar.MONTH) && 
-				   fechaActual.get(Calendar.DAY_OF_MONTH) < fNac.get(Calendar.DAY_OF_MONTH)){
+		} else if (fechaActual.get(Calendar.MONTH) == fNac.get(Calendar.MONTH)
+				&& fechaActual.get(Calendar.DAY_OF_MONTH) < fNac
+						.get(Calendar.DAY_OF_MONTH)) {
 			edad--;
 		}
 		return edad;
 	}
-	
+
 	public static void mainxxx(String[] args) {
 		try {
 
 			long xx = 10 / (24 * 60 * 60 * 1000);
-			System.out.println("--->"+xx+"   "+(24 * 60 * 60 * 1000));
-			
-			
+			System.out.println("--->" + xx + "   " + (24 * 60 * 60 * 1000));
+
 			Misc m = new Misc();
-			
+
 			System.out.println(m.tiempoTareas(1000));
-			System.out.println(m.tiempoTareas(1000*10));
-			System.out.println(m.tiempoTareas(1000*80));
-			
-			if (true){
+			System.out.println(m.tiempoTareas(1000 * 10));
+			System.out.println(m.tiempoTareas(1000 * 80));
+
+			if (true) {
 				return;
 			}
-			
+
 			Date d1 = new Date();
 			Date d2 = new Date();
 
@@ -1582,21 +1572,17 @@ public class Misc {
 
 			String inputStr2 = "27-02-2013";
 			d2 = dateFormat.parse(inputStr2);
-			
+
 			System.out.println(m.diasEntreFechas(d1, d2));
 
-			
 			inputStr1 = "11-11-2012";
 			d1 = dateFormat.parse(inputStr1);
 
 			inputStr2 = "12-11-2012";
 			d2 = dateFormat.parse(inputStr2);
-			
-			//System.out.println(m.diasEntreFechas(d1, d2));
-			
-			
-			
-			
+
+			// System.out.println(m.diasEntreFechas(d1, d2));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
