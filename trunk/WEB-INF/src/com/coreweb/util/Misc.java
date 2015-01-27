@@ -512,6 +512,19 @@ public class Misc {
 		return d <= diferencia;
 	}
 
+	public boolean esIgual(String d1, String d2) {
+		if (d1 == d2){
+			return true;
+		}
+		if ((d1 == null)||(d2==null)){
+			return false;
+		}
+		if (d1.trim().toLowerCase().compareTo(d2.trim().toLowerCase())==0){
+			return true;
+		}
+		return false;
+	}
+
 	public boolean esIgual(double d1, double d2) {
 		double diff = d1 - d2;
 		return ((diff * diff) < 0.00001);
