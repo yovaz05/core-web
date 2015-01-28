@@ -4,6 +4,9 @@ import com.coreweb.domain.IiD;
 
 public class MyArray extends MyAuxObject {
 
+	Misc m = new Misc();
+	
+	
 	private static String POS_VACIO = "";
 	private Object pos1 = POS_VACIO;
 	private Object pos2 = POS_VACIO;
@@ -26,6 +29,7 @@ public class MyArray extends MyAuxObject {
 	private Object pos19 = POS_VACIO;
 	private Object pos20 = POS_VACIO;
 
+	
 	public MyArray() {
 	}
 
@@ -36,7 +40,6 @@ public class MyArray extends MyAuxObject {
 
 		String out = "";
 
-		Misc m = new Misc();
 		try {
 
 			for (int i = 1; i < 20; i++) {
