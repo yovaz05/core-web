@@ -4,7 +4,7 @@ import com.coreweb.domain.IiD;
 
 public class MyArray extends MyAuxObject {
 
-	Misc m = new Misc();
+	transient Misc m = new Misc();
 	
 	
 	private static String POS_VACIO = "";
