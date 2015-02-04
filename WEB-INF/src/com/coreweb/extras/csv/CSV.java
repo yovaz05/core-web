@@ -20,7 +20,10 @@ import com.csvreader.CsvReader;
 public class CSV {
 	// Atributos
 
+	static private char DELIMITADOR_DEFAULT = ',';
 	private static boolean debug = false; 
+	
+	private char delimitador = DELIMITADOR_DEFAULT;
 	
 	
 	// Datos de Cabecera en la Clase CSV
@@ -49,7 +52,20 @@ public class CSV {
 	public CSV(String[][] cab, String[][] cabDet, String nombreDir)
 			throws Exception {
 		// hace el parser
+		leerArchivo(cab, cabDet, nombreDir, DELIMITADOR_DEFAULT);
+	}
 
+	// Constructor
+	public CSV(String[][] cab, String[][] cabDet, String nombreDir, char delimitador)
+			throws Exception {
+		// hace el parser
+		leerArchivo(cab, cabDet, nombreDir, delimitador);
+	}
+
+	
+	private void leerArchivo(String[][] cab, String[][] cabDet, String nombreDir, char delimitador)
+			throws FileNotFoundException, Exception {
+		this.setDelimitador(delimitador);
 		String key, value;
 		String[] dato;
 		direccion = nombreDir;
@@ -69,6 +85,7 @@ public class CSV {
 		}
 
 		fileImport = new CsvReader(direccion);
+		fileImport.setDelimiter(this.delimitador);
 		try {
 			cabecera();
 			detalle();
@@ -78,7 +95,6 @@ public class CSV {
 		} finally {
 			fileImport.close();
 		}
-
 	}
 
 	/*
@@ -437,6 +453,14 @@ public class CSV {
 	
 	public static void main(String[] args) {
 		ejemploUso();
+	}
+
+	public char getDelimitador() {
+		return delimitador;
+	}
+
+	public void setDelimitador(char delimitador) {
+		this.delimitador = delimitador;
 	}
 
 }
