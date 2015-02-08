@@ -7,6 +7,8 @@ TDNPEDIDOS=/home/daniel/datos/tdn/pedidos/pedidosApp
 TURNOS=/home/daniel/datos/yhaguy/proyecto-turnos/turnos
 SARAKI=/home/daniel/datos/varios/propuestas/saraki/proyecto/saraki-proyecto
 SEGEL=/home/daniel/datos/proyectos/segel/proyecto/segel-project
+SCG33=/home/daniel/datos/varios/propuestas/scg33/proyecto-scg33/scg33
+
 
 
 
@@ -140,6 +142,31 @@ mv core.jar  $HASTA/WEB-INF/lib/
 ########### Segel ##########################
 DESDE=$CORE
 HASTA=$SEGEL
+
+cp $DESDE/WEB-INF/lang-addon.xml $HASTA/WEB-INF/lang-addon.xml
+
+# Archivos .zul
+cd $DESDE
+zip -r core core/*
+mv core.zip  $HASTA/
+cd $HASTA
+unzip -o core.zip
+#chmod 777 -R core
+rm core.zip
+
+# Archivos .class (crea jar)
+
+cd $CORE/WEB-INF/classes
+zip -r core com/*  -x *.svn*
+mv core.zip ../src
+cd ../src
+zip -r core com/*  -x *.svn*
+mv core.zip core.jar
+mv core.jar  $HASTA/WEB-INF/lib/
+
+########### SCG33 ##########################
+DESDE=$CORE
+HASTA=$SCG33
 
 cp $DESDE/WEB-INF/lang-addon.xml $HASTA/WEB-INF/lang-addon.xml
 
