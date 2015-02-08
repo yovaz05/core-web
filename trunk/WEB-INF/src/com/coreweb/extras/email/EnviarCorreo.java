@@ -17,36 +17,71 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;  
 import javax.mail.internet.MimeMultipart;
 
+import com.coreweb.SistemaPropiedad;
+
 
   
   
 public class EnviarCorreo{  
-  
+/*
+ *  OJO ESTOS DATOS AHORA HAY QUE CARGARLOS DESDE EL sistema-propiedad.ini
+ * 
     private static final String SMTP_HOST_NAME = "smtp.gmail.com";  
     private static final String SMTP_PORT = "587";  
-    private static final String emailFromAddress = "yhaguyrepuestos@gmail.com";
-    private static final String emailFromPasswrd = "yrmkt1970";
-    private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";  
-   
+    private static final String SMTP_START_TLS_ENABLE = "true";
+    private static final String EMAIL_FROM = "yhaguyrepuestos@gmail.com";
+    private static final String EMAIL_FROM_PASSWORD = "yrmkt1970";
+
+	// ======================
+
+	private static String SMTP_HOST_NAME = "mail.vidrioluz.com.py";  
+    private static String SMTP_PORT = "2525";  
+    private static String SMTP_START_TLS_ENABLE = "false";
+
+    private static String EMAIL_FROM = "daniel@vidrioluz.com.py";
+    private static String EMAIL_FROM_PASSWORD = "qwerty";
+
+*/
     
-    public void sendSSLMessage(String recipients[], String[] recipientsCC,String[] recipientsCCO, String subject,  
-            String message, String from, String fileName, String path) throws Exception {  
+    
+ //   private static final String xxxSSL_FACTORY = "javax.net.ssl.SSLSocketFactory";  
+ 
+    SistemaPropiedad sisPro = new SistemaPropiedad();
+    
+
+    public void sendMessage(String recipients[], String[] recipientsCCO, String subject,  
+            String message) throws Exception {  
+    	    	
+    	sendMessage(recipients, new String[]{""}, recipientsCCO, subject,  
+                message, this.sisPro.getEmailDefault(), this.sisPro.getEmailPassDefault(), null, null) ;
+    }
+
+    
+    
+    public void sendMessage(String[] recipients, String[] recipientsCC, String[] recipientsCCO, String subject,  
+            String message, String from, String pass, String fileName, String path) throws Exception {  
         boolean debug = false;         
         Properties props = new Properties();  
 
    
+		props.put("mail.smtp.host", this.sisPro.getSmtpHost());
+		props.put("mail.smtp.port", this.sisPro.getSmtpPort());
+		props.put("mail.smtp.starttls.enable", this.sisPro.getSmtpStatTlsEnable());
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", SMTP_HOST_NAME);
-		props.put("mail.smtp.port", SMTP_PORT);
-  
+
+		/*
         Session session = Session.getDefaultInstance(props,  
                 new javax.mail.Authenticator() {  
                     protected PasswordAuthentication getPasswordAuthentication() {  
-                        return new PasswordAuthentication(emailFromAddress,  
+                        return new PasswordAuthentication(from,  
                                 emailFromPasswrd);  
                     }  
                 });  
+        */
+
+        
+        Session session = Session.getDefaultInstance(props, new MiAuthenticator(from, pass)); 
+        
   
         session.setDebug(debug);  
 
@@ -66,7 +101,7 @@ public class EnviarCorreo{
   
         Message msg = new MimeMessage(session);
         //aqui cambiar la cuenta, para que reciba como parametro..provisoriamente usa esta cuenta
-        InternetAddress addressFrom = new InternetAddress(emailFromAddress);  
+        InternetAddress addressFrom = new InternetAddress(from);  
         msg.setFrom(addressFrom);
           
         InternetAddress[] addressTo = new InternetAddress[recipients.length];  
@@ -109,22 +144,47 @@ public class EnviarCorreo{
     public static void main(String[] args) {
 		try {
 			
+			SistemaPropiedad.reloadSistemaPropiedad("/home/daniel/datos/varios/propuestas/scg33/proyecto-scg33/scg33/WEB-INF/sistema-propiedad.ini");
+			
+			System.out.println("==== paso =====");
 			EnviarCorreo co = new EnviarCorreo();
 			String[] recipients = {"daniel.omar.romero@gmail.com"};
 			String[] recipientsCC = {""};
 			String[] recipientsCCO = {""};
-			String subject = "asunto";
+			String subject = "asunto va";
 			String message = "mensaje";
-			String from = emailFromAddress;
+			String from = "daniel@vidrioluz.com.py";
+			String pass = "qwerty";
 			String fileName = null;
 			String path = null;
 			
-			co.sendSSLMessage(recipients, recipientsCC, recipientsCCO, subject, message, from, fileName, path);
+			co.sendMessage(recipients, recipientsCC, recipientsCCO, subject, message, from, pass, fileName, path);
 			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+}
 
-} 
+
+class MiAuthenticator extends javax.mail.Authenticator {
+	
+	String from = "desde";
+	String pass = "clave";
+	
+	public MiAuthenticator(String from, String pass){
+		this.from = from;
+		this.pass = pass;
+		
+	}
+	
+	protected PasswordAuthentication getPasswordAuthentication() {  
+        return new PasswordAuthentication(this.from,this.pass);  
+    }  
+}
+
+
+
+
+

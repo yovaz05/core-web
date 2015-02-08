@@ -3,6 +3,7 @@ package com.coreweb.extras.email;
 public class CuerpoCorreo {
 	
 	String remitente = "";
+	String clave = "";
 	String destinatario = "";
 	String destinatarioCopia = "";
 	String destinatarioCopiaOculta = "";
@@ -10,7 +11,7 @@ public class CuerpoCorreo {
 	String cuerpo = "";	
 	String adjunto = "";
 	
-	public CuerpoCorreo(String remitente, String cuerpo) {
+	public CuerpoCorreo(String remitente, String clave, String cuerpo) {
 		this.remitente = remitente;
 		this.cuerpo = cuerpo;
 	}
@@ -58,6 +59,14 @@ public class CuerpoCorreo {
 
 	public void setAdjunto(String adjunto) {
 		this.adjunto = adjunto;
+	}
+
+	public String getClave() {
+		return clave;
+	}
+
+	public void setClave(String clave) {
+		this.clave = clave;
 	}
 
 
