@@ -99,6 +99,12 @@ public class SistemaPropiedad {
 		return this.getPropiedad("EMAIL_FROM_PASSWORD");
 	}
 	
+	public boolean siEnviarCorreo(){
+		boolean b = Boolean.parseBoolean(this.getPropiedad("EMAIL_ENVIAR_CORREO"));
+		return b;
+	}
+	
+	
 	// ==============================================
 	
 }
