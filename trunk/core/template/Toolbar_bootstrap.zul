@@ -43,13 +43,13 @@
 
 				<div>
 
-					<button iconSclass="z-icon-user"
+<!-- 					<button iconSclass="z-icon-user"
 						sclass="btn-primary btn-sm" tooltiptext="Cambio de Usuario"
 						width="40px"
 						onClick="@command('cambioUsuario')
 						@global-command('refreshComponentes')"
 						disabled="@load(Toolbar.cambioUsuarioDeshabilitado)"
-						visible="@load(!Toolbar.cambioUsuarioDeshabilitado)" />
+						visible="@load(!Toolbar.cambioUsuarioDeshabilitado)" /> -->
 
 					<button iconSclass="z-icon-book"
 						sclass="btn-success btn-sm" tooltiptext="Agenda"
@@ -61,11 +61,11 @@
 						onClick="@command('showImprimir')"
 						disabled="@load(Toolbar.imprimirDeshabilitado)" width="40px" />
 
-					<button iconSclass="z-icon-info"
+<!-- 					<button iconSclass="z-icon-info"
 						sclass="btn-info btn-sm" tooltiptext="Información"
 						onClick="@command('showInformacion')"
 						disabled="@load(Toolbar.informacionDeshabilitado)" width="40px"
-						visible="@load(!Toolbar.informacionDeshabilitado)" />
+						visible="@load(!Toolbar.informacionDeshabilitado)" /> -->
 					<space />
 				</div>
 
