@@ -3,61 +3,70 @@
 		viewModel="@id('Toolbar') @init('com.coreweb.templateABM.Toolbar')"
 		apply="org.zkoss.bind.BindComposer" border="0">
 
-		<hlayout valign="middle" sclass="rounded" style="background:#f5f5f5;padding:5px 5px 5px 5px">
-			
+		<hlayout valign="middle" sclass="rounded"
+			style="background:#f5f5f5;padding:5px 5px 5px 5px">
+
 			<hbox width="300px" align="center" pack="start">
-				
+
 				<div>
-				
-					<button iconSclass="z-icon-plus" sclass="btn-primary btn-sm"
-						tooltiptext="Crear" width="40px"
+
+					<button iconSclass="z-icon-plus"
+						sclass="btn-primary btn-sm" tooltiptext="Crear" width="40px"
 						onClick="@command('agregarItem') @global-command('habilitarComponentes')"
-						disabled="@load(Toolbar.agregarDeshabilitado)"/>
-						
-					<button iconSclass="z-icon-pencil" sclass="btn-success btn-sm"
-						tooltiptext="Editar" width="40px"
+						disabled="@load(Toolbar.agregarDeshabilitado)" />
+
+					<button iconSclass="z-icon-pencil"
+						sclass="btn-success btn-sm" tooltiptext="Editar" width="40px"
 						onClick="@command('editarItem') @global-command('habilitarComponentes')"
-						disabled="@load(Toolbar.editarDeshabilitado)"/>
-					
-					<button iconSclass="z-icon-minus" sclass="btn-warning btn-sm"
-						tooltiptext="Anular" width="40px"
+						disabled="@load(Toolbar.editarDeshabilitado)" />
+
+					<button iconSclass="z-icon-minus"
+						sclass="btn-warning btn-sm" tooltiptext="Anular" width="40px"
 						onClick="@command('anularItem') @global-command('refreshComponentes')"
-						disabled="@load(Toolbar.anularDeshabilitado)"/>
-					
-					<button iconSclass="z-icon-search" sclass="btn-info btn-sm"
-						tooltiptext="Buscar" width="40px"
+						disabled="@load(Toolbar.anularDeshabilitado)" />
+
+					<button iconSclass="z-icon-search"
+						sclass="btn-info btn-sm" tooltiptext="Buscar" width="40px"
 						onClick="@command('buscarItem') @global-command('refreshComponentes')"
 						disabled="@load(Toolbar.buscarDeshabilitado)" />
 				</div>
-				<label class="badge" id="idObjeto" value="@load(Toolbar.idObjeto.replace('(','').replace(')',''))" />
+				<label class="badge" id="idObjeto"
+					value="@load(Toolbar.idObjeto.replace('(','').replace(')',''))" />
 				<label id="abmModo" value="@load(Toolbar.estadoABM)"
 					multiline="false" sclass="title" />
 			</hbox>
 
 			<hbox hflex="true" pack="end">
 
-				<label value="@load(Toolbar.usuarioTemporal)" style="font-size:12pt;font-weight:bold"  />
-				
+				<label value="@load(Toolbar.usuarioTemporal)"
+					style="font-size:12pt;font-weight:bold" />
+
 				<div>
 
-					<button iconSclass="z-icon-user" sclass="btn-primary btn-sm"
-						tooltiptext="Cambio de Usuario" width="40px"
+					<button iconSclass="z-icon-user"
+						sclass="btn-primary btn-sm" tooltiptext="Cambio de Usuario"
+						width="40px"
 						onClick="@command('cambioUsuario')
 						@global-command('refreshComponentes')"
-						disabled="@load(Toolbar.cambioUsuarioDeshabilitado)" />
+						disabled="@load(Toolbar.cambioUsuarioDeshabilitado)"
+						visible="@load(!Toolbar.cambioUsuarioDeshabilitado)" />
 
-					<button iconSclass="z-icon-book" sclass="btn-success btn-sm"
-						tooltiptext="Agenda" onClick="@command('showAgenda')"
-						disabled="@load(Toolbar.agendaDeshabilitado)" width="40px"/>
+					<button iconSclass="z-icon-book"
+						sclass="btn-success btn-sm" tooltiptext="Agenda"
+						onClick="@command('showAgenda')"
+						disabled="@load(Toolbar.agendaDeshabilitado)" width="40px" />
 
-					<button iconSclass="z-icon-print" sclass="btn-warning btn-sm"
-						tooltiptext="Imprimir" onClick="@command('showImprimir')"
-						disabled="@load(Toolbar.imprimirDeshabilitado)" width="40px"/>
+					<button iconSclass="z-icon-print"
+						sclass="btn-warning btn-sm" tooltiptext="Imprimir"
+						onClick="@command('showImprimir')"
+						disabled="@load(Toolbar.imprimirDeshabilitado)" width="40px" />
 
-					<button iconSclass="z-icon-info" sclass="btn-info btn-sm"
-						tooltiptext="Información" onClick="@command('showInformacion')"
-						disabled="@load(Toolbar.informacionDeshabilitado)" width="40px"/>
-					<space/>
+					<button iconSclass="z-icon-info"
+						sclass="btn-info btn-sm" tooltiptext="Información"
+						onClick="@command('showInformacion')"
+						disabled="@load(Toolbar.informacionDeshabilitado)" width="40px"
+						visible="@load(!Toolbar.informacionDeshabilitado)" />
+					<space />
 				</div>
 
 				<hbox align="center" pack="center">
@@ -68,7 +77,8 @@
 				@global-command('refreshComponentes')"
 						disabled="@load(Toolbar.buscarDeshabilitado)" />
 
-					<label value="@load(Toolbar.strBrowser)" style="font-size:10pt" />
+					<label value="@load(Toolbar.strBrowser)"
+						style="font-size:10pt" />
 
 					<button iconSclass="z-icon-chevron-right"
 						tooltiptext="Siguiente" sclass="btn-default_ btn-sm" width="40px"
