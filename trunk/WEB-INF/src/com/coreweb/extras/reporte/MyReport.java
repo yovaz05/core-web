@@ -25,6 +25,7 @@ import net.sf.dynamicreports.report.builder.subtotal.AggregationSubtotalBuilder;
 import net.sf.dynamicreports.report.constant.GroupHeaderLayout;
 import net.sf.dynamicreports.report.constant.PageOrientation;
 import net.sf.dynamicreports.report.constant.PageType;
+import net.sf.dynamicreports.report.constant.SplitType;
 import net.sf.dynamicreports.report.constant.WhenNoDataType;
 import net.sf.dynamicreports.report.datasource.DRDataSource;
 import net.sf.dynamicreports.report.exception.DRException;
@@ -98,6 +99,7 @@ public class MyReport extends ReporteDefinicion {
 			rep = report();
 			rep.setTemplate(template.reportTemplate);
 			rep.setColumnStyle(Templates.columnStyle);
+			rep.setDetailSplitType(SplitType.PREVENT);
 
 			rep.setPageFormat(this.tipoPagina);
 			if (this.landscape == true) {
@@ -106,7 +108,8 @@ public class MyReport extends ReporteDefinicion {
 
 			Templates tmp = new Templates();
 
-			rep.title(tmp.createCabeceraPrincipal(empresa, titulo, usuario));
+			rep.title(tmp.createCabeceraPrincipal(empresa, titulo, usuario))
+				.setTitleSplitType(SplitType.IMMEDIATE);
 
 			rep.addTitle(this.body);
 
