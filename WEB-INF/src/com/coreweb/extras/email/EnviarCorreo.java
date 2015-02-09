@@ -60,6 +60,11 @@ public class EnviarCorreo{
     
     public void sendMessage(String[] recipients, String[] recipientsCC, String[] recipientsCCO, String subject,  
             String message, String from, String pass, String fileName, String path) throws Exception {  
+    	
+    	if (this.sisPro.siEnviarCorreo() == false){
+    		return;
+    	}
+    	
         boolean debug = false;         
         Properties props = new Properties();  
 
@@ -136,6 +141,7 @@ public class EnviarCorreo{
         //Configura el asunto y el tipo de contenido 
         msg.setSubject(subject);
         msg.setContent(multiParte);        
+        
         Transport.send(msg);
         
     }
