@@ -31,7 +31,7 @@
 				    </hlayout>
 					<div height="10px" />
 
-					<textbox class="form-control" placeholder="Usuario"
+					<textbox class="form-control" placeholder="Cédula, RUC o Usuario"
 						id="name" value="@bind(crt.user)" onOK="@command('loginOkBootstrap')" />
 
 					<div height="10px" />
