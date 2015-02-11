@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.apache.velocity.runtime.parser.node.BooleanPropertyExecutor;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
@@ -25,6 +26,7 @@ import org.zkoss.zul.Menuitem;
 
 import com.coreweb.Archivo;
 import com.coreweb.Config;
+import com.coreweb.SistemaPropiedad;
 import com.coreweb.domain.Domain;
 import com.coreweb.domain.Register;
 import com.coreweb.dto.Assembler;
@@ -37,7 +39,7 @@ import com.coreweb.util.Misc;
 public class Control {
 
 	public Misc m = new Misc();
-
+	private SistemaPropiedad sisProp = new SistemaPropiedad();
 	private static UtilCoreDTO dtoUtil = null; // = new
 												// AssemblerUtil().getDTOUtil();
 
@@ -92,7 +94,12 @@ public class Control {
 
 		this.preInit();
 		this.poneCarita(us.isLogeado());
-		Clients.confirmClose("Esta acción cerrará la Aplicación.");
+		
+		String cerrarAviso = this.sisProp.getPropiedad("CONTROL_CAMBIO_PAGINA");
+		if(cerrarAviso == null || Boolean.parseBoolean(cerrarAviso) == false){
+			Clients.confirmClose("Esta acción cerrará la Aplicación.");
+		}
+		
 	}
 
 	@AfterCompose(superclass = true)
@@ -613,6 +620,14 @@ public class Control {
 	 */
 	public String getMyIP() {
 		return Executions.getCurrent().getRemoteAddr();
+	}
+
+	public SistemaPropiedad getSisProp() {
+		return sisProp;
+	}
+
+	public void setSisProp(SistemaPropiedad sisProp) {
+		this.sisProp = sisProp;
 	}
 
 }
