@@ -67,12 +67,15 @@ public class SistemaPropiedad {
 	}
 
 	/**
-	 * Lee una propiedad del sistema-propiedad.ini
+	 * Lee una propiedad del sistema-propiedad.ini, retorna null si no la encuentra
 	 * @param propiedad
 	 * @return
 	 */
 	public String getPropiedad(String propiedad){
-		String out = sysPro.get(propiedad).trim();
+		String out = sysPro.get(propiedad);
+		if (out != null){
+			out = out.trim();
+		}
 		return out;
 	}
 	
