@@ -19,9 +19,37 @@
 				<image src="/logo.png" />
 				<space width="50px" />
 				<vlayout width="250px">
-					<space height="50px" />
 					<hlayout valign="middle" style="border-bottom: 1px solid #ccc;">
-						<label style="font-size:14pt">Registrarse como</label>
+						<label style="font-size:20pt">Iniciar sesión</label>
+						<space hflex="true" />
+					</hlayout>
+					<div height="10px" />
+
+					<textbox class="form-control" placeholder="Cédula, RUC o Usuario"
+						id="name" value="@bind(crt.user)" onOK="@command('loginOkBootstrap')" 
+						tooltiptext="Ingrese su número de documento, RUC o usuario asignado."/>
+
+					<div height="10px" />
+
+					<textbox class="form-control"
+						placeholder="Contraseña" id="pwd" type="password"
+						value="@bind(crt.pass)" onOK="@command('loginOkBootstrap')" 
+						tooltiptext="Ingrese su contraseña"/>
+
+
+
+					<div height="10px" />
+					<hlayout>
+						<button sclass="btn-primary" label="Ingresar"
+							onClick="@command('loginOkBootstrap')" 
+							tooltiptext="Ingresar"/>
+						<space hflex="true" />
+					</hlayout>
+					<div height="10px" />
+					<label id="mesg" value="@load(crt.msg)"
+						style="color: red;font-style: italic; font-size:12pt" />
+						<hlayout valign="middle" style="border-top: 1px solid #ccc;">
+						<label style="font-size:14pt">O registrarse como</label>
 						<space hflex="true" />
 					</hlayout>
 					<hlayout>
@@ -30,27 +58,6 @@
 						<a style="font-size:14pt" href="/saraki/inicio/RegistroEmpresa.zul">Empresa</a>
 				    </hlayout>
 					<div height="10px" />
-
-					<textbox class="form-control" placeholder="Cédula, RUC o Usuario"
-						id="name" value="@bind(crt.user)" onOK="@command('loginOkBootstrap')" />
-
-					<div height="10px" />
-
-					<textbox class="form-control"
-						placeholder="Contraseña" id="pwd" type="password"
-						value="@bind(crt.pass)" onOK="@command('loginOkBootstrap')" />
-
-
-
-					<div height="10px" />
-					<hlayout>
-						<button sclass="btn-primary" label="Ingresar"
-							onClick="@command('loginOkBootstrap')" />
-						<space hflex="true" />
-					</hlayout>
-					<div height="10px" />
-					<label id="mesg" value="@load(crt.msg)"
-						style="color: red;font-style: italic; font-size:12pt" />
 				</vlayout>
 			</hlayout>
 		</vbox>
