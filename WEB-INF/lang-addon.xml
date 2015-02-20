@@ -61,13 +61,11 @@
 		</property>
 	</component>
 
-	<component>				
-		<component-name>guaranibox</component-name>		  
+	<component>
+		<component-name>guaranibox</component-name>
 		<!-- <component-class>com.coreweb.extras.macros.CustomDoublebox</component-class> 
-		<property>
-			<property-name>tipo</property-name>
-			<property-value>guarani</property-value>
-		</property> -->
+			<property> <property-name>tipo</property-name> <property-value>guarani</property-value> 
+			</property> -->
 		<property>
 			<property-name>format</property-name>
 			<property-value>###,###,##0</property-value>
@@ -76,16 +74,14 @@
 			<property-name>style</property-name>
 			<property-value>text-align:right</property-value>
 		</property>
-		<extends>doublebox</extends>		
+		<extends>doublebox</extends>
 	</component>
-	
+
 	<component>
 		<component-name>dolarbox</component-name>
-		<!-- <component-class>com.coreweb.extras.macros.CustomDoublebox</component-class>
-		<property>
-			<property-name>tipo</property-name>
-			<property-value>extranjera</property-value>
-		</property> -->
+		<!-- <component-class>com.coreweb.extras.macros.CustomDoublebox</component-class> 
+			<property> <property-name>tipo</property-name> <property-value>extranjera</property-value> 
+			</property> -->
 		<property>
 			<property-name>format</property-name>
 			<property-value>###,###,##0.00</property-value>
@@ -96,10 +92,11 @@
 		</property>
 		<extends>doublebox</extends>
 	</component>
-	
+
 	<component>
 		<component-name>fechabox</component-name>
-		<component-class>com.coreweb.extras.macros.CustomTextbox</component-class>
+		<component-class>com.coreweb.extras.macros.CustomTextbox
+		</component-class>
 		<property>
 			<property-name>tipo</property-name>
 			<property-value>fecha</property-value>
@@ -110,9 +107,9 @@
 		</property>
 		<extends>textbox</extends>
 	</component>
-		
-	<component>	
-	<component-name>monedabox</component-name>
+
+	<component>
+		<component-name>monedabox</component-name>
 		<extends>doublebox</extends>
 		<property>
 			<property-name>style</property-name>
@@ -148,7 +145,7 @@
 			<property-value>false</property-value>
 		</property>
 	</component>
-	
+
 	<component>
 		<component-name>hlayout</component-name>
 		<extends>hlayout</extends>
@@ -157,13 +154,26 @@
 			<property-value>middle</property-value>
 		</property>
 	</component>
-	
+
 	<component>
 		<component-name>field</component-name>
 		<extends>label</extends>
 		<property>
 			<property-name>style</property-name>
 			<property-value>font-weight:bold</property-value>
+		</property>
+	</component>
+
+	<component>
+		<component-name>labelConstrain</component-name>
+		<extends>label</extends>
+		<property>
+			<property-name>style</property-name>
+			<property-value> color:red</property-value>
+		</property>
+		<property>
+			<property-name>value</property-name>
+			<property-value>(*)</property-value>
 		</property>
 	</component>
 
