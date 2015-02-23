@@ -66,6 +66,8 @@ public class Misc {
 	public static String SIMBOLO_ASTERISCO = "(*)";
 
 	public static String YYYY_MM_DD = "yyyy-MM-dd";
+	public static String YYYY_MM_DD_HORA_MIN = "yyyy-MM-dd (HH:mm)";
+	public static String DD_MM__YYY_HORA_MIN = "dd-MM-yyyy (HH:mm)";
 	public static String YYYY_MM_DD_HORA_MIN_SEG = "yyyy-MM-dd HH:mm:ss";
 	public static String YYYY_MM_DD_HORA_MIN_SEG2 = "yyyy-MM-dd (H:m:s)";
 	public static String YYYY_MM_DD_HORA_MIN_SEG3 = "yyyy-MM-dd (HH:mm:ss)";
