@@ -89,16 +89,28 @@ public class ViewModelManejadorArchivos {
 	    folder.delete();
 	}
     	               
-	@Listen("onUpload=#uploadArchivo")
-	public void agregarFile(UploadEvent event){
-		
+	@Command
+	public void agregarFile(@BindingParam("evt") UploadEvent event){
 		String path =  this.fileCC.getPath()+"/"+event.getMedia().getName();
-		System.out.println("\n\n\n\n\n\n path:"+ path);
 		m.uploadFile(path, (InputStream) new ByteArrayInputStream(event
-				.getMedia().getStringData().getBytes()));
+				.getMedia().getByteData()));
 		this.actualizarArchivos();
 		BindUtils.postNotifyChange(null, null, this, "*");
 	}
+	
+	
+	@Command
+	public void volverNivel(){
+		if (this.getDireCCWeb().compareTo("./")!=0){
+			this.fileCC = this.fileCC.getParentFile();
+			this.actualizarArchivos();
+			BindUtils.postNotifyChange(null, null, this, "*");
+		}else{
+			// no hace nada, está en el raiz
+		}
+		
+	}
+	
 
 	public String getDireBase() {
 		return direBase;
@@ -132,9 +144,6 @@ public class ViewModelManejadorArchivos {
 		try {
 			String cc = this.fileCC.getPath();
 			int pIni = this.direBase.length();
-			System.out.println("\n\n\n\n");
-			System.out.println("direBase:" + this.direBase);
-			System.out.println("      cc:" + cc);
 			this.direCCWeb = "./" + cc.substring(pIni);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -150,10 +159,12 @@ public class ViewModelManejadorArchivos {
 	public static void main(String[] args) throws Exception {
 		String f1 = "/home/daniel/datos/varios/propuestas/scg33/proyecto-scg33/scg33/";
 		String f2 = "/home/daniel/datos/varios/propuestas/scg33/proyecto-scg33/scg33";
-		int pIni = f1.length();
-		String out = "./" + f2.substring(pIni);
-
-		System.out.println(out);
+		
+		File ff1 = new File(f1);
+		File ff2 = new File(f2);
+		System.out.println(ff1.getPath());
+		System.out.println(ff2.getPath());
+		
 	}
 
 	public boolean isModoAdm() {
