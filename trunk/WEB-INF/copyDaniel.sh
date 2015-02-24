@@ -10,8 +10,6 @@ SEGEL=/home/daniel/datos/proyectos/segel/proyecto/segel-project
 SCG33=/home/daniel/datos/varios/propuestas/scg33/proyecto-scg33/scg33
 
 
-
-
 ########### yhaguy ##########################
 DESDE=$CORE
 HASTA=$YHAGUY
