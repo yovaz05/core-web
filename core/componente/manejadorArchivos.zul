@@ -1,0 +1,30 @@
+<div apply="org.zkoss.bind.BindComposer"
+	viewModel="@id('vm') @init('com.coreweb.extras.archivos.ViewModelManejadorArchivos')">
+
+	<vlayout>
+		<hlayout>
+			<toolbarbutton id="uploadArchivo" visible="@load(vm.modoAdm)" image="/core/images/add.png" 
+				 upload="true,maxsize=5000" />
+			<label value="@load(vm.direCCWeb)" />
+		</hlayout>
+
+
+		<grid model="@load(vm.listaArchivos)">
+			<columns>
+				<column label="" width="20px" />
+				<column label="" hflex="max" />
+				<column label="" width="80px" align="center" />
+			</columns>
+			<template name="model">
+				<row>
+					<image src="@load(each.image)" />
+					<a onClick="@command('clickFile', file=each)">
+						<label value="@load(each.nombre)" />
+					</a>
+					<button visible="@load(vm.modoAdm)" image="/core/images/delete.png"
+						onClick="@command('eliminarFile', file=each)" />
+				</row>
+			</template>
+		</grid>
+	</vlayout>
+</div>
