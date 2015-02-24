@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.zkoss.bind.BindUtils;
@@ -16,7 +17,9 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zkmax.zul.Filedownload;
+import org.zkoss.zul.Textbox;
 
+import com.coreweb.componente.BodyPopupAceptarCancelar;
 import com.coreweb.util.Misc;
 
 public class ViewModelManejadorArchivos {
@@ -111,6 +114,25 @@ public class ViewModelManejadorArchivos {
 		
 	}
 	
+	@Command
+	public void crearDirectorio(){
+		Textbox txb = new Textbox();
+		txb.setWidth("200px");
+		txb.setValue("");
+		txb.setPlaceholder("nombre");
+		BodyPopupAceptarCancelar bpac = new BodyPopupAceptarCancelar();
+		bpac.setHighWindows("150px");
+		bpac.addComponente("Directorio", txb);
+		bpac.showPopup("Crear directorio");
+		String nombre = txb.getValue().trim();
+		if ((bpac.isClickAceptar() == true)&&(nombre.length()>0)){
+			File f = new File(this.fileCC.getPath()+"/"+nombre);
+			f.mkdir();
+			this.actualizarArchivos();
+			BindUtils.postNotifyChange(null, null, this, "*");
+		}
+		
+	}
 
 	public String getDireBase() {
 		return direBase;
@@ -124,7 +146,8 @@ public class ViewModelManejadorArchivos {
 		this.listaArchivos = new ArrayList<>();
 
 		File[] fList = this.fileCC.listFiles();
-
+		Arrays.sort(fList, new TipoFileHtml(null));
+		
 		for (int i = 0; i < fList.length; i++) {
 			File ff = fList[i];
 			this.listaArchivos.add(new TipoFileHtml(ff));
@@ -157,13 +180,23 @@ public class ViewModelManejadorArchivos {
 	}
 
 	public static void main(String[] args) throws Exception {
-		String f1 = "/home/daniel/datos/varios/propuestas/scg33/proyecto-scg33/scg33/";
-		String f2 = "/home/daniel/datos/varios/propuestas/scg33/proyecto-scg33/scg33";
+		String f1 = "/home/daniel/datos/varios/propuestas/scg33/proyecto-scg33/directorios/logia4/";
+
+		File ff = new File(f1);
 		
-		File ff1 = new File(f1);
-		File ff2 = new File(f2);
-		System.out.println(ff1.getPath());
-		System.out.println(ff2.getPath());
+		File[] fa = ff.listFiles();
+		for (int i = 0; i < fa.length; i++) {
+			File file = fa[i];
+			String out = ""+ Math.round(Math.ceil(file.length()/1024.0));
+			System.out.println(file.getName()+"("+out+")");
+		}
+		System.out.println("==========================");
+		Arrays.sort(fa, new TipoFileHtml(ff));
+		for (int i = 0; i < fa.length; i++) {
+			File file = fa[i];
+			System.out.println(file.getName());
+		}
+		
 		
 	}
 

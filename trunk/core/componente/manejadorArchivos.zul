@@ -3,9 +3,11 @@
 
 	<vlayout>
 		<hbox width="100%" align="center" >
-			<toolbarbutton  image="/core/images/flecha-iz.png" onClick="@command('volverNivel')"/>
-			<toolbarbutton id="uploadArchivo" visible="@load(vm.modoAdm)" image="/core/images/add.png" 
-				 upload="true,maxsize=5000" onUpload="@command('agregarFile', evt=event)" tooltip="agregar archivo"/>
+			<toolbarbutton width="20px" image="/core/images/flecha-iz.png" onClick="@command('volverNivel')"/>
+			<toolbarbutton width="20px" image="/core/images/folder-new.png" onClick="@command('crearDirectorio')"/>
+			<toolbarbutton width="20px" id="uploadArchivo" visible="@load(vm.modoAdm)" image="/core/images/add.png" 
+				 upload="true,maxsize=10000" onUpload="@command('agregarFile', evt=event)" tooltip="agregar archivo"/>
+			<space />	 
 			<label value="@load(vm.direCCWeb)" />
 		</hbox>
 
@@ -14,6 +16,7 @@
 			<columns>
 				<column label="" width="20px" />
 				<column label="" hflex="max" />
+				<column label="" width="150px" align="right" />
 				<column label="" width="80px" align="center" />
 			</columns>
 			<template name="model">
@@ -22,6 +25,7 @@
 					<a onClick="@command('clickFile', file=each)">
 						<label value="@load(each.nombre)" />
 					</a>
+					<label value="@load(each.tamanio)" />
 					<button visible="@load(vm.modoAdm)" image="/core/images/delete.png"
 						onClick="@command('eliminarFile', file=each)" />
 				</row>
