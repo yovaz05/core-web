@@ -2,11 +2,12 @@
 	viewModel="@id('vm') @init('com.coreweb.extras.archivos.ViewModelManejadorArchivos')">
 
 	<vlayout>
-		<hlayout>
+		<hbox width="100%" align="center" >
+			<toolbarbutton  image="/core/images/flecha-iz.png" onClick="@command('volverNivel')"/>
 			<toolbarbutton id="uploadArchivo" visible="@load(vm.modoAdm)" image="/core/images/add.png" 
-				 upload="true,maxsize=5000" />
+				 upload="true,maxsize=5000" onUpload="@command('agregarFile', evt=event)" tooltip="agregar archivo"/>
 			<label value="@load(vm.direCCWeb)" />
-		</hlayout>
+		</hbox>
 
 
 		<grid model="@load(vm.listaArchivos)">
