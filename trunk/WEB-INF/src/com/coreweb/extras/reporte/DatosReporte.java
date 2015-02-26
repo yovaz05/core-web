@@ -91,6 +91,10 @@ public abstract class DatosReporte extends ReporteDefinicion {
 	private ComponentBuilder body = cmp.horizontalList();
 	private ComponentBuilder footer = cmp.horizontalList();
 	private List<Object[]> data;
+	private String logoEmpresa = "";
+	private int logoAncho = 0;
+	private int logoAlto = 0;
+	
 	private String empresa;
 	private String titulo;
 	private String usuario;
@@ -228,7 +232,7 @@ public abstract class DatosReporte extends ReporteDefinicion {
 
 		String pathCompleto = this.getArchivoPathReal();
 
-		MyReport reporte = new MyReport(cr, body, footer, data, empresa,
+		MyReport reporte = new MyReport(cr, body, footer, data, empresa, logoEmpresa, logoAncho, logoAlto,
 				titulo, usuario, pathCompleto);
 		reporte.setPutFooter(this.isPutFoot());
 		reporte.setFormato(DatosReporte.EXPORT_PDF);
@@ -291,6 +295,13 @@ public abstract class DatosReporte extends ReporteDefinicion {
 		out.add(cmp.verticalGap(5));
 
 		return out;
+	}
+
+
+	public void setLogoEmpresa(String logoEmpresa, int logoAncho, int logoAlto) {
+		this.logoEmpresa = logoEmpresa;
+		this.logoAncho = logoAncho;
+		this.logoAlto = logoAlto;
 	}
 
 }

@@ -25,7 +25,6 @@ public class Config {
 	public static String COLOR_BARRA_CAMBIO_USUARIO = "#EEAD2C";
 	
 	
-	
 	public static String PREFIX = "prefix";
 
 	public static String INIT_CLASE = "com.?.inicio.Inicio";
@@ -89,6 +88,11 @@ public class Config {
 
 	}
 
+	public static String LOGO_REPORTE_EMPRESA_DEFAULT = DIRECTORIO_BASE_REAL+"/core/images/logoMickey.png";
+	public static int    LOGO_REPORTE_EMPRESA_ANCHO = 30;
+	public static int    LOGO_REPORTE_EMPRESA_ALTO = 30;
+
+	
 	public static final String DATO_SOLO_VIEW_MODEL = "dato";
 
 	public static String WINDOW_POPUP = "windowsPopUp";
