@@ -8,6 +8,7 @@ import net.sf.dynamicreports.report.builder.ReportTemplateBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilders;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
+import net.sf.dynamicreports.report.builder.component.ImageBuilder;
 import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.builder.style.StyleBuilders;
@@ -16,6 +17,7 @@ import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.Markup;
 import net.sf.dynamicreports.report.constant.VerticalAlignment;
 
+import com.coreweb.Config;
 import com.coreweb.util.Misc;
 
 /**
@@ -116,11 +118,14 @@ public class Templates extends ReporteDefinicion {
 	
 	
 
-	public ComponentBuilder createCabeceraPrincipal(String empresa,
+	public ComponentBuilder createCabeceraPrincipal(String empresa, String logoEmpresa, int logoAncho, int logoAlto,
 			String titulo, String user) {
+		
 
 		String us = ("Usuario: " + user + "                        ")
 				.substring(0, 25).trim();
+
+		VerticalListBuilder main = cmp.verticalList();
 
 		VerticalListBuilder cab = cmp.verticalList();
 		
@@ -134,8 +139,24 @@ public class Templates extends ReporteDefinicion {
 		row2.add(cmp.text(us).setHorizontalAlignment(HorizontalAlignment.RIGHT));
 		
 		
-		cab.add(row1).add(row2).add(cmp.line());
-
+		cab.add(row1).add(row2);
+		
+		// poner el logo
+		if (logoEmpresa.trim().length() == 0){
+			logoEmpresa = Config.LOGO_REPORTE_EMPRESA_DEFAULT;
+			logoAncho = Config.LOGO_REPORTE_EMPRESA_ANCHO;
+			logoAlto = Config.LOGO_REPORTE_EMPRESA_ALTO;
+		}
+		HorizontalListBuilder filaLogo = cmp.horizontalList();		
+		ImageBuilder img = cmp.image(logoEmpresa).setWidth(logoAncho).setHeight(logoAlto);
+		filaLogo.add(img);
+		filaLogo.add(cab);
+		
+		main.add(filaLogo);
+		main.add(cmp.line());
+		main.add(cmp.verticalGap(10));
+		
+/*
 		ComponentBuilder cabecera = cmp
 				.verticalList()
 				.add(cmp.horizontalList(
@@ -156,7 +177,8 @@ public class Templates extends ReporteDefinicion {
 										HorizontalAlignment.RIGHT)))
 
 				).add(cmp.line());
-		return cab;
+		*/
+		return main;
 	}
 
 }

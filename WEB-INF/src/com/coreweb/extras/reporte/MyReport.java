@@ -49,13 +49,16 @@ public class MyReport extends ReporteDefinicion {
 	String archivo;
 	String usuario;
 	String empresa;
+	String logoEmpresa = "";
+	int logoAncho = 0;
+	int logoAlto = 0;
 
 	public MyReport() {
 
 	}
 
 	public MyReport(CabeceraReporte cabecera, ComponentBuilder body,
-			ComponentBuilder footer, List<Object[]> datos, String empresa,
+			ComponentBuilder footer, List<Object[]> datos, String empresa, String logoEmpresa, int logoAncho, int logoAlto,
 			String titulo, String usuario, String archivo) {
 		this.cabecera = cabecera;
 		this.body = body;
@@ -65,6 +68,9 @@ public class MyReport extends ReporteDefinicion {
 		this.titulo = titulo;
 		this.usuario = usuario;
 		this.archivo = archivo;
+		this.logoEmpresa = logoEmpresa;
+		this.logoAncho = logoAncho;
+		this.logoAlto = logoAlto;
 	}
 
 	public boolean isLandscape() {
@@ -94,10 +100,12 @@ public class MyReport extends ReporteDefinicion {
 
 		try {
 
-			Templates template = new Templates();
+//			Templates template = new Templates();
+			Templates tmp = new Templates();
 			
 			rep = report();
-			rep.setTemplate(template.reportTemplate);
+//			rep.setTemplate(template.reportTemplate);
+			rep.setTemplate(tmp.reportTemplate);
 			rep.setColumnStyle(Templates.columnStyle);
 			rep.setDetailSplitType(SplitType.PREVENT);
 
@@ -106,15 +114,15 @@ public class MyReport extends ReporteDefinicion {
 				rep.setPageFormat(this.tipoPagina, PageOrientation.LANDSCAPE);
 			}
 
-			Templates tmp = new Templates();
 
-			rep.title(tmp.createCabeceraPrincipal(empresa, titulo, usuario))
+			rep.title(tmp.createCabeceraPrincipal(empresa, logoEmpresa, logoAncho, logoAlto, titulo, usuario))
 				.setTitleSplitType(SplitType.IMMEDIATE);
 
 			rep.addTitle(this.body);
 
 			if(this.isPutFooter() == true){
-				rep.pageFooter(template.footerComponent);
+				rep.pageFooter(tmp.footerComponent);
+//				rep.pageFooter(template.footerComponent);
 			}
 			
 			rep.setDataSource(createDataSource(cabecera.getColumnasDS(), datos));
