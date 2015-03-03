@@ -73,6 +73,7 @@ public abstract class Browser extends SimpleViewModel implements
 	public static String CHECK_BOX = "getCheckbox";
 	public static String RADIOGROUP = "getRadiogroup";
 	public static String RADIO = "getRadio";
+	// se llama label, pero es un Date lo que retorna
 	public static String LABEL_DATE = "getLabelDate";
 
 	/*
