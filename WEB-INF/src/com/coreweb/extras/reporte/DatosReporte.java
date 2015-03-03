@@ -290,9 +290,9 @@ public abstract class DatosReporte extends ReporteDefinicion {
 		
 		VerticalListBuilder out = cmp.verticalList();
 		out.setStyle(stl.style().setHorizontalAlignment(HorizontalAlignment.CENTER));
-		out.add(cmp.verticalGap(100));
-		out.add(this.textoNegrita("---------------------------------------------------------------"));
-		out.add(cmp.horizontalFlowList().add(50, this.textoNegrita("AUTORIZADO")));
+		out.add(cmp.verticalGap(150));
+		out.add(cmp.horizontalFlowList().add(300, this.textoNegrita("----------------------------------------------------------------")));
+		out.add(cmp.horizontalFlowList().add(365, this.textoNegrita("AUTORIZADO")));
 		return out;
 	}
 	
