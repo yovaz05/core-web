@@ -13,9 +13,9 @@ import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilders;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
 import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
-
 import net.sf.dynamicreports.report.builder.datatype.*;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.Markup;
 import net.sf.dynamicreports.report.constant.PageType;
 import net.sf.dynamicreports.report.constant.StretchType;
@@ -286,6 +286,16 @@ public abstract class DatosReporte extends ReporteDefinicion {
 		// cmp.verticalList().add(cmp.text(texto+":").setStyle(Templates.boldStyle)).add(cmp.text(""+valor));
 	}
 
+	public ComponentBuilder textoAutorizado() {
+		
+		VerticalListBuilder out = cmp.verticalList();
+		out.setStyle(stl.style().setHorizontalAlignment(HorizontalAlignment.CENTER));
+		out.add(cmp.verticalGap(100));
+		out.add(this.textoNegrita("---------------------------------------------------------------"));
+		out.add(cmp.horizontalFlowList().add(50, this.textoNegrita("AUTORIZADO")));
+		return out;
+	}
+	
 	public ComponentBuilder recuadro(ComponentBuilder dato) {
 
 		VerticalListBuilder out = cmp.verticalList().setStyle(Templates.box)
