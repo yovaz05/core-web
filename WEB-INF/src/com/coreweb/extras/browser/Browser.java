@@ -21,6 +21,7 @@ import org.zkoss.zul.Cell;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Column;
 import org.zkoss.zul.Columns;
+import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Image;
@@ -233,14 +234,14 @@ public abstract class Browser extends SimpleViewModel implements
 		bpac.addComponente("Buscar", this.rg);
 		bpac.setWidthWindows(this.getWidthWindows());
 		bpac.setHighWindows(this.getHigthWindows());
-		bpac.showPopupUnaColumna("Browser de " + this.getTituloBrowser());		
+		bpac.showPopupUnaColumna("Browser de " + this.getTituloBrowser());
 	}
 
 	// modelo
 	List<Object[]> datos = new ArrayList<Object[]>();
-	
+
 	protected void refreshModeloGrid() throws Exception {
-		
+
 		String msg = "vacia..";
 		try {
 			datos = this.getModelo();
@@ -269,13 +270,12 @@ public abstract class Browser extends SimpleViewModel implements
 		return datos;
 	}
 
-	
-	public void setDatosParaNavegacion(Toolbar toolbar){
-		
-		toolbar.setBotonesNavegacion(this.datos, this.datos.indexOf(selectedItem));
+	public void setDatosParaNavegacion(Toolbar toolbar) {
+
+		toolbar.setBotonesNavegacion(this.datos,
+				this.datos.indexOf(selectedItem));
 	}
-	
-	
+
 	public boolean isClickAceptar() {
 		return this.bpac.isClickAceptar();
 	}
@@ -422,10 +422,19 @@ public abstract class Browser extends SimpleViewModel implements
 		return r;
 	}
 
-	public HtmlBasedComponent getLabelDate(Object obj, Object[] datos) {
+	public HtmlBasedComponent getLabelDateOld(Object obj, Object[] datos) {
 		Label l = new Label();
 		l.setValue(this.m.dateToString((Date) obj, m.YYYY_MM_DD_HORA_MIN_SEG2));
 		return l;
+	}
+
+	public HtmlBasedComponent getLabelDate(Object obj, Object[] datos) {
+		Datebox date = new Datebox();
+		date.setValue((Date) obj);
+		date.setButtonVisible(false);
+		date.setReadonly(true);
+		date.setFormat(m.DD_MM__YYY_HORA_MIN);
+		return date;
 	}
 
 	public HtmlBasedComponent getImagenOKCancel(Object obj, Object[] datos) {
@@ -566,6 +575,7 @@ class GridRowRender implements RowRenderer {
 			HtmlBasedComponent comp = null;
 
 			try {
+
 				// invoca a la operación
 				Method m = this.br.getClass().getMethod(col.getComponente(),
 						Object.class, Object[].class);
