@@ -433,6 +433,7 @@ public abstract class Browser extends SimpleViewModel implements
 		date.setValue((Date) obj);
 		date.setButtonVisible(false);
 		date.setReadonly(true);
+		date.setWidth("140px"); // ancho por default
 		date.setFormat(m.DD_MM__YYY_HORA_MIN);
 		return date;
 	}
@@ -590,6 +591,7 @@ class GridRowRender implements RowRenderer {
 			String auxSt = comp.getStyle();
 			comp.setStyle(auxSt + ";" + col.getEstilo());
 			comp.setWidth(col.getWidthComponente());
+			cel.setWidth(col.getWidthComponente());
 			comp.setParent(cel);
 
 		}
