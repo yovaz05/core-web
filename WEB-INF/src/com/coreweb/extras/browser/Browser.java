@@ -436,6 +436,8 @@ public abstract class Browser extends SimpleViewModel implements
 		date.setReadonly(true);
 		date.setWidth("140px"); // ancho por default
 		date.setFormat(m.DD_MM__YYY_HORA_MIN);
+		date.setHflex("true");
+		date.setStyle("background:transparent; border:none");
 		return date;
 	}
 
