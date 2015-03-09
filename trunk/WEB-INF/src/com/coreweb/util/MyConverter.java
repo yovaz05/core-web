@@ -107,7 +107,7 @@ public class MyConverter implements Converter {
 		if ((val == null) || (val.trim().length() == 0)) {
 			return val;
 		}
-		if (((val.trim().length() > 4) || !misc.containsOnlyNumbers((String) val))) {
+		if (((val.trim().length() != 4) || !misc.containsOnlyNumbers((String) val))) {
 			Clients.showNotification("No es el formato", "error", comp, "end_center", 3000, true);		
 			return "";
 		}
