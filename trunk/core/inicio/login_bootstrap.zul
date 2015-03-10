@@ -6,7 +6,8 @@
 	<window id="loginWin" mode="modal"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('crt') @init('com.coreweb.login.Login')"
-		zclass="z-window-popup" onCreate='name.focus()' width="100%" height="100%" style="background:#eaeaea">
+		zclass="z-window-popup" onCreate='name.focus()' width="100%"
+		height="100%" style="background:white">
 		<style>
 			div.minimize { border: 1px solid #79858E; background:
 			#D3E1EC; position: absolute; opacity: 0.8; } div.loginGrid {
@@ -14,54 +15,71 @@
 			td.loginCtl .z-label { color: red; font-style: italic; }
 		</style>
 		<vbox pack="center" align="center" width="100%" height="80%">
-			<space height="50px"/>
+			<space height="50px" />
 			<hlayout valign="middle">
-				<image src="/logo.png" />
+				<image src="/logo2.png" width="400px" height="350px" tooltiptext="Logotipo de USAID"/>
+				<image src="/logo.png" width="300px" height="300px" tooltiptext="Logotipo de la Fundación Saraki"/>
 				<space width="50px" />
-				<vlayout width="250px">
-					<hlayout valign="middle" style="border-bottom: 1px solid #ccc;">
-						<label style="font-size:20pt">Iniciar sesión</label>
-						<space hflex="true" />
-					</hlayout>
-					<div height="10px" />
+				<div style="background:#eaeaea" width="400px" height="300px" >
+					<vlayout width="250px">
+						<hlayout valign="middle"
+							style="border-bottom: 1px solid #ccc;">
+							<label style="font-size:20pt">
+								Iniciar sesión
+							</label>
+							<space hflex="true" />
+						</hlayout>
+						<div height="10px" />
 
-					<textbox class="form-control" placeholder="Cédula, RUC o Usuario"
-						id="name" value="@bind(crt.user)" onOK="@command('loginOkBootstrap')" 
-						tooltiptext="Ingrese su número de documento, RUC o usuario asignado."/>
+						<textbox class="form-control"
+							placeholder="Cédula, RUC o Usuario" id="name"
+							value="@bind(crt.user)" onOK="@command('loginOkBootstrap')"
+							tooltiptext="Ingrese su número de documento, RUC o usuario asignado." />
 
-					<div height="10px" />
+						<div height="10px" />
 
-					<textbox class="form-control"
-						placeholder="Contraseña" id="pwd" type="password"
-						value="@bind(crt.pass)" onOK="@command('loginOkBootstrap')" 
-						tooltiptext="Ingrese su contraseña"/>
+						<textbox class="form-control"
+							placeholder="Contraseña" id="pwd" type="password"
+							value="@bind(crt.pass)" onOK="@command('loginOkBootstrap')"
+							tooltiptext="Ingrese su contraseña" />
 
 
 
-					<div height="10px" />
-					<hlayout>
-						<button sclass="btn-primary" label="Ingresar"
-							onClick="@command('loginOkBootstrap')" 
-							tooltiptext="Ingresar"/>
-						<space hflex="true" />
-					</hlayout>
-					<div height="10px" />
-					<label id="mesg" value="@load(crt.msg)"
-						style="color: red;font-style: italic; font-size:12pt" />
-						<hlayout valign="middle" style="border-top: 1px solid #ccc;">
-						<label style="font-size:14pt">O registrarse como</label>
-						<space hflex="true" />
-					</hlayout>
-					<hlayout>
-						<a style="font-size:14pt" href="/saraki/inicio/RegistroPostulante.zul">Postulante</a>
-						o
-						<a style="font-size:14pt" href="/saraki/inicio/RegistroEmpresa.zul">Empresa</a>
-				    </hlayout>
-					<div height="10px" />
-				</vlayout>
+						<div height="10px" />
+						<hlayout>
+							<button sclass="btn-primary"
+								label="Ingresar" onClick="@command('loginOkBootstrap')"
+								tooltiptext="Ingresar" />
+							<space hflex="true" />
+						</hlayout>
+						<div height="10px" />
+						<label id="mesg" value="@load(crt.msg)"
+							style="color: red;font-style: italic; font-size:12pt" />
+						<hlayout valign="middle"
+							style="border-top: 1px solid #ccc;">
+							<label style="font-size:14pt">
+								O registrarse como
+							</label>
+							<space hflex="true" />
+						</hlayout>
+						<hlayout>
+							<a style="font-size:14pt"
+								href="/saraki/inicio/RegistroPostulante.zul">
+								Postulante
+							</a>
+							o
+							<a style="font-size:14pt"
+								href="/saraki/inicio/RegistroEmpresa.zul">
+								Empresa
+							</a>
+						</hlayout>
+						<div height="10px" />
+					</vlayout>
+				</div>
 			</hlayout>
 		</vbox>
 		<script>
+
 
 
 			
@@ -73,7 +91,8 @@
 			50).animate({ left : l }, 50).animate({ left : l + 25 },
 			50).animate({ left : l }, 50).animate({ backgroundColor :
 			"white" }, 50);
-			jq("$loginWin").css('background-color','transparent'); } ]]>
+			jq("$loginWin").css('background-color','white'); } ]]>
+			
 			
 			
 			
