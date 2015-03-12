@@ -26,6 +26,7 @@ import org.zkoss.zul.ext.Constrainted;
 
 import com.coreweb.Config;
 import com.coreweb.componente.BodyPopupAceptarCancelar;
+import com.coreweb.componente.VerificaAceptarCancelar;
 import com.coreweb.dto.Assembler;
 import com.coreweb.util.Check;
 import com.coreweb.util.MyConverter;
@@ -329,12 +330,52 @@ public abstract class GenericViewModel extends Control {
 		BodyPopupAceptarCancelar b = new BodyPopupAceptarCancelar();	
 		b.addComponente("", hb);
 		b.setHighWindows("200px");
-		b.showPopupUnaColumna("");
+		b.setCheckAC(new VerificadorMotivoAnulacion(tx));
+		b.showPopupUnaColumna("Motivo de la Anulación");		
 		if (b.isClickAceptar()) {
 			return tx.getValue();
 		}		
 		return "";
 	}
 	
+}
+
+// verificador del popup del motivo anulacion..
+class VerificadorMotivoAnulacion implements VerificaAceptarCancelar {
+	
+	private String mensaje = "";
+	private Textbox txMotivo;
+	
+	public VerificadorMotivoAnulacion(Textbox txMotivo) {
+		this.txMotivo = txMotivo;
+	}
+
+	@Override
+	public boolean verificarAceptar() {
+		boolean out = true;
+		this.mensaje = "No se puede completar la operación debido a: ";
+		
+		if (txMotivo.getValue().trim().length() == 0) {
+			out = false;
+			this.mensaje += "\n - Debe ingresar el motivo..";
+		}
+		
+		return out;
+	}
+
+	@Override
+	public String textoVerificarAceptar() {
+		return this.mensaje;
+	}
+
+	@Override
+	public boolean verificarCancelar() {
+		return true;
+	}
+
+	@Override
+	public String textoVerificarCancelar() {
+		return "Error al cancelar..";
+	}
 }
 
