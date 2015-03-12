@@ -96,7 +96,7 @@ public class Control {
 		this.poneCarita(us.isLogeado());
 		
 		String cerrarAviso = this.sisProp.getPropiedad("CONTROL_CAMBIO_PAGINA");
-		if(cerrarAviso == null || Boolean.parseBoolean(cerrarAviso) == false){
+		if(cerrarAviso == null || Boolean.parseBoolean(cerrarAviso) == true){
 			Clients.confirmClose("Esta acción cerrará la Aplicación.");
 		}
 		
