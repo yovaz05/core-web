@@ -44,6 +44,9 @@ import com.coreweb.Config;
 //import com.yhaguy.Configuracion;
 //import com.yhaguy.gestion.compras.importacion.ImportacionPedidoCompraDTO;
 
+
+import com.coreweb.domain.IiD;
+
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -1548,6 +1551,41 @@ public class Misc {
 		return edad;
 	}
 
+	/** busca items duplicados **/
+	public boolean itemDuplicado(Object item, Collection lista){
+		boolean out = false;
+		for (Object m : lista) {
+			if (m instanceof IiD){
+				IiD im = (IiD) m;
+				IiD iItem = (IiD) item;
+				if (im.getId() == iItem.getId()) {
+					out = true;
+				}
+			}else{
+				if (m == item) {
+					out = true;
+				}
+			}
+		}
+		return out;
+	}
+
+	
+	/** busca items duplicados **/
+	public boolean itemDuplicado(IiD item, Collection<IiD> lista){
+		boolean out = false;
+		for (IiD m : lista) {
+			if (m.getId() == item.getId()) {
+				out = true;
+			}
+		}
+		return out;
+	}
+
+
+
+	
+	
 	public static void mainxxx(String[] args) {
 		try {
 
