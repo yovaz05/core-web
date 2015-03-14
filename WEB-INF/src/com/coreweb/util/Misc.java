@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
@@ -1195,6 +1196,15 @@ public class Misc {
 		return (ivaIncluido / (100 + porcentajeIva)) * 100;
 	}
 
+	
+	public Object newInstance(String claseName) throws Exception {
+		Class classObject = Class.forName(claseName);
+		Constructor ctor = classObject.getConstructor();
+		Object obj = ctor.newInstance();
+		return obj;
+	}
+
+	
 	// ejecuta el método de una clase
 	public void ejecutarMetoto(String clase, String metodo) throws Exception {
 

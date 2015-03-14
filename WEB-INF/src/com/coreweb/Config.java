@@ -24,6 +24,7 @@ public class Config {
 	public static String COLOR_BARRA = "#B5B4B4";
 	public static String COLOR_BARRA_CAMBIO_USUARIO = "#EEAD2C";
 	
+	public static String BROWSER2_VM = "Browser2Vm";
 	
 	public static String PREFIX = "prefix";
 
