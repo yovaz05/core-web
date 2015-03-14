@@ -126,8 +126,8 @@ public abstract class Browser2 extends SimpleViewModel implements
 	Radiogroup rg = new Radiogroup();
 
 	
-	public void refreshBrowser(){
-		this.m.mensajePopupTemporal("falta implementar..");
+	public void refreshBrowser() throws Exception{
+		this.refreshModeloGrid();
 	}
 	
 	private void cargarColumnas() {
