@@ -28,7 +28,7 @@ import org.hibernate.criterion.Restrictions;
 
 import com.coreweb.Config;
 import com.coreweb.IDCore;
-import com.coreweb.extras.browser.Browser;
+
 
 import java.io.*;
 
@@ -1134,4 +1134,143 @@ public class Register {
 		}
 	}
 
+	/**
+	 * ==========================================================
+	 * ==========================================================
+	 * ==========================================================
+	 * ==========================================================
+	 **/ 
+	
+	// este usa el browser
+	public List buscarElementoBrowser(String query, String[] atts, String[] values,
+			String[] tipos) throws Exception {
+		
+		return buscarElementoQuery(query, atts, values, tipos, true, 
+				Config.CUANTOS_BUSCAR_ELEMENTOS, true);
+	}
+
+
+	
+	
+	/**
+	 * 
+	 * 
+	 * 	public List buscarElemento2(Class clase, String[] atts, String[] values,
+			String[] tipos, boolean permiteFiltroVacio, boolean permiteLimite,
+			int limite, boolean permiteLike, List<String> whereCl, String join,
+			String attOrden) throws Exception {
+	 * 
+	 */
+	
+	/**
+	 * 
+	 * @param query e.g.: select c.a as att1, b.des as att2 from C c join B b 
+	 * @param atts  e.g.: {"att1","att2"} Son los mismos valores que tiene el query
+	 * @param values
+	 * @param tipos
+	 * @param permiteLimite
+	 * @param limite
+	 * @param permiteLike
+	 * @return
+	 * @throws Exception
+	 */
+	public List buscarElementoQuery(String query, String[] atts, String[] values,
+			String[] tipos, boolean permiteLimite,
+			int limite, boolean permiteLike) throws Exception {
+		List l = new ArrayList<Object[]>();
+
+
+
+//		String select = " ";
+		String where = " 1 = 1 and ";
+		// String where = " c.dbEstado != 'D' and ";
+
+
+		boolean like = permiteLike;
+		int cnt = atts.length;
+		for (int i = 0; i < cnt; i++) {
+			String at = atts[i];
+			String va = values[i].trim();
+
+			int siLike = va.indexOf("%");
+			permiteLike = like || (siLike >= 0);
+			String strLike = this.likeStr(va, siLike >= 0);
+
+			// va armando el select
+			// prueba para las fechas
+//			select += at + " ,";
+
+			// para armar el where que vienen del filtro de los textbox
+			if (va.length() > 0) {
+				String ww = "";
+
+				if (tipos[i].compareTo(Config.TIPO_NUMERICO) == 0) {
+					if (permiteLike == true) {
+						ww = " cast(" + at + " as string) like " + strLike; // '%"
+																			// +
+																			// va.toLowerCase()+
+																			// "%' ";
+					} else {
+						ww = at + " = " + va.toLowerCase();
+					}
+
+				} else if (tipos[i].compareTo(Config.TIPO_BOOL) == 0) {
+					ww = " lower(str(" + at + ")) like  " + strLike; // '%" +
+																		// va.toLowerCase()+
+																		// "%' ";
+
+				} else if (tipos[i].compareTo(Config.TIPO_DATE) == 0) {
+					if (permiteLike == true) {
+						// ww = " lower(str(" + at + ")) like  "+strLike; // '%"
+						// + va.toLowerCase()+ "%' ";
+					} else {
+						// ww = at + " = " + va.toLowerCase();
+					}
+					ww = " cast(" + at + " as string) like  " + strLike; // '%"
+																			// +
+																			// va.toLowerCase()+
+																			// "%' ";
+
+				} else {
+					// por defecto es String
+					if (permiteLike == true) {
+						ww = " lower(" + at + ") like  " + strLike; // '%" +
+																	// va.toLowerCase()+
+																	// "%' ";
+					} else {
+						ww = " lower(" + at + ") = '" + va.toLowerCase() + "' ";
+					}
+				}
+
+				where += " " + ww + " and ";
+			}
+		}
+
+//		select = "select " + select.substring(0, select.length() - 1);
+		// quita el ultimo and
+		where = "where " + where.substring(0, where.length() - 4);
+
+
+		String orden = "";
+
+		String hql = query + " " + where + orden;
+		System.out.println("\n\n\n" + hql + "\n\n\n");
+
+		l = this.hql(hql);
+
+		if ((permiteLimite == true) && (l.size() > limite)) {
+			throw new Exception("más de '" + limite + "' elementos ("
+					+ l.size() + ")...");
+		}
+
+		/*
+		 * if (l.size() == 0) { throw new
+		 * Exception("No se encontraron elementos ..."); }
+		 */
+
+		return l;
+	}
+
+	
+	
 }
