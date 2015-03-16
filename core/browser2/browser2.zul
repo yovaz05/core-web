@@ -6,7 +6,7 @@
 
 	<borderlayout height="100%">
 
-		<north border="0" height="30px" collapsible="false">
+		<north border="0" collapsible="false">
 			<vlayout>
 				<include id="cabeceraBrowser" mode="instant" />
 
