@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -91,10 +92,19 @@ public abstract class Browser2 extends SimpleViewModel implements
 	public abstract String getQuery();
 
 	String whereGeneral = "";
+	Hashtable<String, Object> parametroWhereGeneral = new Hashtable<>();
+	
 	public void setWhere(String where){
 		this.whereGeneral = where;
 	}
 
+	public void setWhere(String where, Hashtable<String, Object> parametros){
+		this.whereGeneral = where;
+		this.parametroWhereGeneral = parametros;
+	}
+	
+	
+	
 	// para inicializar valores
 	public abstract void setingInicial();
 
@@ -271,7 +281,7 @@ public abstract class Browser2 extends SimpleViewModel implements
 		Register rr = Register.getInstance();
 		try {
 			datos = (List<Object[]>) rr.buscarElementoBrowser(this.getQuery(), atributos,
-					valores, tipos, this.whereGeneral);
+					valores, tipos, this.whereGeneral, this.parametroWhereGeneral);
 		} catch (Exception e) {
 			throw e;
 		}
