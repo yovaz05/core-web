@@ -1143,9 +1143,9 @@ public class Register {
 	
 	// este usa el browser
 	public List buscarElementoBrowser(String query, String[] atts, String[] values,
-			String[] tipos) throws Exception {
+			String[] tipos, String whereGeneral) throws Exception {
 		
-		return buscarElementoQuery(query, atts, values, tipos, true, 
+		return buscarElementoQuery(query, atts, values, tipos, whereGeneral, true, 
 				Config.CUANTOS_BUSCAR_ELEMENTOS, true);
 	}
 
@@ -1175,14 +1175,15 @@ public class Register {
 	 * @throws Exception
 	 */
 	public List buscarElementoQuery(String query, String[] atts, String[] values,
-			String[] tipos, boolean permiteLimite,
+			String[] tipos, String whereGeneral, boolean permiteLimite,
 			int limite, boolean permiteLike) throws Exception {
 		List l = new ArrayList<Object[]>();
 
 
 
 //		String select = " ";
-		String where = " 1 = 1 and ";
+		//  mas abajo se quita el and
+		String where = " 1 = 1 and "+whereGeneral + " and";
 		// String where = " c.dbEstado != 'D' and ";
 
 

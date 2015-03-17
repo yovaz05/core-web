@@ -90,6 +90,10 @@ public abstract class Browser2 extends SimpleViewModel implements
 	// query principal
 	public abstract String getQuery();
 
+	String whereGeneral = "";
+	public void setWhere(String where){
+		this.whereGeneral = where;
+	}
 
 	// para inicializar valores
 	public abstract void setingInicial();
@@ -267,7 +271,7 @@ public abstract class Browser2 extends SimpleViewModel implements
 		Register rr = Register.getInstance();
 		try {
 			datos = (List<Object[]>) rr.buscarElementoBrowser(this.getQuery(), atributos,
-					valores, tipos);
+					valores, tipos, this.whereGeneral);
 		} catch (Exception e) {
 			throw e;
 		}
