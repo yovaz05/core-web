@@ -11,7 +11,6 @@ import org.hamcrest.core.IsInstanceOf;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 
-
 import com.coreweb.Config;
 import com.coreweb.domain.AgendaEvento;
 import com.coreweb.domain.Domain;
@@ -22,7 +21,6 @@ import com.coreweb.domain.TipoTipo;
 import com.coreweb.extras.agenda.AgendaEventoDTO;
 import com.coreweb.extras.agenda.AgendaEventoDetalleDTO;
 import com.coreweb.login.LoginUsuarioDTO;
-
 import com.coreweb.util.Misc;
 import com.coreweb.util.MyArray;
 import com.coreweb.util.MyPair;
@@ -36,29 +34,26 @@ public abstract class Assembler {
 	public static int MY_ARRAY_TIPO = 5;
 
 	private Misc m = new Misc();
-	
-	
+
 	private String login = this.getClass().getName();
-	
+
 	private List<Domain> subModel = new ArrayList<Domain>();
 
 	public abstract Domain dtoToDomain(DTO dto) throws Exception;
 
 	public abstract DTO domainToDto(Domain domain) throws Exception;
 
-	
-	public Assembler(){
-		try{
+	public Assembler() {
+		try {
 			Session s = Sessions.getCurrent();
-			String login = ((LoginUsuarioDTO) s.getAttribute(Config.USUARIO)).getLogin();
+			String login = ((LoginUsuarioDTO) s.getAttribute(Config.USUARIO))
+					.getLogin();
 			this.setLogin(login);
-		}catch(Exception ex){
-			this.setLogin("err:"+this.getClass().getName());
+		} catch (Exception ex) {
+			this.setLogin("err:" + this.getClass().getName());
 		}
 	}
-	
-	
-	
+
 	public List<DTO> domainToDtoLista(List<Domain> list) throws Exception {
 
 		List<DTO> out = new ArrayList<DTO>();
@@ -79,7 +74,6 @@ public abstract class Assembler {
 		return dto;
 	}
 
-	
 	public String getLogin() {
 		return login;
 	}
@@ -88,12 +82,8 @@ public abstract class Assembler {
 		this.login = login;
 	}
 
-
-	
-	
 	// *************************************************************************************
 	// *************************************************************************************
-
 
 	public List<MyPair> listaSiNo() {
 		List<MyPair> lImpo = new ArrayList<MyPair>();
@@ -186,12 +176,13 @@ public abstract class Assembler {
 	public void copiarValoresAtributos(Object desde, Object hasta,
 			String[] atributos) throws Exception {
 
-		//System.out.println("-----------------------------------");
-		//System.out.println("\n\n desde:"+desde.getClass().getName() + "\n hasta:" + hasta.getClass().getName());
+		// System.out.println("-----------------------------------");
+		// System.out.println("\n\n desde:"+desde.getClass().getName() +
+		// "\n hasta:" + hasta.getClass().getName());
 		for (int i = 0; i < atributos.length; i++) {
 			String att = atributos[i];
 
-			//System.out.println(""+att);
+			// System.out.println(""+att);
 			// hacer el get
 			Object value = getValue(desde, att);
 
@@ -199,7 +190,7 @@ public abstract class Assembler {
 			setValue(hasta, att, value);
 		}
 
-		//System.out.println("-----------------------------------");
+		// System.out.println("-----------------------------------");
 	}
 
 	// *************************************************************************************
@@ -244,14 +235,15 @@ public abstract class Assembler {
 		Domain d = rr.getObject(entidad, mp.getId());
 		setValue(dom, atributo, d);
 
-		if (d == null){
-			System.out.println("Error, valor NULO: "+dom.getClass().getName()+" atr:"+atributo);
-		}else{
+		if (d == null) {
+			System.out.println("Error, valor NULO: " + dom.getClass().getName()
+					+ " atr:" + atributo);
+		} else {
 			// se quito para que no grabe siempre
-			//rr.saveObject(dom, this.getLogin());
+			// rr.saveObject(dom, this.getLogin());
 			mp.setId(d.getId());
 		}
-		
+
 	}
 
 	public void domainToMyPair(Domain dom, DTO dto, String atributo)
@@ -262,7 +254,7 @@ public abstract class Assembler {
 	public void domainToMyPair(Domain dom, DTO dto, String atributo,
 			String campo) throws Exception {
 
-		domainToMyPair(dom, dto, atributo, new String[] { campo } );
+		domainToMyPair(dom, dto, atributo, new String[] { campo });
 	}
 
 	public void domainToMyPair(Domain dom, DTO dto, String atributo,
@@ -273,14 +265,13 @@ public abstract class Assembler {
 			// no tiene nada seteado, entonces termina
 			return;
 		}
-		
+
 		String sigla = "";
 		if (dato instanceof Tipo) {
-			Tipo t = (Tipo)  dato;
+			Tipo t = (Tipo) dato;
 			sigla = t.getSigla();
 		}
-		
-		
+
 		String texto = "";
 		int cnt = campos.length;
 		for (int i = 0; i < cnt; i++) {
@@ -312,9 +303,7 @@ public abstract class Assembler {
 
 		return mp;
 	}
-	
-	
-	
+
 	// NOTA: este método se puede juntar con el de arriba
 	public void domainToMyArray(Domain dom, DTO dto, String atributo,
 			String[] campos) throws Exception {
@@ -365,8 +354,18 @@ public abstract class Assembler {
 		myArrayToDomain(dto, dom, atributo, true);
 	}
 
-	public void myArrayToDomain(DTO dto, Domain dom, String atributo,
+	private void myArrayToDomain(DTO dto, Domain dom, String atributo,
 			boolean ignorarNuevo) throws Exception {
+
+		if (ignorarNuevo == false) {
+			String msg = "\n\n\n error, ignorarNuevo no está implementado revisar\n atributo:"
+					+ atributo
+					+ "\n clase:"
+					+ this.getClass().getName() + " \n\n\n";
+
+			System.out.println(msg);
+			throw new Exception(msg);
+		}
 
 		MyArray mp = (MyArray) getValue(dto, atributo);
 		if ((mp == null) || ((mp.esNuevo() == true) && (ignorarNuevo == true))) {
@@ -376,7 +375,7 @@ public abstract class Assembler {
 
 		// dr: se quitó por que no grababa la relación
 		// myIiDToDomain(mp, dom, atributo);
-		
+
 		Object value = getValue(dom, atributo);
 
 		// ver si el objeto del dominio ya tiene el mismo valor seteado
@@ -393,11 +392,11 @@ public abstract class Assembler {
 		String entidad = getEntidadAtributo(dom, atributo);
 		Domain d = rr.getObject(entidad, mp.getId());
 		setValue(dom, atributo, d);
-		
+
 		// se quito para que no graba todas las veces
-		//rr.saveObject(dom, this.getLogin());
+		// rr.saveObject(dom, this.getLogin());
 		mp.setId(d.getId());
-		
+
 	}
 
 	// *************************************************************************************
@@ -491,7 +490,7 @@ public abstract class Assembler {
 
 		setValue(dom, atributo, dd);
 		// quitado, no deber'ia hacer falta
-		//rr.saveObject(dom, this.getLogin());
+		// rr.saveObject(dom, this.getLogin());
 		dto.setId(dom.getId());
 	}
 
@@ -531,8 +530,8 @@ public abstract class Assembler {
 
 	protected void listaDTOtoListaDomain(Collection<IiD> listIiD,
 			Collection<Domain> listaDom, String[] campos, boolean add,
-			boolean delete, int tipo, Assembler ass, Class tipoColeccion, TipoTipo tipoTipo)
-			throws Exception {
+			boolean delete, int tipo, Assembler ass, Class tipoColeccion,
+			TipoTipo tipoTipo) throws Exception {
 
 		Register rr = Register.getInstance();
 
@@ -591,14 +590,14 @@ public abstract class Assembler {
 					String campo = campos[0];
 					setValue(dAux, campo, vAux);
 
-				}else if (tipo == MY_PAIR_TIPO) {
+				} else if (tipo == MY_PAIR_TIPO) {
 					// MyPair
 					Object vAux = getValue(mp, "text");
 					String campo = campos[0];
 					setValue(dAux, campo, vAux);
 					setValue(dAux, "tipoTipo", tipoTipo);
-					
-				}else if (tipo == MY_ARRAY_TIPO){
+
+				} else if (tipo == MY_ARRAY_TIPO) {
 					// MyPair
 					Object vAux1 = getValue(mp, "pos1");
 					Object vAux2 = getValue(mp, "pos2");
@@ -608,7 +607,7 @@ public abstract class Assembler {
 					setValue(dAux, sigla, vAux2);
 					setValue(dAux, "tipoTipo", tipoTipo);
 
-				}else if (tipo == MY_ARRAY) {
+				} else if (tipo == MY_ARRAY) {
 					// MyArray
 					for (int i = 0; i < campos.length; i++) {
 						Object vAux = getValue(mp, "pos" + (i + 1));
@@ -632,7 +631,8 @@ public abstract class Assembler {
 
 							listaDTOtoListaDomain(listIiDAux, listaDomAux,
 									new String[] { "descripcion" }, add,
-									delete, MY_PAIR, null, tipoColeccionAux, null);
+									delete, MY_PAIR, null, tipoColeccionAux,
+									null);
 
 						} else {
 							// Tipo primitivo (String, long, int... )
@@ -653,7 +653,7 @@ public abstract class Assembler {
 									+ tipo + ") en " + tipoColeccion.getName()
 									+ " con id:" + mp.getId() + "");
 				}
-				
+
 				rr.saveObject(dAux, this.getLogin());
 				mp.setId(dAux.getId());
 			}
@@ -855,12 +855,11 @@ public abstract class Assembler {
 		return out;
 	}
 
-	
 	public MyPair getTipo(String tipoTipo, String desc) throws Exception {
 		MyPair out = new MyPair();
 		String hql = "from Tipo t where t.tipoTipo.descripcion = '" + tipoTipo
-				+ "'  and t.descripcion = '" + desc+"'";
-		
+				+ "'  and t.descripcion = '" + desc + "'";
+
 		Register rr = Register.getInstance();
 		List l = rr.hql(hql);
 		Tipo dom = (Tipo) l.get(0);
@@ -868,24 +867,24 @@ public abstract class Assembler {
 		out.setSigla(dom.getSigla());
 		return out;
 	}
-	
-	public MyPair getTipoTipo(String tipoTipo) throws Exception{
+
+	public MyPair getTipoTipo(String tipoTipo) throws Exception {
 		MyPair out = new MyPair();
-		String hql = "from TipoTipo t where t.descripcion = '" + tipoTipo+"'";
+		String hql = "from TipoTipo t where t.descripcion = '" + tipoTipo + "'";
 		Register rr = Register.getInstance();
 		List l = rr.hql(hql);
 		TipoTipo dom = (TipoTipo) l.get(0);
 		out = this.pasaDomainToMyPair(dom);
 		return out;
-		
+
 	}
-	
-	public Tipo myPairToTipo(MyPair p) throws Exception{
+
+	public Tipo myPairToTipo(MyPair p) throws Exception {
 		Register rr = Register.getInstance();
 		Tipo t = (Tipo) rr.getObject(Tipo.class.getName(), p.getId());
 		return t;
 	}
-	
+
 	// **********************************************************************
 
 	// Para que un error en algun maping de atributos no haga que deje de
@@ -928,45 +927,44 @@ public abstract class Assembler {
 	}
 
 	public void listaMyPairToListaDomainTipo(List<MyPair> list, String tipoTipo)
-			throws Exception {		
-		Object l = list;
-		List<IiD> l2 = (List<IiD>)l;
-		
-		listaIiDToListaDomainTipo(l2, MY_PAIR_TIPO, tipoTipo, new String[]{"descripcion"});
-	}
-	
-	public void listaMyArrayToListaDomainTipo(List<MyArray> list, String tipoTipo)
-			throws Exception {		
-		Object l = list;
-		List<IiD> l2 = (List<IiD>)l;
-		
-		listaIiDToListaDomainTipo(l2, MY_ARRAY_TIPO, tipoTipo, new String[]{"descripcion", "sigla"});
-	}
-
-
-	private void listaIiDToListaDomainTipo(List<IiD> list, int tipo, String tipoTipo, String[] campos)
 			throws Exception {
+		Object l = list;
+		List<IiD> l2 = (List<IiD>) l;
+
+		listaIiDToListaDomainTipo(l2, MY_PAIR_TIPO, tipoTipo,
+				new String[] { "descripcion" });
+	}
+
+	public void listaMyArrayToListaDomainTipo(List<MyArray> list,
+			String tipoTipo) throws Exception {
+		Object l = list;
+		List<IiD> l2 = (List<IiD>) l;
+
+		listaIiDToListaDomainTipo(l2, MY_ARRAY_TIPO, tipoTipo, new String[] {
+				"descripcion", "sigla" });
+	}
+
+	private void listaIiDToListaDomainTipo(List<IiD> list, int tipo,
+			String tipoTipo, String[] campos) throws Exception {
 		Register rr = Register.getInstance();
 
 		String hqltt = "Select tt from TipoTipo tt where tt.descripcion = ?";
-		TipoTipo tt = (TipoTipo)rr.hqlToObject(hqltt, tipoTipo);
-		
+		TipoTipo tt = (TipoTipo) rr.hqlToObject(hqltt, tipoTipo);
+
 		String hql = "Select t from Tipo t where t.tipoTipo.descripcion = '"
 				+ tipoTipo + "'";
 		List<Domain> listDom = rr.hql(hql);
-		
+
 		List<IiD> listIiD = new ArrayList<IiD>();
 		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 			IiD mp = (IiD) iterator.next();
 			listIiD.add(mp);
 		}
 
-		listaDTOtoListaDomain(listIiD, listDom, campos,
-				true, true, tipo, null, Tipo.class, tt);
+		listaDTOtoListaDomain(listIiD, listDom, campos, true, true, tipo, null,
+				Tipo.class, tt);
 	}
-	
-	
-	
+
 	public void listaMyArrayToListaDomain(List<MyArray> list, Class class1,
 			String[] campos) throws Exception {
 		Register rr = Register.getInstance();
@@ -1007,16 +1005,15 @@ public abstract class Assembler {
 	private Object getValue(Object obj, String att) throws Exception {
 
 		Method m = new PropertyDescriptor(att, obj.getClass()).getReadMethod();
-		
+
 		Object v = m.invoke(obj);
 		/*
-		if ((v == null)&&(m.getReturnType().isPrimitive() == true)){			
-			v = m.getReturnType().newInstance();
-		}
-		
-		if ((v == null)&&(IiD.class.isAssignableFrom(m.getReturnType()) == false )){			
-			v = m.getReturnType().newInstance();
-		} */
+		 * if ((v == null)&&(m.getReturnType().isPrimitive() == true)){ v =
+		 * m.getReturnType().newInstance(); }
+		 * 
+		 * if ((v == null)&&(IiD.class.isAssignableFrom(m.getReturnType()) ==
+		 * false )){ v = m.getReturnType().newInstance(); }
+		 */
 		return v;
 
 		// Field fd = getField(obj.getClass(), att);
@@ -1041,15 +1038,15 @@ public abstract class Assembler {
 			throws Exception {
 
 		Object vv = value;
-		if (vv != null){
+		if (vv != null) {
 			vv = vv.getClass().getName() + "" + vv;
 		}
-		
-//		System.out.println("\n\n\n------------------------\n clase: "+obj.getClass().getName()+"   att:"+att+"    value:"+vv+"\n\n\n\n");
-		
+
+		// System.out.println("\n\n\n------------------------\n clase: "+obj.getClass().getName()+"   att:"+att+"    value:"+vv+"\n\n\n\n");
+
 		try {
-			new PropertyDescriptor(att, obj.getClass()).getWriteMethod().invoke(
-					obj, value);
+			new PropertyDescriptor(att, obj.getClass()).getWriteMethod()
+					.invoke(obj, value);
 		} catch (Exception e) {
 			// si error no hace nada
 		}
@@ -1132,29 +1129,22 @@ public abstract class Assembler {
 
 	public static void xxxxxmain(String[] args) {
 		try {
-			
-		
-			
+
 			MyArray m1 = new MyArray();
 			System.out.println(m1.getId());
-			
-			
-			
-			if (1 ==1 ){
+
+			if (1 == 1) {
 				return;
 			}
-			
+
 			String s = new String();
 			String[] as = {};
 			AgendaEvento aa = new AgendaEvento();
-			
-			
-			
+
 			System.out.println(IiD.class.isAssignableFrom(s.getClass()));
 			System.out.println(IiD.class.isAssignableFrom(as.getClass()));
 			System.out.println(IiD.class.isAssignableFrom(aa.getClass()));
-			
-		
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
