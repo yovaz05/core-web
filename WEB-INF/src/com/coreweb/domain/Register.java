@@ -1183,7 +1183,11 @@ public class Register {
 
 //		String select = " ";
 		//  mas abajo se quita el and
-		String where = " 1 = 1 and "+whereGeneral + " and";
+		String where = " 1 = 1 and" ;
+		if ((whereGeneral != null) && (whereGeneral.trim().length() > 0)){
+			where += whereGeneral + " and";
+		}
+		
 		// String where = " c.dbEstado != 'D' and ";
 
 
