@@ -1143,9 +1143,9 @@ public class Register {
 	
 	// este usa el browser
 	public List buscarElementoBrowser(String query, String[] atts, String[] values,
-			String[] tipos, String whereGeneral) throws Exception {
+			String[] tipos, String whereGeneral, Hashtable<String, Object> parametrosWhere) throws Exception {
 		
-		return buscarElementoQuery(query, atts, values, tipos, whereGeneral, true, 
+		return buscarElementoQuery(query, atts, values, tipos, whereGeneral, parametrosWhere, true, 
 				Config.CUANTOS_BUSCAR_ELEMENTOS, true);
 	}
 
@@ -1175,7 +1175,7 @@ public class Register {
 	 * @throws Exception
 	 */
 	public List buscarElementoQuery(String query, String[] atts, String[] values,
-			String[] tipos, String whereGeneral, boolean permiteLimite,
+			String[] tipos, String whereGeneral, Hashtable<String, Object> parametrosWhere, boolean permiteLimite,
 			int limite, boolean permiteLike) throws Exception {
 		List l = new ArrayList<Object[]>();
 
@@ -1261,7 +1261,7 @@ public class Register {
 		String hql = query + " " + where + orden;
 		System.out.println("\n\n\n" + hql + "\n\n\n");
 
-		l = this.hql(hql);
+		l = this.hql(hql, parametrosWhere);
 
 		if ((permiteLimite == true) && (l.size() > limite)) {
 			throw new Exception("más de '" + limite + "' elementos ("
