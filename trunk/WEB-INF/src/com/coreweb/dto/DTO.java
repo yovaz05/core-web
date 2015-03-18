@@ -124,6 +124,10 @@ public abstract class DTO implements IiD, Comparable, Comparator, Cloneable {
 	public boolean esReadonly() {
 		return this.dbEstado == DBEstado.DB_READONLY;
 	}
+	
+	public boolean isReadonly(){
+		return this.esReadonly();
+	}
 
 	public void setReadonly() {
 		this.dbEstado = DBEstado.DB_READONLY;
