@@ -637,6 +637,12 @@ public class Misc {
 		return formato("" + dato, longitud, izquierda);
 	}
 
+	public String formatoGs(double dato) {
+		NumberFormat formatter = new DecimalFormat("###,###,##0");
+		String str = formatter.format(dato);
+		return str;
+	}
+
 	public String formatoGs(double dato, int longitud, boolean izquierda) {
 		NumberFormat formatter = new DecimalFormat("###,###,##0");
 		String str = formatter.format(dato);
