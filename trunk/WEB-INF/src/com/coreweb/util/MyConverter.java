@@ -94,7 +94,7 @@ public class MyConverter implements Converter {
 			return val;
 		}
 		if (((val.split("-").length != 3) || !misc.containsOnlyNumbers((String) val))) {
-			Clients.showNotification("Mal formato de la factura", "error", comp, "end_center", 3000, true);
+			Clients.showNotification("Mal formato de la factura n-nn-nnn", "error", comp, "end_center", 3000, true);
 			return val;
 		}
 		String[] s = ((String) val).split("-");
