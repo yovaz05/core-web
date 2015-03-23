@@ -12,6 +12,7 @@ public class ColumnaBrowser {
 	private String widthColumna = "";
 	private String widthComponente = "";
 	private boolean visible = true;
+	private boolean usarFiltro = true;
 
 	// permite definir la creación de un componente que se evaluará en la celda
 	// de esa columna. El string es el nombre de una operación que será invocada
@@ -106,6 +107,14 @@ public class ColumnaBrowser {
 
 	public void setWidthComponente(String widthComponente) {
 		this.widthComponente = widthComponente;
+	}
+
+	public boolean isUsarFiltro() {
+		return usarFiltro;
+	}
+
+	public void setUsarFiltro(boolean usarFiltro) {
+		this.usarFiltro = usarFiltro;
 	}
 	
 
