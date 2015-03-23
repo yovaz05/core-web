@@ -1,5 +1,6 @@
 package com.coreweb;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -18,6 +19,9 @@ import java.util.Properties;
 public class SistemaPropiedad {
 
 	static private Hashtable<String, String> sysPro = null;
+	
+	static private long timeFechaArchivoIni = 0;
+	
 
 	// por defecto busca este archivo
 	static private String FILE = Config.DIRECTORIO_BASE_REAL
@@ -33,6 +37,17 @@ public class SistemaPropiedad {
 	}
 
 	public static synchronized void reloadSistemaPropiedad(String file) {
+		
+		// solo lee si hubo un cambio en el archivo
+		File fichero = new File(file);
+		long ms = fichero.lastModified();
+		if (ms == timeFechaArchivoIni){
+			return;
+		}
+		timeFechaArchivoIni = ms;
+		
+		// si hubo un cambio, entonces hace el reload
+		
 		sysPro = new Hashtable<>();
 
 		Properties prop = new Properties();
@@ -72,6 +87,7 @@ public class SistemaPropiedad {
 	 * @return
 	 */
 	public String getPropiedad(String propiedad){
+		reloadSistemaPropiedad();
 		String out = sysPro.get(propiedad);
 		if (out != null){
 			out = out.trim();
