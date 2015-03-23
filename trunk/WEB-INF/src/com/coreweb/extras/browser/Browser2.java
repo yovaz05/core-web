@@ -123,6 +123,7 @@ public abstract class Browser2 extends SimpleViewModel implements
 	// usados por el Register para armar el HQL
 	// private String[] nombres; // nombre de la columna
 	private String[] atributos; // atributo de la clase
+	private Boolean[] usarFiltro; // atributo de la clase
 	private String[] valores;
 	private String[] tipos; // los tipos de los campos
 	private String[] wheres;
@@ -163,6 +164,7 @@ public abstract class Browser2 extends SimpleViewModel implements
 		int numeroColumnas = this.columnas.size(); // por el id
 		// usados por el Register para armar HQL
 		this.atributos = new String[numeroColumnas];
+		this.usarFiltro= new Boolean[numeroColumnas];
 		this.valores = new String[numeroColumnas];
 		// this.nombres = new String[numeroColumnas];
 		this.wheres = new String[numeroColumnas];
@@ -173,6 +175,7 @@ public abstract class Browser2 extends SimpleViewModel implements
 
 			// nombres[i] = col.getTitulo();
 			atributos[i] = col.getCampo();
+			usarFiltro[i] = col.isUsarFiltro();
 			valores[i] = "";
 			wheres[i] = col.getWhere();
 			tipos[i] = col.getTipo();
@@ -234,6 +237,11 @@ public abstract class Browser2 extends SimpleViewModel implements
 
 			FiltroBrowserEvento2 ev = new FiltroBrowserEvento2(this, listFiltros);
 			imputbox.addEventListener("onOK", ev);
+			
+			if (col.isUsarFiltro() == false){
+				imputbox.setVisible(false);
+			}
+			
 
 			Vlayout vl = new Vlayout();
 			vl.appendChild(imputbox);

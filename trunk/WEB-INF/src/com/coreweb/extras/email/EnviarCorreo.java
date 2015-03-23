@@ -141,7 +141,7 @@ public class EnviarCorreo{
         //Configura el asunto y el tipo de contenido 
         msg.setSubject(subject);
         msg.setContent(multiParte);        
-        
+
         Transport.send(msg);
         
     }
