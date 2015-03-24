@@ -32,6 +32,7 @@ import org.zkoss.zul.Panel;
 
 import com.coreweb.Archivo;
 import com.coreweb.Config;
+import com.coreweb.SistemaPropiedad;
 import com.coreweb.control.Control;
 import com.coreweb.dto.Assembler;
 
@@ -120,8 +121,11 @@ public class Login extends Control {
 			Include inc = (Include) compTool.getFellow("menu");
 			inc.invalidate(); // esto hace un refresh del menu
 			
-			Include incS = (Include) compTool.getFellow("menuSistema");
-			incS.invalidate(); // esto hace un refresh del menu
+			if ( this.isSiPiePagina() == true){
+				Include incS = (Include) compTool.getFellow("menuSistema");
+				incS.invalidate(); // esto hace un refresh del menu
+			}
+			
 
 			Object menuBar = inc.getFellow("menubar");
 			habilitarDeshabilitarMenuBar(menuBar);

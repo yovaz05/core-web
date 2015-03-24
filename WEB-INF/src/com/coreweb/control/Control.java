@@ -40,6 +40,8 @@ public class Control {
 
 	public Misc m = new Misc();
 	private SistemaPropiedad sisProp = new SistemaPropiedad();
+	private boolean siPiePagina = sisProp.getPiePagina();
+	
 	private static UtilCoreDTO dtoUtil = null; // = new
 												// AssemblerUtil().getDTOUtil();
 
@@ -213,6 +215,10 @@ public class Control {
 
 	public void poneCarita(boolean b) {
 
+		if (this.isSiPiePagina() == false){
+			return;
+		}
+		
 		try {
 			main = Path.getComponent("/templateInicio");
 			Menuitem item = (Menuitem) main.getFellow("carita", true);
@@ -628,6 +634,10 @@ public class Control {
 
 	public void setSisProp(SistemaPropiedad sisProp) {
 		this.sisProp = sisProp;
+	}
+
+	public boolean isSiPiePagina() {
+		return siPiePagina;
 	}
 
 }

@@ -89,7 +89,9 @@
 				
 			</center>
 
+<!--
 			<south style="border:none" height="40px">
+ 			
 				<div sclass="breadcrumb" height="40px">
 
 					<hlayout>
@@ -137,6 +139,7 @@
 					</hlayout>
 				</div>
 			</south>
+ -->
 		</borderlayout>
 	</window>
 </zk>
