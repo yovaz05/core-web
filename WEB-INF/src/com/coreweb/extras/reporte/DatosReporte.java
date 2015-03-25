@@ -12,9 +12,11 @@ import com.coreweb.util.Misc;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilders;
 import net.sf.dynamicreports.report.builder.component.HorizontalListBuilder;
+import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
 import net.sf.dynamicreports.report.builder.component.VerticalListBuilder;
 import net.sf.dynamicreports.report.builder.datatype.*;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
+import net.sf.dynamicreports.report.builder.style.StyleBuilders;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.constant.Markup;
 import net.sf.dynamicreports.report.constant.PageType;
@@ -37,6 +39,9 @@ public abstract class DatosReporte extends ReporteDefinicion {
 	 */
 
 
+	public static final String NEGRITA = "negrita";
+	public static final String DERECHA = "derecha";
+	public static final String WIDTH = "width";   
 
 	
 	
@@ -269,14 +274,51 @@ public abstract class DatosReporte extends ReporteDefinicion {
 
 	abstract public void setDatosReportes();
 
+	
+	public ComponentBuilder texto(String texto, String style) {
+
+		TextFieldBuilder<String> tx =  cmp.text(texto);
+
+		StyleBuilders stl = new StyleBuilders();
+		StyleBuilder stlNew = stl.style();
+		
+		if (style.indexOf(NEGRITA)>=0){
+			stlNew = stlNew.bold();
+		}
+		if (style.indexOf(DERECHA)>=0){
+			stlNew = stlNew.setHorizontalAlignment(HorizontalAlignment.RIGHT);
+		}
+		
+		int pw = style.indexOf(WIDTH);
+		if (pw >= 0){
+			String wdStr = style.substring(pw+WIDTH.length());
+			int ws = Integer.parseInt(wdStr);
+			tx.setWidth(ws);
+		}
+		tx.setStyle(stlNew);
+		
+		return tx;
+	}
+	
+	
 	public ComponentBuilder texto(String texto) {
 		return cmp.text(texto);
 	}
 
+	public ComponentBuilder textoAlineadoDerecha(String texto) {
+		return cmp.text(texto).setStyle(Templates.textStyleRigth);
+	}
+
+	
 	public ComponentBuilder textoNegrita(String texto) {
 		return cmp.text(texto).setStyle(Templates.boldStyle);
 	}
 
+	public ComponentBuilder textoNegritaDerecha(String texto) {
+		return cmp.text(texto).setStyle(Templates.boldStyleRight);
+	}
+
+	
 	public ComponentBuilder textoParValor(String texto, Object valor) {
 
 		return cmp.text("<b>" + texto + ":</b> " + valor).setStyle(
