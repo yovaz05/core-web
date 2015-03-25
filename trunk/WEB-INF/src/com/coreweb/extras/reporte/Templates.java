@@ -27,6 +27,7 @@ public class Templates extends ReporteDefinicion {
 
 	public static final StyleBuilder rootStyle;
 	public static final StyleBuilder boldStyle;
+	public static final StyleBuilder boldStyleRight;
 	public static final StyleBuilder italicStyle;
 	public static final StyleBuilder boldCenteredStyle;
 	public static final StyleBuilder bold12CenteredStyle;
@@ -41,6 +42,7 @@ public class Templates extends ReporteDefinicion {
 	public static final StyleBuilder subtotalStyle;
 	public static final StyleBuilder styleHTML;
 	public static final StyleBuilder box;
+	public static final StyleBuilder textStyleRigth;
 
 
 
@@ -53,6 +55,7 @@ public class Templates extends ReporteDefinicion {
 		styleHTML = stl.style().setMarkup(Markup.STYLED);
 		rootStyle = stl.style().setPadding(2);
 		boldStyle = stl.style(rootStyle).bold();
+		boldStyleRight = stl.style(rootStyle).bold().setHorizontalAlignment(HorizontalAlignment.RIGHT);
 		italicStyle = stl.style(rootStyle).italic();
 		boldCenteredStyle = stl.style(boldStyle).setAlignment(
 				HorizontalAlignment.CENTER, VerticalAlignment.MIDDLE);
@@ -81,6 +84,8 @@ public class Templates extends ReporteDefinicion {
 				.setBorder(stl.pen1Point())
 				.setHorizontalAlignment(HorizontalAlignment.RIGHT);
 
+		textStyleRigth = stl.style(rootStyle).setHorizontalAlignment(HorizontalAlignment.RIGHT);
+		
 		columnTitleStyle = stl.style(columnStyle).setBorder(stl.pen1Point())
 				.setHorizontalAlignment(HorizontalAlignment.CENTER)
 				.setBackgroundColor(Color.LIGHT_GRAY).bold();
