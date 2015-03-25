@@ -54,8 +54,7 @@ import com.coreweb.templateABM.Toolbar;
 import com.coreweb.util.Check;
 import com.coreweb.util.MyArray;
 
-public abstract class Browser2 extends SimpleViewModel implements
-		VerificaAceptarCancelar {
+public abstract class Browser2 extends SimpleViewModel {
 
 	@Init(superclass = true)
 	public void initBrowser() {
@@ -303,10 +302,12 @@ public abstract class Browser2 extends SimpleViewModel implements
 				this.datos.indexOf(selectedItem));
 	}
 
+	/*
 	public boolean isClickAceptar() {
 		return false;
 	}
-
+	*/
+	
 	public String[] getValores() {
 		return valores;
 	}
@@ -331,12 +332,43 @@ public abstract class Browser2 extends SimpleViewModel implements
 		this.higthWindows = higthWindows;
 	}
 
-	public MyArray getSelectedItem() throws Exception {
-		if (this.isClickAceptar() == true) {
-			return new MyArray(selectedItem);
+
+	/**
+	 * Retorna todos los objetos filtrados, es decir, lo que se está viendo en el browser ahora mismo
+	 * @return
+	 * @throws Exception
+	 */
+	public List<MyArray> getItemsFiltrados() throws Exception{
+		List<MyArray> lma = new ArrayList<>();
+		for (int i = 0; i < this.datos.size(); i++) {
+			Object[] arr = this.datos.get(i);
+			lma.add(this.arregloToMyArray(arr));
 		}
-		throw new Exception("No se hizo click en Aceptar !!");
+		return lma;
 	}
+	
+	/**
+	 * Retorna el objeto seleccioado, sino no hay, retorna null
+	 * @return
+	 * @throws Exception
+	 */
+	public MyArray getSelectedItem() throws Exception {
+		if (selectedItem == NO_SELECTED_ITEM){
+			return null;
+		}
+		MyArray ma = this.arregloToMyArray(this.selectedItem);
+		return ma;
+	}
+	
+	private MyArray arregloToMyArray(Object[] arr) throws Exception{
+		MyArray ma = new MyArray();
+		for (int i = 0; i < arr.length; i++) {
+			this.m.ejecutarMetoto(MyArray.class.getName(), "setPos"+(i+1), ma, arr[i]);
+		}
+		return ma;
+	}
+	
+	
 
 	public void setSelectedItem(Object[] selectedItem) {
 		this.selectedItem = selectedItem;
@@ -481,6 +513,7 @@ public abstract class Browser2 extends SimpleViewModel implements
 
 	// *********************************************************
 
+	/*
 	@Override
 	public boolean verificarAceptar() {
 		boolean out = false;
@@ -505,6 +538,9 @@ public abstract class Browser2 extends SimpleViewModel implements
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	*/
+	
 	// =============================================================
 
 	public Grid getGrid() {
