@@ -1,10 +1,10 @@
 <zk>
-	<window id="ToolbarABM"
+	<window id="ToolbarABM" width="100%"
 		viewModel="@id('Toolbar') @init('com.coreweb.templateABM.Toolbar')"
 		apply="org.zkoss.bind.BindComposer" zclass="z-window-popup" border="0">
 
-		<hlayout>
-			<hbox width="300px" align="start">
+		<hbox  width="100%" widths="50%,50%" > 
+			<hbox width="100%" align="start">
 
 				<toolbarbutton image="/core/images/add.png"
 					tooltiptext="Crear"
@@ -46,7 +46,7 @@
 			</hbox>
 
 
-			<hbox hflex="true" pack="end">
+			<hbox  width="100%" pack="end">
 
 				<label value="@load(Toolbar.usuarioTemporal)" style="font-size:12pt;font-weight:bold"  />
 
@@ -89,6 +89,6 @@
 			</hbox>
 
 
-		</hlayout>
+		</hbox>
 	</window>
 </zk>
