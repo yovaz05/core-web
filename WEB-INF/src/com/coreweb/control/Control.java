@@ -292,6 +292,14 @@ public class Control {
 		return dto;
 	}
 
+	protected void saveDTOsimple(DTO dto, Assembler assembler) throws Exception {
+		String login = getLoginNombre();
+		Domain don = assembler.dtoToDomain(dto);
+		Register register = Register.getInstance();
+		register.saveObject(don, login);
+	}
+
+	
 	protected void deleteDTO(DTO dto) throws Exception {
 		/*
 		 * Domain don = ass.dtoToDomain(dto); Register register =
