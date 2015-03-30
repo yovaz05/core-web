@@ -17,6 +17,8 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import com.coreweb.SistemaPropiedad;
+import com.coreweb.domain.MensajeEmail;
+import com.coreweb.domain.Register;
 
 public class EnviarCorreo {
 	/*
@@ -134,26 +136,54 @@ public class EnviarCorreo {
 
 		// para que se registren los emails enviados
 		boolean enviado = false;
-	
+		MensajeEmail mensajeEmail = new MensajeEmail();
+		mensajeEmail.setRemitente(from);
+		mensajeEmail.setDestinatario(this.arrayToString(recipients));
+		mensajeEmail.setDestinatarioCopia(this.arrayToString(recipientsCC));
+		mensajeEmail.setDestinatarioCopiaOculta(this.arrayToString(recipientsCCO));
+		mensajeEmail.setAsunto(subject);
+		mensajeEmail.setCuerpo(message);
+		mensajeEmail.setAdjunto(fileName);
+		
 		try {
 			Transport.send(msg);
 			enviado = true;
 			
-
 		} catch (Exception e) {
 
 			throw e;
 
 		} finally {
-			// crear msgBD 
-
+			
+			mensajeEmail.setEnviado(enviado);
+			Register rr = Register.getInstance();
+			rr.saveObject(mensajeEmail, "Sis");
+			
 		}
 		
 		
 
 	}
+	
+	private String arrayToString(String [] elementos){
+		String elemento = "";
+		for (int i = 0; i < elementos.length; i++) {
+			elemento += elementos[i] + ",";
+		}
+		elemento = elemento.substring(0, elemento.length() - 1);
+		return elemento;
+		
+	}
 
 	public static void main(String[] args) throws Exception {
+		
+		String [] v = {"asdf","jklz","mnopq"};
+		EnviarCorreo elem = new EnviarCorreo();
+		System.out.println("String es: " + elem.arrayToString(v));
+		
+		if (1 == 1) {
+			return;
+		}
 
 		System.out.println("inicio");
 		try {
