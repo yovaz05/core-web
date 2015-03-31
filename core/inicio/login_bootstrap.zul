@@ -9,22 +9,28 @@
 		zclass="z-window-popup" onCreate='name.focus()' width="100%"
 		height="100%" style="background:white">
 		<style>
-			div.minimize { border: 1px solid #79858E; background:
+			div.minimize { border: 1px solid #79858E; background
 			#D3E1EC; position: absolute; opacity: 0.8; } div.loginGrid {
 			border: none; } td.loginCtl { text-align: center; }
 			td.loginCtl .z-label { color: red; font-style: italic; }
 		</style>
+		<!--  border-radius -->
 		<vbox pack="center" align="center" width="100%" height="80%">
 			<space height="50px" />
 			<hlayout valign="middle">
-				<image src="/logo2.png" width="400px" height="350px" tooltiptext="Logotipo de USAID"/>
-				<image src="/logo.png" width="300px" height="300px" tooltiptext="Logotipo de la Fundación Saraki"/>
+				<image src="/logo2.png" width="400px" height="350px"
+					tooltiptext="Logotipo de USAID" />
+				<image src="/logo.png" width="300px" height="300px"
+					tooltiptext="Logotipo de la Fundación Saraki" />
 				<space width="50px" />
-				<div style="background:#eaeaea" width="400px" height="300px" >
+				<div style="background:#eaeaea ; border-radius : 10px"
+					width="400px" height="300px">
+					<div height="10px" />
 					<vlayout width="250px">
 						<hlayout valign="middle"
 							style="border-bottom: 1px solid #ccc;">
-							<label style="font-size:20pt">
+							<label
+								style="font-family:ALSSchlangesans; font-size: 19pt; font-weight: normal">
 								Iniciar sesión
 							</label>
 							<space hflex="true" />
@@ -54,21 +60,21 @@
 						</hlayout>
 						<div height="10px" />
 						<label id="mesg" value="@load(crt.msg)"
-							style="color: red;font-style: italic; font-size:12pt" />
+							style="color: red;font-style: italic; font-family:ALSSchlangesans; font-size: 13pt; font-weight: normal" />
 						<hlayout valign="middle"
 							style="border-top: 1px solid #ccc;">
-							<label style="font-size:14pt">
+							<label style="font-family:ALSSchlangesans; font-size: 16pt; font-weight: normal">
 								O registrarse como
 							</label>
 							<space hflex="true" />
 						</hlayout>
 						<hlayout>
-							<a style="font-size:14pt"
+							<a style="font-family:ALSSchlangesans; font-size: 13pt; font-weight: bold"
 								href="/saraki/inicio/RegistroPostulante.zul">
 								Postulante
 							</a>
 							o
-							<a style="font-size:14pt"
+							<a style="font-family:ALSSchlangesans; font-size: 13pt; font-weight: bold"
 								href="/saraki/inicio/RegistroEmpresa.zul">
 								Empresa
 							</a>
@@ -82,6 +88,8 @@
 
 
 
+
+
 			
 			<![CDATA[
 
@@ -92,6 +100,8 @@
 			50).animate({ left : l }, 50).animate({ backgroundColor :
 			"white" }, 50);
 			jq("$loginWin").css('background-color','white'); } ]]>
+			
+			
 			
 			
 			
