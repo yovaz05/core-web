@@ -2,7 +2,7 @@
 	
 	<vbox width="100%" height="100%" align="center" pack="center"
 		style="background:#f5f5f5" sclass="rounded">
-		<label id="t" value="BIENVENIDO" sclass="title" style="font-size:26pt"/>
+		<label id="t" value="BIENVENIDO" sclass="title" style="font-family:ALSSchlangesans; font-size: 46pt; font-weight: normal"/>
 	</vbox>
 	
 	<timer delay="0" repeats="false"
