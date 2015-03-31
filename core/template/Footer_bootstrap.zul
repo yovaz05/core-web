@@ -6,7 +6,7 @@
 			<hlayout id="foo" height="45px" valign="center">
 					 	
 				<button id="btnGrabar" label="Grabar" tooltiptext="Grabar"
-					iconSclass="z-icon-check" width="130px" sclass="btn-info" dir="normal"
+					iconSclass="z-icon-check" width="130px" sclass="btn-primary" dir="normal"
 					onClick="@command('save') 
 			    @global-command(footer.yesClick?'refreshComponentes':'')" />
 			    

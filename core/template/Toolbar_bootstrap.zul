@@ -16,17 +16,17 @@
 						disabled="@load(Toolbar.agregarDeshabilitado)" />
 
 					<button iconSclass="z-icon-pencil"
-						sclass="btn-success btn-sm" tooltiptext="Editar" width="40px"
+						sclass="btn-warning btn-sm" tooltiptext="Editar" width="40px"
 						onClick="@command('editarItem') @global-command('habilitarComponentes')"
 						disabled="@load(Toolbar.editarDeshabilitado)" />
 
-					<button iconSclass="z-icon-minus"
+<!-- 					<button iconSclass="z-icon-minus"
 						sclass="btn-warning btn-sm" tooltiptext="Anular" width="40px"
 						onClick="@command('anularItem') @global-command('refreshComponentes')"
-						disabled="@load(Toolbar.anularDeshabilitado)" />
+						disabled="@load(Toolbar.anularDeshabilitado)" /> -->
 
 					<button iconSclass="z-icon-search"
-						sclass="btn-info btn-sm" tooltiptext="Buscar" width="40px"
+						sclass="btn-primary btn-sm" tooltiptext="Buscar" width="40px"
 						onClick="@command('buscarItem') @global-command('refreshComponentes')"
 						disabled="@load(Toolbar.buscarDeshabilitado)" />
 				</div>
@@ -52,7 +52,7 @@
 						visible="@load(!Toolbar.cambioUsuarioDeshabilitado)" /> -->
 
 					<button iconSclass="z-icon-book"
-						sclass="btn-success btn-sm" tooltiptext="Agenda"
+						sclass="btn-primary btn-sm" tooltiptext="Agenda"
 						onClick="@command('showAgenda')"
 						disabled="@load(Toolbar.agendaDeshabilitado)" width="40px" />
 
